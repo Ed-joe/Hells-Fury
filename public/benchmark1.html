@@ -40,8 +40,165 @@
   </head>
   <body>
     <!-- WRITE BENCHMARK 1 STUFF HERE -->
+      <h2 style="width:750px" align="center">
+       Hell's Fury<br>
+       Game Design Document
+      </h2>
+     
+      <h4 style="width:750px" align="center">
+       by Hell's Fury Team: Adithya Ajith, Edward Carey, and Ryan Willett
+      </h4>
+     
+     <div id="content">
+     
+       <h3>INTRODUCTION</h3> 
+       <p>This document describes a game called "Hell's Fury," which is designed to be a top down, 2D dungeon crawler. This game will use sprite based animation, tiled backgrounds, collision detection, physics, AI, side-scrolling, and more basic 2D game techniques.</p>
+     <br>
+     
+       <h3>TECHNOLOGY</h3>
+     
+       <p>Hell's Fury will be developed using the Wolfie 2D Game Engine, which is a web based engine written in Typescript, by Joe Weaver and Richard McKenna. Our artwork will be created using Aseprite, which is a 2D pixel-based image editing software.</p>
+     <br>
+     
+       <h3>BACK STORY</h3>
+     
+       <p>Zara, spurned by the legions of Hell invading aspects of her everyday life, 
+         has made it her mission to march down through the demonic portal to the Kingdoms of Sin and show them what true wrath looks like. 
+         Her goal is to rampage through the seven circular kingdoms of Hell, slaying as many of the demonic creatures that live there and making her way towards the center. There, she will face Pride, the ruler of the seven kingdoms and the source of her great anguish. The plot is a metaphor for the mental battle that occurs daily as Zara duels with the vices that control her.</p>
+     <br>
+     
+       <h3>OBJECTIVE</h3>
+     
+       <p>The player's objective is to exact the fury of Zara - accruing points by defeating the legions of Hellspawn that seek to end her reign of destruction over them. The game's main goal is to defeat Pride, the leader of the demons, by first destroying his underlings who represent the other deadly sins: Lust, Gluttony, Greed, Sloth, Wrath, and Envy.
+      </p>
+     
+       <p> Each of these bosses will reside in their own circular kingdom of hell, meaning Zara has to fight her way through seven different levels to achieve her ultimate goal.</p>
+     <br>
+     
+       <h3>GAMEPLAY</h3>
+     
+       <p>Hell’s Fury will be a top-down, beat-em-up, dungeon-crawler style game. Zara wields melee weaponry to take down her enemies. Zara will start with 5 hit points, represented by heart containers. Damage she takes from enemies will reduce her hit points by one. Every enemy that Zara kills will have a chance to drop coins. These coins can be used to replenish health at the shopkeeper, who sells vitality potions somewhere along each circle of hell. Each level in the Kingdoms of Sin will have its own gameplay modifier based upon its ruling Deadly Sin. Pride is exempt as he is already the most powerful creature in Hell. He is so confident in his ability that he is the only enemy on his floor.
+      </p>   
+        
+        <ul>
+         <li>Sloth: Zara will have slower movement and attack speed.</li>
+         <li>Envy: Enemies that attack Zara will steal her gold.</li>
+         <li>Wrath: Zara will take and deal 2x as much damage - all enemies must be defeated.</li>
+         <li>Gluttony: The level is slick with greases and oils from all the food the demons consume, making Zara slip as she moves.</li>
+         <li>Lust: Enemies can charm Zara, forcing her to attack them.</li>
+         <li>Greed: Picking up coins deals damage.</li>
+        </ul> 
+        
+     <br>
+     
+       <h3>CONTROLS</h3>
+     
+       <p>This game will be played using both a keyboard and mouse. Once started, use the following:</p>
+     
+        <ul>
+         <li><strong>W</strong> - Move Up</li>
+         <li><strong>A</strong> - Move Left</li>
+         <li><strong>S</strong> - Move Down</li>
+         <li><strong>D</strong> - Move Right</li>
+         <li><strong>LEFT CLICK</strong> - Attack (in the direction of the mouse cursor)</li>
+         <li><strong>E</strong> - Interact (with the shopkeeper, etc.)</li>
+         <li><strong>ESC</strong> - Pause</li>
+        </ul>
+     <br>
+     
+       <h3>GRAPHICAL USER INTERFACE</h3>
+     
+       <p>As far as the GUI is concerned, if we consider</p>
+     
+       <ul>
+        <li><strong>Splash Screen</strong> - The splash screen will feature the stylized logo artwork of Hell’s Fury with a hellish background. A message will appear prompting the user to press any button to continue to the main menu.</li>
+     <br>
+     
+        <li><strong>Main Menu</strong> - While the game is in progress, we'll always have a game menu that allows the player to select from the following options:
+         <ul>
+          <li><strong>New Game</strong> - This option will start the game, resetting whatever current game state exists.</li>
+          <li><strong>Level Select</strong> - Allows the user to choose which level to enter, spanning all seven layers of hell, but only if they have completed the level they are trying to enter.
+          </li>
+          <li><strong>Controls</strong> - Displays the controls listed above.
+          </li>
+          <li><strong>Help</strong> - Displays information about the backstory of the game, provides information about the developers, and shows the cheat codes included for debugging and testing.
+          </li>
+          <li><strong>Exit</strong> - Closes the game.</li>
+         </ul></li>
+     <br>
+     
+        <li><strong>In-Game GUI</strong> - Upon game start, the game will display at the top of the screen which Kingdom of Sin Zara has entered. This text will fade away after a few seconds. Certain UI elements will be displayed permanently:
+         <ul>
+          <li><strong>Hit Points</strong> - represented by heart containers in the top left</li>
+          <li><strong>Coins</strong> - a numeric value displayed at the bottom left.
+          </li>
+          <li><strong>Time Elapsed</strong> - shows how long Zara has been in the current level, displayed at the top right.
+          </li>
+         </ul>
+       </ul>
+     <br>
+     
+       <h3>ARTWORK</h3>
+     
+       <p>The game will feature only original artwork. Sprites and other pixel artwork will be created for:
+      </p>
+     
+       <ul>
+        <li><strong>Zara</strong> - Zara will be wearing her signature outfit: a cape, red hair, and tattered clothing from the carnage she is unleashing. She’ll have animations for:
+         <ul>
+          <li>Walking Up</li>
+          <li>Walking Down
+          </li>
+          <li>Walking Left
+          </li>
+          <li>Walking Right</li>
+          <li>Attacking</li>
+          <li>Taking Damage</li>
+          <li>Dying</li>
+          <li>Idling</li>
+         </ul></li>
+     <br>
+        <li><strong>The Seven Deadly Sins</strong> - Each of the seven deadly sins will have their own set of animations and artwork. They will require:
+         <ul>
+          <li>Walking (in all directions)
+          </li>
+          <li>Attacking</li>
+          <li>Taking Damage
+          </li>
+          <li>Dying
+          </li>
+         </ul></li>
+     <br>
+     
+        <li><strong>Hellbats</strong> - Zara will face off against many of Hell’s most basic enemies - hellbats.The hellbats will need the same set of animations as the seven deadly sins.</li>
+     <br>
+     
+        <li><strong>Level Tilesets</strong> - Each level will need a tileset to reflect its ruler and thus its modifier. Floor and Wall tiles are required. Wall tiles will be collidable.
+        </li>
+     <br>
+     
+        <li><strong>The Demonic Shopkeeper</strong> - The demonic shopkeeper needs his own artwork. He will have one animation for idling.</li>
+       </ul>
+     <br>
 
+       <h3>SOUND EFFECTS</h3>
+     
+       <p>Sound effects will be created by the developers. Various sounds will be recorded:</p>
+        <ul>
+         <li><strong>Zara attacking</strong></li>
+         <li><strong>Footsteps</strong></li>
+         <li><strong>Enemy attacks/death noises</strong></li>
+         <li><strong>Zara taking damage</strong></li>
+         <li><strong>Level complete</strong></li>
+        </ul>
+     <br>
+     
+       <h3>MUSIC</h3>
+     
+       <p>The game will have original music added.</p>
+     <br>
 
+     </div>
 
 
     <script>
