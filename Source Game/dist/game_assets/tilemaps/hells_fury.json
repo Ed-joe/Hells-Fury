@@ -1,4 +1,11 @@
 { "compressionlevel":-1,
+ "editorsettings":
+    {
+     "export":
+        {
+         "target":"."
+        }
+    },
  "height":64,
  "infinite":false,
  "layers":[
@@ -9,11 +16,11 @@
          "name":"Ground",
          "opacity":1,
          "properties":[
-              {
-               "name":"Collidable",
-               "type":"bool",
-               "value":false
-              }],
+                {
+                 "name":"Collidable",
+                 "type":"bool",
+                 "value":false
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":64,
@@ -27,11 +34,11 @@
          "name":"Wall",
          "opacity":1,
          "properties":[
-              {
-               "name":"Collidable",
-               "type":"bool",
-               "value":true
-              }],
+                {
+                 "name":"Collidable",
+                 "type":"bool",
+                 "value":true
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":64,
@@ -48,7 +55,7 @@
         {
          "columns":26,
          "firstgid":1,
-         "image":".\/hells_fury.png",
+         "image":"hells_fury.png",
          "imageheight":32,
          "imagewidth":832,
          "margin":0,

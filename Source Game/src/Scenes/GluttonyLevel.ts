@@ -76,7 +76,7 @@ export default class GluttonyLevel extends Scene {
                 speed: 150,
                 slippery: true
             });
-        this.player.animation.play("IDLE");
+        this.player.animation.play("IDLE", true);
     }
 
     initializeEnemies(){

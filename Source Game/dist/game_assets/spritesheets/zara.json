@@ -10,10 +10,10 @@
         { 
             "name": "IDLE",
             "frames": [ 
-                {"index": 0, "duration": 8},
-                {"index": 1, "duration": 8},
-                {"index": 2, "duration": 8},
-                {"index": 3, "duration": 8}
+                {"index": 0, "duration": 15},
+                {"index": 1, "duration": 15},
+                {"index": 2, "duration": 15},
+                {"index": 3, "duration": 15}
             ]
         },
         {
@@ -28,12 +28,12 @@
         {
             "name": "WALK",
             "frames": [
-                {"index": 8, "duration": 8},
-                {"index": 9, "duration": 8},
-                {"index": 10, "duration": 8},
-                {"index": 11, "duration": 8},
-                {"index": 12, "duration": 8},
-                {"index": 13, "duration": 8}
+                {"index": 8, "duration": 12},
+                {"index": 9, "duration": 12},
+                {"index": 10, "duration": 12},
+                {"index": 11, "duration": 12},
+                {"index": 12, "duration": 12},
+                {"index": 13, "duration": 12}
             ]
         },
         {
