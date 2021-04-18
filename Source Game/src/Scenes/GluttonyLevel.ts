@@ -22,15 +22,14 @@ export default class GluttonyLevel extends Scene {
     
     loadScene() {
         // load the player and enemy spritesheets
-        // TODO PROJECT - switch with correct sprites
-        this.load.spritesheet("player", "game_assets/spritesheets/player.json");
+        this.load.spritesheet("player", "game_assets/spritesheets/zara.json");
         // TODO PROJECT - add enemy spritesheets
         // Load in the enemy info
         this.load.spritesheet("bat", "hw3_assets/spritesheets/hellbat.json");
         this.load.object("enemyData", "game_assets/data/enemy.json");
         // load the tilemap
         // TODO PROJECT - switch with correct tilemap
-        this.load.tilemap("gluttonyLevel", "game_assets/tilemaps/cse_380_hw3_map.json");
+        this.load.tilemap("gluttonyLevel", "game_assets/tilemaps/hells_fury.json");
     }
 
     startScene() {
@@ -70,11 +69,11 @@ export default class GluttonyLevel extends Scene {
     initializePlayer(): void {
         // Create the player
         this.player = this.add.animatedSprite("player", "primary");
-        this.player.position.set(2*16, 62*16);
-        this.player.addPhysics(new AABB(Vec2.ZERO, new Vec2(5, 5)));
+        this.player.position.set(30*16, 62*16);
+        this.player.addPhysics(new AABB(new Vec2(0, 14), new Vec2(8, 10)));
         this.player.addAI(PlayerController,
             {
-                speed: 100,
+                speed: 150,
                 slippery: true
             });
         this.player.animation.play("IDLE");
