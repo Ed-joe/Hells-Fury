@@ -4,6 +4,7 @@ import Layer from "../Wolfie2D/Scene/Layer";
 import Scene from "../Wolfie2D/Scene/Scene";
 import Color from "../Wolfie2D/Utils/Color";
 import Label from "../Wolfie2D/Nodes/UIElements/Label";
+import GluttonyLevel from "./GluttonyLevel";
 
 export default class MainMenu extends Scene {
     private main_menu: Layer;
@@ -22,6 +23,7 @@ export default class MainMenu extends Scene {
         const center = this.viewport.getCenter();
 
         // subscribe to button events
+        this.receiver.subscribe("newGame");
         this.receiver.subscribe("levelSelect");
         this.receiver.subscribe("help");
         this.receiver.subscribe("controls");
@@ -48,7 +50,7 @@ export default class MainMenu extends Scene {
         new_game_button.borderWidth = 2;
         new_game_button.borderColor = Color.TRANSPARENT;
         new_game_button.backgroundColor = Color.TRANSPARENT;
-        new_game_button.onClickEventId = "play";
+        new_game_button.onClickEventId = "newGame";
 
         // Add level select button
         const level_select_button = this.add.uiElement(UIElementType.BUTTON, "mainMenu", {position: new Vec2(center.x - 13, center.y - 60), text: ""});
@@ -178,8 +180,9 @@ export default class MainMenu extends Scene {
             let event = this.receiver.getNextEvent();
 
             if(event.type === "newGame") {
-                // TODO PROJECT - setup new game scene from here
+                // TODO PROJECT - setup new game scene from here (maybe add options)
                 console.log("New Game Event");
+                this.sceneManager.changeToScene(GluttonyLevel, {});
             }
 
             if(event.type === "mainMenu") {
@@ -211,6 +214,7 @@ export default class MainMenu extends Scene {
             if(event.type === "levelGluttony") {
                 // TODO PROJECT - go to gluttony level (level 1)
                 console.log("Gluttony Level");
+                this.sceneManager.changeToScene(GluttonyLevel, {});
             }
             if(event.type === "levelLust") {
                 // TODO PROJECT - go to lust level (level 2)

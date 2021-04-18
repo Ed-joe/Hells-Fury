@@ -9,7 +9,15 @@ import SplashScreen from "./Scenes/SplashScreen";
     // Set up options for our game
     let options = {
         canvasSize: {x: 1280, y: 720},          // The size of the game
-        clearColor: {r: 0, g: 0, b: 0},   // The color the game clears to
+        clearColor: {r: 0, g: 0, b: 0},         // The color the game clears to
+        inputs: [                               // setup inputs
+            {name: "up", keys: ["w"]},
+            {name: "down", keys: ["s"]},
+            {name: "left", keys: ["a"]},
+            {name: "right", keys: ["d"]},
+            {name: "interact", keys: ["e"]},
+            {name: "pause", keys: ["escape"]},
+        ]
     }
 
     // Create a game with the options specified
