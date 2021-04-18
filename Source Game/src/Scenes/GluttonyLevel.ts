@@ -45,7 +45,6 @@ export default class GluttonyLevel extends Scene {
         // add primary layer
         this.addLayer("primary", 10);
 
-        // TODO PROJECT - write initializePlayer()
         this.initializePlayer();
 
         // TODO PROJECT - write initializeEnemies()
