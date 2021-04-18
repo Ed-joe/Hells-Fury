@@ -84,12 +84,15 @@ export default class PlayerController implements AI {
         if(Input.isMouseJustPressed()) {
             // TODO PROJECT - implement punch attack here
             console.log("punch event");
+            this.owner.animation.play("ATTACK", true);
         }
 
         // have player face left or right
         let mouse_position = Input.getGlobalMousePosition();
         if(mouse_position.x < this.owner.position.x) {
             this.owner.invertX = true;
+        } else {
+            this.owner.invertX = false;
         }
 
         
