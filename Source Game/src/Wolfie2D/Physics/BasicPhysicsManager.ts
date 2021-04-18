@@ -212,11 +212,6 @@ export default class BasicPhysicsManager extends PhysicsManager {
 			// For every overlap, determine if we need to collide with it and when
 			for(let overlap of overlaps){
 				// Ignore nodes we don't interact with
-				// console.log(this.collisionMasks);
-				// console.log(groupIndex);
-				// console.log(this.collisionMasks[groupIndex]);
-				// console.log(overlap.other.group);
-				// console.log(this.collisionMasks[groupIndex] !== undefined && (this.collisionMasks[groupIndex] & overlap.other.group) === 0);
 				if(this.collisionMasks[groupIndex] !== undefined && (this.collisionMasks[groupIndex] & overlap.other.group) === 0) continue;
 
 				// Do a swept line test on the static AABB with this AABB size as padding (this is basically using a minkowski sum!)

@@ -14,17 +14,23 @@ export default class PlayerController implements AI {
 
     // Movement
     private direction: Vec2;
+    private curr_velocity: Vec2;
     private speed: number;
 
     // Attacking
-    private lookDirection: Vec2;
+    private attack_direction: Vec2;
+
+    // unique level functionalities
+    private slippery: boolean;
 
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.owner = owner
         this.direction = Vec2.ZERO;
-        this.lookDirection = Vec2.ZERO;
+        this.curr_velocity = Vec2.ZERO;         // for use with slippery movement
+        this.attack_direction = Vec2.ZERO;
         this.speed = options.speed;
         this.health = 5;
+        this.slippery = options.slippery !== undefined ? options.slippery : false;
     }
 
     activate(options: Record<string, any>): void {}
@@ -37,16 +43,42 @@ export default class PlayerController implements AI {
         this.direction.y = (Input.isPressed("up") ? -1 : 0) + (Input.isPressed("down") ? 1 : 0);
 
         if(!this.direction.isZero()) {
-            // Move the player
-            this.owner.move(this.direction.normalized().scale(this.speed * deltaT));
-            this.owner.animation.playIfNotAlready("WALK", true);
+            if(this.slippery) {
+                // slippery movement
+                if(this.direction.x !== 0) {this.curr_velocity.x += this.direction.normalized().scale(this.speed * deltaT).x / 20;}
+                else {this.curr_velocity.x -= this.curr_velocity.normalized().scale(this.speed * deltaT).x / 40;}
+                if(this.direction.y !== 0) {this.curr_velocity.y += this.direction.normalized().scale(this.speed * deltaT).y / 20;}
+                else {this.curr_velocity.y -= this.curr_velocity.normalized().scale(this.speed * deltaT).y / 40;}
+
+                this.owner.move(this.curr_velocity);
+                this.owner.animation.playIfNotAlready("WALK", true);
+            } else {
+                // normal movement
+                this.owner.move(this.direction.normalized().scale(this.speed * deltaT));
+                this.owner.animation.playIfNotAlready("WALK", true);
+            }
+            
         } else {
             // Player is idle
-            this.owner.animation.playIfNotAlready("IDLE", true);
+            if(this.slippery && (Math.abs(this.curr_velocity.x) > 0 || Math.abs(this.curr_velocity.y) > 0)) {
+                // slide a bit
+                // console.log("slide cap up");
+
+                this.curr_velocity.x -= this.curr_velocity.normalized().scale(this.speed * deltaT).x / 40;
+                this.curr_velocity.y -= this.curr_velocity.normalized().scale(this.speed * deltaT).y / 40;
+
+                if(Math.abs(this.curr_velocity.x) < .05) {this.curr_velocity.x = 0;}
+                if(Math.abs(this.curr_velocity.y) < .05) {this.curr_velocity.y = 0;}
+
+                this.owner.move(this.curr_velocity);
+                this.owner.animation.playIfNotAlready("WALK", true);
+            } else {
+                this.owner.animation.playIfNotAlready("IDLE", true);
+            }
         }
 
-        // Get the unit vector in the look direction
-        this.lookDirection = this.owner.position.dirTo(Input.getGlobalMousePosition());
+        // Get the unit vector in the attack direction
+        this.attack_direction = this.owner.position.dirTo(Input.getGlobalMousePosition());
 
         // punch attack
         if(Input.isMouseJustPressed()) {
@@ -55,8 +87,10 @@ export default class PlayerController implements AI {
         }
 
         // have player face left or right
-        // TODO PROJECT - implement player always faces mouse
-
+        let mouse_position = Input.getGlobalMousePosition();
+        if(mouse_position.x < this.owner.position.x) {
+            this.owner.invertX = true;
+        }
 
         
     }
