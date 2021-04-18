@@ -11,7 +11,7 @@ export default class SplashScreen extends Scene {
     private splash_background: Layer;
 
     loadScene() {
-        this.load.image("splashImage", "demo_assets/images/splash_screen.png");
+        this.load.image("splashImage", "game_assets/images/splash_screen.png");
     }
 
     startScene() {

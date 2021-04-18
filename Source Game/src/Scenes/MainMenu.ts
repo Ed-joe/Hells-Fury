@@ -12,10 +12,10 @@ export default class MainMenu extends Scene {
     private controls: Layer;
 
     loadScene() {
-        this.load.image("mainMenuImage", "demo_assets/images/main_menu_background.png");
-        this.load.image("levelSelectImage", "demo_assets/images/level_select_background.png");
-        this.load.image("helpImage", "demo_assets/images/help_background.png");
-        this.load.image("controlsImage", "demo_assets/images/controls_background.png");
+        this.load.image("mainMenuImage", "game_assets/images/main_menu_background.png");
+        this.load.image("levelSelectImage", "game_assets/images/level_select_background.png");
+        this.load.image("helpImage", "game_assets/images/help_background.png");
+        this.load.image("controlsImage", "game_assets/images/controls_background.png");
     }
 
     startScene() {
