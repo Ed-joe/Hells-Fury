@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Game</title>
+    <style>
+      #main {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      #game-window {
+        position: relative;
+      }
+
+      #game-canvas {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+      }
+
+      #text-canvas {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        pointer-events: none;
+      }
+
+      #debug-canvas {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        pointer-events: none;
+      }
+
+      @font-face {
+        font-family: 'NoPixel';
+        src: url('hw4_assets/fonts/NoPixel.ttf');
+      }
+    </style>
+  </head>
+  <body>
+    <div id="main">
+      <!-- The main window of the game. This contains the rendered game and any debug text -->
+      <div id="game-window">
+        <!-- This is the canvas where the actual game is rendered -->
+        <canvas id="game-canvas"></canvas>
+        <!-- This is the canvas where text is rendered in WebGL -->
+        <canvas id="text-canvas" hidden></canvas>
+        <!-- This is the canvas where the debug text and graphics are rendered -->
+        <canvas id="debug-canvas"></canvas>
+      </div>
+
+      <!-- This contains stats about the game for development purposes, such as the average update time -->
+      <div id="stats" hidden>
+        <canvas id="stats-canvas"></canvas>
+        <select name="Display" id="chart-option">
+        </select>
+        <div id="stats-display"></div>
+      </div>
+    </div>
+    <script src="bundle.js"></script>
+  </body>
+</html>

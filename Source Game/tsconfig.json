@@ -1,0 +1,10 @@
+{
+    "include": [
+        "src/**/*",
+        "src/*"
+    ],
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "target": "es2016"
+    }
+}
