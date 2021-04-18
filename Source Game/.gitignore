@@ -10,8 +10,8 @@ dist/*
 # Include the built-in asset folder
 !dist/builtin/
 
-# Include the hw3 assets
-!dist/hw3_assets/
+# Include the hw1 assets
+!dist/hw4_assets/
 
 ### IF YOU ARE MAKING A PROJECT, YOU MAY WANT TO UNCOMMENT THIS LINE ###
 # !dist/assets/

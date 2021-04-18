@@ -15,6 +15,26 @@ export class AnimationData {
     repeat: boolean = false;
 }
 
+export class TweenEffect {
+    /** The property to tween */
+    property: TweenableProperties;
+
+    /** Whether or not the Tween should reset the property to its original value after playing */
+    resetOnComplete: boolean;
+
+    /** The starting value for the tween */
+    start: any;
+
+    /** The ending value for the tween */
+    end: any;
+
+    /** The ease function to use */
+    ease: EaseFunctionType;
+
+    /** DO NOT MODIFY - The original value of the property - set automatically */
+    initialValue: number;
+}
+
 export class TweenData {
     // Members for initialization by the user
     /** The amount of time in ms to wait before executing the tween */
@@ -22,18 +42,13 @@ export class TweenData {
     /** The duration of time over which the value with change from start to end */
     duration: number;
     /** An array of the effects on the properties of the object */
-    effects: [{
-        property: TweenableProperties;
-        resetOnComplete: boolean;
-        initialValue: number;
-        start: any;
-        end: any;
-        ease: EaseFunctionType;
-    }];
+    effects: Array<TweenEffect>;
     /** Whether or not this tween should reverse from end to start for each property when it finishes */
     reverseOnComplete: boolean;
     /** Whether or not this tween should loop when it completes */
     loop: boolean;
+    /** The name of the event to send (if any) when the tween finishes playing */
+    onEnd: string
     
     // Members for management by the tween manager
     /** The progress of this tween through its effects */

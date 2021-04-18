@@ -11,9 +11,6 @@ export default interface Actor {
     /** The activity status of the actor */
     aiActive: boolean;
 
-    /** The id of the actor according to the @reference[AIManager] */
-    actorId: number;
-
     /** The path that navigation will follow */
     path: NavigationPath;
 

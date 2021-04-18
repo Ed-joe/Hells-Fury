@@ -47,10 +47,15 @@ export default class TilemapRenderer {
                     // Get the tile at this position
                     let tile = tilemap.getTileAtRowCol(new Vec2(x, y));
 
+                    // Extract the rot/flip parameters if there are any
+                    const mask = (0xE << 28);
+                    const rotFlip = ((mask & tile) >> 28) & 0xF;
+                    tile = tile & ~mask;
+
                     // Find the tileset that owns this tile index and render
                     for(let tileset of tilemap.getTilesets()){
                         if(tileset.hasTile(tile)){
-                            this.renderTile(tileset, tile, x, y, origin, tilemap.scale, zoom);
+                            this.renderTile(tileset, tile, x, y, origin, tilemap.scale, zoom, rotFlip);
                         }
                     }
                 }
@@ -70,7 +75,7 @@ export default class TilemapRenderer {
      * @param scale The scale of the tilemap
      * @param zoom The zoom level of the viewport
      */
-    protected renderTile(tileset: Tileset, tileIndex: number, tilemapRow: number, tilemapCol: number, origin: Vec2, scale: Vec2, zoom: number): void {
+    protected renderTile(tileset: Tileset, tileIndex: number, tilemapRow: number, tilemapCol: number, origin: Vec2, scale: Vec2, zoom: number, rotFlip: number): void {
         let image = this.resourceManager.getImage(tileset.getImageKey());
 
         // Get the true index
@@ -90,11 +95,57 @@ export default class TilemapRenderer {
         let x = Math.floor(tilemapRow * width * scale.x);
         let y = Math.floor(tilemapCol * height * scale.y);
 
-        // Render the tile
-        this.ctx.drawImage(image,
-            left, top,
-            width, height,
-            Math.floor((x - origin.x)*zoom), Math.floor((y - origin.y)*zoom),
-            Math.ceil(width * scale.x * zoom), Math.ceil(height * scale.y * zoom));
+        let worldX = Math.floor((x - origin.x)*zoom);
+        let worldY = Math.floor((y - origin.y)*zoom);
+        let worldWidth = Math.ceil(width * scale.x * zoom);
+        let worldHeight = Math.ceil(height * scale.y * zoom);
+
+        if(rotFlip !== 0){
+            let scaleX = 1;
+            let scaleY = 1;
+            let shearX = 0;
+            let shearY = 0;
+
+            // Flip on the x-axis
+            if(rotFlip & 8){
+                scaleX = -1;
+            }
+
+            // Flip on the y-axis
+            if(rotFlip & 4){
+                scaleY = -1;
+            }
+
+            // Flip over the line y=x
+            if(rotFlip & 2){
+                shearX = scaleY;
+                shearY = scaleX;
+                scaleX = 0;
+                scaleY = 0;
+            }
+
+            this.ctx.setTransform(scaleX, shearX, shearY, scaleY, worldX + worldWidth/2, worldY + worldHeight/2);
+        
+            // Render the tile
+            this.ctx.drawImage(image,
+                left, top,
+                width, height,
+                -worldWidth/2, -worldHeight/2,
+                worldWidth, worldHeight);
+
+            if(rotFlip !== 0){
+                this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+            }
+        } else {
+            // No rotations, don't do the calculations, just render the tile
+            // Render the tile
+            this.ctx.drawImage(image,
+                left, top,
+                width, height,
+                worldX, worldY,
+                worldWidth, worldHeight);
+        }
+
+
     }
 }

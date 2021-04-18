@@ -81,7 +81,6 @@ export default class ResourceManager {
     private loadonly_gl_ShaderProgramsToLoad: number;
     private loadonly_gl_ShaderLoadingQueue: Queue<KeyPath_Shader>;
 
-    private gl_DefaultShaderPrograms: Map<WebGLProgramType>;
     private gl_ShaderPrograms: Map<WebGLProgramType>;
 
     private gl_Textures: Map<number>;
@@ -89,6 +88,13 @@ export default class ResourceManager {
     private gl_Buffers: Map<WebGLBuffer>; 
 
     private gl: WebGLRenderingContext;
+
+    /* ########## UNLOADING AND EXCLUSION LIST ########## */
+    /** A list of resources that will be unloaded at the end of the current scene */
+    private resourcesToUnload: Array<ResourceReference>;
+
+    /** A list of resources to keep until further notice */
+    private resourcesToKeep: Array<ResourceReference>;
 
     private constructor(){
         this.loading = false;
@@ -123,14 +129,17 @@ export default class ResourceManager {
         this.loadonly_gl_ShaderProgramsToLoad = 0;
         this.loadonly_gl_ShaderLoadingQueue = new Queue();
 
-        this.gl_DefaultShaderPrograms = new Map();
         this.gl_ShaderPrograms = new Map();
 
         this.gl_Textures = new Map();
         this.gl_NextTextureID = 0;
         this.gl_Buffers = new Map();
+
+        this.resourcesToUnload = new Array();
+        this.resourcesToKeep = new Array();
     };
 
+    /* ######################################## SINGLETON ########################################*/
     /**
      * Returns the current instance of this class or a new instance if none exist
      * @returns The resource manager
@@ -143,6 +152,7 @@ export default class ResourceManager {
         return this.instance;
     }
 
+    /* ######################################## PUBLIC FUNCTION ########################################*/
     /**
      * Activates or deactivates the use of WebGL
      * @param flag True if WebGL should be used, false otherwise
@@ -163,6 +173,14 @@ export default class ResourceManager {
      */
     public image(key: string, path: string): void {
         this.loadonly_imageLoadingQueue.enqueue({key: key, path: path});
+    }
+
+    /**
+     * Tells the resource manager to keep this resource
+     * @param key The key of the resource
+     */
+    public keepImage(key: string): void {
+        this.keepResource(key, ResourceType.IMAGE);
     }
 
     /**
@@ -188,6 +206,14 @@ export default class ResourceManager {
     }
 
     /**
+     * Tells the resource manager to keep this resource
+     * @param key The key of the resource
+     */
+    public keepSpritesheet(key: string): void {
+        this.keepResource(key, ResourceType.SPRITESHEET);
+    }
+
+    /**
      * Retrieves a loaded spritesheet
      * @param key The key of the spritesheet to load
      * @returns The loaded Spritesheet
@@ -203,6 +229,14 @@ export default class ResourceManager {
      */
     public audio(key: string, path: string): void {
         this.loadonly_audioLoadingQueue.enqueue({key: key, path: path});
+    }
+
+    /**
+     * Tells the resource manager to keep this resource
+     * @param key The key of the resource
+     */
+     public keepAudio(key: string): void {
+        this.keepResource(key, ResourceType.AUDIO);
     }
 
     /**
@@ -224,6 +258,14 @@ export default class ResourceManager {
     }
 
     /**
+     * Tells the resource manager to keep this resource
+     * @param key The key of the resource
+     */
+     public keepTilemap(key: string): void {
+        this.keepResource(key, ResourceType.TILEMAP);
+    }
+
+    /**
      * Retreives a loaded tilemap
      * @param key The key of the loaded tilemap
      * @returns The tilemap data associated with the key
@@ -242,6 +284,14 @@ export default class ResourceManager {
     }
 
     /**
+     * Tells the resource manager to keep this resource
+     * @param key The key of the resource
+     */
+     public keepObject(key: string): void {
+        this.keepResource(key, ResourceType.JSON);
+    }
+
+    /**
      * Retreives a loaded object
      * @param key The key of the loaded object
      * @returns The object data associated with the key
@@ -250,6 +300,7 @@ export default class ResourceManager {
         return this.jsonObjects.get(key);
     }
 
+    /* ######################################## LOAD FUNCTION ########################################*/
     /**
      * Loads all resources currently in the queue
      * @param callback The function to cal when the resources are finished loading
@@ -293,6 +344,21 @@ export default class ResourceManager {
         callback();
     }
 
+    /* ######################################## UNLOAD FUNCTION ########################################*/
+    
+    private keepResource(key: string, type: ResourceType): void {
+        console.log("Keep resource...");
+        for(let i = 0; i < this.resourcesToUnload.length; i++){
+            let resource = this.resourcesToUnload[i];
+            if(resource.key === key && resource.resourceType === type){
+                console.log("Found resource " + key + " of type " + type + ". Keeping.");
+                let resourceToMove = this.resourcesToUnload.splice(i, 1);
+                this.resourcesToKeep.push(...resourceToMove);
+                return;
+            }
+        }
+    }
+    
     /**
      * Deletes references to all resources in the resource manager
      */
@@ -300,29 +366,46 @@ export default class ResourceManager {
         this.loading = false;
         this.justLoaded = false;
 
-        this.loadonly_imagesLoaded = 0;
-        this.loadonly_imagesToLoad = 0;
-        this.images.clear();
-
-        this.loadonly_spritesheetsLoaded = 0;
-        this.loadonly_spritesheetsToLoad = 0;
-        this.spritesheets.clear();
-
-        this.loadonly_tilemapsLoaded = 0;
-        this.loadonly_tilemapsToLoad = 0;
-        this.tilemaps.clear();
-
-        this.loadonly_audioLoaded = 0;
-        this.loadonly_audioToLoad = 0;
-        this.audioBuffers.clear();
-
-        // WebGL
-        // Delete all programs through webGL
-        this.gl_ShaderPrograms.forEach(key => this.gl_ShaderPrograms.get(key).delete(this.gl));
-        this.gl_ShaderPrograms.clear();
-        this.gl_Textures.clear();
+        for(let resource of this.resourcesToUnload){
+            // Unload the resource
+            this.unloadResource(resource);
+        }
     }
 
+    private unloadResource(resource: ResourceReference): void {
+        // Delete the resource itself
+        switch(resource.resourceType){
+            case ResourceType.IMAGE:
+                this.images.delete(resource.key);
+                if(this.gl_WebGLActive){
+                    this.gl_Textures.delete(resource.key);
+                }
+                break;
+            case ResourceType.TILEMAP:
+                this.tilemaps.delete(resource.key);
+                break;
+            case ResourceType.SPRITESHEET:
+                this.spritesheets.delete(resource.key);
+                break;
+            case ResourceType.AUDIO:
+                this.audioBuffers.delete(resource.key);
+                break;
+            case ResourceType.JSON:
+                this.jsonObjects.delete(resource.key);
+                break;
+            case ResourceType.SHADER:
+                this.gl_ShaderPrograms.get(resource.key).delete(this.gl);
+                this.gl_ShaderPrograms.delete(resource.key);
+                break;
+        }
+
+        // Delete any dependencies
+        for(let dependency of resource.dependencies){
+            this.unloadResource(dependency);
+        }
+    }
+
+    /* ######################################## WORK FUNCTIONS ########################################*/
     /**
      * Loads all tilemaps currently in the tilemap loading queue
      * @param onFinishLoading The function to call when loading is complete
@@ -355,21 +438,31 @@ export default class ResourceManager {
             
             // We can parse the object later - it's much faster than loading
             this.tilemaps.add(key, tilemapObject);
+            let resource = new ResourceReference(key, ResourceType.TILEMAP);
 
             // Grab the tileset images we need to load and add them to the imageloading queue
             for(let tileset of tilemapObject.tilesets){
                 if(tileset.image){
                     let key = tileset.image;
                     let path = StringUtils.getPathFromFilePath(pathToTilemapJSON) + key;
-                    this.loadonly_imageLoadingQueue.enqueue({key: key, path: path});
+                    this.loadonly_imageLoadingQueue.enqueue({key: key, path: path, isDependency: true});
+
+                    // Add this image as a dependency to the tilemap
+                    resource.addDependency(new ResourceReference(key, ResourceType.IMAGE));
                 } else if(tileset.tiles){
                     for(let tile of tileset.tiles){
                         let key = tile.image;
                         let path = StringUtils.getPathFromFilePath(pathToTilemapJSON) + key;
-                        this.loadonly_imageLoadingQueue.enqueue({key: key, path: path});
+                        this.loadonly_imageLoadingQueue.enqueue({key: key, path: path, isDependency: true});
+
+                        // Add this image as a dependency to the tilemap
+                        resource.addDependency(new ResourceReference(key, ResourceType.IMAGE));
                     }
                 }
             }
+
+            // Add the resource reference to the list of resource to unload
+            this.resourcesToUnload.push(resource);
 
             // Finish loading
             this.finishLoadingTilemap(callbackIfLast);
@@ -422,9 +515,14 @@ export default class ResourceManager {
             // We can parse the object later - it's much faster than loading
             this.spritesheets.add(key, spritesheet);
 
+            let resource = new ResourceReference(key, ResourceType.SPRITESHEET);
+
             // Grab the image we need to load and add it to the imageloading queue
             let path = StringUtils.getPathFromFilePath(pathToSpritesheetJSON) + spritesheet.spriteSheetImage;
-            this.loadonly_imageLoadingQueue.enqueue({key: spritesheet.name, path: path});
+            this.loadonly_imageLoadingQueue.enqueue({key: spritesheet.name, path: path, isDependency: true});
+
+            resource.addDependency(new ResourceReference(spritesheet.name, ResourceType.IMAGE));
+            this.resourcesToUnload.push(resource);
 
             // Finish loading
             this.finishLoadingSpritesheet(callbackIfLast);
@@ -460,7 +558,7 @@ export default class ResourceManager {
 
         while(this.loadonly_imageLoadingQueue.hasItems()){
             let image = this.loadonly_imageLoadingQueue.dequeue();
-            this.loadImage(image.key, image.path, onFinishLoading);
+            this.loadImage(image.key, image.path, image.isDependency, onFinishLoading);
         }
     }
 
@@ -470,12 +568,17 @@ export default class ResourceManager {
      * @param path The path to the image to load
      * @param callbackIfLast The function to call if this is the last image
      */
-    public loadImage(key: string, path: string, callbackIfLast: Function): void {
+    public loadImage(key: string, path: string, isDependency: boolean, callbackIfLast: Function): void {
         var image = new Image();
 
         image.onload = () => {
             // Add to loaded images
             this.images.add(key, image);
+
+            // If not a dependency, push it to the unload list. Otherwise it's managed by something else
+            if(!isDependency){
+                this.resourcesToUnload.push(new ResourceReference(key, ResourceType.IMAGE));
+            }
 
             // If WebGL is active, create a texture
             if(this.gl_WebGLActive){
@@ -539,6 +642,7 @@ export default class ResourceManager {
             audioCtx.decodeAudioData(request.response, (buffer) => {
                 // Add to list of audio buffers
                 this.audioBuffers.add(key, buffer);
+                this.resourcesToUnload.push(new ResourceReference(key, ResourceType.AUDIO));
 
                 // Finish loading sound
                 this.finishLoadingAudio(callbackIfLast);
@@ -592,6 +696,9 @@ export default class ResourceManager {
         this.loadTextFile(path, (fileText: string) => {
             let obj = JSON.parse(fileText);
             this.jsonObjects.add(key, obj);
+
+            this.resourcesToUnload.push(new ResourceReference(key, ResourceType.JSON));
+
             this.finishLoadingObject(callbackIfLast);
         });
     }
@@ -706,6 +813,14 @@ export default class ResourceManager {
         this.loadonly_gl_ShaderLoadingQueue.enqueue(paths);
     }
 
+    /**
+     * Tells the resource manager to keep this resource
+     * @param key The key of the resource
+     */
+     public keepShader(key: string): void {
+        this.keepResource(key, ResourceType.IMAGE);
+    }
+
     private gl_LoadShadersFromQueue(onFinishLoading: Function): void {
         this.loadonly_gl_ShaderProgramsToLoad = this.loadonly_gl_ShaderLoadingQueue.getSize();
         this.loadonly_gl_ShaderProgramsLoaded = 0;
@@ -741,6 +856,8 @@ export default class ResourceManager {
                 // Add to our map
                 this.gl_ShaderPrograms.add(key, programWrapper);
 
+                this.resourcesToUnload.push(new ResourceReference(key, ResourceType.SHADER));
+
                 // Finish loading
                 this.gl_FinishLoadingShader(callbackIfLast);
             });
@@ -769,7 +886,7 @@ export default class ResourceManager {
         const program = this.gl.createProgram();
         if(!program) {
             // Error creating
-            console.log("Failed to create program");
+            console.warn("Failed to create program");
             return null;
         }
     
@@ -782,7 +899,7 @@ export default class ResourceManager {
         if(!this.gl.getProgramParameter(program, this.gl.LINK_STATUS)){
             // Error linking
             const error = this.gl.getProgramInfoLog(program);
-            console.log("Failed to link program: " + error);
+            console.warn("Failed to link program: " + error);
     
             // Clean up
             this.gl.deleteProgram(program);
@@ -810,7 +927,7 @@ export default class ResourceManager {
     
         // If we couldn't create the shader, error
         if(shader === null){
-            console.log("Unable to create shader");
+            console.warn("Unable to create shader");
             return null;
         }
     
@@ -822,7 +939,7 @@ export default class ResourceManager {
         if(!this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)){
             // Not compiled - error
             const error = this.gl.getShaderInfoLog(shader);
-            console.log("Failed to compile shader: " + error);
+            console.warn("Failed to compile shader: " + error);
     
             // Clean up
             this.gl.deleteShader(shader);
@@ -871,9 +988,44 @@ export default class ResourceManager {
     }
 }
 
+/**
+ * A class representing a reference to a resource.
+ * This is used for the exemption list to assure assets and their dependencies don't get
+ * destroyed if they are still needed.
+ */
+class ResourceReference {
+    key: string;
+    resourceType: ResourceType;
+    dependencies: Array<ResourceReference>;
+
+    constructor(key: string, resourceType: ResourceType){
+        this.key = key;
+        this.resourceType = resourceType;
+        this. dependencies = new Array();
+    }
+
+    addDependency(resource: ResourceReference): void {
+        this.dependencies.push(resource);
+    }
+}
+
+
+enum ResourceType {
+    IMAGE = "IMAGE",
+    TILEMAP = "TILEMAP",
+    SPRITESHEET = "SPRITESHEET",
+    AUDIO = "AUDIO",
+    JSON = "JSON",
+    SHADER = "SHADER"
+}
+
+/**
+ * A pair representing a key and the path of the resource to load
+ */
 class KeyPathPair {
     key: string;
     path: string;
+    isDependency?: boolean = false;
 }
 
 class KeyPath_Shader {

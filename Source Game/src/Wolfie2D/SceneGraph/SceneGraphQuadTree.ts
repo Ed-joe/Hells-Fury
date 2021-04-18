@@ -31,12 +31,12 @@ export default class SceneGraphQuadTree extends SceneGraph {
     }
 
     // @override
-    protected addNodeSpecific(node: CanvasNode, id: string): void {
+    protected addNodeSpecific(node: CanvasNode, id: number): void {
         this.nodes.push(node);
     }
 
     // @override
-    protected removeNodeSpecific(node: CanvasNode, id: string): void {
+    protected removeNodeSpecific(node: CanvasNode, id: number): void {
         let index = this.nodes.indexOf(node);
         if(index >= 0){
             this.nodes.splice(index, 1);

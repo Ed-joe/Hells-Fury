@@ -155,7 +155,7 @@ export default class Viewport {
      * @param zoom The zoom level
      */
     setZoomLevel(zoom: number): void {
-        this.view.halfSize.scale(1/zoom);
+        this.view.halfSize.copy(this.canvasSize.scaled(1/zoom/2));
     }
 
     /**

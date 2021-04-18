@@ -33,6 +33,16 @@ export default abstract class GameLoop {
 	abstract start(): void;
 
 	/**
+	 * Pauses the game loop, usually for an error condition.
+	 */
+	abstract pause(): void;
+
+	/**
+	 * Resumes the game loop.
+	 */
+	abstract resume(): void;
+
+	/**
 	 * Runs the first frame of the game. No update occurs here, only a render.
 	 * This is needed to initialize delta time values
 	 * @param timestamp The timestamp of the frame. This is received from the browser

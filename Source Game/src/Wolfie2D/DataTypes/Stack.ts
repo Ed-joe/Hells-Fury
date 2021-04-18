@@ -5,7 +5,7 @@ import Collection from "./Collection";
  */
 export default class Stack<T> implements Collection {
     /** The maximum number of elements in the Stack */
-    private readonly MAX_ELEMENTS: number;
+    private MAX_ELEMENTS: number;
     
     /** The internal representation of the stack */
     private stack: Array<T>;

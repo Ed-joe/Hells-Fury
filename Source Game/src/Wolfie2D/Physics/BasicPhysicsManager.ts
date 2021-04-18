@@ -6,6 +6,7 @@ import Vec2 from "../DataTypes/Vec2";
 import AABB from "../DataTypes/Shapes/AABB";
 import OrthogonalTilemap from "../Nodes/Tilemaps/OrthogonalTilemap";
 import AreaCollision from "../DataTypes/Physics/AreaCollision";
+import Unique from "../DataTypes/Interfaces/Unique";
 
 /**
  * ALGORITHM:
@@ -52,15 +53,49 @@ export default class BasicPhysicsManager extends PhysicsManager {
 	/** The array of tilemaps */
 	protected tilemaps: Array<Tilemap>;
 
+	/** An array of the collision masks for each group */
+	protected collisionMasks: Array<number>;
+
 	constructor(options: Record<string, any>){
 		super();
 		this.staticNodes = new Array();
 		this.dynamicNodes = new Array();
 		this.tilemaps = new Array();
+		this.collisionMasks = new Array(32);
+
+		// Parse options
+		this.parseOptions(options);
+	}
+
+	/**
+	 * Parses the options for constructing the physics manager
+	 * @param options A record of options
+	 */
+	protected parseOptions(options: Record<string, any>): void {
+		if(options.groupNames !== undefined && options.collisions !== undefined){
+			for(let i = 0; i < options.groupNames.length; i++){
+				let group = options.groupNames[i];
+
+				// Register the group name and number
+				this.groupNames[i] = group;
+
+				this.groupMap.set(group, 1 << i);
+
+				let collisionMask = 0;
+
+				for(let j = 0; j < options.collisions[i].length; j++){
+					if(options.collisions[i][j]){
+						collisionMask |= 1 << j;
+					}
+				}
+
+				this.collisionMasks[i] = collisionMask;
+			}
+		}
 	}
 
 	// @override
-	registerObject(node: GameNode): void {
+	registerObject(node: Physical): void {
 		if(node.isStatic){
 			// Static and not collidable
 			this.staticNodes.push(node);
@@ -71,13 +106,28 @@ export default class BasicPhysicsManager extends PhysicsManager {
 	}
 
 	// @override
+	deregisterObject(node: Physical): void {
+		console.log("Deregistering physics object");
+		if(node.isStatic){
+			// Remove the node from the static list
+			const index = this.staticNodes.indexOf(node);
+			this.staticNodes.splice(index, 1);
+		} else {
+			// Remove the node from the dynamic list
+			const index = this.dynamicNodes.indexOf(node);
+			this.dynamicNodes.splice(index, 1);
+		}
+	}
+
+	// @override
 	registerTilemap(tilemap: Tilemap): void {
 		this.tilemaps.push(tilemap);
 	}
 
 	// @override
-	setLayer(node: GameNode, layer: string): void {
-		node.physicsLayer = this.layerMap.get(layer);
+	deregisterTilemap(tilemap: Tilemap): void {
+		const index = this.tilemaps.indexOf(tilemap);
+		this.tilemaps.splice(index, 1);
 	}
 
 	// @override
@@ -90,6 +140,11 @@ export default class BasicPhysicsManager extends PhysicsManager {
 			node.onWall = false;
 			node.collidedWithTilemap = false;
 			node.isColliding = false;
+
+			// If this node is not active, don't process it
+			if(!node.active){
+				continue;
+			}
 
 			// Update the swept shapes of each node
 			if(node.moving){
@@ -105,8 +160,13 @@ export default class BasicPhysicsManager extends PhysicsManager {
 			// Gather a set of overlaps
 			let overlaps = new Array<AreaCollision>();
 
+			let groupIndex = Math.log2(node.group);
+
 			// First, check this node against every static node (order doesn't actually matter here, since we sort anyways)
 			for(let other of this.staticNodes){
+				// Ignore inactive nodes
+				if(!other.active) continue;
+
 				let collider = other.collisionShape.getBoundingRect();
 				let area = node.sweptRect.overlapArea(collider);
 				if(area > 0){
@@ -117,6 +177,12 @@ export default class BasicPhysicsManager extends PhysicsManager {
 
 			// Then, check it against every dynamic node
 			for(let other of this.dynamicNodes){
+				// Ignore ourselves
+				if(node === other) continue;
+
+				// Ignore inactive nodes
+				if(!other.active) continue;
+
 				let collider = other.collisionShape.getBoundingRect();
 				let area = node.sweptRect.overlapArea(collider);
 				if(area > 0){
@@ -128,6 +194,9 @@ export default class BasicPhysicsManager extends PhysicsManager {
 			// Lastly, gather a set of AABBs from the tilemap.
 			// This step involves the most extra work, so it is abstracted into a method
 			for(let tilemap of this.tilemaps){
+				// Ignore inactive tilemaps
+				if(!tilemap.active) continue;
+
 				if(tilemap instanceof OrthogonalTilemap){
 					this.collideWithOrthogonalTilemap(node, tilemap, overlaps);
 				}
@@ -142,6 +211,9 @@ export default class BasicPhysicsManager extends PhysicsManager {
 			/*---------- RESOLUTION PHASE ----------*/
 			// For every overlap, determine if we need to collide with it and when
 			for(let overlap of overlaps){
+				// Ignore nodes we don't interact with
+				if((this.collisionMasks[groupIndex] & overlap.other.group) === 0) continue;
+
 				// Do a swept line test on the static AABB with this AABB size as padding (this is basically using a minkowski sum!)
 				// Start the sweep at the position of this node with a delta of _velocity
 				const point = node.collisionShape.center;
@@ -188,21 +260,46 @@ export default class BasicPhysicsManager extends PhysicsManager {
 				}
 			}
 			
+			/*---------- INFORMATION/TRIGGER PHASE ----------*/
 			// Check if we ended up on the ground, ceiling or wall
+			// Also check for triggers
 			for(let overlap of overlaps){
-				let collisionSide = overlap.collider.touchesAABBWithoutCorners(node.collisionShape.getBoundingRect());
-				if(collisionSide !== null){
-					// If we touch, not including corner cases, check the collision normal
-					if(overlap.hit !== null){
-						if(collisionSide.y === -1){
-							// Node is on top of overlap, so onGround
-							node.onGround = true;
-						} else if(collisionSide.y === 1){
-							// Node is on bottom of overlap, so onCeiling
-							node.onCeiling = true;
-						} else {
-							// Node wasn't touching on y, so it is touching on x
-							node.onWall = true;
+				// Check for a trigger. If we care about the trigger, react
+				if(overlap.other.isTrigger && (overlap.other.triggerMask & node.group)){
+					// Get the bit that this group is represented by
+					let index = Math.floor(Math.log2(node.group));
+
+					// Extract the triggerEnter event name
+					this.emitter.fireEvent(overlap.other.triggerEnters[index], {
+						node: (<GameNode>node).id,
+						other: (<GameNode>overlap.other).id
+					});
+				}
+
+				// Ignore collision sides for nodes we don't interact with
+				if((this.collisionMasks[groupIndex] & overlap.other.group) === 0) continue;
+
+				// Only check for direction if the overlap was collidable
+				if(overlap.type === "Tilemap" || overlap.other.isCollidable){
+					let collisionSide = overlap.collider.touchesAABBWithoutCorners(node.collisionShape.getBoundingRect());
+					if(collisionSide !== null){
+						// If we touch, not including corner cases, check the collision normal
+						if(overlap.hit !== null){
+							// If we hit a tilemap, keep track of it
+							if(overlap.type == "Tilemap"){
+								node.collidedWithTilemap = true;
+							}
+
+							if(collisionSide.y === -1){
+								// Node is on top of overlap, so onGround
+								node.onGround = true;
+							} else if(collisionSide.y === 1){
+								// Node is on bottom of overlap, so onCeiling
+								node.onCeiling = true;
+							} else {
+								// Node wasn't touching on y, so it is touching on x
+								node.onWall = true;
+							}
 						}
 					}
 				}

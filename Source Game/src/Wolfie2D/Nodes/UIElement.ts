@@ -90,7 +90,6 @@ export default abstract class UIElement extends CanvasNode {
 				}
 				if(this.onClickEventId !== null){
 					let data = {};
-					console.log("Click event: " + this.onClickEventId)
 					this.emitter.fireEvent(this.onClickEventId, data);
 				}
 			}

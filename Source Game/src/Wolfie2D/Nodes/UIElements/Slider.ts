@@ -10,6 +10,8 @@ export default class Slider extends UIElement {
     protected value: number;
     /** The color of the slider nib */
     public nibColor: Color;
+    /** The size of the nib */
+    public nibSize: Vec2;
     /** The color of the slider track */
     public sliderColor: Color;
     /** The reaction of this UIElement to a value change */
@@ -17,14 +19,15 @@ export default class Slider extends UIElement {
     /** The event propagated by this UIElement when value changes */
     public onValueChangeEventId: string;
 
-    constructor(position: Vec2){
+    constructor(position: Vec2, initValue: number){
         super(position);
 
-        this.value = 0;
+        this.value = initValue;
         this.nibColor = Color.RED;
         this.sliderColor = Color.BLACK;
         this.backgroundColor = Color.TRANSPARENT;
         this.borderColor = Color.TRANSPARENT;
+        this.nibSize = new Vec2(10, 20);
 
         // Set a default size
         this.size.set(200, 20);

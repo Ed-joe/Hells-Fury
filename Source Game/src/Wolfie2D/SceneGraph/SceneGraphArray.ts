@@ -24,12 +24,12 @@ export default class SceneGraphArray extends SceneGraph {
     }
 
     // @override
-    protected addNodeSpecific(node: CanvasNode, id: string): void {
+    protected addNodeSpecific(node: CanvasNode, id: number): void {
         this.nodeList.push(node);
     }
 
     // @override
-    protected removeNodeSpecific(node: CanvasNode, id: string): void {
+    protected removeNodeSpecific(node: CanvasNode, id: number): void {
         let index = this.nodeList.indexOf(node);
         if(index > -1){
             this.nodeList.splice(index, 1);

@@ -45,6 +45,9 @@ export default class FixedUpdateGameLoop extends GameLoop {
 
     /** The status of whether or not the game loop has started. */
     private started: boolean;
+
+    /** The status of whether or not the game loop is paused */
+    private paused: boolean;
     
     /** The status of whether or not the game loop is currently running. */
     private running: boolean;
@@ -65,6 +68,7 @@ export default class FixedUpdateGameLoop extends GameLoop {
         this.lastFpsUpdate = 0;
         this.framesSinceLastFpsUpdate = 0;
         this.started = false;
+        this.paused = false;
         this.running = false;
         this.numUpdateSteps = 0;
 	}
@@ -125,6 +129,14 @@ export default class FixedUpdateGameLoop extends GameLoop {
         }
     }
 
+    pause(): void {
+        this.paused = true;
+    }
+
+    resume(): void {
+        this.paused = false;
+    }
+
 	/**
      * The first game frame - initializes the first frame time and begins the render
      * @param timestamp The current time in ms
@@ -167,12 +179,17 @@ export default class FixedUpdateGameLoop extends GameLoop {
      * @param timestamp The current time in ms
      */
     protected doFrame = (timestamp: number): void => {
+        // If a pause was executed, stop doing the loop.
+        if(this.paused){ 
+            return;
+        }
+
         // Request animation frame to prepare for another update or render
         window.requestAnimationFrame((t) => this.doFrame(t));
 
         // If we are trying to render too soon, do nothing.
         if(timestamp < this.lastFrameTime + this.minFrameDelay){
-            return
+            return;
 		}
 		
 		// A frame is actually happening

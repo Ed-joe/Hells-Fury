@@ -73,6 +73,26 @@ export default class EventQueue {
         }
 	}
 
+    /**
+     * Unsubscribes the specified receiver from all events, or from whatever events are provided
+     * @param receiver The receiver to unsubscribe
+     * @param keys The events to unsubscribe from. If none are provided, unsubscribe from all
+     */
+    unsubscribe(receiver: Receiver, ...events: Array<string>): void {
+        this.receivers.forEach(eventName => {
+            // If keys were provided, only continue if this key is one of them
+            if(events.length > 0 && events.indexOf(eventName) === -1) return;
+
+            // Find the index of our receiver for this key
+            let index = this.receivers.get(eventName).indexOf(receiver);
+
+            // If an index was found, remove the receiver
+            if(index !== -1){
+                this.receivers.get(eventName).splice(index, 1);
+            }
+        });
+    }
+
     // Associate the receiver and the type
 	private addListener(receiver: Receiver, type: string): void {
 		if(this.receivers.has(type)){

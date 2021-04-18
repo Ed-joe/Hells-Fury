@@ -9,9 +9,9 @@ export default class Label extends UIElement{
 	/** The value of the text of this UIElement */
 	text: string;
 	/** The name of the font */
-	protected font: string;
+	font: string;
 	/** The size of the font */
-	protected fontSize: number;
+	fontSize: number;
 	/** The horizontal alignment of the text within the label */
 	protected hAlign: string;
 	/** The vertical alignment of text within the label */
@@ -72,6 +72,10 @@ export default class Label extends UIElement{
 		this.hAlign = align;
 	}
 
+	setVAlign(align: string): void {
+		this.vAlign = align;
+	}
+
 	/**
 	 * Calculate the offset of the text - this is used for rendering text with different alignments
 	 * @param ctx The rendering context
@@ -83,16 +87,16 @@ export default class Label extends UIElement{
 		let offset = new Vec2(0, 0);
 
 		let hDiff = this.size.x - textWidth;
-		if(this.hAlign === "center"){
+		if(this.hAlign === HAlign.CENTER){
 			offset.x = hDiff/2;
-		} else if (this.hAlign === "right"){
+		} else if (this.hAlign === HAlign.RIGHT){
 			offset.x = hDiff;
 		}
 
-		if(this.vAlign === "top"){
+		if(this.vAlign === VAlign.TOP){
 			ctx.textBaseline = "top";
 			offset.y = 0;
-		} else if (this.vAlign === "bottom"){
+		} else if (this.vAlign === VAlign.BOTTOM){
 			ctx.textBaseline = "bottom";
 			offset.y = this.size.y;
 		} else {
@@ -133,4 +137,16 @@ export default class Label extends UIElement{
 	sizeToText(): void {
 		this.sizeAssigned = false;
 	}
+}
+
+export enum VAlign {
+	TOP = "top",
+	CENTER = "center",
+	BOTTOM = "bottom"
+}
+
+export enum HAlign {
+	LEFT = "left",
+	CENTER = "center",
+	RIGHT = "right"
 }

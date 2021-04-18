@@ -164,17 +164,14 @@ export default class Layer {
      * @param node The node to remove
      * @returns true if the node was removed, false otherwise
      */
-    removeNode(node: GameNode): boolean {
+    removeNode(node: GameNode): void {
         // Find and remove the node
-        for(let i = 0; i < this.items.length; i++){
-            if(this.items[i].id === node.id){
-                this.items.splice(i, 1);
-                node.setLayer(null);
-                return true;
-            }
-        }
+        let index = this.items.indexOf(node);
 
-        return false;
+        if(index !== -1){
+            this.items.splice(index, 1);
+            node.setLayer(undefined);
+        }
     }
 
     /**

@@ -2,6 +2,7 @@ import Vec2 from "../DataTypes/Vec2";
 import Tileset from "../DataTypes/Tilesets/Tileset";
 import { TiledTilemapData, TiledLayerData } from "../DataTypes/Tilesets/TiledData"
 import CanvasNode from "./CanvasNode";
+import PhysicsManager from "../Physics/PhysicsManager";
 
 /**
  * The representation of a tilemap - this can consist of a combination of tilesets in one layer
@@ -74,6 +75,9 @@ export default abstract class Tilemap extends CanvasNode {
      * Adds this tilemap to the physics system
     */
     addPhysics(): void {
+        this.hasPhysics = true;
+        this.active = true;
+        this.group = -1;
         this.scene.getPhysicsManager().registerTilemap(this);
     }
 

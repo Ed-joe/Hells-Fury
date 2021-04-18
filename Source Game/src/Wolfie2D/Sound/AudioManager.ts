@@ -19,11 +19,23 @@ export default class AudioManager {
 
     private audioCtx: AudioContext;
 
+    private gainNodes: Array<GainNode>;
+
     private constructor(){
         this.initAudio();
         this.receiver = new Receiver();
-        this.receiver.subscribe([GameEventType.PLAY_SOUND, GameEventType.STOP_SOUND]);
+        this.receiver.subscribe([
+            GameEventType.PLAY_SOUND,
+            GameEventType.STOP_SOUND,
+            GameEventType.PLAY_MUSIC,
+            GameEventType.PLAY_SFX,
+            GameEventType.MUTE_CHANNEL,
+            GameEventType.UNMUTE_CHANNEL
+        ]);
         this.currentSounds = new Map();
+
+        this.gainNodes = new Array<GainNode>(MAX_AUDIO_CHANNELS);
+        this.initGainNodes();
     }
 
     /**
@@ -46,7 +58,13 @@ export default class AudioManager {
             this.audioCtx = new AudioContext(); 
             console.log('Web Audio API successfully loaded');
         } catch(e) {
-            console.log('Web Audio API is not supported in this browser'); 
+            console.warn('Web Audio API is not supported in this browser'); 
+        }
+    }
+
+    private initGainNodes(): void {
+        for(let i = 0; i < MAX_AUDIO_CHANNELS; i++){
+            this.gainNodes[i] = this.audioCtx.createGain();
         }
     }
 
@@ -73,7 +91,7 @@ export default class AudioManager {
      * @param key The key of the loaded audio file to create a new sound for
      * @returns The newly created AudioBuffer
      */
-    protected createSound(key: string): AudioBufferSourceNode {
+    protected createSound(key: string, holdReference: boolean, channel: AudioChannelType, options: Map<any>): AudioBufferSourceNode {
         // Get audio buffer
         let buffer = ResourceManager.getInstance().getAudio(key);
 
@@ -83,8 +101,22 @@ export default class AudioManager {
         // Tell the source which sound to play
         source.buffer = buffer;               
       
+        // Add any additional nodes
+        const nodes: Array<AudioNode> = [source];
+
+        // Do any additional nodes here?
+        // Of course, there aren't any supported yet...
+
+        // Add the gain node for this channel
+        nodes.push(this.gainNodes[channel]);
+
+        // Connect any nodes along the path
+        for(let i = 1; i < nodes.length; i++){
+            nodes[i-1].connect(nodes[i]);
+        }
+
         // Connect the source to the context's destination
-        source.connect(this.audioCtx.destination);         
+        nodes[nodes.length - 1].connect(this.audioCtx.destination);
         
         return source;
     }
@@ -95,8 +127,8 @@ export default class AudioManager {
      * @param loop A boolean for whether or not to loop the sound
      * @param holdReference A boolean for whether or not we want to hold on to a reference of the audio node. This is good for playing music on a loop that will eventually need to be stopped.
      */
-    protected playSound(key: string, loop: boolean, holdReference: boolean): void {
-        let sound = this.createSound(key);
+    protected playSound(key: string, loop: boolean, holdReference: boolean, channel: AudioChannelType, options: Map<any>): void {
+        let sound = this.createSound(key, holdReference, channel, options);
 
         if(loop){
             sound.loop = true;
@@ -120,23 +152,93 @@ export default class AudioManager {
             this.currentSounds.delete(key);
         }
     }
+
+    protected muteChannel(channel: AudioChannelType){
+        this.gainNodes[channel].gain.setValueAtTime(0, this.audioCtx.currentTime);
+    }
+
+    protected unmuteChannel(channel: AudioChannelType){
+        this.gainNodes[channel].gain.setValueAtTime(1, this.audioCtx.currentTime);
+    }
+
+    /**
+     * Sets the volume of a channel using the GainNode for that channel. For more
+     * information on GainNodes, see https://developer.mozilla.org/en-US/docs/Web/API/GainNode
+     * @param channel The audio channel to set the volume for
+     * @param volume The volume of the channel. 0 is muted. Values below zero will be set to zero.
+     */
+    static setVolume(channel: AudioChannelType, volume: number){
+        if(volume < 0){
+            volume = 0;
+        }
+
+        const am = AudioManager.getInstance();
+        am.gainNodes[channel].gain.setValueAtTime(volume, am.audioCtx.currentTime);
+    }
+
+    /**
+     * Returns the GainNode for this channel.
+     * Learn more about GainNodes here https://developer.mozilla.org/en-US/docs/Web/API/GainNode
+     * DON'T USE THIS UNLESS YOU KNOW WHAT YOU'RE DOING
+     * @param channel The channel
+     * @returns The GainNode for the specified channel
+     */
+    getChannelGainNode(channel: AudioChannelType){
+        return this.gainNodes[channel];
+    }
     
     update(deltaT: number): void {
         // Play each audio clip requested
         // TODO - Add logic to merge sounds if there are multiple of the same key
         while(this.receiver.hasNextEvent()){
             let event = this.receiver.getNextEvent();
-            if(event.type === GameEventType.PLAY_SOUND){
+            if(event.type === GameEventType.PLAY_SOUND || event.type === GameEventType.PLAY_MUSIC || event.type === GameEventType.PLAY_SFX){
                 let soundKey = event.data.get("key");
                 let loop = event.data.get("loop");
                 let holdReference = event.data.get("holdReference");
-                this.playSound(soundKey, loop, holdReference);
+
+                let channel = AudioChannelType.DEFAULT;
+
+                if(event.type === GameEventType.PLAY_MUSIC){
+                    channel = AudioChannelType.MUSIC;
+                } else if(GameEventType.PLAY_SFX){
+                    channel = AudioChannelType.SFX;
+                } else if(event.data.has("channel")){
+                    channel = event.data.get("channel");
+                }
+
+                this.playSound(soundKey, loop, holdReference, channel, event.data);
             }
 
             if(event.type === GameEventType.STOP_SOUND){
                 let soundKey = event.data.get("key");
                 this.stopSound(soundKey);
             }
+
+            if(event.type === GameEventType.MUTE_CHANNEL){
+                this.muteChannel(event.data.get("channel"));
+            }
+
+            if(event.type === GameEventType.UNMUTE_CHANNEL){
+                this.unmuteChannel(event.data.get("channel"));
+            }
         }
     }
 }
+
+export enum AudioChannelType {
+    DEFAULT = 0,
+    SFX = 1,
+    MUSIC = 2,
+    CUSTOM_1 = 3,
+    CUSTOM_2 = 4,
+    CUSTOM_3 = 5,
+    CUSTOM_4 = 6,
+    CUSTOM_5 = 7,
+    CUSTOM_6 = 8,
+    CUSTOM_7 = 9,
+    CUSTOM_8 = 10,
+    CUSTOM_9 = 11,
+}
+
+export const MAX_AUDIO_CHANNELS = 12;

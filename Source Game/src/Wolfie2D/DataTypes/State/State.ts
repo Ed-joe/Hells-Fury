@@ -43,7 +43,6 @@ export default abstract class State implements Updateable {
      * @param stateName The name of the state to transition to
      */
     protected finished(stateName: string): void {
-        console.log("Finished");
         this.parent.changeState(stateName);
     }
 

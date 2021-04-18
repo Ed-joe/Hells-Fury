@@ -23,8 +23,15 @@ export default class AIManager implements Updateable {
 	 * @param actor The actor to register
 	 */
 	registerActor(actor: Actor): void {
-		actor.actorId = this.actors.length;
 		this.actors.push(actor);
+	}
+
+	removeActor(actor: Actor): void {
+		let index = this.actors.indexOf(actor);
+
+		if(index !== -1){
+			this.actors.splice(index, 1);
+		}
 	}
 
 	/**

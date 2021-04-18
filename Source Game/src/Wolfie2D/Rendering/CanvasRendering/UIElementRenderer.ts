@@ -88,14 +88,12 @@ export default class UIElementRenderer {
             sliderSize.x, sliderSize.y, slider.borderRadius);
 
         // Calculate the nib size and position
-        let nibSize = new Vec2(10, slider.size.y);
-        let x = MathUtils.lerp(slider.position.x - slider.size.x/2, slider.position.x + slider.size.x/2, slider.getValue());
-        let nibPosition = new Vec2(x, slider.position.y);
+        let x = MathUtils.lerp(-slider.size.x/2, slider.size.x/2, slider.getValue());
 
         // Draw the nib
 		this.ctx.fillStyle = slider.nibColor.toString();
-		this.ctx.fillRoundedRect(-nibSize.x/2, -nibSize.y/2,
-            nibSize.x, nibSize.y, slider.borderRadius);
+		this.ctx.fillRoundedRect(x-slider.nibSize.x/2, -slider.nibSize.y/2,
+            slider.nibSize.x, slider.nibSize.y, slider.borderRadius);
 
         // Reset the alpha
         this.ctx.globalAlpha = previousAlpha;

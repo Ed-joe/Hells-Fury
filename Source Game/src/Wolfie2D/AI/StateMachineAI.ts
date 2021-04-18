@@ -1,6 +1,5 @@
 import AI from "../DataTypes/Interfaces/AI";
 import StateMachine from "../DataTypes/State/StateMachine";
-import GameEvent from "../Events/GameEvent";
 import GameNode from "../Nodes/GameNode";
 
 /**
@@ -13,5 +12,13 @@ export default class StateMachineAI extends StateMachine implements AI {
 	// @implemented
 	initializeAI(owner: GameNode, config: Record<string, any>): void {}
 
+	// @implemented
+	destroy(){
+		// Get rid of our reference to the owner
+		delete this.owner;
+		this.receiver.destroy();
+	}
+
+	// @implemented
 	activate(options: Record<string, any>): void {}
 }

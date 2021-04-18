@@ -65,6 +65,26 @@ export enum GameEventType {
 	STOP_SOUND = "stop_sound",
 
 	/**
+	 * Play Sound event. Has data: {key: string, loop: boolean, holdReference: boolean, channel: AudioChannelType }
+	 */
+ 	PLAY_SFX = "play_sfx",
+
+ 	/**
+	 * Play Sound event. Has data: {key: string, loop: boolean, holdReference: boolean }
+	 */
+  	PLAY_MUSIC = "play_music",
+
+	/**
+	 * Mute audio channel event. Has data: {channel: AudioChannelType}
+	 */
+	MUTE_CHANNEL = "mute_channel",
+
+	/**
+	 * Unmute audio channel event. Has data: {channel: AudioChannelType}
+	 */
+	UNMUTE_CHANNEL = "unmute_channel",
+
+	/**
 	 * Encompasses all event types. Used for receivers only.
 	 */
 	ALL = "all",

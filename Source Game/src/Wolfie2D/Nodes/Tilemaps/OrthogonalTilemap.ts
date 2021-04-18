@@ -162,16 +162,27 @@ export default class OrthogonalTilemap extends Tilemap {
 
     // @override
     debugRender(){
-        let tileSize = this.getTileSizeWithZoom();
-        let origin = this.relativePosition.sub(this.sizeWithZoom);
+        // Half of the tile size
+        let zoomedHalfTileSize = this.getTileSizeWithZoom().scaled(0.5);
+        let halfTileSize = this.getTileSize().scaled(0.5);
+
+        // The center of the top left tile
+        let topLeft = this.position.clone().sub(this.size.scaled(0.5));
+        
+        // A vec to store the center
+        let center = Vec2.ZERO;
 
         for(let col = 0; col < this.numCols; col++){
+            // Calculate the x-position
+            center.x = topLeft.x + col*2*halfTileSize.x + halfTileSize.x;
+
             for(let row = 0; row < this.numRows; row++){
                 if(this.isCollidable && this.isTileCollidable(col, row)){
-                    // Draw a box for this tile
-                    let center = new Vec2(origin.x + (col + 0.5)*tileSize.x, origin.y + (row + 0.5)*tileSize.y);
+                    // Calculate the y-position
+                    center.y = topLeft.y + row*2*halfTileSize.y + halfTileSize.y;
 
-                    Debug.drawBox(center, tileSize.scaled(0.5), false, Color.BLUE);
+                    // Draw a box for this tile
+                    Debug.drawBox(this.inRelativeCoordinates(center), zoomedHalfTileSize, false, Color.BLUE);
                 }
             }
         }

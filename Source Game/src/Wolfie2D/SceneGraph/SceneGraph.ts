@@ -14,7 +14,7 @@ export default abstract class SceneGraph {
 	/**	A reference to the viewport */
 	protected viewport: Viewport;
 	/**	A map of CanvasNodes in this SceneGraph */
-	protected nodeMap: Map<CanvasNode>;
+	protected nodeMap: Array<CanvasNode>;
 	/** A counter of IDs for nodes in this SceneGraph */
 	protected idCounter: number;
 	/** A reference to the Scene this SceneGraph belongs to */
@@ -28,7 +28,7 @@ export default abstract class SceneGraph {
     constructor(viewport: Viewport, scene: Scene){
 		this.viewport = viewport;
 		this.scene = scene;
-		this.nodeMap = new Map<CanvasNode>();
+		this.nodeMap = new Array();
 		this.idCounter = 0;
     }
 
@@ -38,8 +38,8 @@ export default abstract class SceneGraph {
 	 * @returns The SceneGraph ID of this newly added CanvasNode
 	 */
     addNode(node: CanvasNode): number {
-		this.nodeMap.add(this.idCounter.toString(), node);
-		this.addNodeSpecific(node, this.idCounter.toString());
+		this.nodeMap[node.id] = node;
+		this.addNodeSpecific(node, this.idCounter);
 		this.idCounter += 1;
 		return this.idCounter - 1;
 	};
@@ -49,7 +49,7 @@ export default abstract class SceneGraph {
 	 * @param node The node to add to the data structure
 	 * @param id The id of the CanvasNode
 	 */
-	protected abstract addNodeSpecific(node: CanvasNode, id: string): void;
+	protected abstract addNodeSpecific(node: CanvasNode, id: number): void;
 
 	/**
 	 * Removes a node from the SceneGraph
@@ -57,12 +57,8 @@ export default abstract class SceneGraph {
 	 */
     removeNode(node: CanvasNode): void {
 		// Find and remove node in O(n)
-		// TODO: Can this be better?
-		let id = this.nodeMap.keys().filter((key: string) => this.nodeMap.get(key) === node)[0];
-		if(id !== undefined){
-			this.nodeMap.set(id, undefined);
-			this.removeNodeSpecific(node, id);
-		}
+		this.nodeMap[node.id] = undefined;
+		this.removeNodeSpecific(node, node.id);
 	};
 
 	/**
@@ -70,15 +66,15 @@ export default abstract class SceneGraph {
 	 * @param node The node to remove
 	 * @param id The id of the node to remove
 	 */
-	protected abstract removeNodeSpecific(node: CanvasNode, id: string): void;
+	protected abstract removeNodeSpecific(node: CanvasNode, id: number): void;
 
 	/**
 	 * Get a specific node using its id
 	 * @param id The id of the CanvasNode to retrieve
 	 * @returns The node with this ID
 	 */
-	getNode(id: string): CanvasNode {
-		return this.nodeMap.get(id);
+	getNode(id: number): CanvasNode {
+		return this.nodeMap[id];
 	}
 
 	/**
@@ -108,7 +104,11 @@ export default abstract class SceneGraph {
 	 */
 	getAllNodes(): Array<CanvasNode> {
 		let arr = new Array<CanvasNode>();
-		this.nodeMap.forEach(key => arr.push(this.nodeMap.get(key)));
+		for(let i = 0; i < this.nodeMap.length; i++){
+			if(this.nodeMap[i] !== undefined){
+				arr.push(this.nodeMap[i]);
+			}
+		}
 		return arr;
 	}
 

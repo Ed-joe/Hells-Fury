@@ -80,7 +80,7 @@ export default class AnimationManager {
             return this.animations.get(this.currentAnimation).frames[this.currentFrame].index;
         } else {
             // No current animation, warn the user
-            console.warn("Animation index was requested, but the current animation was invalid");
+            console.warn(`Animation index was requested, but the current animation: ${this.currentAnimation} was invalid`);
             return 0;
         }
     }
@@ -130,7 +130,7 @@ export default class AnimationManager {
             return index;
         } else {
             // No current animation, can't advance. Warn the user
-            console.warn("Animation index and advance was requested, but the current animation was invalid");
+            console.warn(`Animation index and advance was requested, but the current animation (${this.currentAnimation}) in node with id: ${this.owner.id} was invalid`);
             return 0;
         }
     }
@@ -141,7 +141,7 @@ export default class AnimationManager {
         this.animationState = AnimationState.STOPPED;
 
         if(this.onEndEvent !== null){
-            this.emitter.fireEvent(this.onEndEvent, {owner: this.owner, animation: this.currentAnimation});
+            this.emitter.fireEvent(this.onEndEvent, {owner: this.owner.id, animation: this.currentAnimation});
         }
 
         // If there is a pending animation, play it
