@@ -1,0 +1,45 @@
+{
+    "numWeapons": 4,
+    "weapons": [
+        {
+            "weaponType": "slice",
+            "name": "knife",
+            "displayName": "Knife",
+            "animationSprite": "slice",
+            "spriteKey": "knife",
+            "damage": 1,
+            "cooldown": 200,
+            "useVolume": 0
+        },
+        {
+            "weaponType": "semiAutoGun",
+            "name": "pistol",
+            "displayName": "Pistol",
+            "spriteKey": "pistol",
+            "damage": 3,
+            "cooldown": 500,
+            "useVolume": 200,
+            "color": "#FFEEDD"
+        },
+        {
+            "weaponType": "semiAutoGun",
+            "name": "weak_pistol",
+            "displayName": "WeakPistol",
+            "spriteKey": "pistol",
+            "damage": 1,
+            "cooldown": 1000,
+            "useVolume": 150,
+            "color": "#FF0000"
+        },
+        {
+            "weaponType": "semiAutoGun",
+            "name": "excalibur",
+            "displayName": "Excalibur",
+            "spriteKey": "excalibur",
+            "damage": 2,
+            "cooldown": 20,
+            "useVolume": 100,
+            "color": "#6abe30"
+        }
+    ]
+}

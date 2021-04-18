@@ -1,0 +1,18 @@
+# Exclude node modules
+node_modules
+
+# Exclude the compiled project
+dist/*
+
+# Include the demo_assets folder
+!dist/demo_assets/
+
+# Include the built-in asset folder
+!dist/builtin/
+
+# Include the hw3 assets
+!dist/hw3_assets/
+
+### IF YOU ARE MAKING A PROJECT, YOU MAY WANT TO UNCOMMENT THIS LINE ###
+# !dist/assets/
+
