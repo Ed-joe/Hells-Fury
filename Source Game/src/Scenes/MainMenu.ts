@@ -178,10 +178,19 @@ export default class MainMenu extends Scene {
     updateScene() {
         while(this.receiver.hasNextEvent()) {
             let event = this.receiver.getNextEvent();
+            // let scene_options = {
+            //     physics: {
+            //         groupNames: ["ground", "player"],
+            //         collisions: [
+            //             [0, 1],
+            //             [1, 0]
+            //         ]
+            //     }
+            // }
 
             if(event.type === "newGame") {
                 // TODO PROJECT - setup new game scene from here (maybe add options)
-                console.log("New Game Event");
+                console.log("New Game Event no scene_options");
                 this.sceneManager.changeToScene(GluttonyLevel, {});
             }
 
