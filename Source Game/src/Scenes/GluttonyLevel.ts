@@ -25,7 +25,9 @@ export default class GluttonyLevel extends Scene {
         // TODO PROJECT - switch with correct sprites
         this.load.spritesheet("player", "game_assets/spritesheets/player.json");
         // TODO PROJECT - add enemy spritesheets
-
+        // Load in the enemy info
+        this.load.spritesheet("bat", "hw3_assets/spritesheets/hellbat.json");
+        this.load.object("enemyData", "game_assets/data/enemy.json");
         // load the tilemap
         // TODO PROJECT - switch with correct tilemap
         this.load.tilemap("gluttonyLevel", "game_assets/tilemaps/cse_380_hw3_map.json");
@@ -76,5 +78,45 @@ export default class GluttonyLevel extends Scene {
                 slippery: true
             });
         this.player.animation.play("IDLE");
+    }
+
+    initializeEnemies(){
+        // // Get the enemy data
+        // const enemyData = this.load.getObject("enemyData");
+
+        // // Create an enemies array
+        // this.enemies = new Array(enemyData.numEnemies);
+
+        // // Initialize the enemies
+        // for(let i = 0; i < enemyData.numEnemies; i++){
+        //     let data = enemyData.enemies[i];
+
+        //     // Create an enemy
+        //     this.enemies[i] = this.add.animatedSprite("enemy", "primary");
+        //     this.enemies[i].position.set(data.position[0], data.position[1]);
+        //     this.enemies[i].animation.play("IDLE");
+
+        //     // Activate physics
+        //     this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(5, 5)));
+
+        //     if(data.route){
+        //         data.route = data.route.map((index: number) => this.graph.getNodePosition(index));                
+        //     }
+
+        //     if(data.guardPosition){
+        //         data.guardPosition = new Vec2(data.guardPosition[0], data.guardPosition[1]);
+        //     }
+
+        //     let enemyOptions = {
+        //         defaultMode: data.mode,
+        //         patrolRoute: data.route,            // This only matters if they're a patroller
+        //         guardPosition: data.guardPosition,  // This only matters if the're a guard
+        //         health: data.health,
+        //         player: this.player,
+        //         weapon: this.createWeapon("weak_pistol")
+        //     }
+
+        //     this.enemies[i].addAI(EnemyAI, enemyOptions);
+        // }
     }
 }
