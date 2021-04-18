@@ -25,8 +25,8 @@ export default class GluttonyLevel extends Scene {
         this.load.spritesheet("player", "game_assets/spritesheets/zara.json");
         // TODO PROJECT - add enemy spritesheets
         // Load in the enemy info
-        this.load.spritesheet("bat", "hw3_assets/spritesheets/hellbat.json");
-        this.load.object("enemyData", "game_assets/data/enemy.json");
+        this.load.spritesheet("bat", "game_assets/spritesheets/hellbat.json");
+        // this.load.object("enemyData", "game_assets/data/enemy.json");
         // load the tilemap
         // TODO PROJECT - switch with correct tilemap
         this.load.tilemap("gluttonyLevel", "game_assets/tilemaps/hells_fury.json");
