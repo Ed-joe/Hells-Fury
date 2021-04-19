@@ -17,6 +17,7 @@ import Weapon from "../GameSystems/Weapon";
 import BattleManager from "../GameSystems/BattleManager";
 import WeaponType from "../GameSystems/WeaponTypes/WeaponType"
 import BattlerAI from "../AI/BattlerAI";
+import GluttonyAI from "../AI/GluttonyAI";
 
 export default class GluttonyLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -123,22 +124,22 @@ export default class GluttonyLevel extends Scene {
             this.enemies[i].position.set(data.position[0], data.position[1]);
             this.enemies[i].animation.play("IDLE");
 
-            // Activate physics
-            //Only one enemy for now
-            if(data.enemy_type == "hellbat") {
-                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(9, 7)));
-            }
-            else {
-                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(36, 56)));
-            }
-
-
             let enemyOptions = {
                 health: data.health,
                 player: this.player,
             }
 
-            this.enemies[i].addAI(BatAI, enemyOptions);
+            // Activate physics
+            //Only one enemy for now
+            if(data.enemy_type == "hellbat") {
+                this.enemies[i].addAI(BatAI, enemyOptions);
+                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(9, 7)));
+            }
+            else {
+                this.enemies[i].addAI(GluttonyAI, enemyOptions);
+                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(36, 56)));
+            }
+
         }
     }
 

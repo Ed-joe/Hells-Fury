@@ -2,7 +2,7 @@ import State from "./../../Wolfie2D/DataTypes/State/State";
 import GameNode from "./../../Wolfie2D/Nodes/GameNode";
 import EnemyAI from "../BatAI";
 
-export default abstract class EnemyState extends State {
+export default abstract class BossState extends State {
     protected parent: EnemyAI;
     protected owner: GameNode;
 
