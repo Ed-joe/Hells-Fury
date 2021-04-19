@@ -5,14 +5,11 @@ import Input from "../Wolfie2D/Input/Input";
 import InputHandler from "../Wolfie2D/Input/InputHandler";
 import AnimatedSprite from "../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Timer from "../Wolfie2D/Timing/Timer";
-// import Idle from "./PlayerStates/Idle";
-// import Walk from "./PlayerStates/Walk";
-// import Attack from "./PlayerStates/Attack";
-import AI from "../Wolfie2D/DataTypes/Interfaces/AI";
 import Item from "../GameSystems/Item";
 import Weapon from "../GameSystems/Weapon";
 import BattlerAI from "./BattlerAI";
-// import Damage from "./PlayerStates/Damage";
+import Emitter from "../Wolfie2D/Events/Emitter";
+import { Game_Events } from "../GameSystems/game_enums"
 
 export enum PlayerStates {
     IDLE = "idle",
@@ -39,8 +36,16 @@ export default class PlayerController implements BattlerAI {
     // Attacking
     attack_direction: Vec2;
 
+    // coin count
+    coins: number;
+
     // unique level functionalities
     slippery: boolean;
+
+    // for i-frames
+    invincible: boolean;
+
+    protected emitter: Emitter;
 
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.owner = owner
@@ -48,40 +53,34 @@ export default class PlayerController implements BattlerAI {
         this.curr_velocity = Vec2.ZERO;         // for use with slippery movement
         this.attack_direction = Vec2.ZERO;
         this.speed = options.speed;
-        this.health = 5;
+        this.emitter = new Emitter();
 
+        this.health = options.health;
+        this.coins = options.coins;
         this.slippery = options.slippery !== undefined ? options.slippery : false;
         this.fist = options.fist;
-
-        // // add states
-        // let idle = new Idle(this, this.owner);
-        // this.addState(PlayerStates.IDLE, idle);
-        // let walk = new Walk(this, this.owner);
-        // this.addState(PlayerStates.WALK, walk);
-        // let attack = new Attack(this, this.owner);
-        // this.addState(PlayerStates.ATTACK, attack);
-        // // let damage = new Damage(this, this.owner);
-        // // this.addState(PlayerStates.DAMAGE, damage);
-
-        // this.initialize(PlayerStates.IDLE);
     }
-
-    // changeState(stateName: string): void {
-    //     super.changeState(stateName);
-    // }
-
-    // update(deltaT: number): void {
-    //     super.update(deltaT);
-    // }
 
     activate(options: Record<string, any>): void {}
 
-    handleEvent(event: GameEvent): void {}
+    handleEvent(event: GameEvent): void {
+        if(event.type === Game_Events.BAT_COLLISION) {
+            // take 1 damage
+            this.damage(1);
+            this.invincible = true;
+        }
+        else if(event.type === Game_Events.IFRAMES_OVER) {
+            console.log("not invincible");
+            this.invincible = false;
+        }
+    }
 
     update(deltaT: number): void {
         // get the movement direction
         this.direction.x = (Input.isPressed("left") ? -1 : 0) + (Input.isPressed("right") ? 1 : 0);
         this.direction.y = (Input.isPressed("up") ? -1 : 0) + (Input.isPressed("down") ? 1 : 0);
+
+        let dont_interrupt: boolean = this.owner.animation.isPlaying("ATTACK") || this.owner.animation.isPlaying("DAMAGE");
 
         if(!this.direction.isZero() && !this.owner.animation.isPlaying("ATTACK")) {
             if(this.slippery) {
@@ -92,10 +91,11 @@ export default class PlayerController implements BattlerAI {
                 else {this.curr_velocity.y -= this.curr_velocity.normalized().scale(this.speed * deltaT).y / 40;}
 
                 this.owner.move(this.curr_velocity);
-                this.owner.animation.playIfNotAlready("WALK", true);
             } else {
                 // normal movement
                 this.owner.move(this.direction.normalized().scale(this.speed * deltaT));
+            }
+            if (!dont_interrupt) {
                 this.owner.animation.playIfNotAlready("WALK", true);
             }
             
@@ -110,10 +110,10 @@ export default class PlayerController implements BattlerAI {
                 if(Math.abs(this.curr_velocity.y) < .05) {this.curr_velocity.y = 0;}
 
                 this.owner.move(this.curr_velocity);
-                if(!this.owner.animation.isPlaying("ATTACK")) {this.owner.animation.playIfNotAlready("WALK", true);}
+                if(!dont_interrupt) {this.owner.animation.playIfNotAlready("IDLE", true);}
             } else {
                 // play idle animation
-                if(!this.owner.animation.isPlaying("ATTACK")) {this.owner.animation.playIfNotAlready("IDLE", true);}
+                if(!dont_interrupt) {this.owner.animation.playIfNotAlready("IDLE", true);}
             }
         }
 
@@ -126,9 +126,13 @@ export default class PlayerController implements BattlerAI {
         // punch attack
         if(!this.owner.animation.isPlaying("ATTACK") && Input.isMouseJustPressed()) {
             // TODO PROJECT - implement punch attack here
-            console.log("punch event");
-            this.owner.animation.play("ATTACK", false);
-            this.fist.use(this.owner, "player", this.attack_direction);
+            
+            let attack_success = this.fist.use(this.owner, "player", this.attack_direction);
+
+            if(attack_success) {
+                console.log("punch event");
+                this.owner.animation.play("ATTACK", false);
+            }
         }
 
         // have player face left or right
@@ -143,10 +147,17 @@ export default class PlayerController implements BattlerAI {
     }
 
     damage(damage: number): void {
-        this.health -= damage;
+        if(!this.invincible) {
+            this.health -= damage;
 
-        if(this.health <= 0){
-            console.log("Game Over");
+            if(this.health <= 0){
+                console.log("Game Over");
+                this.emitter.fireEvent(Game_Events.GAME_OVER, {});
+            } else {
+                this.owner.animation.play("DAMAGE", false, Game_Events.IFRAMES_OVER);
+                this.invincible = true;
+                console.log("invincible");
+            }
         }
     }
 

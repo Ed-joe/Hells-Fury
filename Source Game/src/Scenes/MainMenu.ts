@@ -178,20 +178,26 @@ export default class MainMenu extends Scene {
     updateScene() {
         while(this.receiver.hasNextEvent()) {
             let event = this.receiver.getNextEvent();
-            // let scene_options = {
-            //     physics: {
-            //         groupNames: ["ground", "player"],
-            //         collisions: [
-            //             [0, 1],
-            //             [1, 0]
-            //         ]
-            //     }
-            // }
+
+            let sceneOptions = {
+                physics: {
+                    groupNames: ["ground", "player", "enemy"],
+                    collisions:
+                    [
+                        [0, 1, 1],
+                        [1, 0, 0],
+                        [1, 0, 0]
+                    ]
+                }
+            }
 
             if(event.type === "newGame") {
                 // TODO PROJECT - setup new game scene from here (maybe add options)
-                console.log("New Game Event no scene_options");
-                this.sceneManager.changeToScene(GluttonyLevel, {});
+                console.log("New Game Event");
+                this.sceneManager.changeToScene(GluttonyLevel, {
+                    health: 5,
+                    coins: 0
+                }, sceneOptions);
             }
 
             if(event.type === "mainMenu") {
@@ -223,7 +229,10 @@ export default class MainMenu extends Scene {
             if(event.type === "levelGluttony") {
                 // TODO PROJECT - go to gluttony level (level 1)
                 console.log("Gluttony Level");
-                this.sceneManager.changeToScene(GluttonyLevel, {});
+                this.sceneManager.changeToScene(GluttonyLevel, {
+                    health: 5,
+                    coins: 0
+                });
             }
             if(event.type === "levelLust") {
                 // TODO PROJECT - go to lust level (level 2)
