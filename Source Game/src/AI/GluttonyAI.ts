@@ -10,6 +10,7 @@ import BattlerAI from "./BattlerAI";
 import Attack from "./GluttonyStates/Attack";
 import Idle from "./GluttonyStates/Idle";
 import BossState from "./GluttonyStates/BossState";
+import Damage from "./GluttonyStates/Damage";
 
 
 export default class GluttonyAI extends StateMachineAI implements BattlerAI {
@@ -31,6 +32,7 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
 
         this.addState(BossStates.DEFAULT, new Idle(this, owner));
         this.addState(BossStates.ATTACKING, new Attack(this, owner));
+        this.addState(BossStates.DAMAGE, new Damage(this, owner));
 
         this.health = options.health;
 
@@ -47,13 +49,16 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
 
     damage(damage: number): void {
         this.health -= damage;
-    
+        
         if(this.health <= 0){
             this.owner.setAIActive(false, {});
             this.owner.isCollidable = false;
             console.log("ded gluttony");
             // this.owner.animation.play("DYING");
             // this.owner.visible = false;
+        }
+        else {
+            this.changeState(BossStates.DAMAGE);
         }
     }
 
@@ -106,7 +111,7 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
 
 export enum BossStates {
     DEFAULT = "default",
-    IDLE = "idle",
+    DAMAGE = "damage",
     ATTACKING = "attacking",
     PREVIOUS = "previous"
 }

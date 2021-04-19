@@ -8,10 +8,7 @@ import BossState from "./BossState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import GluttonyAI, { BossStates } from "../GluttonyAI";
 
-export default class Attack extends BossState {
-    // Timers for managing this state
-    pollTimer: Timer;
-    exitTimer: Timer;
+export default class Damage extends BossState {
 
     // The current known position of the player
     playerPos: Vec2;
@@ -24,15 +21,11 @@ export default class Attack extends BossState {
 
     constructor(parent: GluttonyAI, owner: GameNode){
         super(parent, owner);
-
-        // Regularly update the player location
-        this.pollTimer = new Timer(100);
-
-        this.exitTimer = new Timer(1000);
     }
 
     onEnter(options: Record<string, any>): void {
-        (<AnimatedSprite> this.owner).animation.play("ATTACK", true);
+        console.log("HIT");
+        (<AnimatedSprite> this.owner).animation.play("DAMAGE", false);
         this.lastPlayerPos = this.parent.getPlayerPosition();
         // Reset the return object
         this.retObj = {};
@@ -41,29 +34,13 @@ export default class Attack extends BossState {
     handleInput(event: GameEvent): void {}
 
     update(deltaT: number): void {
-        if(this.pollTimer.isStopped()){
-            // Restart the timer
-            this.pollTimer.start();
-
-            this.playerPos = this.parent.getPlayerPosition();
-
-            if(this.playerPos !== null){
-                // If we see a new player position, update the last position
-                this.lastPlayerPos = this.playerPos;
-            }
-        }
-
-        if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) < 150){
-            // Player is nearby, restart the exitTimer
-            this.exitTimer.start();
-        }
-
-        if(this.exitTimer.isStopped()){
-            this.finished(BossStates.DEFAULT);
+        if(!(<AnimatedSprite> this.owner).animation.isPlaying("DAMAGE")) {
+            this.finished(BossStates.ATTACKING);
         }
     }
 
     onExit(): Record<string, any> {
+        (<AnimatedSprite> this.owner).animation.stop();
         return this.retObj;
     }
 

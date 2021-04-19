@@ -1,0 +1,28 @@
+{
+    "name": "fist",
+    "spriteSheetImage": "smash.png",
+    "spriteWidth": 320,
+    "spriteHeight": 320,
+    "leftBuffer": 0,
+    "rightBuffer": 0,
+    "topBuffer": 0,
+    "bottomBuffer": 0,
+    "columns": 4,
+    "rows": 1,
+    "durationType": "time",
+    "animations": [
+        {
+            "name": "NORMAL",
+            "frames": [ {"index": 3, "duration": 1} ]
+        },
+        {
+            "name": "SMASH",
+            "frames": [
+              { "index": 3, "duration": 8 },
+              { "index": 0, "duration": 8 },
+              { "index": 1, "duration": 8 },
+              { "index": 2, "duration": 8 }
+            ]
+        }
+    ]
+}

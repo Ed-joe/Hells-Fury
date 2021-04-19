@@ -7,7 +7,7 @@
   "rightBuffer": 0,
   "topBuffer": 0,
   "bottomBuffer": 0,
-  "columns": 16,
+  "columns": 28,
   "rows": 1,
   "durationType": "time",
   "animations": [
@@ -23,7 +23,7 @@
     },
     {
       "name": "DAMAGE",
-      "repeat": true,
+      "repeat": false,
       "frames": [
         { "index": 12, "duration": 5 },
         { "index": 13, "duration": 5 },
@@ -43,6 +43,24 @@
         { "index": 9, "duration": 5 },
         { "index": 10, "duration": 5 },
         { "index": 11, "duration": 5 }
+      ]
+    },
+    {
+      "name": "DYING",
+      "repeat": true,
+      "frames": [
+        { "index": 16, "duration": 5 },
+        { "index": 17, "duration": 5 },
+        { "index": 18, "duration": 5 },
+        { "index": 19, "duration": 5 },
+        { "index": 20, "duration": 5 },
+        { "index": 21, "duration": 5 },
+        { "index": 22, "duration": 5 },
+        { "index": 23, "duration": 5 },
+        { "index": 24, "duration": 5 },
+        { "index": 25, "duration": 5 },
+        { "index": 26, "duration": 5 },
+        { "index": 27, "duration": 5 }
       ]
     }
   ]
