@@ -1,6 +1,6 @@
 Hells-Fury is a project developed by Adithya Ajith, Edward Carey, and Ryan Willett as a final project for CSE 380 at Stony Brook University.
 
-The game will be published as a Firebase app, coded entirely in TypeScript with the usage of the Wolfie2D engine - an engine created by Joe Weaver and Richard McKenna.
+The game will be published as a Firebase app, coded entirely in Type/Java Script with the usage of the Wolfie2D engine - an engine created by Joe Weaver and Richard McKenna.
 
 https://hells-fury.firebaseapp.com/benchmark1 # This is the design document for our game.
 
