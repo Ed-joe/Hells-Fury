@@ -42,7 +42,6 @@ export default class Attack extends EnemyState {
     handleInput(event: GameEvent): void {}
 
     update(deltaT: number): void {
-        console.log(this.resetTimer.toString());
         if(this.parent.getPlayerPosition() !== null){
             // Player is visible, restart the exitTimer
             this.exitTimer.start();
