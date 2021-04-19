@@ -10,11 +10,7 @@ import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 
 export default class Attack extends EnemyState {
     // Timers for managing this state
-    pollTimer: Timer;
     exitTimer: Timer;
-
-    // The current known position of the player
-    playerPos: Vec2;
 
     // The last known position of the player
     lastPlayerPos: Vec2;
@@ -22,12 +18,13 @@ export default class Attack extends EnemyState {
     // The return object for this state
     retObj: Record<string, any>;
 
+    //Is dashing
+    isDashing: boolean;
+
     constructor(parent: BatAI, owner: GameNode){
         super(parent, owner);
 
         // Regularly update the player location
-        this.pollTimer = new Timer(100);
-
         this.exitTimer = new Timer(1000);
     }
 
@@ -41,35 +38,17 @@ export default class Attack extends EnemyState {
     handleInput(event: GameEvent): void {}
 
     update(deltaT: number): void {
-        if(this.pollTimer.isStopped()){
-            // Restart the timer
-            this.pollTimer.start();
-
-            this.playerPos = this.parent.getPlayerPosition();
-
-            if(this.playerPos !== null){
-                // If we see a new player position, update the last position
-                this.lastPlayerPos = this.playerPos;
-            }
-        }
-
-        if(this.playerPos !== null){
-            // Player is visible, restart the exitTimer
-            this.exitTimer.start();
-
-            // Face player
-            let dir = this.playerPos.clone().sub(this.owner.position).normalize();
-            dir.rotateCCW(Math.PI / 4 * Math.random() - Math.PI/8);
-            this.owner.attack_direction = Vec2.UP.angleToCCW(dir);
-        }
+        // if(this.parent.getPlayerPosition() !== null){
+        //     // Player is visible, restart the exitTimer
+        //     this.exitTimer.start();
+        //     if(!this.isDashing){
+        //         this.owner.move(this.lastPlayerPos);
+        //     }
+        // }
 
         if(this.exitTimer.isStopped()){
             // We haven't seen the player in a while, go check out where we last saw them, if possible
-            if(this.lastPlayerPos !== null){
-
-            } else {
-                this.finished(EnemyStates.IDLE);
-            }
+                this.finished(EnemyStates.DEFAULT);
         }
     }
 

@@ -25,7 +25,7 @@ export default class Idle extends EnemyState {
     }
 
     update(deltaT: number): void {
-        if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) < 30){
+        if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) < 100){
             this.finished(EnemyStates.ATTACKING);
         }
     }

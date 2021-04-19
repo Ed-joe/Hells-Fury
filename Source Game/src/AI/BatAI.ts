@@ -107,7 +107,6 @@ export default class BatAI extends StateMachineAI implements BattlerAI {
 
 export enum EnemyStates {
     DEFAULT = "default",
-    IDLE = "idle",
     ATTACKING = "attacking",
     DAMAGED = "damaged",
     PREVIOUS = "previous"
