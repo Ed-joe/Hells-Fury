@@ -9,9 +9,9 @@ export default class WeaponRegistry extends Registry<WeaponConstructor> {
 
         // load spritesheets
         // TODO PROJECT - import punch spritesheet
-        rm.spritesheet("punch", "INSERTPATHHERE");
+        // rm.spritesheet("punch", "INSERTPATHHERE");
 
-        this.registerItem("punch", Punch);
+        // this.registerItem("punch", Punch);
     }
 
     public registerAndPreloadItem(key: string): void {}

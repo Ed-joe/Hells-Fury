@@ -33,6 +33,16 @@
       ]
     },
     {
+      "name": "ATTACK",
+      "repeat": true,
+      "frames": [
+        { "index": 2, "duration": 5 },
+        { "index": 3, "duration": 10 },
+        { "index": 2, "duration": 5 },
+        { "index": 3, "duration": 10 }
+      ]
+    },
+    {
       "name": "DYING",
       "repeat": false,
       "frames": [

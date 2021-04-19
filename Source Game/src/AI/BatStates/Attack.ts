@@ -32,7 +32,7 @@ export default class Attack extends EnemyState {
     }
 
     onEnter(options: Record<string, any>): void {
-        (<AnimatedSprite> this.owner).animation.play("IDLE", true);
+        (<AnimatedSprite> this.owner).animation.play("ATTACK", true);
         this.lastPlayerPos = this.parent.getPlayerPosition();
         // Reset the return object
         this.retObj = {};
