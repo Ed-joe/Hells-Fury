@@ -18,8 +18,8 @@ export default class Attack extends EnemyState {
     // The return object for this state
     retObj: Record<string, any>;
 
-    //Done Moving
-    doneMoving: boolean;
+    //Is dashing
+    isDashing: boolean;
 
     constructor(parent: BatAI, owner: GameNode){
         super(parent, owner);
@@ -29,9 +29,8 @@ export default class Attack extends EnemyState {
     }
 
     onEnter(options: Record<string, any>): void {
-        console.log("BATTACK");
         (<AnimatedSprite> this.owner).animation.play("ATTACK", true);
-        this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
+        this.lastPlayerPos = this.parent.getPlayerPosition();
         // Reset the return object
         this.retObj = {};
     }
@@ -39,21 +38,13 @@ export default class Attack extends EnemyState {
     handleInput(event: GameEvent): void {}
 
     update(deltaT: number): void {
-        if(this.parent.getPlayerPosition() !== null){
-            // Player is visible, restart the exitTimer
-            this.exitTimer.start();
-            if(!this.doneMoving){
-                // this.isDashing = true;
-                if(this.owner.position.distanceTo(this.lastPlayerPos) < 5) {
-                    this.doneMoving = true;
-                }
-                this.owner.move(this.owner.position.dirTo(this.lastPlayerPos).scale(3.5));
-            }
-            else {
-                this.doneMoving = false;
-                this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
-            }
-        }
+        // if(this.parent.getPlayerPosition() !== null){
+        //     // Player is visible, restart the exitTimer
+        //     this.exitTimer.start();
+        //     if(!this.isDashing){
+        //         this.owner.move(this.lastPlayerPos);
+        //     }
+        // }
 
         if(this.exitTimer.isStopped()){
             // We haven't seen the player in a while, go check out where we last saw them, if possible
