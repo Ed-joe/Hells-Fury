@@ -18,6 +18,9 @@ import BattleManager from "../GameSystems/BattleManager";
 import WeaponType from "../GameSystems/WeaponTypes/WeaponType"
 import BattlerAI from "../AI/BattlerAI";
 import GluttonyAI from "../AI/GluttonyAI";
+import { Game_Events } from "./../GameSystems/game_enums";
+import Game from "../Wolfie2D/Loop/Game";
+import GameEvent from "../Wolfie2D/Events/GameEvent"
 
 export default class GluttonyLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -36,7 +39,6 @@ export default class GluttonyLevel extends Scene {
     loadScene() {
         // load the player and enemy spritesheets
         this.load.spritesheet("player", "game_assets/spritesheets/zara.json");
-
         // TODO PROJECT - add enemy spritesheets
         // Load in the enemy info
         this.load.spritesheet("hellbat", "game_assets/spritesheets/hellbat.json");
@@ -87,25 +89,97 @@ export default class GluttonyLevel extends Scene {
 
         // TODO PROJECT - receiver subscribe to events
         // this.receiver.subscribe(EVENTSTRING);
-        this.receiver.subscribe("batCollision");
+        this.subscribeToEvents();
     }
 
     updateScene(deltaT: number): void {
         while(this.receiver.hasNextEvent()) {
             let event = this.receiver.getNextEvent();
+            switch(event.type){
+                case Game_Events.BAT_COLLISION:
+                    {
+                        let node = this.sceneGraph.getNode(event.data.get("node"));
+                        let other = this.sceneGraph.getNode(event.data.get("other"));
 
-            console.log(event);
+                        console.log("bat collision");
 
-            if(event.type === "batCollision") {
-                let node = this.sceneGraph.getNode(event.data.get("node"));
-                let other = this.sceneGraph.getNode(event.data.get("other"));
+                        let bat_pos = Vec2.ZERO;
+                        if(node === this.player) {
+                            // other is bat
+                            bat_pos = other.position;
+                        } else {
+                            // node is bat
+                            bat_pos = node.position;
+                        }
+                        
+                        event.data.add("batPosition", bat_pos);
 
-                console.log("bat collision");
-                console.log(node);
-                console.log(other);
+                        node._ai.handleEvent(event);
+                        other._ai.handleEvent(event);
+                    }
+                    break;
 
-                node._ai.handleEvent(event);
-                other._ai.handleEvent(event);
+                case Game_Events.ENEMY_DAMAGED:
+                    {
+                        
+                    }
+                    break;
+
+                case Game_Events.ENEMY_DIED:
+                    {   
+                        let node = this.sceneGraph.getNode(event.data.get("owner"));
+                        for(let i = 0; i < this.enemies.length ; i++){
+                            if(this.enemies[i].id === (<AnimatedSprite> node).id){
+                                this.enemies.splice(i, 1);
+                                break;
+                            }
+                        }
+                        this.battle_manager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai));
+
+                        // for(let i = 0; i < this.enemies.length; i++){
+                        //     console.log(this.enemies[i].imageId);
+                        // }
+                        console.log(this.enemies);
+                        node.destroy();
+                    }
+                    break;
+
+                case Game_Events.BOSS_DAMAGED:
+                    {
+                    
+                    }
+                    break;
+
+                case Game_Events.BOSS_DIED:
+                    {
+                        let node = this.sceneGraph.getNode(event.data.get("owner"));
+                        for(let i = 0; i < this.enemies.length ; i++){
+                            if(this.enemies[i].id === (<AnimatedSprite> node).id){
+                                this.enemies.splice(i, 1);
+                                break;
+                            }
+                        }
+                        this.battle_manager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai));
+
+                        // for(let i = 0; i < this.enemies.length; i++){
+                        //     console.log(this.enemies[i].imageId);
+                        // }
+                        console.log(this.enemies);
+                        node.destroy();
+                    }
+                    break;
+
+                case Game_Events.IFRAMES_OVER:
+                    {
+                        this.player._ai.handleEvent(new GameEvent(Game_Events.IFRAMES_OVER, {}));
+                    }
+                    break;
+                
+                case Game_Events.GAME_OVER:
+                    {
+                        console.log("GAME OVER");
+                    }
+                    break;
             }
         }
     }
@@ -158,11 +232,11 @@ export default class GluttonyLevel extends Scene {
                 // this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(9, 7)));
                 
                 this.enemies[i].setGroup("enemy");
-                this.enemies[i].setTrigger("player", "batCollision", "bat hit player");
+                this.enemies[i].setTrigger("player", Game_Events.BAT_COLLISION, "bat hit player");
             }
             else {
                 this.enemies[i].addAI(GluttonyAI, enemyOptions);
-                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(36, 56)));
+                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(56, 56)));
             }
 
         }
@@ -190,5 +264,17 @@ export default class GluttonyLevel extends Scene {
         let sprite = this.add.sprite(weaponType.sprite_key, "primary");
 
         return new Weapon(sprite, weaponType, this.battle_manager);
+    }
+
+    protected subscribeToEvents(){
+        this.receiver.subscribe([
+           Game_Events.ENEMY_DAMAGED,
+           Game_Events.ENEMY_DIED,
+           Game_Events.BOSS_DAMAGED,
+           Game_Events.BOSS_DIED,
+           Game_Events.BAT_COLLISION,
+           Game_Events.GAME_OVER,
+           Game_Events.IFRAMES_OVER
+        ]);
     }
 }

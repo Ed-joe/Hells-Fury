@@ -25,14 +25,14 @@ export default class Idle extends EnemyState {
     }
 
     update(deltaT: number): void {
-        // if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) < 30){
-        //     this.finished(EnemyStates.ATTACKING);
-        // }
+        if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) < 30){
+            this.finished(EnemyStates.ATTACKING);
+        }
     }
 
     onExit(): Record<string, any> {
         (<AnimatedSprite> this.owner).animation.stop();
-        return this.retObj;
+        return {};
     }
 
 }
