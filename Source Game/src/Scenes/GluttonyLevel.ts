@@ -33,6 +33,7 @@ export default class GluttonyLevel extends Scene {
         // TODO PROJECT - add enemy spritesheets
         // Load in the enemy info
         this.load.spritesheet("hellbat", "game_assets/spritesheets/hellbat.json");
+        this.load.spritesheet("gluttony", "game_assets/spritesheets/gluttony.json");
         this.load.object("enemyData", "game_assets/data/enemy.json");
 
         // load the tilemap
@@ -118,13 +119,18 @@ export default class GluttonyLevel extends Scene {
             let data = enemyData.enemies[i];
 
             // Create an enemy
-            this.enemies[i] = this.add.animatedSprite("hellbat", "primary");
+            this.enemies[i] = this.add.animatedSprite(data.enemy_type, "primary");
             this.enemies[i].position.set(data.position[0], data.position[1]);
             this.enemies[i].animation.play("IDLE");
 
             // Activate physics
             //Only one enemy for now
-            this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(9, 7)));
+            if(data.enemy_type == "hellbat") {
+                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(9, 7)));
+            }
+            else {
+                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(36, 56)));
+            }
 
 
             let enemyOptions = {
