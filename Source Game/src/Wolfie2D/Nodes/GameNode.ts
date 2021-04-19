@@ -72,6 +72,7 @@ export default abstract class GameNode implements Positioned, Unique, Updateable
 	tweens: TweenController;
 	/** A tweenable property for rotation. Does not affect the bounding box of this GameNode - Only rendering. */
 	rotation: number;
+	attack_direction: number; 
 	/** The opacity value of this GameNode */
 	abstract set alpha(a: number);
 
