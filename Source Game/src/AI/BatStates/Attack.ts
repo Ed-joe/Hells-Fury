@@ -45,6 +45,13 @@ export default class Attack extends EnemyState {
         //         this.owner.move(this.lastPlayerPos);
         //     }
         // }
+        if(this.parent.getPlayerPosition() !== null){
+            // Player is visible, restart the exitTimer
+            this.exitTimer.start();
+            if(!this.isDashing){
+                this.owner.move(this.lastPlayerPos);
+            }
+        }
 
         if(this.exitTimer.isStopped()){
             // We haven't seen the player in a while, go check out where we last saw them, if possible
