@@ -1,8 +1,18 @@
 {
-    "numEnemies": 2,
+    "numEnemies": 4,
     "enemies": [
         {
             "position": [443, 968],
+            "enemy_type": "hellbat",
+            "health": 5
+        },
+        {
+            "position": [500, 968],
+            "enemy_type": "hellbat",
+            "health": 5
+        },
+        {
+            "position": [443, 900],
             "enemy_type": "hellbat",
             "health": 5
         },

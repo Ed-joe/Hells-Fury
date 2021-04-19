@@ -12,25 +12,29 @@ export default class Attack extends EnemyState {
     // Timers for managing this state
     exitTimer: Timer;
 
+    resetTimer: Timer;
+
     // The last known position of the player
     lastPlayerPos: Vec2;
 
     // The return object for this state
     retObj: Record<string, any>;
 
-    //Is dashing
-    isDashing: boolean;
+    //Done Moving
+    doneMoving: boolean;
 
     constructor(parent: BatAI, owner: GameNode){
         super(parent, owner);
 
         // Regularly update the player location
         this.exitTimer = new Timer(1000);
+        this.resetTimer = new Timer(3000);
     }
 
     onEnter(options: Record<string, any>): void {
+        this.resetTimer.start();
         (<AnimatedSprite> this.owner).animation.play("ATTACK", true);
-        this.lastPlayerPos = this.parent.getPlayerPosition();
+        this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
         // Reset the return object
         this.retObj = {};
     }
@@ -38,18 +42,22 @@ export default class Attack extends EnemyState {
     handleInput(event: GameEvent): void {}
 
     update(deltaT: number): void {
-        // if(this.parent.getPlayerPosition() !== null){
-        //     // Player is visible, restart the exitTimer
-        //     this.exitTimer.start();
-        //     if(!this.isDashing){
-        //         this.owner.move(this.lastPlayerPos);
-        //     }
-        // }
         if(this.parent.getPlayerPosition() !== null){
             // Player is visible, restart the exitTimer
             this.exitTimer.start();
-            if(!this.isDashing){
-                this.owner.move(this.lastPlayerPos);
+            if(!this.doneMoving){
+                if(this.resetTimer.isStopped()) {
+                    this.finished(EnemyStates.DEFAULT);
+                }
+                if(this.owner.position.distanceTo(this.lastPlayerPos) < 5) {
+                    this.doneMoving = true;
+                }
+                this.owner.move(this.owner.position.dirTo(this.lastPlayerPos).scale(3.5));
+            }
+            else {
+                this.resetTimer.start();
+                this.doneMoving = false;
+                this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
             }
         }
 

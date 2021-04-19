@@ -8,7 +8,7 @@
             "animationSprite": "fist",
             "spriteKey": "fist",
             "damage": 1,
-            "cooldown": 200,
+            "cooldown": 1000,
             "useVolume": 0
         }
     ]

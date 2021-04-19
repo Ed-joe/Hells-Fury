@@ -34,7 +34,7 @@ export default class Damaged extends EnemyState {
 
     update(deltaT: number): void {
         if(!(<AnimatedSprite> this.owner).animation.isPlaying("DAMAGE")) {
-            this.finished(EnemyStates.ATTACKING);
+            this.finished(EnemyStates.DEFAULT);
         }
     }
 
