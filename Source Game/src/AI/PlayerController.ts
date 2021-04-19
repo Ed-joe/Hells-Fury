@@ -71,6 +71,11 @@ export default class PlayerController implements BattlerAI {
             this.damage(1);
             this.invincible = true;
         }
+        else if(event.type === Game_Events.BOSS_COLLISION) {
+            // take 1 damage
+            this.damage(1);
+            this.invincible = true;
+        }
         else if(event.type === Game_Events.IFRAMES_OVER) {
             console.log("not invincible");
             this.invincible = false;

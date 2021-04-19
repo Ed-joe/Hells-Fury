@@ -47,6 +47,7 @@ export default class GluttonyLevel extends Scene {
         // Load in the enemy info
         this.load.spritesheet("hellbat", "game_assets/spritesheets/hellbat.json");
         this.load.spritesheet("gluttony", "game_assets/spritesheets/gluttony.json");
+        this.load.spritesheet("boss_hitbox", "game_assets/spritesheets/boss_hitbox.json");
         this.load.object("enemyData", "game_assets/data/enemy.json");
 
         // load the tilemap
@@ -122,6 +123,29 @@ export default class GluttonyLevel extends Scene {
                         
                         event.data.add("batPosition", bat_pos);
 
+                        node._ai.handleEvent(event);
+                        other._ai.handleEvent(event);
+                    }
+                    break;
+
+                case Game_Events.BOSS_COLLISION:
+                    {
+                        let node = this.sceneGraph.getNode(event.data.get("node"));
+                        let other = this.sceneGraph.getNode(event.data.get("other"));
+
+                        console.log("boss collision");
+    
+                        let boss_pos = Vec2.ZERO;
+                        if(node === this.player) {
+                            // other is bat
+                            boss_pos = other.position;
+                        } else {
+                            // node is bat
+                            boss_pos = node.position;
+                        }
+                            
+                        event.data.add("bossPosition", boss_pos);
+    
                         node._ai.handleEvent(event);
                         other._ai.handleEvent(event);
                     }
@@ -234,7 +258,7 @@ export default class GluttonyLevel extends Scene {
 
             // Activate physics
             //Only one enemy for now
-            if(data.enemy_type == "hellbat") {
+            if(data.enemy_type === "hellbat") {
                 this.enemies[i].addPhysics();
                 this.enemies[i].addAI(BatAI, enemyOptions);
                 
@@ -243,9 +267,15 @@ export default class GluttonyLevel extends Scene {
                 this.enemies[i].setGroup("enemy");
                 this.enemies[i].setTrigger("player", Game_Events.BAT_COLLISION, "bat hit player");
             }
-            else {
+            else if(data.enemy_type ===  "gluttony") {
                 this.enemies[i].addAI(GluttonyAI, enemyOptions);
                 this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(56, 56)));
+                this.enemies[i].setGroup("enemy");
+                this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
+            }
+            else {
+                this.enemies[i].addAI(GluttonyAI, enemyOptions);
+                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(50, 50)));
             }
 
         }
@@ -300,7 +330,8 @@ export default class GluttonyLevel extends Scene {
            Game_Events.BOSS_DIED,
            Game_Events.BAT_COLLISION,
            Game_Events.GAME_OVER,
-           Game_Events.IFRAMES_OVER
+           Game_Events.IFRAMES_OVER,
+           Game_Events.BOSS_COLLISION
         ]);
     }
 }
