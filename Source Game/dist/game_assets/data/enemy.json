@@ -7,6 +7,16 @@
             "health": 5
         },
         {
+            "position": [500, 968],
+            "enemy_type": "hellbat",
+            "health": 5
+        },
+        {
+            "position": [443, 900],
+            "enemy_type": "hellbat",
+            "health": 5
+        },
+        {
             "position": [1025, 938],
             "enemy_type": "gluttony",
             "health": 20
