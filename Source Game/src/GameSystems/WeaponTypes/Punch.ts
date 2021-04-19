@@ -27,7 +27,7 @@ export default class Punch extends WeaponType {
         // move the punch out from the player
         punch_sprite.position = attacker.position.clone().add(direction.scaled(30));
 
-        // play the punch animation but queue the normal animation??????????????
+        // play the punch animation but queue the normal animation
         punch_sprite.animation.play("PUNCH");
         punch_sprite.animation.queue("NORMAL", true);
     }

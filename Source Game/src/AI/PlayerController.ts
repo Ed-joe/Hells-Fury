@@ -39,6 +39,9 @@ export default class PlayerController implements BattlerAI {
     // Attacking
     attack_direction: Vec2;
 
+    // coin count
+    coins: number;
+
     // unique level functionalities
     slippery: boolean;
 
@@ -48,8 +51,9 @@ export default class PlayerController implements BattlerAI {
         this.curr_velocity = Vec2.ZERO;         // for use with slippery movement
         this.attack_direction = Vec2.ZERO;
         this.speed = options.speed;
-        this.health = 5;
 
+        this.health = options.health;
+        this.coins = options.coins;
         this.slippery = options.slippery !== undefined ? options.slippery : false;
         this.fist = options.fist;
 
@@ -76,7 +80,21 @@ export default class PlayerController implements BattlerAI {
 
     activate(options: Record<string, any>): void {}
 
-    handleEvent(event: GameEvent): void {}
+    handleEvent(event: GameEvent): void {
+        if(event.type === "batCollision") {
+            console.log("handleEvent");
+            let obj1 = event.data.get("node");
+            let obj2 = event.data.get("other");
+            console.log(obj1);
+            console.log(obj2);
+
+            // take 1 damage
+            this.damage(1);
+
+            // change velocity to bounce backwards
+            
+        }
+    }
 
     update(deltaT: number): void {
         // get the movement direction
@@ -126,9 +144,13 @@ export default class PlayerController implements BattlerAI {
         // punch attack
         if(!this.owner.animation.isPlaying("ATTACK") && Input.isMouseJustPressed()) {
             // TODO PROJECT - implement punch attack here
-            console.log("punch event");
-            this.owner.animation.play("ATTACK", false);
-            this.fist.use(this.owner, "player", this.attack_direction);
+            
+            let attack_success = this.fist.use(this.owner, "player", this.attack_direction);
+
+            if(attack_success) {
+                console.log("punch event");
+                this.owner.animation.play("ATTACK", false);
+            }
         }
 
         // have player face left or right

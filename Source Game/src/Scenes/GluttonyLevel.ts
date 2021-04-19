@@ -21,11 +21,17 @@ import GluttonyAI from "../AI/GluttonyAI";
 
 export default class GluttonyLevel extends Scene {
     private player: AnimatedSprite;         // the player
+    private player_health: number;          // players health
+    private player_coins: number;           // PROJECT TODO - implement coin functionality
     private enemies: Array<AnimatedSprite>  // list of enemies
     private walls: OrthogonalTilemap        // the wall layer
     private battle_manager: BattleManager   // battle manager
 
     // use initScene to differentiate between level select start and game continue?
+    initScene(init: Record<string, any>): void {
+        this.player_health = init.health;
+        this.player_coins = init.coins;
+    }
     
     loadScene() {
         // load the player and enemy spritesheets
@@ -44,7 +50,7 @@ export default class GluttonyLevel extends Scene {
         // load weapon info
         this.load.object("weaponData", "game_assets/data/weapon_data.json");
 
-        this.load.image("fist", "game_assets/images/splash_screen.png");
+        this.load.image("fist", "game_assets/spritesheets/impact.png");
         this.load.spritesheet("fist", "game_assets/spritesheets/impact.json");
     }
 
@@ -77,16 +83,30 @@ export default class GluttonyLevel extends Scene {
 
         // setup viewport
         this.viewport.follow(this.player);
-        this.viewport.setZoomLevel(3);
+        this.viewport.setZoomLevel(2);
 
         // TODO PROJECT - receiver subscribe to events
         // this.receiver.subscribe(EVENTSTRING);
+        this.receiver.subscribe("batCollision");
     }
 
     updateScene(deltaT: number): void {
         while(this.receiver.hasNextEvent()) {
             let event = this.receiver.getNextEvent();
 
+            console.log(event);
+
+            if(event.type === "batCollision") {
+                let node = this.sceneGraph.getNode(event.data.get("node"));
+                let other = this.sceneGraph.getNode(event.data.get("other"));
+
+                console.log("bat collision");
+                console.log(node);
+                console.log(other);
+
+                node._ai.handleEvent(event);
+                other._ai.handleEvent(event);
+            }
         }
     }
 
@@ -100,9 +120,12 @@ export default class GluttonyLevel extends Scene {
             {
                 speed: 150,
                 fist: fist,
-                slippery: true
+                slippery: true,
+                health: this.player_health,
+                coins: this.player_coins
             });
         this.player.animation.play("IDLE", true);
+        this.player.setGroup("player");
     }
 
     initializeEnemies(){
@@ -129,8 +152,13 @@ export default class GluttonyLevel extends Scene {
             // Activate physics
             //Only one enemy for now
             if(data.enemy_type == "hellbat") {
+                this.enemies[i].addPhysics();
                 this.enemies[i].addAI(BatAI, enemyOptions);
-                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(9, 7)));
+                
+                // this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(9, 7)));
+                
+                this.enemies[i].setGroup("enemy");
+                this.enemies[i].setTrigger("player", "batCollision", "bat hit player");
             }
             else {
                 this.enemies[i].addAI(GluttonyAI, enemyOptions);
