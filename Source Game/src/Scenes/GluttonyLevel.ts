@@ -134,7 +134,7 @@ export default class GluttonyLevel extends Scene {
             }
             else {
                 this.enemies[i].addAI(GluttonyAI, enemyOptions);
-                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(36, 56)));
+                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(56, 56)));
             }
 
         }
