@@ -17,7 +17,7 @@ export default class Idle extends EnemyState {
     }
 
     onEnter(options: Record<string, any>): void {
-
+        
     }
 
     handleInput(event: GameEvent): void {

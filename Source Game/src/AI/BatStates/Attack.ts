@@ -15,6 +15,9 @@ export default class Attack extends EnemyState {
     // The current known position of the player
     playerPos: Vec2;
 
+    // The last known position of the player
+    lastPlayerPos: Vec2;
+
     // The return object for this state
     retObj: Record<string, any>;
 
@@ -53,23 +56,18 @@ export default class Attack extends EnemyState {
             // Player is visible, restart the exitTimer
             this.exitTimer.start();
 
-            // Fire at player
+            // Face player
             let dir = this.playerPos.clone().sub(this.owner.position).normalize();
             dir.rotateCCW(Math.PI / 4 * Math.random() - Math.PI/8);
-            if(this.parent.weapon.use(this.owner, "enemy", dir)){
-                // If we fired, face that direction
-                this.owner.rotation = Vec2.UP.angleToCCW(dir);
-            }
-
+            this.owner.rotation = Vec2.UP.angleToCCW(dir);
         }
 
         if(this.exitTimer.isStopped()){
             // We haven't seen the player in a while, go check out where we last saw them, if possible
             if(this.lastPlayerPos !== null){
-                this.retObj = {target: this.lastPlayerPos}
-                this.finished(EnemyStates.ALERT);
+
             } else {
-                this.finished(EnemyStates.DEFAULT);
+                this.finished(EnemyStates.IDLE);
             }
         }
     }
