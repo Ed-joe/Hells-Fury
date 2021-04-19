@@ -32,7 +32,6 @@ export default class Attack extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
-        console.log("GLUTTONY ATTACK");
         (<AnimatedSprite> this.owner).animation.play("ATTACK", true);
         this.lastPlayerPos = this.parent.getPlayerPosition();
         // Reset the return object

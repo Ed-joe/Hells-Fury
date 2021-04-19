@@ -18,7 +18,6 @@ export default class Idle extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
-        console.log("GLUTTONY IDLE");
         (<AnimatedSprite> this.owner).animation.play("IDLE", true);
     }
 
@@ -27,7 +26,6 @@ export default class Idle extends BossState {
 
     update(deltaT: number): void {
         if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) < 100){
-            console.log("gumbanoba");
             this.finished(BossStates.ATTACKING);
         }
     }
