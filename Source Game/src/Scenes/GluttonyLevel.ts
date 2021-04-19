@@ -98,7 +98,6 @@ export default class GluttonyLevel extends Scene {
                 case Game_Events.ENEMY_DIED:
                     {   
                         let node = this.sceneGraph.getNode(event.data.get("owner"));
-                        console.log("owner: " + (<AnimatedSprite> node).id);
                         for(let i = 0; i < this.enemies.length ; i++){
                             if(this.enemies[i].id === (<AnimatedSprite> node).id){
                                 this.enemies.splice(i, 1);
@@ -123,7 +122,20 @@ export default class GluttonyLevel extends Scene {
 
                 case Game_Events.BOSS_DIED:
                     {
-                    
+                        let node = this.sceneGraph.getNode(event.data.get("owner"));
+                        for(let i = 0; i < this.enemies.length ; i++){
+                            if(this.enemies[i].id === (<AnimatedSprite> node).id){
+                                this.enemies.splice(i, 1);
+                                break;
+                            }
+                        }
+                        this.battle_manager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai));
+
+                        // for(let i = 0; i < this.enemies.length; i++){
+                        //     console.log(this.enemies[i].imageId);
+                        // }
+                        console.log(this.enemies);
+                        node.destroy();
                     }
                     break;
             }
