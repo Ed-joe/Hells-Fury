@@ -12,6 +12,8 @@ export default class Attack extends EnemyState {
     // Timers for managing this state
     exitTimer: Timer;
 
+    resetTimer: Timer;
+
     // The last known position of the player
     lastPlayerPos: Vec2;
 
@@ -26,6 +28,7 @@ export default class Attack extends EnemyState {
 
         // Regularly update the player location
         this.exitTimer = new Timer(1000);
+        this.resetTimer = new Timer(3000);
     }
 
     onEnter(options: Record<string, any>): void {
@@ -44,13 +47,16 @@ export default class Attack extends EnemyState {
             // Player is visible, restart the exitTimer
             this.exitTimer.start();
             if(!this.doneMoving){
-                // this.isDashing = true;
+                if(this.resetTimer.isStopped) {
+                    this.finished(EnemyStates.DEFAULT);
+                }
                 if(this.owner.position.distanceTo(this.lastPlayerPos) < 5) {
                     this.doneMoving = true;
                 }
                 this.owner.move(this.owner.position.dirTo(this.lastPlayerPos).scale(3.5));
             }
             else {
+                this.resetTimer.start;
                 this.doneMoving = false;
                 this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
             }
