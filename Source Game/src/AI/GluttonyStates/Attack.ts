@@ -53,7 +53,7 @@ export default class Attack extends BossState {
             }
         }
 
-        if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) < 150){
+        if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) < 160){
             // Player is nearby, restart the exitTimer
             this.exitTimer.start();
         }

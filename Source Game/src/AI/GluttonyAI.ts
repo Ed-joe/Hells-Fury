@@ -11,6 +11,7 @@ import Attack from "./GluttonyStates/Attack";
 import Idle from "./GluttonyStates/Idle";
 import BossState from "./GluttonyStates/BossState";
 import Damage from "./GluttonyStates/Damage";
+import { Game_Events } from "../GameSystems/game_enums";
 
 
 export default class GluttonyAI extends StateMachineAI implements BattlerAI {
@@ -53,6 +54,10 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
         if(this.health <= 0){
             this.owner.setAIActive(false, {});
             this.owner.isCollidable = false;
+            if(!this.owner.animation.isPlaying("DYING")) {
+                this.owner.animation.play("DYING", false, Game_Events.BOSS_DIED);
+            }
+
             console.log("ded gluttony");
             // this.owner.animation.play("DYING");
             // this.owner.visible = false;
@@ -113,5 +118,6 @@ export enum BossStates {
     DEFAULT = "default",
     DAMAGE = "damage",
     ATTACKING = "attacking",
-    PREVIOUS = "previous"
+    PREVIOUS = "previous",
+    DYING = "dying"
 }
