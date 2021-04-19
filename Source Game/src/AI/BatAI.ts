@@ -9,7 +9,8 @@ import OrthogonalTilemap from "./../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import BattlerAI from "./BattlerAI";
 import Attack from "./BatStates/Attack";
 import Idle from "./BatStates/Idle";
-
+import { Game_Events } from "./../GameSystems/game_enums";
+import Damaged from "./BatStates/Damaged"
 
 export default class BatAI extends StateMachineAI implements BattlerAI {
     /** The owner of this AI */
@@ -29,7 +30,7 @@ export default class BatAI extends StateMachineAI implements BattlerAI {
 
         this.addState(EnemyStates.DEFAULT, new Idle(this, owner));
         this.addState(EnemyStates.ATTACKING, new Attack(this, owner));
-
+        this.addState(EnemyStates.DAMAGED, new Damaged(this, owner));
         this.health = options.health;
 
         this.player = options.player;
@@ -49,8 +50,9 @@ export default class BatAI extends StateMachineAI implements BattlerAI {
         if(this.health <= 0){
             this.owner.setAIActive(false, {});
             this.owner.isCollidable = false;
-            this.owner.animation.play("DYING");
-            // this.owner.visible = false;
+            this.owner.animation.play("DYING", false, Game_Events.ENEMY_DIED);
+        }else{
+            this.changeState(EnemyStates.DAMAGED);
         }
     }
 
@@ -105,5 +107,6 @@ export enum EnemyStates {
     DEFAULT = "default",
     IDLE = "idle",
     ATTACKING = "attacking",
+    DAMAGED = "damaged",
     PREVIOUS = "previous"
 }
