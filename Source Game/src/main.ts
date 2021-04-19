@@ -1,7 +1,7 @@
 import Game from "./Wolfie2D/Loop/Game";
 import SplashScreen from "./Scenes/SplashScreen";
 import RegistryManager from "./Wolfie2D/Registry/RegistryManager";
-import WeaponTemplateRegistry from "./GameSystems/Registry/WeaponRegistry";
+import WeaponRegistry from "./GameSystems/Registry/WeaponRegistry";
 import WeaponTypeRegistry from "./GameSystems/Registry/WeaponTypeRegistry";
 
 // The main function is your entrypoint into Wolfie2D. Specify your first scene and any options here.
@@ -24,7 +24,7 @@ import WeaponTypeRegistry from "./GameSystems/Registry/WeaponTypeRegistry";
     }
 
     // setup custom weapon registry
-    let weaponTemplateRegistry = new WeaponTemplateRegistry();
+    let weaponTemplateRegistry = new WeaponRegistry();
     RegistryManager.addCustomRegistry("weaponTemplates", weaponTemplateRegistry);
     
     let weaponTypeRegistry = new WeaponTypeRegistry();

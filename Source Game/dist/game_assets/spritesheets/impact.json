@@ -1,8 +1,12 @@
 {
-    "name": "Punch",
+    "name": "fist",
     "spriteSheetImage": "impact.png",
     "spriteWidth": 32,
     "spriteHeight": 32,
+    "leftBuffer": 0,
+    "rightBuffer": 0,
+    "topBuffer": 0,
+    "bottomBuffer": 0,
     "columns": 5,
     "rows": 1,
     "durationType": "time",
@@ -10,7 +14,7 @@
         {
             "name": "NORMAL",
             "frames": [ {"index": 0, "duration": 1} ]
-        }
+        },
         {
             "name": "PUNCH",
             "frames": [ {"index": 0, "duration": 8}, {"index": 1, "duration": 8}, {"index": 2, "duration": 8}, {"index": 3, "duration": 8} ]

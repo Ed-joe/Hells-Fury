@@ -9,6 +9,8 @@ import Timer from "../Wolfie2D/Timing/Timer";
 // import Walk from "./PlayerStates/Walk";
 // import Attack from "./PlayerStates/Attack";
 import AI from "../Wolfie2D/DataTypes/Interfaces/AI";
+import Item from "../GameSystems/Item";
+import Weapon from "../GameSystems/Weapon";
 // import Damage from "./PlayerStates/Damage";
 
 export enum PlayerStates {
@@ -24,6 +26,9 @@ export default class PlayerController implements AI {
 
     // player sprite
     owner: AnimatedSprite;
+
+    // fist item (for punching)
+    fist: Weapon;
 
     // Movement
     direction: Vec2;
@@ -43,7 +48,9 @@ export default class PlayerController implements AI {
         this.attack_direction = Vec2.ZERO;
         this.speed = options.speed;
         this.health = 5;
+
         this.slippery = options.slippery !== undefined ? options.slippery : false;
+        this.fist = options.fist;
 
         // // add states
         // let idle = new Idle(this, this.owner);
@@ -120,6 +127,7 @@ export default class PlayerController implements AI {
             // TODO PROJECT - implement punch attack here
             console.log("punch event");
             this.owner.animation.play("ATTACK", false);
+            this.fist.use(this.owner, "player", this.attack_direction);
         }
 
         // have player face left or right

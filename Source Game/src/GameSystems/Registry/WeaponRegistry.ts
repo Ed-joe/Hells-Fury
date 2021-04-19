@@ -7,11 +7,17 @@ export default class WeaponRegistry extends Registry<WeaponConstructor> {
     public preload(): void {
         const rm = ResourceManager.getInstance();
 
+        rm.image("fist", "game_assets/images/splash_screen.png");
+
+        
+
         // load spritesheets
         // TODO PROJECT - import punch spritesheet
-        rm.spritesheet("punch", "INSERTPATHHERE");
+        rm.spritesheet("fist", "game_assets/spritesheets/impact.json");
 
-        this.registerItem("punch", Punch);
+        console.log("loaded sprite");
+
+        this.registerItem("fist", Punch);
     }
 
     public registerAndPreloadItem(key: string): void {}
