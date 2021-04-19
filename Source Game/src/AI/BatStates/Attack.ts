@@ -6,6 +6,7 @@ import OrthogonalTilemap from "./../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap
 import Timer from "./../../Wolfie2D/Timing/Timer";
 import BatAI, { EnemyStates } from "../BatAI";
 import EnemyState from "./EnemyState";
+import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 
 export default class Attack extends EnemyState {
     // Timers for managing this state
@@ -31,8 +32,8 @@ export default class Attack extends EnemyState {
     }
 
     onEnter(options: Record<string, any>): void {
+        (<AnimatedSprite> this.owner).animation.play("IDLE", true);
         this.lastPlayerPos = this.parent.getPlayerPosition();
-
         // Reset the return object
         this.retObj = {};
     }

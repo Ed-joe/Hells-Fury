@@ -4,6 +4,7 @@ import GameNode from "./../../Wolfie2D/Nodes/GameNode";
 import NavigationPath from "./../../Wolfie2D/Pathfinding/NavigationPath";
 import BatAI, { EnemyStates } from "../BatAI";
 import EnemyState from "./EnemyState";
+import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 
 export default class Idle extends EnemyState {
     private startPosition: Vec2;
@@ -17,19 +18,20 @@ export default class Idle extends EnemyState {
     }
 
     onEnter(options: Record<string, any>): void {
-        
+        (<AnimatedSprite> this.owner).animation.play("IDLE", true);
     }
 
     handleInput(event: GameEvent): void {
     }
 
     update(deltaT: number): void {
-        if(this.parent.getPlayerPosition() !== null){
-            this.finished(EnemyStates.ATTACKING);
-        }
+        // if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) < 30){
+        //     this.finished(EnemyStates.ATTACKING);
+        // }
     }
 
     onExit(): Record<string, any> {
+        (<AnimatedSprite> this.owner).animation.stop();
         return this.retObj;
     }
 

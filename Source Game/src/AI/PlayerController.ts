@@ -1,11 +1,23 @@
-import AI from "../Wolfie2D/DataTypes/Interfaces/AI";
+import StateMachineAI from "../Wolfie2D/AI/StateMachineAI";
 import Vec2 from "../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "../Wolfie2D/Events/GameEvent";
 import Input from "../Wolfie2D/Input/Input";
+import InputHandler from "../Wolfie2D/Input/InputHandler";
 import AnimatedSprite from "../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Timer from "../Wolfie2D/Timing/Timer";
+import Idle from "./PlayerStates/Idle";
+import Walk from "./PlayerStates/Walk";
+import Attack from "./PlayerStates/Attack";
+// import Damage from "./PlayerStates/Damage";
 
-export default class PlayerController implements AI {
+export enum PlayerStates {
+    IDLE = "idle",
+    WALK = "walk",
+    ATTACK = "attack",
+    DAMAGE = "damage"
+}
+
+export default class PlayerController extends StateMachineAI {
     // fields from BattlerAI
     health: number;
 
@@ -13,15 +25,15 @@ export default class PlayerController implements AI {
     owner: AnimatedSprite;
 
     // Movement
-    private direction: Vec2;
-    private curr_velocity: Vec2;
-    private speed: number;
+    direction: Vec2;
+    curr_velocity: Vec2;
+    speed: number;
 
     // Attacking
-    private attack_direction: Vec2;
+    attack_direction: Vec2;
 
     // unique level functionalities
-    private slippery: boolean;
+    slippery: boolean;
 
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.owner = owner
@@ -31,81 +43,93 @@ export default class PlayerController implements AI {
         this.speed = options.speed;
         this.health = 5;
         this.slippery = options.slippery !== undefined ? options.slippery : false;
+
+        // add states
+        let idle = new Idle(this, this.owner);
+        this.addState(PlayerStates.IDLE, idle);
+        let walk = new Walk(this, this.owner);
+        this.addState(PlayerStates.WALK, walk);
+        let attack = new Attack(this, this.owner);
+        this.addState(PlayerStates.ATTACK, attack);
+        // let damage = new Damage(this, this.owner);
+        // this.addState(PlayerStates.DAMAGE, damage);
+
+        this.initialize(PlayerStates.IDLE);
     }
 
-    activate(options: Record<string, any>): void {}
-
-    handleEvent(event: GameEvent): void {}
+    changeState(stateName: string): void {
+        super.changeState(stateName);
+    }
 
     update(deltaT: number): void {
-        // get the movement direction
-        this.direction.x = (Input.isPressed("left") ? -1 : 0) + (Input.isPressed("right") ? 1 : 0);
-        this.direction.y = (Input.isPressed("up") ? -1 : 0) + (Input.isPressed("down") ? 1 : 0);
+        super.update(deltaT);
+    }
 
-        if(!this.direction.isZero()) {
-            if(this.slippery) {
-                // slippery movement
-                if(this.direction.x !== 0) {this.curr_velocity.x += this.direction.normalized().scale(this.speed * deltaT).x / 20;}
-                else {this.curr_velocity.x -= this.curr_velocity.normalized().scale(this.speed * deltaT).x / 40;}
-                if(this.direction.y !== 0) {this.curr_velocity.y += this.direction.normalized().scale(this.speed * deltaT).y / 20;}
-                else {this.curr_velocity.y -= this.curr_velocity.normalized().scale(this.speed * deltaT).y / 40;}
+    // activate(options: Record<string, any>): void {}
 
-                this.owner.move(this.curr_velocity);
-                this.owner.animation.playIfNotAlready("WALK", true);
-            } else {
-                // normal movement
-                this.owner.move(this.direction.normalized().scale(this.speed * deltaT));
-                this.owner.animation.playIfNotAlready("WALK", true);
-            }
+    // handleEvent(event: GameEvent): void {}
+
+    // update(deltaT: number): void {
+    //     // get the movement direction
+    //     this.direction.x = (Input.isPressed("left") ? -1 : 0) + (Input.isPressed("right") ? 1 : 0);
+    //     this.direction.y = (Input.isPressed("up") ? -1 : 0) + (Input.isPressed("down") ? 1 : 0);
+
+    //     if(!this.direction.isZero()) {
+    //         if(this.slippery) {
+    //             // slippery movement
+    //             if(this.direction.x !== 0) {this.curr_velocity.x += this.direction.normalized().scale(this.speed * deltaT).x / 20;}
+    //             else {this.curr_velocity.x -= this.curr_velocity.normalized().scale(this.speed * deltaT).x / 40;}
+    //             if(this.direction.y !== 0) {this.curr_velocity.y += this.direction.normalized().scale(this.speed * deltaT).y / 20;}
+    //             else {this.curr_velocity.y -= this.curr_velocity.normalized().scale(this.speed * deltaT).y / 40;}
+
+    //             this.owner.move(this.curr_velocity);
+    //             this.owner.animation.playIfNotAlready("WALK", true);
+    //         } else {
+    //             // normal movement
+    //             this.owner.move(this.direction.normalized().scale(this.speed * deltaT));
+    //             this.owner.animation.playIfNotAlready("WALK", true);
+    //         }
             
-        } else {
-            // Player is idle
-            if(this.slippery && (Math.abs(this.curr_velocity.x) > 0 || Math.abs(this.curr_velocity.y) > 0)) {
-                // slide a bit
-                // console.log("slide cap up");
+    //     } else {
+    //         // Player is idle
+    //         if(this.slippery && (Math.abs(this.curr_velocity.x) > 0 || Math.abs(this.curr_velocity.y) > 0)) {
+    //             // slide a bit
+    //             this.curr_velocity.x -= this.curr_velocity.normalized().scale(this.speed * deltaT).x / 40;
+    //             this.curr_velocity.y -= this.curr_velocity.normalized().scale(this.speed * deltaT).y / 40;
 
-                this.curr_velocity.x -= this.curr_velocity.normalized().scale(this.speed * deltaT).x / 40;
-                this.curr_velocity.y -= this.curr_velocity.normalized().scale(this.speed * deltaT).y / 40;
+    //             if(Math.abs(this.curr_velocity.x) < .05) {this.curr_velocity.x = 0;}
+    //             if(Math.abs(this.curr_velocity.y) < .05) {this.curr_velocity.y = 0;}
 
-                if(Math.abs(this.curr_velocity.x) < .05) {this.curr_velocity.x = 0;}
-                if(Math.abs(this.curr_velocity.y) < .05) {this.curr_velocity.y = 0;}
+    //             this.owner.move(this.curr_velocity);
+    //             this.owner.animation.playIfNotAlready("WALK", true);
+    //         } else {
+    //             // play idle animation
+    //             this.owner.animation.playIfNotAlready("IDLE", true);
+    //         }
+    //     }
 
-                this.owner.move(this.curr_velocity);
-                this.owner.animation.playIfNotAlready("WALK", true);
-            } else {
-                this.owner.animation.playIfNotAlready("IDLE", true);
-            }
-        }
+    //     // Get the unit vector in the attack direction
+    //     this.attack_direction = this.owner.position.dirTo(Input.getGlobalMousePosition());
 
-        // Get the unit vector in the attack direction
-        this.attack_direction = this.owner.position.dirTo(Input.getGlobalMousePosition());
+    //     // punch attack
+    //     if(Input.isMouseJustPressed()) {
+    //         // TODO PROJECT - implement punch attack here
+    //         console.log("punch event");
+    //         this.owner.animation.play("ATTACK", true);
+    //     }
 
-        // punch attack
-        if(Input.isMouseJustPressed()) {
-            // TODO PROJECT - implement punch attack here
-            console.log("punch event");
-            this.owner.animation.play("ATTACK", true);
-        }
-
-        // have player face left or right
-        let mouse_position = Input.getGlobalMousePosition();
-        if(mouse_position.x < this.owner.position.x) {
-            this.owner.invertX = true;
-        } else {
-            this.owner.invertX = false;
-        }
+    //     // have player face left or right
+    //     let mouse_position = Input.getGlobalMousePosition();
+    //     if(mouse_position.x < this.owner.position.x) {
+    //         this.owner.invertX = true;
+    //     } else {
+    //         this.owner.invertX = false;
+    //     }
 
         
-    }
+    // }
 
-    damage(damage: number): void {
-        this.health -= damage;
-        if(this.health <= 0) {
-            console.log("Game Over");
-        }
-    }
-
-    destroy() {
-        delete this.owner;
-    }
+    // destroy() {
+    //     delete this.owner;
+    // }
 }

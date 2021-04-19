@@ -28,12 +28,12 @@
         {
             "name": "WALK",
             "frames": [
-                {"index": 8, "duration": 12},
-                {"index": 9, "duration": 12},
-                {"index": 10, "duration": 12},
-                {"index": 11, "duration": 12},
-                {"index": 12, "duration": 12},
-                {"index": 13, "duration": 12}
+                {"index": 8, "duration": 10},
+                {"index": 9, "duration": 10},
+                {"index": 10, "duration": 10},
+                {"index": 11, "duration": 10},
+                {"index": 12, "duration": 10},
+                {"index": 13, "duration": 10}
             ]
         },
         {

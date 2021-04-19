@@ -11,7 +11,7 @@ import Attack from "./BatStates/Attack";
 import Idle from "./BatStates/Idle";
 
 
-export default class EnemyAI extends StateMachineAI implements BattlerAI {
+export default class BatAI extends StateMachineAI implements BattlerAI {
     /** The owner of this AI */
     owner: AnimatedSprite;
 
@@ -27,7 +27,7 @@ export default class EnemyAI extends StateMachineAI implements BattlerAI {
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.owner = owner;
 
-        this.addState(EnemyStates.IDLE, new Idle(this, owner));
+        this.addState(EnemyStates.DEFAULT, new Idle(this, owner));
         this.addState(EnemyStates.ATTACKING, new Attack(this, owner));
 
         this.health = options.health;
@@ -44,18 +44,13 @@ export default class EnemyAI extends StateMachineAI implements BattlerAI {
     }
 
     damage(damage: number): void {
-        console.log("Took damage");
         this.health -= damage;
     
         if(this.health <= 0){
             this.owner.setAIActive(false, {});
             this.owner.isCollidable = false;
+            this.owner.animation.play("DYING");
             this.owner.visible = false;
-
-            if(Math.random() < 0.2){
-                // Spawn a healthpack
-                this.emitter.fireEvent("healthpack", {position: this.owner.position});
-            }
         }
     }
 
