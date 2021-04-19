@@ -7,11 +7,12 @@ import GameNode from "./../Wolfie2D/Nodes/GameNode";
 import AnimatedSprite from "./../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import OrthogonalTilemap from "./../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import BattlerAI from "./BattlerAI";
-import Attack from "./BatStates/Attack";
-import Idle from "./BatStates/Idle";
+import Attack from "./GluttonyStates/Attack";
+import Idle from "./GluttonyStates/Idle";
+import BossState from "./GluttonyStates/BossState";
 
 
-export default class BatAI extends StateMachineAI implements BattlerAI {
+export default class GluttonyAI extends StateMachineAI implements BattlerAI {
     /** The owner of this AI */
     owner: AnimatedSprite;
 
@@ -25,17 +26,18 @@ export default class BatAI extends StateMachineAI implements BattlerAI {
     player: GameNode;
 
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
+        console.log("Initialize Gluttony");
         this.owner = owner;
 
-        this.addState(EnemyStates.DEFAULT, new Idle(this, owner));
-        this.addState(EnemyStates.ATTACKING, new Attack(this, owner));
+        this.addState(BossStates.DEFAULT, new Idle(this, owner));
+        this.addState(BossStates.ATTACKING, new Attack(this, owner));
 
         this.health = options.health;
 
         this.player = options.player;
 
         // Initialize to the default state
-        this.initialize(EnemyStates.DEFAULT);
+        this.initialize(BossStates.DEFAULT);
 
         this.getPlayerPosition();
     }
@@ -49,7 +51,8 @@ export default class BatAI extends StateMachineAI implements BattlerAI {
         if(this.health <= 0){
             this.owner.setAIActive(false, {});
             this.owner.isCollidable = false;
-            this.owner.animation.play("DYING");
+            console.log("ded gluttony");
+            // this.owner.animation.play("DYING");
             // this.owner.visible = false;
         }
     }
@@ -101,7 +104,7 @@ export default class BatAI extends StateMachineAI implements BattlerAI {
     // Check super classes for details
 }
 
-export enum EnemyStates {
+export enum BossStates {
     DEFAULT = "default",
     IDLE = "idle",
     ATTACKING = "attacking",

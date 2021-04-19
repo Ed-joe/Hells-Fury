@@ -22,10 +22,10 @@ export default class Punch extends WeaponType {
 
     doAnimation(attacker: GameNode, direction: Vec2, punch_sprite: AnimatedSprite): void {
         // rotate this with the game node
-        punch_sprite.rotation = attacker.rotation;
+        punch_sprite.rotation = attacker.attack_direction;
 
         // move the punch out from the player
-        punch_sprite.position = attacker.position.clone().add(direction.scaled(16));
+        punch_sprite.position = attacker.position.clone().add(direction.scaled(30));
 
         // play the punch animation but queue the normal animation??????????????
         punch_sprite.animation.play("PUNCH");
@@ -34,6 +34,7 @@ export default class Punch extends WeaponType {
 
     createRequiredAssets(scene: Scene): [AnimatedSprite] {
         let punch = scene.add.animatedSprite("fist", "primary");
+        console.log(punch.getLayer());
         punch.animation.play("NORMAL", true);
 
         return [punch];

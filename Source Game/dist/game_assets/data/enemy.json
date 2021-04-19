@@ -1,10 +1,15 @@
 {
-    "numEnemies": 1,
+    "numEnemies": 2,
     "enemies": [
         {
             "position": [443, 968],
             "enemy_type": "hellbat",
             "health": 5
+        },
+        {
+            "position": [1000, 968],
+            "enemy_type": "gluttony",
+            "health": 20
         }
     ]
 }

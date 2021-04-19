@@ -4,11 +4,11 @@ import GameEvent from "./../../Wolfie2D/Events/GameEvent";
 import GameNode from "./../../Wolfie2D/Nodes/GameNode";
 import OrthogonalTilemap from "./../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import Timer from "./../../Wolfie2D/Timing/Timer";
-import BatAI, { EnemyStates } from "../BatAI";
-import EnemyState from "./EnemyState";
+import BossState from "./BossState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import GluttonyAI, { BossStates } from "../GluttonyAI";
 
-export default class Attack extends EnemyState {
+export default class Attack extends BossState {
     // Timers for managing this state
     pollTimer: Timer;
     exitTimer: Timer;
@@ -22,7 +22,7 @@ export default class Attack extends EnemyState {
     // The return object for this state
     retObj: Record<string, any>;
 
-    constructor(parent: BatAI, owner: GameNode){
+    constructor(parent: GluttonyAI, owner: GameNode){
         super(parent, owner);
 
         // Regularly update the player location
@@ -53,23 +53,13 @@ export default class Attack extends EnemyState {
             }
         }
 
-        if(this.playerPos !== null){
-            // Player is visible, restart the exitTimer
+        if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) < 100){
+            // Player is nearby, restart the exitTimer
             this.exitTimer.start();
-
-            // Face player
-            let dir = this.playerPos.clone().sub(this.owner.position).normalize();
-            dir.rotateCCW(Math.PI / 4 * Math.random() - Math.PI/8);
-            this.owner.attack_direction = Vec2.UP.angleToCCW(dir);
         }
 
         if(this.exitTimer.isStopped()){
-            // We haven't seen the player in a while, go check out where we last saw them, if possible
-            if(this.lastPlayerPos !== null){
-
-            } else {
-                this.finished(EnemyStates.IDLE);
-            }
+            this.finished(BossStates.DEFAULT);
         }
     }
 

@@ -1,8 +1,8 @@
 {
     "name": "fist",
     "spriteSheetImage": "impact.png",
-    "spriteWidth": 32,
-    "spriteHeight": 32,
+    "spriteWidth": 64,
+    "spriteHeight": 64,
     "leftBuffer": 0,
     "rightBuffer": 0,
     "topBuffer": 0,

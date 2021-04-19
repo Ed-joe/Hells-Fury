@@ -16,6 +16,8 @@ import BatAI from "../AI/BatAI";
 import Weapon from "../GameSystems/Weapon";
 import BattleManager from "../GameSystems/BattleManager";
 import WeaponType from "../GameSystems/WeaponTypes/WeaponType"
+import BattlerAI from "../AI/BattlerAI";
+import GluttonyAI from "../AI/GluttonyAI";
 
 export default class GluttonyLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -32,6 +34,7 @@ export default class GluttonyLevel extends Scene {
         // TODO PROJECT - add enemy spritesheets
         // Load in the enemy info
         this.load.spritesheet("hellbat", "game_assets/spritesheets/hellbat.json");
+        this.load.spritesheet("gluttony", "game_assets/spritesheets/gluttony.json");
         this.load.object("enemyData", "game_assets/data/enemy.json");
 
         // load the tilemap
@@ -65,10 +68,11 @@ export default class GluttonyLevel extends Scene {
 
         this.initializePlayer();
 
-        console.log("player ddone");
-
         // TODO PROJECT - write initializeEnemies()
         this.initializeEnemies();
+
+        this.battle_manager.setPlayer(<BattlerAI>this.player._ai);
+        this.battle_manager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai));
 
 
         // setup viewport
@@ -92,7 +96,6 @@ export default class GluttonyLevel extends Scene {
         this.player.position.set(30*16, 62*16);
         this.player.addPhysics(new AABB(new Vec2(0, 14), new Vec2(16, 15)), new Vec2(0, 15));
         let fist = this.createWeapon("punch");
-        console.log("creatweaopns done");
         this.player.addAI(PlayerController,
             {
                 speed: 150,
@@ -114,21 +117,26 @@ export default class GluttonyLevel extends Scene {
             let data = enemyData.enemies[i];
 
             // Create an enemy
-            this.enemies[i] = this.add.animatedSprite("hellbat", "primary");
+            this.enemies[i] = this.add.animatedSprite(data.enemy_type, "primary");
             this.enemies[i].position.set(data.position[0], data.position[1]);
             this.enemies[i].animation.play("IDLE");
-
-            // Activate physics
-            //Only one enemy for now
-            this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(9, 7)));
-
 
             let enemyOptions = {
                 health: data.health,
                 player: this.player,
             }
 
-            this.enemies[i].addAI(BatAI, enemyOptions);
+            // Activate physics
+            //Only one enemy for now
+            if(data.enemy_type == "hellbat") {
+                this.enemies[i].addAI(BatAI, enemyOptions);
+                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(9, 7)));
+            }
+            else {
+                this.enemies[i].addAI(GluttonyAI, enemyOptions);
+                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(36, 56)));
+            }
+
         }
     }
 
@@ -145,20 +153,13 @@ export default class GluttonyLevel extends Scene {
             weaponType.initialize(weapon);
 
             RegistryManager.getRegistry("weaponTypes").registerItem(weapon.name, weaponType);
-
-            console.log("done intializing weapons");
         }
     }
 
     createWeapon(type: string): Weapon {
-        console.log("creaweapon start");
         let weaponType = <WeaponType>RegistryManager.getRegistry("weaponTypes").get(type);
 
-        console.log(weaponType);
-
         let sprite = this.add.sprite(weaponType.sprite_key, "primary");
-
-        console.log("2");
 
         return new Weapon(sprite, weaponType, this.battle_manager);
     }
