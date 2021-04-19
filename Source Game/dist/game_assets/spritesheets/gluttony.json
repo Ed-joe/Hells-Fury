@@ -23,7 +23,7 @@
     },
     {
       "name": "DAMAGE",
-      "repeat": true,
+      "repeat": false,
       "frames": [
         { "index": 12, "duration": 5 },
         { "index": 13, "duration": 5 },
