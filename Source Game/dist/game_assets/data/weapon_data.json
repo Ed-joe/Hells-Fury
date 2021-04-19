@@ -2,11 +2,11 @@
     "numWeapons": 1,
     "weapons": [
         {
-            "weaponType": "punch",
+            "weaponType": "fist",
             "name": "punch",
             "displayName": "Punch",
-            "animationSprite": "punch",
-            "spriteKey": "punch",
+            "animationSprite": "fist",
+            "spriteKey": "fist",
             "damage": 1,
             "cooldown": 200,
             "useVolume": 0

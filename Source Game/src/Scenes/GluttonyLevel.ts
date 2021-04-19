@@ -13,11 +13,15 @@ import Color from "../Wolfie2D/Utils/Color";
 import Input from "../Wolfie2D/Input/Input";
 import PlayerController from "../AI/PlayerController";
 import BatAI from "../AI/BatAI";
+import Weapon from "../GameSystems/Weapon";
+import BattleManager from "../GameSystems/BattleManager";
+import WeaponType from "../GameSystems/WeaponTypes/WeaponType"
 
 export default class GluttonyLevel extends Scene {
     private player: AnimatedSprite;         // the player
     private enemies: Array<AnimatedSprite>  // list of enemies
     private walls: OrthogonalTilemap        // the wall layer
+    private battle_manager: BattleManager   // battle manager
 
     // use initScene to differentiate between level select start and game continue?
     
@@ -36,6 +40,9 @@ export default class GluttonyLevel extends Scene {
 
         // load weapon info
         this.load.object("weaponData", "game_assets/data/weapon_data.json");
+
+        this.load.image("fist", "game_assets/images/splash_screen.png");
+        this.load.spritesheet("fist", "game_assets/spritesheets/impact.json");
     }
 
     startScene() {
@@ -52,12 +59,17 @@ export default class GluttonyLevel extends Scene {
         // add primary layer
         this.addLayer("primary", 10);
 
+        this.battle_manager = new BattleManager;
+
+        this.initializeWeapons();
+
         this.initializePlayer();
+
+        console.log("player ddone");
 
         // TODO PROJECT - write initializeEnemies()
         this.initializeEnemies();
 
-        this.initializeWeapons();
 
         // setup viewport
         this.viewport.follow(this.player);
@@ -79,9 +91,12 @@ export default class GluttonyLevel extends Scene {
         this.player = this.add.animatedSprite("player", "primary");
         this.player.position.set(30*16, 62*16);
         this.player.addPhysics(new AABB(new Vec2(0, 14), new Vec2(16, 15)), new Vec2(0, 15));
+        let fist = this.createWeapon("punch");
+        console.log("creatweaopns done");
         this.player.addAI(PlayerController,
             {
                 speed: 150,
+                fist: fist,
                 slippery: true
             });
         this.player.animation.play("IDLE", true);
@@ -119,5 +134,32 @@ export default class GluttonyLevel extends Scene {
 
     initializeWeapons(): void {
         let weapon_data = this.load.getObject("weaponData");
+
+        for(let i = 0; i < weapon_data.numWeapons; i++) {
+            let weapon = weapon_data.weapons[i];
+
+            let constr = RegistryManager.getRegistry("weaponTemplates").get(weapon.weaponType);
+
+            let weaponType = new constr();
+
+            weaponType.initialize(weapon);
+
+            RegistryManager.getRegistry("weaponTypes").registerItem(weapon.name, weaponType);
+
+            console.log("done intializing weapons");
+        }
+    }
+
+    createWeapon(type: string): Weapon {
+        console.log("creaweapon start");
+        let weaponType = <WeaponType>RegistryManager.getRegistry("weaponTypes").get(type);
+
+        console.log(weaponType);
+
+        let sprite = this.add.sprite(weaponType.sprite_key, "primary");
+
+        console.log("2");
+
+        return new Weapon(sprite, weaponType, this.battle_manager);
     }
 }
