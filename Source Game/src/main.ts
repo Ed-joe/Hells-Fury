@@ -1,5 +1,8 @@
 import Game from "./Wolfie2D/Loop/Game";
 import SplashScreen from "./Scenes/SplashScreen";
+import RegistryManager from "./Wolfie2D/Registry/RegistryManager";
+import WeaponTemplateRegistry from "./GameSystems/Registry/WeaponRegistry";
+import WeaponTypeRegistry from "./GameSystems/Registry/WeaponTypeRegistry";
 
 // The main function is your entrypoint into Wolfie2D. Specify your first scene and any options here.
 (function main(){
@@ -19,6 +22,13 @@ import SplashScreen from "./Scenes/SplashScreen";
             {name: "pause", keys: ["escape"]},
         ]
     }
+
+    // setup custom weapon registry
+    let weaponTemplateRegistry = new WeaponTemplateRegistry();
+    RegistryManager.addCustomRegistry("weaponTemplates", weaponTemplateRegistry);
+    
+    let weaponTypeRegistry = new WeaponTypeRegistry();
+    RegistryManager.addCustomRegistry("weaponTypes", weaponTypeRegistry);
 
     // Create a game with the options specified
     const game = new Game(options);

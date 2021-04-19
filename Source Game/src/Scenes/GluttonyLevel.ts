@@ -24,13 +24,18 @@ export default class GluttonyLevel extends Scene {
     loadScene() {
         // load the player and enemy spritesheets
         this.load.spritesheet("player", "game_assets/spritesheets/zara.json");
+
         // TODO PROJECT - add enemy spritesheets
         // Load in the enemy info
         this.load.spritesheet("bat", "game_assets/spritesheets/hellbat.json");
         this.load.object("enemyData", "game_assets/data/enemy.json");
+
         // load the tilemap
         // TODO PROJECT - switch with correct tilemap
         this.load.tilemap("gluttonyLevel", "game_assets/tilemaps/hells_fury.json");
+
+        // load weapon info
+        this.load.object("weaponData", "game_assets/data/weapon_data.json");
     }
 
     startScene() {
@@ -51,6 +56,8 @@ export default class GluttonyLevel extends Scene {
 
         // TODO PROJECT - write initializeEnemies()
         // this.initializeEnemies();
+
+        this.initializeWeapons();
 
         // setup viewport
         this.viewport.follow(this.player);
@@ -108,5 +115,9 @@ export default class GluttonyLevel extends Scene {
 
             this.enemies[i].addAI(BatAI, enemyOptions);
         }
+    }
+
+    initializeWeapons(): void {
+        let weapon_data = this.load.getObject("weaponData");
     }
 }

@@ -1,0 +1,15 @@
+{
+    "numWeapons": 1,
+    "weapons": [
+        {
+            "weaponType": "punch",
+            "name": "punch",
+            "displayName": "Punch",
+            "animationSprite": "punch",
+            "spriteKey": "punch",
+            "damage": 1,
+            "cooldown": 200,
+            "useVolume": 0
+        }
+    ]
+}
