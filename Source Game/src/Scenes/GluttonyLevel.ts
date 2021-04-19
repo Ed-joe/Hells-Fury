@@ -90,7 +90,7 @@ export default class GluttonyLevel extends Scene {
         // Create the player
         this.player = this.add.animatedSprite("player", "primary");
         this.player.position.set(30*16, 62*16);
-        this.player.addPhysics(new AABB(new Vec2(0, 14), new Vec2(8, 10)));
+        this.player.addPhysics(new AABB(new Vec2(0, 14), new Vec2(16, 15)), new Vec2(0, 15));
         let fist = this.createWeapon("punch");
         console.log("creatweaopns done");
         this.player.addAI(PlayerController,

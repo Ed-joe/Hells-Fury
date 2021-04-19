@@ -120,7 +120,7 @@ export default class PlayerController implements AI {
         this.attack_direction = this.owner.position.dirTo(Input.getGlobalMousePosition());
 
         // update rotation for attacking
-        this.owner.rotation = Vec2.UP.angleToCCW(this.attack_direction);
+        this.owner.attack_direction = Vec2.UP.angleToCCW(this.attack_direction);
 
         // punch attack
         if(!this.owner.animation.isPlaying("ATTACK") && Input.isMouseJustPressed()) {
