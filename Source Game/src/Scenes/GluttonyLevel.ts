@@ -20,15 +20,17 @@ import BattlerAI from "../AI/BattlerAI";
 import GluttonyAI from "../AI/GluttonyAI";
 import { Game_Events } from "./../GameSystems/game_enums";
 import Game from "../Wolfie2D/Loop/Game";
-import GameEvent from "../Wolfie2D/Events/GameEvent"
+import GameEvent from "../Wolfie2D/Events/GameEvent";
+import Sprite from "../Wolfie2D/Nodes/Sprites/Sprite";
 
 export default class GluttonyLevel extends Scene {
     private player: AnimatedSprite;         // the player
     private player_health: number;          // players health
     private player_coins: number;           // PROJECT TODO - implement coin functionality
-    private enemies: Array<AnimatedSprite>  // list of enemies
-    private walls: OrthogonalTilemap        // the wall layer
-    private battle_manager: BattleManager   // battle manager
+    private enemies: Array<AnimatedSprite> ; // list of enemies
+    private walls: OrthogonalTilemap ;       // the wall layer
+    private battle_manager: BattleManager;   // battle manager
+    private health_sprites: Sprite[];                //sprites for health
 
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
@@ -39,6 +41,8 @@ export default class GluttonyLevel extends Scene {
     loadScene() {
         // load the player and enemy spritesheets
         this.load.spritesheet("player", "game_assets/spritesheets/zara.json");
+        //Load Zaras Heart image
+        this.load.image("heart", "game_assets/images/heart.png");
         // TODO PROJECT - add enemy spritesheets
         // Load in the enemy info
         this.load.spritesheet("hellbat", "game_assets/spritesheets/hellbat.json");
@@ -69,6 +73,10 @@ export default class GluttonyLevel extends Scene {
 
         // add primary layer
         this.addLayer("primary", 10);
+
+        // Add a layer for UI
+        this.addUILayer("UI");
+        this.addUI();
 
         this.battle_manager = new BattleManager;
 
@@ -196,7 +204,8 @@ export default class GluttonyLevel extends Scene {
                 fist: fist,
                 slippery: true,
                 health: this.player_health,
-                coins: this.player_coins
+                coins: this.player_coins,
+                health_sprites: this.health_sprites
             });
         this.player.animation.play("IDLE", true);
         this.player.setGroup("player");
@@ -265,6 +274,23 @@ export default class GluttonyLevel extends Scene {
 
         return new Weapon(sprite, weaponType, this.battle_manager);
     }
+
+    protected addUI(){
+        // Zara Health
+        let prev_loc = new Vec2(2, 20);
+        this.health_sprites = new Array<Sprite>();
+        for(let i = 0; i < this.player_health; i++){
+            let spriteToAdd = this.add.sprite("heart", "UI");
+            console.log(spriteToAdd);
+            spriteToAdd.position = new Vec2(prev_loc.x + 25, prev_loc.y);
+            console.log(spriteToAdd);
+            this.health_sprites.push(spriteToAdd);
+            console.log("yooo");
+            prev_loc = new Vec2(prev_loc.x + 25, prev_loc.y);
+        }
+        
+    }
+
 
     protected subscribeToEvents(){
         this.receiver.subscribe([
