@@ -1,0 +1,10 @@
+{
+    "numEnemies": 1,
+    "enemies": [
+        {
+            "position": [443, 968],
+            "enemy_type": "hellbat",
+            "health": 5
+        }
+    ]
+}
