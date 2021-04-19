@@ -51,6 +51,7 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
         if(this.health <= 0){
             this.owner.setAIActive(false, {});
             this.owner.isCollidable = false;
+            console.log("ded gluttony");
             // this.owner.animation.play("DYING");
             // this.owner.visible = false;
         }

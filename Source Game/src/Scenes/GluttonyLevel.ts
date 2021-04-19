@@ -68,8 +68,6 @@ export default class GluttonyLevel extends Scene {
 
         this.initializePlayer();
 
-        console.log("player ddone");
-
         // TODO PROJECT - write initializeEnemies()
         this.initializeEnemies();
 
@@ -98,7 +96,6 @@ export default class GluttonyLevel extends Scene {
         this.player.position.set(30*16, 62*16);
         this.player.addPhysics(new AABB(new Vec2(0, 14), new Vec2(16, 15)), new Vec2(0, 15));
         let fist = this.createWeapon("punch");
-        console.log("creatweaopns done");
         this.player.addAI(PlayerController,
             {
                 speed: 150,
@@ -156,20 +153,13 @@ export default class GluttonyLevel extends Scene {
             weaponType.initialize(weapon);
 
             RegistryManager.getRegistry("weaponTypes").registerItem(weapon.name, weaponType);
-
-            console.log("done intializing weapons");
         }
     }
 
     createWeapon(type: string): Weapon {
-        console.log("creaweapon start");
         let weaponType = <WeaponType>RegistryManager.getRegistry("weaponTypes").get(type);
 
-        console.log(weaponType);
-
         let sprite = this.add.sprite(weaponType.sprite_key, "primary");
-
-        console.log("2");
 
         return new Weapon(sprite, weaponType, this.battle_manager);
     }
