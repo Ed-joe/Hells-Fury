@@ -37,7 +37,6 @@ export default class Attack extends PlayerState {
 
     onExit(): Record<string, any> {
         console.log("exit attack");
-        this.owner.animation.stop();
         return {};
     }
 }

@@ -75,7 +75,7 @@ export default class GluttonyLevel extends Scene {
         this.player.addAI(PlayerController,
             {
                 speed: 150,
-                slippery: false
+                slippery: true
             });
         this.player.animation.play("IDLE", true);
     }

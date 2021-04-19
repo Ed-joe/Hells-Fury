@@ -30,12 +30,13 @@ export default class Idle extends PlayerState {
         }
 
         // go to new state if there is input
+        if(Input.isMousePressed()) {
+            this.finished(PlayerStates.ATTACK);
+        }
         if(Input.isPressed("up") || Input.isPressed("down") || Input.isPressed("left") || Input.isPressed("right")) {
             this.finished(PlayerStates.WALK);
         }
-        else if(Input.isMousePressed()) {
-            this.finished(PlayerStates.ATTACK);
-        }
+        
 
         // update velocity based on slippery
         if(this.parent.slippery && (Math.abs(this.parent.curr_velocity.x) > 0 || Math.abs(this.parent.curr_velocity.y) > 0)) {

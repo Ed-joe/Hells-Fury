@@ -174,8 +174,6 @@ export default class AnimationManager {
         this.frameProgress = 0;
         this.animationState = AnimationState.PLAYING;
 
-        console.log(this.animations);
-
         // If loop arg was provided, use that
         if(loop !== undefined){
             this.loop = loop;

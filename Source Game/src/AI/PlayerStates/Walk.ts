@@ -20,6 +20,10 @@ export default class Walk extends PlayerState {
         } else {
             this.owner.invertX = false;
         }
+
+        if(Input.isMousePressed()) {
+            this.finished(PlayerStates.ATTACK);
+        }
         
         let dir = this.getInputDirection();
 
