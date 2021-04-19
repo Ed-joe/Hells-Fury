@@ -10,12 +10,6 @@ import GluttonyAI, { BossStates } from "../GluttonyAI";
 
 export default class Damage extends BossState {
 
-    // The current known position of the player
-    playerPos: Vec2;
-
-    // The last known position of the player
-    lastPlayerPos: Vec2;
-
     // The return object for this state
     retObj: Record<string, any>;
 
@@ -24,9 +18,7 @@ export default class Damage extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
-        console.log("HIT");
         (<AnimatedSprite> this.owner).animation.play("DAMAGE", false);
-        this.lastPlayerPos = this.parent.getPlayerPosition();
         // Reset the return object
         this.retObj = {};
     }

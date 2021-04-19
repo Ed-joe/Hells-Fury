@@ -50,7 +50,9 @@ export default class BatAI extends StateMachineAI implements BattlerAI {
         if(this.health <= 0){
             this.owner.setAIActive(false, {});
             this.owner.isCollidable = false;
-            this.owner.animation.play("DYING", false, Game_Events.ENEMY_DIED);
+            if(!this.owner.animation.isPlaying("DYING")){
+                this.owner.animation.play("DYING", false, Game_Events.ENEMY_DIED);
+            }
         }else{
             this.changeState(EnemyStates.DAMAGED);
         }
@@ -105,7 +107,6 @@ export default class BatAI extends StateMachineAI implements BattlerAI {
 
 export enum EnemyStates {
     DEFAULT = "default",
-    IDLE = "idle",
     ATTACKING = "attacking",
     DAMAGED = "damaged",
     PREVIOUS = "previous"

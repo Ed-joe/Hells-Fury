@@ -1,38 +1,46 @@
+import AABB from "./../../Wolfie2D/DataTypes/Shapes/AABB";
 import Vec2 from "./../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "./../../Wolfie2D/Events/GameEvent";
 import GameNode from "./../../Wolfie2D/Nodes/GameNode";
-import NavigationPath from "./../../Wolfie2D/Pathfinding/NavigationPath";
-import BatAI, { EnemyStates } from "../BatAI";
+import OrthogonalTilemap from "./../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
+import Timer from "./../../Wolfie2D/Timing/Timer";
 import EnemyState from "./EnemyState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import BatAI, { EnemyStates } from "../BatAI";
 
-export default class Idle extends EnemyState {
-    private startPosition: Vec2;
+export default class Damaged extends EnemyState {
 
-    private awayFromStartPosition: boolean;
+    // The current known position of the player
+    playerPos: Vec2;
 
-    private retObj: Record<string, any>;
-    
+    // The last known position of the player
+    lastPlayerPos: Vec2;
+
+    // The return object for this state
+    retObj: Record<string, any>;
+
     constructor(parent: BatAI, owner: GameNode){
         super(parent, owner);
     }
 
     onEnter(options: Record<string, any>): void {
         (<AnimatedSprite> this.owner).animation.play("DAMAGE", false);
+        this.lastPlayerPos = this.parent.getPlayerPosition();
+        // Reset the return object
+        this.retObj = {};
     }
 
-    handleInput(event: GameEvent): void {
-    }
+    handleInput(event: GameEvent): void {}
 
     update(deltaT: number): void {
-        // if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) < 30){
-        //     this.finished(EnemyStates.ATTACKING);
-        // }
+        if(!(<AnimatedSprite> this.owner).animation.isPlaying("DAMAGE")) {
+            this.finished(EnemyStates.ATTACKING);
+        }
     }
 
     onExit(): Record<string, any> {
         (<AnimatedSprite> this.owner).animation.stop();
-        return {};
+        return this.retObj;
     }
 
 }
