@@ -11,6 +11,7 @@ import Timer from "../Wolfie2D/Timing/Timer";
 import AI from "../Wolfie2D/DataTypes/Interfaces/AI";
 import Item from "../GameSystems/Item";
 import Weapon from "../GameSystems/Weapon";
+import BattlerAI from "./BattlerAI";
 // import Damage from "./PlayerStates/Damage";
 
 export enum PlayerStates {
@@ -20,7 +21,7 @@ export enum PlayerStates {
     DAMAGE = "damage"
 }
 
-export default class PlayerController implements AI {
+export default class PlayerController implements BattlerAI {
     // fields from BattlerAI
     health: number;
 
@@ -138,6 +139,14 @@ export default class PlayerController implements AI {
             } else {
                 this.owner.invertX = false;
             }
+        }
+    }
+
+    damage(damage: number): void {
+        this.health -= damage;
+
+        if(this.health <= 0){
+            console.log("Game Over");
         }
     }
 

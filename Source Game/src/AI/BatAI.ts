@@ -50,7 +50,7 @@ export default class BatAI extends StateMachineAI implements BattlerAI {
             this.owner.setAIActive(false, {});
             this.owner.isCollidable = false;
             this.owner.animation.play("DYING");
-            this.owner.visible = false;
+            // this.owner.visible = false;
         }
     }
 

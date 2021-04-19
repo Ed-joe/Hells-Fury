@@ -16,6 +16,7 @@ import BatAI from "../AI/BatAI";
 import Weapon from "../GameSystems/Weapon";
 import BattleManager from "../GameSystems/BattleManager";
 import WeaponType from "../GameSystems/WeaponTypes/WeaponType"
+import BattlerAI from "../AI/BattlerAI";
 
 export default class GluttonyLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -69,6 +70,9 @@ export default class GluttonyLevel extends Scene {
 
         // TODO PROJECT - write initializeEnemies()
         this.initializeEnemies();
+
+        this.battle_manager.setPlayer(<BattlerAI>this.player._ai);
+        this.battle_manager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai));
 
 
         // setup viewport

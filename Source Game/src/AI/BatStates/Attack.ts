@@ -60,7 +60,7 @@ export default class Attack extends EnemyState {
             // Face player
             let dir = this.playerPos.clone().sub(this.owner.position).normalize();
             dir.rotateCCW(Math.PI / 4 * Math.random() - Math.PI/8);
-            this.owner.rotation = Vec2.UP.angleToCCW(dir);
+            this.owner.attack_direction = Vec2.UP.angleToCCW(dir);
         }
 
         if(this.exitTimer.isStopped()){
