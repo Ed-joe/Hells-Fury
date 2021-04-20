@@ -116,8 +116,6 @@ export default class GluttonyLevel extends Scene {
                         let node = this.sceneGraph.getNode(event.data.get("node"));
                         let other = this.sceneGraph.getNode(event.data.get("other"));
 
-                        console.log("bat collision");
-
                         let bat_pos = Vec2.ZERO;
                         if(node === this.player) {
                             // other is bat
@@ -138,8 +136,6 @@ export default class GluttonyLevel extends Scene {
                     {
                         let node = this.sceneGraph.getNode(event.data.get("node"));
                         let other = this.sceneGraph.getNode(event.data.get("other"));
-
-                        console.log("boss collision");
     
                         let boss_pos = Vec2.ZERO;
                         if(node === this.player) {
@@ -179,8 +175,17 @@ export default class GluttonyLevel extends Scene {
                 case Game_Events.BOSS_DIED:
                     {
                         let node = this.sceneGraph.getNode(event.data.get("owner"));
+                        let node2 = this.sceneGraph.getNode(event.data.get("owner"));
                         for(let i = 0; i < this.enemies.length ; i++){
+                            console.log(this.enemies[i].imageId);
                             if(this.enemies[i].id === (<AnimatedSprite> node).id){
+                                this.enemies.splice(i, 1);
+                                break;
+                            }
+                        }
+                        for(let i = 0; i < this.enemies.length ; i++){
+                            if(this.enemies[i].imageId === "Boss_hitbox"){
+                                node2 = this.sceneGraph.getNode(this.enemies[i].id);
                                 this.enemies.splice(i, 1);
                                 break;
                             }
@@ -192,6 +197,7 @@ export default class GluttonyLevel extends Scene {
                         // }
                         console.log(this.enemies);
                         node.destroy();
+                        node2.destroy();
                     }
                     break;
 
@@ -219,7 +225,7 @@ export default class GluttonyLevel extends Scene {
     initializePlayer(): void {
         // Create the player
         this.player = this.add.animatedSprite("player", "primary");
-        this.player.position.set(30*16, 62*16);
+        this.player.position.set(1018, 330);
         this.player.addPhysics(new AABB(new Vec2(0, 14), new Vec2(16, 15)), new Vec2(0, 15));
         let fist = this.createWeapon("punch");
         this.player.addAI(PlayerController,
@@ -311,9 +317,7 @@ export default class GluttonyLevel extends Scene {
         this.health_sprites = new Array<Sprite>();
         for(let i = 0; i < this.player_health; i++){
             let spriteToAdd = this.add.sprite("heart", "UI");
-            console.log(spriteToAdd);
             spriteToAdd.position = new Vec2(prev_loc.x + 25, prev_loc.y);
-            console.log(spriteToAdd);
             this.health_sprites.push(spriteToAdd);
             prev_loc = new Vec2(prev_loc.x + 25, prev_loc.y);
         }
