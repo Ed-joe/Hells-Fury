@@ -23,6 +23,7 @@ export default class GluttonySlam extends WeaponType {
     doAnimation(attacker: GameNode, direction: Vec2, slam_sprite: AnimatedSprite): void {
         // move the punch out from the player
         slam_sprite.position = attacker.position.clone()
+        slam_sprite.rotation += Math.random()*10 + 10;
 
         // play the slam animation but queue the normal animation
         slam_sprite.animation.play("SMASH");
