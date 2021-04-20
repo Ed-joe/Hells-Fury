@@ -247,6 +247,7 @@ export default class GluttonyLevel extends Scene {
                             }
                             this.player.freeze();
                             this.viewport.setZoomLevel(1);
+                            this.getLayer("UI").disable();
                             this.getLayer("Pause").enable();
                         }
                     }
@@ -258,6 +259,7 @@ export default class GluttonyLevel extends Scene {
                         }
                         this.player.unfreeze();
                         this.viewport.setZoomLevel(2);
+                        this.getLayer("UI").enable();
                         this.getLayer("Pause").disable();
                     }
                     break;
