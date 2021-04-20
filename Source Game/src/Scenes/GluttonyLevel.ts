@@ -83,6 +83,8 @@ export default class GluttonyLevel extends Scene {
 
         // add primary layer
         this.addLayer("primary", 10);
+        this.addLayer("above", 11);
+        this.addLayer("below", 9);
 
         //Add pause screen layer
         const center = this.viewport.getCenter();
@@ -366,7 +368,14 @@ export default class GluttonyLevel extends Scene {
     createWeapon(type: string): Weapon {
         let weaponType = <WeaponType>RegistryManager.getRegistry("weaponTypes").get(type);
 
-        let sprite = this.add.sprite(weaponType.sprite_key, "primary");
+        let sprite = null;
+        if(type === "punch") {
+            sprite = this.add.sprite(weaponType.sprite_key, "above");
+        }
+        else {
+            sprite = this.add.sprite(weaponType.sprite_key, "below");
+            console.log(sprite.getLayer());
+        }
 
         return new Weapon(sprite, weaponType, this.battle_manager);
     }

@@ -33,7 +33,7 @@ export default class Punch extends WeaponType {
     }
 
     createRequiredAssets(scene: Scene): [AnimatedSprite] {
-        let punch = scene.add.animatedSprite("fist", "primary");
+        let punch = scene.add.animatedSprite("fist", "above");
         punch.animation.play("NORMAL", true);
 
         return [punch];
