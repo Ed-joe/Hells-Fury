@@ -35,14 +35,14 @@
       "name": "ATTACK",
       "repeat": true,
       "frames": [
-        { "index": 4, "duration": 5 },
-        { "index": 5, "duration": 5 },
-        { "index": 6, "duration": 5 },
-        { "index": 7, "duration": 5 },
-        { "index": 8, "duration": 5 },
-        { "index": 9, "duration": 5 },
-        { "index": 10, "duration": 5 },
-        { "index": 11, "duration": 5 }
+        { "index": 4, "duration": 10 },
+        { "index": 5, "duration": 10 },
+        { "index": 6, "duration": 10 },
+        { "index": 7, "duration": 10 },
+        { "index": 8, "duration": 10 },
+        { "index": 9, "duration": 10 },
+        { "index": 10, "duration": 10 },
+        { "index": 11, "duration": 10 }
       ]
     },
     {

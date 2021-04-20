@@ -7,6 +7,8 @@ import Timer from "./../../Wolfie2D/Timing/Timer";
 import BossState from "./BossState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import GluttonyAI, { BossStates } from "../GluttonyAI";
+import Weapon from "../../GameSystems/Weapon";
+import { Game_Events } from "../../GameSystems/game_enums";
 
 export default class Attack extends BossState {
     // Timers for managing this state
@@ -22,6 +24,8 @@ export default class Attack extends BossState {
     // The return object for this state
     retObj: Record<string, any>;
 
+    smash: Weapon;
+
     constructor(parent: GluttonyAI, owner: GameNode){
         super(parent, owner);
 
@@ -32,7 +36,8 @@ export default class Attack extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
-        (<AnimatedSprite> this.owner).animation.play("ATTACK", true);
+        this.smash = this.parent.slam;
+        (<AnimatedSprite> this.owner).animation.play("ATTACK", false, Game_Events.GLUT_ATTACK);
         this.lastPlayerPos = this.parent.getPlayerPosition();
         // Reset the return object
         this.retObj = {};
@@ -41,16 +46,9 @@ export default class Attack extends BossState {
     handleInput(event: GameEvent): void {}
 
     update(deltaT: number): void {
-        if(this.pollTimer.isStopped()){
-            // Restart the timer
-            this.pollTimer.start();
 
-            this.playerPos = this.parent.getPlayerPosition();
-
-            if(this.playerPos !== null){
-                // If we see a new player position, update the last position
-                this.lastPlayerPos = this.playerPos;
-            }
+        if(this.parent.slam != undefined) {
+            this.smash = this.parent.slam;
         }
 
         if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) < 200){

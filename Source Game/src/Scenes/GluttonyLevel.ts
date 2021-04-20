@@ -66,6 +66,8 @@ export default class GluttonyLevel extends Scene {
 
         //Load pause screen
         this.load.image("pauseScreen", "game_assets/images/pause_background.png");
+        this.load.image("slam", "game_assets/spritesheets/smash.png");
+        this.load.spritesheet("slam", "game_assets/spritesheets/smash.json");
     }
 
     startScene() {
@@ -147,6 +149,17 @@ export default class GluttonyLevel extends Scene {
 
                         node._ai.handleEvent(event);
                         other._ai.handleEvent(event);
+                    }
+                    break;
+
+                case Game_Events.GLUT_ATTACK:
+                    {
+                        for(let i = 0; i < this.enemies.length ; i++){
+                            if(this.enemies[i].imageId === "Gluttony"){
+                                this.enemies[i]._ai.handleEvent(new GameEvent(Game_Events.GLUT_ATTACK));
+                                break;
+                            }
+                        }
                     }
                     break;
 
@@ -312,12 +325,22 @@ export default class GluttonyLevel extends Scene {
                 this.enemies[i].setTrigger("player", Game_Events.BAT_COLLISION, "bat hit player");
             }
             else if(data.enemy_type ===  "gluttony") {
+                let enemyOptions = {
+                    health: data.health,
+                    player: this.player,
+                    slam: this.createWeapon("slam")
+                }
                 this.enemies[i].addAI(GluttonyAI, enemyOptions);
                 this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(56, 56)));
                 this.enemies[i].setGroup("enemy");
                 this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
             }
             else {
+                let enemyOptions = {
+                    health: data.health,
+                    player: this.player,
+                    slam: this.createWeapon("slam")
+                }
                 this.enemies[i].addAI(GluttonyAI, enemyOptions);
                 this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(50, 50)));
             }
@@ -398,7 +421,8 @@ export default class GluttonyLevel extends Scene {
            Game_Events.INTRO_END,
            Game_Events.BOSS_COLLISION,
            Game_Events.ON_PAUSE,
-           Game_Events.ON_UNPAUSE
+           Game_Events.ON_UNPAUSE,
+           Game_Events.GLUT_ATTACK
         ]);
     }
 }

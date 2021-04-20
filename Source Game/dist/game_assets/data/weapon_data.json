@@ -1,6 +1,16 @@
 {
-    "numWeapons": 1,
+    "numWeapons": 2,
     "weapons": [
+        {
+            "weaponType": "slam",
+            "name": "slam",
+            "displayName": "Slam",
+            "animationSprite": "slam",
+            "spriteKey": "slam",
+            "damage": 1,
+            "cooldown": 0,
+            "useVolume": 0
+        },
         {
             "weaponType": "fist",
             "name": "punch",
