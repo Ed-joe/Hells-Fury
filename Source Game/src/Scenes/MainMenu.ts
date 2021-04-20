@@ -232,7 +232,8 @@ export default class MainMenu extends Scene {
                 this.sceneManager.changeToScene(GluttonyLevel, {
                     health: 5,
                     coins: 0
-                });
+                }, 
+                sceneOptions);
             }
             if(event.type === "levelLust") {
                 // TODO PROJECT - go to lust level (level 2)
