@@ -22,6 +22,8 @@ import { Game_Events } from "./../GameSystems/game_enums";
 import Game from "../Wolfie2D/Loop/Game";
 import GameEvent from "../Wolfie2D/Events/GameEvent";
 import Sprite from "../Wolfie2D/Nodes/Sprites/Sprite";
+import { TweenableProperties } from "./../Wolfie2D/Nodes/GameNode";
+import { EaseFunctionType } from "./../Wolfie2D/Utils/EaseFunctions";
 
 export default class GluttonyLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -30,7 +32,8 @@ export default class GluttonyLevel extends Scene {
     private enemies: Array<AnimatedSprite> ; // list of enemies
     private walls: OrthogonalTilemap ;       // the wall layer
     private battle_manager: BattleManager;   // battle manager
-    private health_sprites: Sprite[];                //sprites for health
+    private health_sprites: Sprite[];        //sprites for health
+    private level_start_label: Label;        //Label for when the level starts
 
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
@@ -96,8 +99,11 @@ export default class GluttonyLevel extends Scene {
         this.viewport.follow(this.player);
         this.viewport.setZoomLevel(2);
 
+        //Into label
+        this.player.freeze();
+        this.level_start_label.tweens.play("slideIn");
+
         // TODO PROJECT - receiver subscribe to events
-        // this.receiver.subscribe(EVENTSTRING);
         this.subscribeToEvents();
     }
 
@@ -109,8 +115,6 @@ export default class GluttonyLevel extends Scene {
                     {
                         let node = this.sceneGraph.getNode(event.data.get("node"));
                         let other = this.sceneGraph.getNode(event.data.get("other"));
-
-                        console.log("bat collision");
 
                         let bat_pos = Vec2.ZERO;
                         if(node === this.player) {
@@ -132,8 +136,6 @@ export default class GluttonyLevel extends Scene {
                     {
                         let node = this.sceneGraph.getNode(event.data.get("node"));
                         let other = this.sceneGraph.getNode(event.data.get("other"));
-
-                        console.log("boss collision");
     
                         let boss_pos = Vec2.ZERO;
                         if(node === this.player) {
@@ -148,12 +150,6 @@ export default class GluttonyLevel extends Scene {
     
                         node._ai.handleEvent(event);
                         other._ai.handleEvent(event);
-                    }
-                    break;
-
-                case Game_Events.ENEMY_DAMAGED:
-                    {
-                        
                     }
                     break;
 
@@ -176,17 +172,20 @@ export default class GluttonyLevel extends Scene {
                     }
                     break;
 
-                case Game_Events.BOSS_DAMAGED:
-                    {
-                    
-                    }
-                    break;
-
                 case Game_Events.BOSS_DIED:
                     {
                         let node = this.sceneGraph.getNode(event.data.get("owner"));
+                        let node2 = this.sceneGraph.getNode(event.data.get("owner"));
                         for(let i = 0; i < this.enemies.length ; i++){
+                            console.log(this.enemies[i].imageId);
                             if(this.enemies[i].id === (<AnimatedSprite> node).id){
+                                this.enemies.splice(i, 1);
+                                break;
+                            }
+                        }
+                        for(let i = 0; i < this.enemies.length ; i++){
+                            if(this.enemies[i].imageId === "Boss_hitbox"){
+                                node2 = this.sceneGraph.getNode(this.enemies[i].id);
                                 this.enemies.splice(i, 1);
                                 break;
                             }
@@ -198,6 +197,7 @@ export default class GluttonyLevel extends Scene {
                         // }
                         console.log(this.enemies);
                         node.destroy();
+                        node2.destroy();
                     }
                     break;
 
@@ -206,7 +206,13 @@ export default class GluttonyLevel extends Scene {
                         this.player._ai.handleEvent(new GameEvent(Game_Events.IFRAMES_OVER, {}));
                     }
                     break;
-                
+
+                case Game_Events.INTRO_END:
+                    {
+                        this.player.unfreeze();
+                        this.level_start_label.visible = false;
+                    }
+                    break;
                 case Game_Events.GAME_OVER:
                     {
                         console.log("GAME OVER");
@@ -219,7 +225,7 @@ export default class GluttonyLevel extends Scene {
     initializePlayer(): void {
         // Create the player
         this.player = this.add.animatedSprite("player", "primary");
-        this.player.position.set(30*16, 62*16);
+        this.player.position.set(1018, 330);
         this.player.addPhysics(new AABB(new Vec2(0, 14), new Vec2(16, 15)), new Vec2(0, 15));
         let fist = this.createWeapon("punch");
         this.player.addAI(PlayerController,
@@ -311,26 +317,47 @@ export default class GluttonyLevel extends Scene {
         this.health_sprites = new Array<Sprite>();
         for(let i = 0; i < this.player_health; i++){
             let spriteToAdd = this.add.sprite("heart", "UI");
-            console.log(spriteToAdd);
             spriteToAdd.position = new Vec2(prev_loc.x + 25, prev_loc.y);
-            console.log(spriteToAdd);
             this.health_sprites.push(spriteToAdd);
-            console.log("yooo");
             prev_loc = new Vec2(prev_loc.x + 25, prev_loc.y);
         }
         
+        // End of level label (start off screen)
+        this.level_start_label = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(-320, 100), text: "Gluttony's Greasy Grotto"});
+        this.level_start_label.size.set(1280, 60);
+        this.level_start_label.borderRadius = 0;
+        this.level_start_label.backgroundColor = Color.BLACK;
+        this.level_start_label.textColor = new Color(95, 90, 76);
+        this.level_start_label.fontSize = 48;
+        this.level_start_label.font = "HellText";
+
+        // Add a tween to move the label on screen
+        this.level_start_label.tweens.add("slideIn", {
+            startDelay: 0,
+            endDelay: 2000,
+            duration: 2000,
+            reverseOnComplete: true,
+            effects: [
+                {
+                    property: TweenableProperties.posX,
+                    start: -320,
+                    end: 320,
+                    ease: EaseFunctionType.OUT_SINE
+                }
+            ],
+            onEnd: Game_Events.INTRO_END
+        });
     }
 
 
     protected subscribeToEvents(){
         this.receiver.subscribe([
-           Game_Events.ENEMY_DAMAGED,
            Game_Events.ENEMY_DIED,
-           Game_Events.BOSS_DAMAGED,
            Game_Events.BOSS_DIED,
            Game_Events.BAT_COLLISION,
            Game_Events.GAME_OVER,
            Game_Events.IFRAMES_OVER,
+           Game_Events.INTRO_END,
            Game_Events.BOSS_COLLISION
         ]);
     }

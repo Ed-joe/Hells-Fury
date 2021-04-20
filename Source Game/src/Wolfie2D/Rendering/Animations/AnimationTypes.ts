@@ -39,6 +39,8 @@ export class TweenData {
     // Members for initialization by the user
     /** The amount of time in ms to wait before executing the tween */
     startDelay: number;
+    //End delay implementation, the amount of time in ms to wait before ending the tween 
+    endDelay: number;
     /** The duration of time over which the value with change from start to end */
     duration: number;
     /** An array of the effects on the properties of the object */

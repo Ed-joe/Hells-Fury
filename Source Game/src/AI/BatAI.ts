@@ -25,6 +25,12 @@ export default class BatAI extends StateMachineAI implements BattlerAI {
     /** A reference to the player object */
     player: GameNode;
 
+
+    
+    // update(deltaT: number): void {
+    //     console.log("BAT HERE");
+    // }
+
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.owner = owner;
 

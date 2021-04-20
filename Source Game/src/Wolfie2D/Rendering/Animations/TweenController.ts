@@ -164,7 +164,7 @@ export default class TweenController {
 
                 // If we're past the startDelay, do the tween
                 if(tween.elapsedTime >= tween.startDelay){
-                    if(!tween.reversing && tween.elapsedTime >= tween.startDelay + tween.duration){
+                    if(!tween.reversing && tween.elapsedTime >= tween.startDelay + tween.duration + tween.endDelay){
                         // If we're over time, stop the tween, loop, or reverse
                         if(tween.reverseOnComplete){
                             // If we're over time and can reverse, do so
@@ -179,7 +179,7 @@ export default class TweenController {
                     }
 
                     // Check for the end of reversing
-                    if(tween.reversing && tween.elapsedTime >= tween.startDelay + 2*tween.duration){
+                    if(tween.reversing && tween.elapsedTime >= tween.startDelay + 2*tween.duration + tween.endDelay){
                         if(tween.loop){
                             tween.reversing = false;
                             tween.elapsedTime -= 2*tween.duration;
@@ -190,7 +190,7 @@ export default class TweenController {
 
                     // Update the progress, make sure it is between 0 and 1. Errors from this should never be large
                     if(tween.reversing){
-                        tween.progress = MathUtils.clamp01((2*tween.duration - (tween.elapsedTime- tween.startDelay))/tween.duration);
+                        tween.progress = MathUtils.clamp01((2*tween.duration - (tween.elapsedTime- (tween.startDelay + tween.endDelay)))/tween.duration);
                     } else {
                         tween.progress = MathUtils.clamp01((tween.elapsedTime - tween.startDelay)/tween.duration);
                     }
