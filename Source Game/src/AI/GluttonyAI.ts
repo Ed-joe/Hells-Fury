@@ -12,6 +12,7 @@ import Idle from "./GluttonyStates/Idle";
 import BossState from "./GluttonyStates/BossState";
 import Damage from "./GluttonyStates/Damage";
 import { Game_Events } from "../GameSystems/game_enums";
+import Weapon from "../GameSystems/Weapon";
 
 
 export default class GluttonyAI extends StateMachineAI implements BattlerAI {
@@ -27,10 +28,13 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
     /** A reference to the player object */
     player: GameNode;
 
+    slam: Weapon;
+
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         console.log("Initialize Gluttony");
         this.owner = owner;
-
+        console.log(options.slam);
+        this.slam = options.slam;
         this.addState(BossStates.DEFAULT, new Idle(this, owner));
         this.addState(BossStates.ATTACKING, new Attack(this, owner));
         this.addState(BossStates.DAMAGE, new Damage(this, owner));
@@ -64,6 +68,13 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
         }
         else {
             this.changeState(BossStates.DAMAGE);
+        }
+    }
+
+    handleEvent(event: GameEvent): void {
+        if(event.type === Game_Events.GLUT_ATTACK) {
+            this.slam.use(this.owner, "enemies", Vec2.ZERO);
+            this.changeState(BossStates.DEFAULT);
         }
     }
 
@@ -109,6 +120,7 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
 
         return pos;
     }
+
 
     // State machine defers updates and event handling to its children
     // Check super classes for details

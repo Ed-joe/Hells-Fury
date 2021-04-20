@@ -2,12 +2,14 @@ import Registry from "../../Wolfie2D/Registry/Registries/Registry";
 import ResourceManager from "../../Wolfie2D/ResourceManager/ResourceManager";
 import WeaponType from "../WeaponTypes/WeaponType";
 import Punch from "../WeaponTypes/Punch";
+import GluttonySlam from "../WeaponTypes/GluttonySlam";
 
 export default class WeaponRegistry extends Registry<WeaponConstructor> {
     public preload(): void {
         const rm = ResourceManager.getInstance();
 
         rm.image("fist", "game_assets/images/splash_screen.png");
+
 
         
 
@@ -18,6 +20,8 @@ export default class WeaponRegistry extends Registry<WeaponConstructor> {
         console.log("loaded sprite");
 
         this.registerItem("fist", Punch);
+        
+        this.registerItem("slam", GluttonySlam);
     }
 
     public registerAndPreloadItem(key: string): void {}
