@@ -30,7 +30,7 @@ export default class GluttonySlam extends WeaponType {
     }
 
     createRequiredAssets(scene: Scene): [AnimatedSprite] {
-        let slam = scene.add.animatedSprite("slam", "primary");
+        let slam = scene.add.animatedSprite("slam", "below");
         slam.animation.play("NORMAL", true);
 
         return [slam];
