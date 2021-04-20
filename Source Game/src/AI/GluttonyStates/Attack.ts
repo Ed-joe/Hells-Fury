@@ -21,48 +21,23 @@ export default class Attack extends BossState {
     // The last known position of the player
     lastPlayerPos: Vec2;
 
-    // The return object for this state
-    retObj: Record<string, any>;
-
-    smash: Weapon;
-
     constructor(parent: GluttonyAI, owner: GameNode){
         super(parent, owner);
-
-        // Regularly update the player location
-        this.pollTimer = new Timer(100);
-
-        this.exitTimer = new Timer(1000);
     }
 
     onEnter(options: Record<string, any>): void {
-        this.smash = this.parent.slam;
+        console.log("enter glut attack");
         (<AnimatedSprite> this.owner).animation.play("ATTACK", false, Game_Events.GLUT_ATTACK);
-        this.lastPlayerPos = this.parent.getPlayerPosition();
-        // Reset the return object
-        this.retObj = {};
     }
 
     handleInput(event: GameEvent): void {}
 
     update(deltaT: number): void {
-
-        if(this.parent.slam != undefined) {
-            this.smash = this.parent.slam;
-        }
-
-        if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) < 180){
-            // Player is nearby, restart the exitTimer
-            this.exitTimer.start();
-        }
-
-        if(this.exitTimer.isStopped()){
-            this.finished(BossStates.DEFAULT);
-        }
+        
     }
 
     onExit(): Record<string, any> {
-        return this.retObj;
+        return {};
     }
 
 }

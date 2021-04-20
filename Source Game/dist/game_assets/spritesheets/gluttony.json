@@ -33,13 +33,13 @@
     },
     {
       "name": "ATTACK",
-      "repeat": true,
+      "repeat": false,
       "frames": [
-        { "index": 8, "duration": 20 },
-        { "index": 4, "duration": 20 },
-        { "index": 5, "duration": 20 },
-        { "index": 6, "duration": 20 },
-        { "index": 7, "duration": 20 }
+        { "index": 8, "duration": 8 },
+        { "index": 4, "duration": 8 },
+        { "index": 5, "duration": 8 },
+        { "index": 6, "duration": 8 },
+        { "index": 7, "duration": 8 }
       ]
     },
     {
