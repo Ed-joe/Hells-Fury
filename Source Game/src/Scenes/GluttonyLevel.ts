@@ -24,6 +24,7 @@ import GameEvent from "../Wolfie2D/Events/GameEvent";
 import Sprite from "../Wolfie2D/Nodes/Sprites/Sprite";
 import { TweenableProperties } from "./../Wolfie2D/Nodes/GameNode";
 import { EaseFunctionType } from "./../Wolfie2D/Utils/EaseFunctions";
+import GameOver from "./GameOver"
 
 export default class GluttonyLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -242,6 +243,9 @@ export default class GluttonyLevel extends Scene {
                 case Game_Events.GAME_OVER:
                     {
                         console.log("GAME OVER");
+                        this.viewport.stopFollow();
+                        this.viewport.setZoomLevel(1);
+                        this.sceneManager.changeToScene(GameOver, {});
                     }
                     break;
             }

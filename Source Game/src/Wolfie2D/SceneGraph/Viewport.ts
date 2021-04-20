@@ -223,6 +223,10 @@ export default class Viewport {
         this.following = node;
     }
 
+    stopFollow(): void {
+        this.following = undefined;
+    }
+
     updateView(): void {
         if(this.lastPositions.getSize() > this.smoothingFactor){
             this.lastPositions.dequeue();
