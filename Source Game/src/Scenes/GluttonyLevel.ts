@@ -164,10 +164,6 @@ export default class GluttonyLevel extends Scene {
                             }
                         }
                         this.battle_manager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai));
-
-                        // for(let i = 0; i < this.enemies.length; i++){
-                        //     console.log(this.enemies[i].imageId);
-                        // }
                         console.log(this.enemies);
                         node.destroy();
                     }
@@ -192,13 +188,11 @@ export default class GluttonyLevel extends Scene {
                             }
                         }
                         this.battle_manager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai));
-
-                        // for(let i = 0; i < this.enemies.length; i++){
-                        //     console.log(this.enemies[i].imageId);
-                        // }
                         console.log(this.enemies);
+                        if(node2 != node) {
+                            node2.destroy();
+                        }
                         node.destroy();
-                        node2.destroy();
                     }
                     break;
 
@@ -212,6 +206,15 @@ export default class GluttonyLevel extends Scene {
                     {
                         this.player.unfreeze();
                         this.level_start_label.visible = false;
+                    }
+                    break;
+                case Game_Events.ON_PAUSE:
+                    {   
+                        for(let enemy of this.enemies){
+                            enemy.freeze();
+                        }
+                        this.player.freeze();
+                        
                     }
                     break;
                 case Game_Events.GAME_OVER:
@@ -362,7 +365,9 @@ export default class GluttonyLevel extends Scene {
            Game_Events.GAME_OVER,
            Game_Events.IFRAMES_OVER,
            Game_Events.INTRO_END,
-           Game_Events.BOSS_COLLISION
+           Game_Events.BOSS_COLLISION,
+           Game_Events.ON_PAUSE,
+           Game_Events.ON_UNPAUSE
         ]);
     }
 }

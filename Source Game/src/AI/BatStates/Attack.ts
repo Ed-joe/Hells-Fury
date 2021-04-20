@@ -28,7 +28,7 @@ export default class Attack extends EnemyState {
 
         // Regularly update the player location
         this.exitTimer = new Timer(1000);
-        this.resetTimer = new Timer(3000);
+        this.resetTimer = new Timer(2000);
     }
 
     onEnter(options: Record<string, any>): void {

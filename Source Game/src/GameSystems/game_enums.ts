@@ -5,5 +5,7 @@ export enum Game_Events {
     GAME_OVER = "GameOver",
     IFRAMES_OVER = "IframesOver",
     INTRO_END = "IntroEnd",
-    BOSS_COLLISION = "BossCollision"
+    BOSS_COLLISION = "BossCollision",
+    ON_PAUSE = "OnPause",
+    ON_UNPAUSE = "OnUnpause"
 }
