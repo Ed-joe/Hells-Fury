@@ -20,6 +20,7 @@ import WeaponTypeRegistry from "./GameSystems/Registry/WeaponTypeRegistry";
             {name: "right", keys: ["d"]},
             {name: "interact", keys: ["e"]},
             {name: "pause", keys: ["escape"]},
+            {name: "invincible", keys: ["i"]}
         ]
     }
 

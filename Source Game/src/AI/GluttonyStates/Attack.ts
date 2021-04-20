@@ -26,7 +26,6 @@ export default class Attack extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
-        console.log("enter glut attack");
         (<AnimatedSprite> this.owner).animation.play("ATTACK", false, Game_Events.GLUT_ATTACK);
     }
 

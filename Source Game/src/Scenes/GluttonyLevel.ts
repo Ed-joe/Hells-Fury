@@ -154,7 +154,6 @@ export default class GluttonyLevel extends Scene {
 
                 case Game_Events.GLUT_ATTACK:
                     {
-                        console.log("gluttony attack");
                         for(let i = 0; i < this.enemies.length ; i++){
                             if(this.enemies[i].imageId === "Gluttony"){
                                 this.enemies[i]._ai.handleEvent(new GameEvent(Game_Events.GLUT_ATTACK));
@@ -195,7 +194,6 @@ export default class GluttonyLevel extends Scene {
                             }
                         }
                         this.battle_manager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai));
-                        console.log(this.enemies);
                         node.destroy();
                     }
                     break;
@@ -205,7 +203,6 @@ export default class GluttonyLevel extends Scene {
                         let node = this.sceneGraph.getNode(event.data.get("owner"));
                         let node2 = this.sceneGraph.getNode(event.data.get("owner"));
                         for(let i = 0; i < this.enemies.length ; i++){
-                            console.log(this.enemies[i].imageId);
                             if(this.enemies[i].id === (<AnimatedSprite> node).id){
                                 this.enemies.splice(i, 1);
                                 break;
@@ -219,7 +216,6 @@ export default class GluttonyLevel extends Scene {
                             }
                         }
                         this.battle_manager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai));
-                        console.log(this.enemies);
                         if(node2 != node) {
                             node2.destroy();
                         }

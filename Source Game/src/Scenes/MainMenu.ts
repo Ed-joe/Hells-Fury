@@ -193,7 +193,6 @@ export default class MainMenu extends Scene {
 
             if(event.type === "newGame") {
                 // TODO PROJECT - setup new game scene from here (maybe add options)
-                console.log("New Game Event");
                 this.sceneManager.changeToScene(GluttonyLevel, {
                     health: 5,
                     coins: 0
@@ -201,7 +200,6 @@ export default class MainMenu extends Scene {
             }
 
             if(event.type === "mainMenu") {
-                console.log("Main Menu Event");
                 this.main_menu.setHidden(false);
                 this.level_select.setHidden(true);
                 this.help.setHidden(true);
@@ -209,19 +207,16 @@ export default class MainMenu extends Scene {
             }
 
             if(event.type === "levelSelect") {
-                console.log("Level Select Event");
                 this.main_menu.setHidden(true);
                 this.level_select.setHidden(false);
             }
 
             if(event.type === "help") {
-                console.log("Help Event");
                 this.main_menu.setHidden(true);
                 this.help.setHidden(false);
             }
 
             if(event.type === "controls") {
-                console.log("Controls Event");
                 this.main_menu.setHidden(true);
                 this.controls.setHidden(false);
             }

@@ -23,8 +23,6 @@ export default class Damaged extends EnemyState {
     onEnter(options: Record<string, any>): void {
         (<AnimatedSprite> this.owner).animation.play("DAMAGE", false);
         this.lastPlayerPos = this.parent.getPlayerPosition();
-        // Reset the return object
-        this.retObj = {};
     }
 
     handleInput(event: GameEvent): void {}

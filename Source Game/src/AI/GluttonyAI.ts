@@ -33,7 +33,6 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         console.log("Initialize Gluttony");
         this.owner = owner;
-        console.log(options.slam);
         this.slam = options.slam;
         this.addState(BossStates.DEFAULT, new Idle(this, owner));
         this.addState(BossStates.ATTACKING, new Attack(this, owner));
@@ -63,8 +62,6 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
             if(!this.owner.animation.isPlaying("DYING")) {
                 this.owner.animation.play("DYING", false, Game_Events.BOSS_DIED);
             }
-
-            console.log("ded gluttony");
             // this.owner.animation.play("DYING");
             // this.owner.visible = false;
         }
@@ -74,7 +71,6 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
     }
 
     handleEvent(event: GameEvent): void {
-        console.log("attack shock");
         if(event.type === Game_Events.GLUT_ATTACK) {
             this.slam.use(this.owner, "enemies", Vec2.ZERO);
             this.changeState(BossStates.DEFAULT);

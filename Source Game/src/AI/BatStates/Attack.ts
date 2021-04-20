@@ -64,5 +64,6 @@ export default class Attack extends EnemyState {
 
     onExit(): Record<string, any> {
         return {}
+    }
 
 }

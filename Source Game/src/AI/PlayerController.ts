@@ -47,6 +47,7 @@ export default class PlayerController implements BattlerAI {
 
     // for i-frames
     invincible: boolean;
+    invincible_cheat: boolean;
 
     protected emitter: Emitter;
 
@@ -62,6 +63,7 @@ export default class PlayerController implements BattlerAI {
         this.coins = options.coins;
         this.slippery = options.slippery !== undefined ? options.slippery : false;
         this.fist = options.fist;
+        this.invincible_cheat = false;
     }
 
     activate(options: Record<string, any>): void {}
@@ -78,12 +80,16 @@ export default class PlayerController implements BattlerAI {
             this.invincible = true;
         }
         else if(event.type === Game_Events.IFRAMES_OVER) {
-            console.log("not invincible");
             this.invincible = false;
         }
     }
 
     update(deltaT: number): void {
+        if(Input.isJustPressed("invincible")) {
+            this.invincible_cheat = !this.invincible_cheat;
+            console.log("invincible: " + this.invincible_cheat);
+        }
+
         if(!this.owner.frozen){
             // get the movement direction
             this.direction.x = (Input.isPressed("left") ? -1 : 0) + (Input.isPressed("right") ? 1 : 0);
@@ -98,6 +104,10 @@ export default class PlayerController implements BattlerAI {
                     else {this.curr_velocity.x -= this.curr_velocity.normalized().scale(this.speed * deltaT).x / 40;}
                     if(this.direction.y !== 0) {this.curr_velocity.y += this.direction.normalized().scale(this.speed * deltaT).y / 20;}
                     else {this.curr_velocity.y -= this.curr_velocity.normalized().scale(this.speed * deltaT).y / 40;}
+
+                    if(this.curr_velocity.mag() > 6) {
+                        this.curr_velocity = this.curr_velocity.normalized().scale(6);
+                    }
 
                     this.owner.move(this.curr_velocity);
                 } else {
@@ -139,7 +149,6 @@ export default class PlayerController implements BattlerAI {
                 let attack_success = this.fist.use(this.owner, "player", this.attack_direction);
 
                 if(attack_success) {
-                    console.log("punch event");
                     this.owner.animation.play("ATTACK", false, Game_Events.IFRAMES_OVER);
                 }
             }
@@ -157,27 +166,27 @@ export default class PlayerController implements BattlerAI {
         
         if(Input.isJustPressed("pause")){
             if(this.owner.getScene().getLayer("Pause").isHidden()){
-                console.log(this.curr_velocity);
                 this.emitter.fireEvent(Game_Events.ON_PAUSE);
             }else{
-                console.log(this.curr_velocity);
                 this.emitter.fireEvent(Game_Events.ON_UNPAUSE);
             }
         }
     }
 
     damage(damage: number): void {
-        if(!this.invincible) {
+        console.log(this.invincible);
+        console.log(this.invincible_cheat);
+        if(!this.invincible && !this.invincible_cheat) {
+            console.log("not invincible");
             this.health -= damage;
-            this.health_sprites[this.health_sprites.length - 1].getLayer().removeNode(this.health_sprites[this.health_sprites.length - 1]);
-            this.health_sprites.splice(this.health_sprites.length - 1, 1);
+            
             if(this.health <= 0){
-                console.log("Game Over");
                 this.emitter.fireEvent(Game_Events.GAME_OVER, {});
             } else {
+                this.health_sprites[this.health_sprites.length - 1].getLayer().removeNode(this.health_sprites[this.health_sprites.length - 1]);
+                this.health_sprites.splice(this.health_sprites.length - 1, 1);
                 this.owner.animation.play("DAMAGE", false, Game_Events.IFRAMES_OVER);
                 this.invincible = true;
-                console.log("invincible");
             }
         }
     }
