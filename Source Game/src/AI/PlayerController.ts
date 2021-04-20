@@ -11,6 +11,7 @@ import BattlerAI from "./BattlerAI";
 import Emitter from "../Wolfie2D/Events/Emitter";
 import { Game_Events } from "../GameSystems/game_enums"
 import Sprite from "../Wolfie2D/Nodes/Sprites/Sprite";
+import Game from "../Wolfie2D/Loop/Game";
 
 export enum PlayerStates {
     IDLE = "idle",
@@ -151,6 +152,15 @@ export default class PlayerController implements BattlerAI {
                 } else {
                     this.owner.invertX = false;
                 }
+            }
+        }
+        if(Input.isJustPressed("pause")){
+            if(this.owner.getScene().getLayer("Pause").isHidden()){
+                console.log(this.curr_velocity);
+                this.emitter.fireEvent(Game_Events.ON_PAUSE);
+            }else{
+                console.log(this.curr_velocity);
+                this.emitter.fireEvent(Game_Events.ON_UNPAUSE);
             }
         }
     }

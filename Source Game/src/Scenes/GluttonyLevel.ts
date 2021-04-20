@@ -62,6 +62,9 @@ export default class GluttonyLevel extends Scene {
 
         this.load.image("fist", "game_assets/spritesheets/impact.png");
         this.load.spritesheet("fist", "game_assets/spritesheets/impact.json");
+
+        //Load pause screen
+        this.load.image("pauseScreen", "game_assets/images/pause_background.png");
     }
 
     startScene() {
@@ -77,6 +80,17 @@ export default class GluttonyLevel extends Scene {
 
         // add primary layer
         this.addLayer("primary", 10);
+
+        //Add pause screen layer
+        const center = this.viewport.getCenter();
+        this.addUILayer("Pause").disable();
+        this.add.sprite("pauseScreen", "Pause");
+        const new_game_button = this.add.uiElement(UIElementType.BUTTON, "Pause", {position: new Vec2(center.x - 14, center.y - 170), text: ""});
+        new_game_button.size.set(330, 70);
+        new_game_button.borderWidth = 2;
+        new_game_button.borderColor = Color.TRANSPARENT;
+        new_game_button.backgroundColor = Color.TRANSPARENT;
+        new_game_button.onClickEventId = "newGame";
 
         // Add a layer for UI
         this.addUILayer("UI");
@@ -213,7 +227,16 @@ export default class GluttonyLevel extends Scene {
                             enemy.freeze();
                         }
                         this.player.freeze();
-                        
+                        this.getLayer("Pause").enable();
+                    }
+                    break;
+                case Game_Events.ON_UNPAUSE:
+                    {   
+                        for(let enemy of this.enemies){
+                            enemy.unfreeze();
+                        }
+                        this.player.unfreeze();
+                        this.getLayer("Pause").disable();
                     }
                     break;
                 case Game_Events.GAME_OVER:
