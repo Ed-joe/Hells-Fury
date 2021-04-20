@@ -196,8 +196,10 @@ export default class GluttonyLevel extends Scene {
                         //     console.log(this.enemies[i].imageId);
                         // }
                         console.log(this.enemies);
+                        if(node2 != node) {
+                            node2.destroy();
+                        }
                         node.destroy();
-                        node2.destroy();
                     }
                     break;
 
