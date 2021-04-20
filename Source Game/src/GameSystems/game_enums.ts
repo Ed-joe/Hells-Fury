@@ -4,5 +4,6 @@ export enum Game_Events {
     BAT_COLLISION = "BatCollision",
     GAME_OVER = "GameOver",
     IFRAMES_OVER = "IframesOver",
-    INTRO_END = "IntroEnd"
+    INTRO_END = "IntroEnd",
+    BOSS_COLLISION = "BossCollision"
 }
