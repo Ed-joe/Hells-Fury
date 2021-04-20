@@ -154,6 +154,7 @@ export default class GluttonyLevel extends Scene {
 
                 case Game_Events.GLUT_ATTACK:
                     {
+                        console.log("gluttony attack");
                         for(let i = 0; i < this.enemies.length ; i++){
                             if(this.enemies[i].imageId === "Gluttony"){
                                 this.enemies[i]._ai.handleEvent(new GameEvent(Game_Events.GLUT_ATTACK));

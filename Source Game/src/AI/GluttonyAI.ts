@@ -54,6 +54,8 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
 
     damage(damage: number): void {
         this.health -= damage;
+
+        this.changeState(BossStates.DAMAGE);
         
         if(this.health <= 0){
             this.owner.setAIActive(false, {});
