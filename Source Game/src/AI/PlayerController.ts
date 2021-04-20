@@ -154,6 +154,7 @@ export default class PlayerController implements BattlerAI {
                 }
             }
         }
+        
         if(Input.isJustPressed("pause")){
             if(this.owner.getScene().getLayer("Pause").isHidden()){
                 console.log(this.curr_velocity);

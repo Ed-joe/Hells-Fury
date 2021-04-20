@@ -35,7 +35,7 @@ export default class GluttonyLevel extends Scene {
     private battle_manager: BattleManager;   // battle manager
     private health_sprites: Sprite[];        //sprites for health
     private level_start_label: Label;        //Label for when the level starts
-
+    private disablePause: boolean;           //Dont let pause while tru >:)
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
         this.player_health = init.health;
@@ -85,13 +85,14 @@ export default class GluttonyLevel extends Scene {
         //Add pause screen layer
         const center = this.viewport.getCenter();
         this.addUILayer("Pause").disable();
-        this.add.sprite("pauseScreen", "Pause");
-        const new_game_button = this.add.uiElement(UIElementType.BUTTON, "Pause", {position: new Vec2(center.x - 14, center.y - 170), text: ""});
-        new_game_button.size.set(330, 70);
-        new_game_button.borderWidth = 2;
-        new_game_button.borderColor = Color.TRANSPARENT;
-        new_game_button.backgroundColor = Color.TRANSPARENT;
-        new_game_button.onClickEventId = "newGame";
+        let hb = this.add.sprite("pauseScreen", "Pause");
+        hb.position.set(hb.size.x/2, hb.size.y/2)
+        // const new_game_button = this.add.uiElement(UIElementType.BUTTON, "Pause", {position: new Vec2(center.x, center.y), text: ""});
+        // new_game_button.size.set(330, 70);
+        // new_game_button.borderWidth = 2;
+        // new_game_button.borderColor = Color.WHITE;
+        // new_game_button.backgroundColor = Color.TRANSPARENT;
+        // new_game_button.onClickEventId = "newGame";
 
         // Add a layer for UI
         this.addUILayer("UI");
@@ -116,6 +117,8 @@ export default class GluttonyLevel extends Scene {
 
         //Into label
         this.player.freeze();
+        
+        this.disablePause = true;
         this.level_start_label.tweens.play("slideIn");
 
         // TODO PROJECT - receiver subscribe to events
@@ -218,17 +221,21 @@ export default class GluttonyLevel extends Scene {
 
                 case Game_Events.INTRO_END:
                     {
+                        this.disablePause = false;
                         this.player.unfreeze();
                         this.level_start_label.visible = false;
                     }
                     break;
                 case Game_Events.ON_PAUSE:
                     {   
-                        for(let enemy of this.enemies){
-                            enemy.freeze();
+                        if(!this.disablePause){
+                            for(let enemy of this.enemies){
+                                enemy.freeze();
+                            }
+                            this.player.freeze();
+                            this.viewport.setZoomLevel(1);
+                            this.getLayer("Pause").enable();
                         }
-                        this.player.freeze();
-                        this.getLayer("Pause").enable();
                     }
                     break;
                 case Game_Events.ON_UNPAUSE:
@@ -237,6 +244,7 @@ export default class GluttonyLevel extends Scene {
                             enemy.unfreeze();
                         }
                         this.player.unfreeze();
+                        this.viewport.setZoomLevel(2);
                         this.getLayer("Pause").disable();
                     }
                     break;
