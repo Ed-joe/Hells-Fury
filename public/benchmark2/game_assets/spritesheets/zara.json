@@ -1,0 +1,53 @@
+{
+    "name": "Zara",
+    "spriteSheetImage": "zara.png",
+    "spriteWidth": 64,
+    "spriteHeight": 64,
+    "columns": 18,
+    "rows": 1,
+    "durationType": "time",
+    "animations": [
+        { 
+            "name": "IDLE",
+            "frames": [ 
+                {"index": 0, "duration": 15},
+                {"index": 1, "duration": 15},
+                {"index": 2, "duration": 15},
+                {"index": 3, "duration": 15}
+            ]
+        },
+        {
+            "name": "DAMAGE",
+            "frames": [
+                {"index": 4, "duration": 12},
+                {"index": 5, "duration": 12},
+                {"index": 6, "duration": 12},
+                {"index": 7, "duration": 12},
+                {"index": 4, "duration": 12},
+                {"index": 5, "duration": 12},
+                {"index": 6, "duration": 12},
+                {"index": 7, "duration": 12}
+            ]
+        },
+        {
+            "name": "WALK",
+            "frames": [
+                {"index": 8, "duration": 10},
+                {"index": 9, "duration": 10},
+                {"index": 10, "duration": 10},
+                {"index": 11, "duration": 10},
+                {"index": 12, "duration": 10},
+                {"index": 13, "duration": 10}
+            ]
+        },
+        {
+            "name": "ATTACK",
+            "frames": [
+                {"index": 14, "duration": 8},
+                {"index": 15, "duration": 8},
+                {"index": 16, "duration": 8},
+                {"index": 17, "duration": 8}
+            ]
+        }
+    ]
+}
