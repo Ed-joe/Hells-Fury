@@ -5,5 +5,6 @@ export enum Game_Events {
     BOSS_DIED = "BossDied",
     BAT_COLLISION = "BatCollision",
     GAME_OVER = "GameOver",
-    IFRAMES_OVER = "IframesOver"
+    IFRAMES_OVER = "IframesOver",
+    BOSS_COLLISION = "BossCollision"
 }

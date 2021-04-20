@@ -10,6 +10,7 @@ import Weapon from "../GameSystems/Weapon";
 import BattlerAI from "./BattlerAI";
 import Emitter from "../Wolfie2D/Events/Emitter";
 import { Game_Events } from "../GameSystems/game_enums"
+import Sprite from "../Wolfie2D/Nodes/Sprites/Sprite";
 
 export enum PlayerStates {
     IDLE = "idle",
@@ -21,6 +22,7 @@ export enum PlayerStates {
 export default class PlayerController implements BattlerAI {
     // fields from BattlerAI
     health: number;
+    health_sprites: Sprite[];
 
     // player sprite
     owner: AnimatedSprite;
@@ -54,7 +56,7 @@ export default class PlayerController implements BattlerAI {
         this.attack_direction = Vec2.ZERO;
         this.speed = options.speed;
         this.emitter = new Emitter();
-
+        this.health_sprites = options.health_sprites;
         this.health = options.health;
         this.coins = options.coins;
         this.slippery = options.slippery !== undefined ? options.slippery : false;
@@ -65,6 +67,11 @@ export default class PlayerController implements BattlerAI {
 
     handleEvent(event: GameEvent): void {
         if(event.type === Game_Events.BAT_COLLISION) {
+            // take 1 damage
+            this.damage(1);
+            this.invincible = true;
+        }
+        else if(event.type === Game_Events.BOSS_COLLISION) {
             // take 1 damage
             this.damage(1);
             this.invincible = true;
@@ -149,7 +156,8 @@ export default class PlayerController implements BattlerAI {
     damage(damage: number): void {
         if(!this.invincible) {
             this.health -= damage;
-
+            this.health_sprites[this.health_sprites.length - 1].getLayer().removeNode(this.health_sprites[this.health_sprites.length - 1]);
+            this.health_sprites.splice(this.health_sprites.length - 1, 1);
             if(this.health <= 0){
                 console.log("Game Over");
                 this.emitter.fireEvent(Game_Events.GAME_OVER, {});

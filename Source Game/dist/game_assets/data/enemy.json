@@ -1,5 +1,5 @@
 {
-    "numEnemies": 4,
+    "numEnemies": 5,
     "enemies": [
         {
             "position": [443, 968],
@@ -19,6 +19,11 @@
         {
             "position": [1025, 938],
             "enemy_type": "gluttony",
+            "health": 20
+        },
+        {
+            "position": [1025, 937],
+            "enemy_type": "boss_hitbox",
             "health": 20
         }
     ]
