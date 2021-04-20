@@ -16,9 +16,6 @@ export default class Damaged extends EnemyState {
     // The last known position of the player
     lastPlayerPos: Vec2;
 
-    // The return object for this state
-    retObj: Record<string, any>;
-
     constructor(parent: BatAI, owner: GameNode){
         super(parent, owner);
     }
@@ -40,7 +37,7 @@ export default class Damaged extends EnemyState {
 
     onExit(): Record<string, any> {
         (<AnimatedSprite> this.owner).animation.stop();
-        return this.retObj;
+        return {};
     }
 
 }

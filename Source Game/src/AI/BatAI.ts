@@ -43,8 +43,6 @@ export default class BatAI extends StateMachineAI implements BattlerAI {
 
         // Initialize to the default state
         this.initialize(EnemyStates.DEFAULT);
-
-        this.getPlayerPosition();
     }
 
     activate(options: Record<string, any>): void {

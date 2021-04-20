@@ -11,8 +11,6 @@ export default class Idle extends EnemyState {
 
     private awayFromStartPosition: boolean;
 
-    private retObj: Record<string, any>;
-    
     constructor(parent: BatAI, owner: GameNode){
         super(parent, owner);
     }

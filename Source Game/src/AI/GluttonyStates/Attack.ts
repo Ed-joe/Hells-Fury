@@ -36,6 +36,8 @@ export default class Attack extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
+        console.log("Attack state enter");
+        this.exitTimer.start();
         this.smash = this.parent.slam;
         (<AnimatedSprite> this.owner).animation.play("ATTACK", false, Game_Events.GLUT_ATTACK);
         this.lastPlayerPos = this.parent.getPlayerPosition();
