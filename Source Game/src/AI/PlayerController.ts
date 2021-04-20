@@ -133,14 +133,14 @@ export default class PlayerController implements BattlerAI {
             this.owner.attack_direction = Vec2.UP.angleToCCW(this.attack_direction);
 
             // punch attack
-            if(!dont_interrupt && Input.isMouseJustPressed()) {
+            if(!this.owner.animation.isPlaying("Attack") && Input.isMouseJustPressed()) {
                 // TODO PROJECT - implement punch attack here
                 
                 let attack_success = this.fist.use(this.owner, "player", this.attack_direction);
 
                 if(attack_success) {
                     console.log("punch event");
-                    this.owner.animation.play("ATTACK", false);
+                    this.owner.animation.play("ATTACK", false, Game_Events.IFRAMES_OVER);
                 }
             }
 
