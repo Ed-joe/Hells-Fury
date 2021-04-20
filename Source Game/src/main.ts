@@ -3,6 +3,7 @@ import SplashScreen from "./Scenes/SplashScreen";
 import RegistryManager from "./Wolfie2D/Registry/RegistryManager";
 import WeaponRegistry from "./GameSystems/Registry/WeaponRegistry";
 import WeaponTypeRegistry from "./GameSystems/Registry/WeaponTypeRegistry";
+import FixedUpdateGameLoop from "./Wolfie2D/Loop/FixedUpdateGameLoop";
 
 // The main function is your entrypoint into Wolfie2D. Specify your first scene and any options here.
 (function main(){
@@ -33,7 +34,8 @@ import WeaponTypeRegistry from "./GameSystems/Registry/WeaponTypeRegistry";
 
     // Create a game with the options specified
     const game = new Game(options);
-
+    let gameLoop = <FixedUpdateGameLoop> game.getGameLoop();
+    gameLoop.setMaxFPS(80);
     // Start our game
     game.start(SplashScreen, {});
 })();

@@ -46,7 +46,7 @@ export default class Game {
 	private eventQueue: EventQueue;
 	private inputHandler: InputHandler;
 	private recorder: Recorder;
-    private resourceManager: ResourceManager;
+    private resourceManager: ResourceManager; 
     private sceneManager: SceneManager;
     private audioManager: AudioManager;
     private renderingManager: RenderingManager;
@@ -210,5 +210,10 @@ export default class Game {
             console.warn("Uncaught Error in Render - Crashing gracefully");
             console.error(e);
         }
+    }
+
+    //Getter method for game loop added by le edward carey
+    getGameLoop(): GameLoop {
+        return this.loop;
     }
 }

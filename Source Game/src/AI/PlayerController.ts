@@ -174,10 +174,7 @@ export default class PlayerController implements BattlerAI {
     }
 
     damage(damage: number): void {
-        console.log(this.invincible);
-        console.log(this.invincible_cheat);
         if(!this.invincible && !this.invincible_cheat) {
-            console.log("not invincible");
             this.health -= damage;
             
             if(this.health <= 0){

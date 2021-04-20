@@ -89,7 +89,6 @@ export default class FixedUpdateGameLoop extends GameLoop {
         Debug.log("fps", "FPS: " + this.fps.toFixed(1));
         Stats.updateFPS(this.fps);
     }
-
 	    /**
      * Changes the maximum allowed physics framerate of the game
      * @param initMax The max framerate
