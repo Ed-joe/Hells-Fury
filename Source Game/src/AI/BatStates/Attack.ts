@@ -16,10 +16,7 @@ export default class Attack extends EnemyState {
 
     // The last known position of the player
     lastPlayerPos: Vec2;
-
-    // The return object for this state
-    retObj: Record<string, any>;
-
+    
     //Done Moving
     doneMoving: boolean;
 
@@ -35,8 +32,6 @@ export default class Attack extends EnemyState {
         this.resetTimer.start();
         (<AnimatedSprite> this.owner).animation.play("ATTACK", true);
         this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
-        // Reset the return object
-        this.retObj = {};
     }
 
     handleInput(event: GameEvent): void {}
@@ -68,7 +63,6 @@ export default class Attack extends EnemyState {
     }
 
     onExit(): Record<string, any> {
-        return this.retObj;
-    }
+        return {}
 
 }

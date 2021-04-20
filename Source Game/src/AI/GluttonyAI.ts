@@ -74,6 +74,7 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
     }
 
     handleEvent(event: GameEvent): void {
+        console.log("attack shock");
         if(event.type === Game_Events.GLUT_ATTACK) {
             this.slam.use(this.owner, "enemies", Vec2.ZERO);
             this.changeState(BossStates.DEFAULT);
