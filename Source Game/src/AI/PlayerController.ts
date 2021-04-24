@@ -97,7 +97,7 @@ export default class PlayerController implements BattlerAI {
 
             let dont_interrupt: boolean = this.owner.animation.isPlaying("ATTACK") || this.owner.animation.isPlaying("DAMAGE");
 
-            if(!this.direction.isZero() && !this.owner.animation.isPlaying("ATTACK")) {
+            if(!this.direction.isZero()) {
                 if(this.slippery) {
                     // slippery movement
                     if(this.direction.x !== 0) {this.curr_velocity.x += this.direction.normalized().scale(this.speed * deltaT).x / 20;}
@@ -143,8 +143,7 @@ export default class PlayerController implements BattlerAI {
             this.owner.attack_direction = Vec2.UP.angleToCCW(this.attack_direction);
 
             // punch attack
-            if(!this.owner.animation.isPlaying("Attack") && Input.isMouseJustPressed()) {
-                // TODO PROJECT - implement punch attack here
+            if(!this.owner.animation.isPlaying("ATTACK") && Input.isMouseJustPressed()) {
                 
                 let attack_success = this.fist.use(this.owner, "player", this.attack_direction);
 
