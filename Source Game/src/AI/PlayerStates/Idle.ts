@@ -1,62 +1,67 @@
-// import GameEvent from "../../Wolfie2D/Events/GameEvent";
-// import Input from "../../Wolfie2D/Input/Input";
-// import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-// import { PlayerStates } from "../PlayerController";
-// import PlayerState from "./PlayerState"
-// import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
+import Input from "../../Wolfie2D/Input/Input";
+import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import { PlayerStates } from "../PlayerController";
+import { Game_Events } from "../../GameSystems/game_enums"
+import PlayerState from "./PlayerState";
+import GameEvent from "../../Wolfie2D/Events/GameEvent";
+import Vec2 from "../../Wolfie2D/DataTypes/Vec2"
 
-// export default class Idle extends PlayerState {
-//     onEnter(options: Record<string, any>): void {
-        
-//         if(this.parent.slippery && (Math.abs(this.parent.curr_velocity.x) > 0 || Math.abs(this.parent.curr_velocity.y) > 0)) {
-//             console.log("play walk idle animation");
-//             this.owner.animation.play("WALK", true);
-//         } else {
-//             console.log("play idle idle animation");
-//             this.owner.animation.play("IDLE", true);
-//         }
-//         if(!this.parent.slippery) {this.parent.curr_velocity = Vec2.ZERO;}
-//     }
+export default class Idle extends PlayerState{
+    owner: AnimatedSprite;
 
-//     handleInput(event: GameEvent): void {}
+    onEnter(options: Record<string, any>): void {
+        console.log("enter idle");
+        this.owner.animation.play("IDLE", true);
+        // if not slippery velocity should be zero for this state
+        if(!this.parent.slippery) {
+            this.parent.curr_velocity = Vec2.ZERO;
+        }
+    }
 
-//     update(deltaT: number): void {
-//         // have player face left or right
-//         let mouse_position = Input.getGlobalMousePosition();
-//         if(mouse_position.x < this.owner.position.x) {
-//             this.owner.invertX = true;
-//         } else {
-//             this.owner.invertX = false;
-//         }
+    handleInput(event: GameEvent): void {}
 
-//         // go to new state if there is input
-//         if(Input.isMousePressed()) {
-//             this.finished(PlayerStates.ATTACK);
-//         }
-//         if(Input.isPressed("up") || Input.isPressed("down") || Input.isPressed("left") || Input.isPressed("right")) {
-//             this.finished(PlayerStates.WALK);
-//         }
-        
+    update(deltaT: number): void {
+        // have player face left or right
+        let mouse_position = Input.getGlobalMousePosition();
+        if(mouse_position.x < this.owner.position.x) {
+            this.owner.invertX = true;
+        } else {
+            this.owner.invertX = false;
+        }        
 
-//         // update velocity based on slippery
-//         if(this.parent.slippery && (Math.abs(this.parent.curr_velocity.x) > 0 || Math.abs(this.parent.curr_velocity.y) > 0)) {
-//             // slide a bit
-//             this.parent.curr_velocity.x -= this.parent.curr_velocity.normalized().scale(this.parent.speed * deltaT).x / 40;
-//             this.parent.curr_velocity.y -= this.parent.curr_velocity.normalized().scale(this.parent.speed * deltaT).y / 40;
+        // punch attack
+        if(Input.isMouseJustPressed()) { 
+            let attack_success = this.parent.fist.use(this.owner, "player", this.parent.attack_direction);
 
-//             if(Math.abs(this.parent.curr_velocity.x) < .05) {this.parent.curr_velocity.x = 0;}
-//             if(Math.abs(this.parent.curr_velocity.y) < .05) {this.parent.curr_velocity.y = 0;}
-//         } else {
-//             // play idle animation if not already playing it
-//             this.owner.animation.playIfNotAlready("IDLE", true);
-//         }
+            if(attack_success) {
+                this.finished(PlayerStates.ATTACK);
+            }
+        }
 
-//         super.update(deltaT);
-//     }
+        let dir = this.getInputDirection();
 
-//     onExit(): Record<string, any> {
-//         console.log("exit idle");
-//         this.owner.animation.stop();
-//         return {};
-//     }
-// }
+        if(!dir.isZero()) {
+            this.finished(PlayerStates.WALK);
+        }
+
+        if(this.parent.slippery) {
+            // slide a bit
+            if(Math.abs(this.parent.curr_velocity.x) > 0) {
+                this.parent.curr_velocity.x -= this.parent.curr_velocity.normalized().scale(this.parent.speed * deltaT).x / 40;
+            }
+            if(Math.abs(this.parent.curr_velocity.y) > 0) {
+                this.parent.curr_velocity.y -= this.parent.curr_velocity.normalized().scale(this.parent.speed * deltaT).y / 40;
+            }
+            // make sure the player comes to a complete stop
+            if(Math.abs(this.parent.curr_velocity.x) < .05) {this.parent.curr_velocity.x = 0;}
+            if(Math.abs(this.parent.curr_velocity.y) < .05) {this.parent.curr_velocity.y = 0;}
+        }
+        super.update(deltaT);
+    }
+
+    onExit(): Record<string, any> {
+        console.log("exit idle");
+        this.owner.animation.stop();
+        return {};
+    }
+}

@@ -17,7 +17,7 @@
         },
         {
             "name": "PUNCH",
-            "frames": [ {"index": 0, "duration": 8}, {"index": 1, "duration": 8}, {"index": 2, "duration": 8}, {"index": 3, "duration": 8} ]
+            "frames": [ {"index": 0, "duration": 4}, {"index": 1, "duration": 4}, {"index": 2, "duration": 4}, {"index": 3, "duration": 4} ]
         }
     ]
 }

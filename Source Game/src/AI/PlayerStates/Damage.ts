@@ -1,15 +1,16 @@
+import { Game_Events } from "../../GameSystems/game_enums";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
 import Input from "../../Wolfie2D/Input/Input";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import { PlayerStates } from "../PlayerController";
 import PlayerState from "./PlayerState";
 
-export default class Walk extends PlayerState {
+export default class Damage extends PlayerState {
     owner: AnimatedSprite;
 
     onEnter(options: Record<string, any>): void {
-        console.log("enter walk");
-        this.owner.animation.play("WALK", true);
+        console.log("enter damage");
+        this.owner.animation.play("DAMAGE", false, Game_Events.IFRAMES_OVER);
     }
 
     handleInput(event: GameEvent): void {}
@@ -21,7 +22,7 @@ export default class Walk extends PlayerState {
             this.owner.invertX = true;
         } else {
             this.owner.invertX = false;
-        }  
+        }
 
         // punch attack
         if(Input.isMouseJustPressed()) { 
@@ -32,11 +33,8 @@ export default class Walk extends PlayerState {
             }
         }
 
+        // normal movement should continue during attacking state
         let dir = this.getInputDirection();
-
-        if(dir.isZero()) {
-            this.finished(PlayerStates.IDLE);
-        }
 
         if(this.parent.slippery) {
             // slippery movement
@@ -57,7 +55,7 @@ export default class Walk extends PlayerState {
     }
 
     onExit(): Record<string, any> {
-        console.log("exit walk");
+        console.log("exit damage");
         this.owner.animation.stop();
         return {};
     }

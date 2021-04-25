@@ -231,6 +231,11 @@ export default class GluttonyLevel extends Scene {
                     }
                     break;
 
+                case Game_Events.ATTACK_OVER:
+                    {
+                        this.player._ai.handleEvent(new GameEvent(Game_Events.ATTACK_OVER, {}));
+                    }
+
                 case Game_Events.INTRO_END:
                     {
                         this.disablePause = false;
@@ -430,7 +435,8 @@ export default class GluttonyLevel extends Scene {
            Game_Events.BOSS_COLLISION,
            Game_Events.ON_PAUSE,
            Game_Events.ON_UNPAUSE,
-           Game_Events.GLUT_ATTACK
+           Game_Events.GLUT_ATTACK,
+           Game_Events.ATTACK_OVER
         ]);
     }
 }

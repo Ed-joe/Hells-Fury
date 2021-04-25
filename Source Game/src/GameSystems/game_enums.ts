@@ -8,5 +8,6 @@ export enum Game_Events {
     BOSS_COLLISION = "BossCollision",
     ON_PAUSE = "OnPause",
     ON_UNPAUSE = "OnUnpause",
-    GLUT_ATTACK = "GlutAttack"
+    GLUT_ATTACK = "GlutAttack",
+    ATTACK_OVER = "AttackOver"
 }
