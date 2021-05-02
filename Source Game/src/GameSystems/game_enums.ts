@@ -10,5 +10,6 @@ export enum Game_Events {
     ON_UNPAUSE = "OnUnpause",
     GLUT_ATTACK = "GlutAttack",
     ATTACK_OVER = "AttackOver",
-    GET_COIN = "GetCoin"
+    GET_COIN = "GetCoin",
+    ENTER_BOSS_FIGHT = "EnterBossFight"
 }
