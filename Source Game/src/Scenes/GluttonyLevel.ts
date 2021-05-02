@@ -1,16 +1,12 @@
 import Vec2 from "../Wolfie2D/DataTypes/Vec2";
 import AnimatedSprite from "../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Scene from "../Wolfie2D/Scene/Scene";
-import { GraphicType } from "../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import OrthogonalTilemap from "../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
-import PositionGraph from "../Wolfie2D/DataTypes/Graphs/PositionGraph";
-import Navmesh from "../Wolfie2D/Pathfinding/Navmesh";
 import RegistryManager from "../Wolfie2D/Registry/RegistryManager";
 import AABB from "../Wolfie2D/DataTypes/Shapes/AABB";
 import Label from "../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Color from "../Wolfie2D/Utils/Color";
-import Input from "../Wolfie2D/Input/Input";
 import PlayerController from "../AI/PlayerController";
 import BatAI from "../AI/BatAI";
 import Weapon from "../GameSystems/Weapon";
@@ -19,7 +15,6 @@ import WeaponType from "../GameSystems/WeaponTypes/WeaponType"
 import BattlerAI from "../AI/BattlerAI";
 import GluttonyAI from "../AI/GluttonyAI";
 import { Game_Events } from "./../GameSystems/game_enums";
-import Game from "../Wolfie2D/Loop/Game";
 import GameEvent from "../Wolfie2D/Events/GameEvent";
 import Sprite from "../Wolfie2D/Nodes/Sprites/Sprite";
 import { TweenableProperties } from "./../Wolfie2D/Nodes/GameNode";
