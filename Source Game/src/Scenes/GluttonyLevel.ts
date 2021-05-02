@@ -47,6 +47,7 @@ export default class GluttonyLevel extends Scene {
         this.load.spritesheet("hellbat", "game_assets/spritesheets/hellbat.json");
         this.load.spritesheet("gluttony", "game_assets/spritesheets/gluttony.json");
         this.load.spritesheet("boss_hitbox", "game_assets/spritesheets/boss_hitbox.json");
+        this.load.spritesheet("coin", "game_assets/spritesheets/coin.json");
         this.load.object("enemyData", "game_assets/data/enemy.json");
 
         // load the tilemap
@@ -184,6 +185,7 @@ export default class GluttonyLevel extends Scene {
                 case Game_Events.ENEMY_DIED:
                     {   
                         let node = this.sceneGraph.getNode(event.data.get("owner"));
+                        let enemy_position = node.position;
                         for(let i = 0; i < this.enemies.length ; i++){
                             if(this.enemies[i].id === (<AnimatedSprite> node).id){
                                 this.enemies.splice(i, 1);
@@ -192,6 +194,36 @@ export default class GluttonyLevel extends Scene {
                         }
                         this.battle_manager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai));
                         node.destroy();
+
+                        // 25% chance to drop a coin
+                        if(Math.random() < .25) {
+                            // drop a coin
+                            let coin = this.add.animatedSprite("coin", "primary");
+                            coin.position.set(enemy_position.x, enemy_position.y);
+                            coin.addPhysics(coin.boundary, Vec2.ZERO, false);
+                            coin.animation.play("IDLE", true);
+                            coin.setGroup("coin");
+                            coin.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
+                        }
+                    }
+                    break;
+
+                case Game_Events.GET_COIN:
+                    {
+                        console.log("get coin");
+                        let node = this.sceneGraph.getNode(event.data.get("node"));
+                        let other = this.sceneGraph.getNode(event.data.get("other"));
+
+                        if(node === this.player) {
+                            // node is player
+                            other.destroy();
+                        } else {
+                            // other is player
+                            node.destroy();
+                        }
+                        this.player_coins++;
+                        console.log(this.player_coins);
+                        this.player._ai.handleEvent(new GameEvent(Game_Events.GET_COIN, {}));
                     }
                     break;
 
@@ -432,7 +464,8 @@ export default class GluttonyLevel extends Scene {
            Game_Events.ON_PAUSE,
            Game_Events.ON_UNPAUSE,
            Game_Events.GLUT_ATTACK,
-           Game_Events.ATTACK_OVER
+           Game_Events.ATTACK_OVER,
+           Game_Events.GET_COIN
         ]);
     }
 }

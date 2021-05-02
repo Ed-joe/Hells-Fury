@@ -23,8 +23,10 @@ export default abstract class PlayerState extends State {
     }
 
     update(deltaT: number): void {
-        // do movement
-        this.owner.move(this.parent.curr_velocity)
+        if(!this.owner.frozen) {
+            // do movement
+            this.owner.move(this.parent.curr_velocity)
+        }
 
         // Get the unit vector in the attack direction
         this.parent.attack_direction = this.owner.position.dirTo(Input.getGlobalMousePosition());

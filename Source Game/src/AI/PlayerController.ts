@@ -103,6 +103,9 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         else if(event.type === Game_Events.ATTACK_OVER) {
             this.changeState(PlayerStates.WALK);
         }
+        else if(event.type === Game_Events.GET_COIN) {
+            this.coins++;
+        }
     }
 
     update(deltaT: number): void {
