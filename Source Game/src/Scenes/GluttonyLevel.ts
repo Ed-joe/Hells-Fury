@@ -52,7 +52,7 @@ export default class GluttonyLevel extends Scene {
 
         // load the tilemap
         // TODO PROJECT - switch with correct tilemap
-        this.load.tilemap("gluttonyLevel", "game_assets/tilemaps/hells_fury.json");
+        this.load.tilemap("gluttonyLevel", "game_assets/tilemaps/gluttony_level.json");
 
         // load weapon info
         this.load.object("weaponData", "game_assets/data/weapon_data.json");
