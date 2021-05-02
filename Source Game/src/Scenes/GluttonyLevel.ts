@@ -234,6 +234,7 @@ export default class GluttonyLevel extends Scene {
                 case Game_Events.ATTACK_OVER:
                     {
                         this.player._ai.handleEvent(new GameEvent(Game_Events.ATTACK_OVER, {}));
+                        this.player._ai.handleEvent(new GameEvent(Game_Events.IFRAMES_OVER, {}));
                     }
 
                 case Game_Events.INTRO_END:
