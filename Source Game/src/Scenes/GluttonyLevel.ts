@@ -24,7 +24,6 @@ import Button from "../Wolfie2D/Nodes/UIElements/Button";
 import Rect from "../Wolfie2D/Nodes/Graphics/Rect";
 import { GraphicType } from "../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import Input from "../Wolfie2D/Input/Input";
-import UIElement from "../Wolfie2D/Nodes/UIElement";
 
 export default class GluttonyLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -55,6 +54,7 @@ export default class GluttonyLevel extends Scene {
         this.load.spritesheet("hellbat", "game_assets/spritesheets/hellbat.json");
         this.load.spritesheet("gluttony", "game_assets/spritesheets/gluttony.json");
         this.load.spritesheet("boss_hitbox", "game_assets/spritesheets/boss_hitbox.json");
+        this.load.spritesheet("coin", "game_assets/spritesheets/coin.json");
         this.load.object("enemyData", "game_assets/data/enemy.json");
         this.load.spritesheet("shopkeep", "game_assets/spritesheets/shopkeep.json")
 
@@ -63,7 +63,7 @@ export default class GluttonyLevel extends Scene {
 
         // load the tilemap
         // TODO PROJECT - switch with correct tilemap
-        this.load.tilemap("gluttonyLevel", "game_assets/tilemaps/hells_fury.json");
+        this.load.tilemap("gluttonyLevel", "game_assets/tilemaps/gluttony_level.json");
 
         // load weapon info
         this.load.object("weaponData", "game_assets/data/weapon_data.json");
@@ -127,6 +127,8 @@ export default class GluttonyLevel extends Scene {
         
         this.disablePause = true;
         this.level_start_label.tweens.play("slideIn");
+
+        this.initializeBossRoom();
 
         // TODO PROJECT - receiver subscribe to events
         this.subscribeToEvents();
@@ -213,6 +215,7 @@ export default class GluttonyLevel extends Scene {
                 case Game_Events.ENEMY_DIED:
                     {   
                         let node = this.sceneGraph.getNode(event.data.get("owner"));
+                        let enemy_position = node.position;
                         for(let i = 0; i < this.enemies.length ; i++){
                             if(this.enemies[i].id === (<AnimatedSprite> node).id){
                                 this.enemies.splice(i, 1);
@@ -221,6 +224,50 @@ export default class GluttonyLevel extends Scene {
                         }
                         this.battle_manager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai));
                         node.destroy();
+
+                        // 25% chance to drop a coin
+                        if(Math.random() < .25) {
+                            // drop a coin
+                            let coin = this.add.animatedSprite("coin", "primary");
+                            coin.position.set(enemy_position.x, enemy_position.y);
+                            coin.addPhysics(coin.boundary, Vec2.ZERO, false);
+                            coin.animation.play("IDLE", true);
+                            coin.setGroup("coin");
+                            coin.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
+                        }
+                    }
+                    break;
+
+                case Game_Events.GET_COIN:
+                    {
+                        let node = this.sceneGraph.getNode(event.data.get("node"));
+                        let other = this.sceneGraph.getNode(event.data.get("other"));
+
+                        if(node === this.player) {
+                            // node is player
+                            other.destroy();
+                        } else {
+                            // other is player
+                            node.destroy();
+                        }
+                        this.player_coins++;
+                        this.player._ai.handleEvent(new GameEvent(Game_Events.GET_COIN, {}));
+                    }
+                    break;
+
+                case Game_Events.ENTER_BOSS_FIGHT:
+                    {
+                        let tilemap = this.getTilemap("Wall") as OrthogonalTilemap;
+                        for(let v of [new Vec2(1008, 1424), new Vec2(1040, 1424)]) {
+                            let tile_coords = tilemap.getColRowAt(v);
+                            // let tile_world_pos = tilemap.getTileWorldPosition(tile_coords.y * tilemap.getDimensions().x + tile_coords.x);
+                            tilemap.setTile(tile_coords.y * tilemap.getDimensions().x + tile_coords.x, 19);
+                        }
+                        for(let v of [new Vec2(1008, 1456), new Vec2(1008, 1488), new Vec2(1040, 1456), new Vec2(1040, 1488)]) {
+                            let tile_coords = tilemap.getColRowAt(v);
+                            // let tile_world_pos = tilemap.getTileWorldPosition(tile_coords.y * tilemap.getDimensions().x + tile_coords.x);
+                            tilemap.setTile(tile_coords.y * tilemap.getDimensions().x + tile_coords.x, 18);
+                        }
                     }
                     break;
 
@@ -508,6 +555,13 @@ export default class GluttonyLevel extends Scene {
         });
     }
 
+    protected initializeBossRoom(): void {
+        let boss_room = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1024, 1320), size: new Vec2(6 * 32, 3 * 32)});
+        boss_room.addPhysics(undefined, undefined, false, true);
+        boss_room.setTrigger("player", Game_Events.ENTER_BOSS_FIGHT, "enter boss fight");
+        boss_room.color = Color.TRANSPARENT;
+    }
+
 
     protected subscribeToEvents(){
         this.receiver.subscribe([
@@ -524,7 +578,9 @@ export default class GluttonyLevel extends Scene {
            Game_Events.ATTACK_OVER,
            Game_Events.BOUGHT_HEART,
            Game_Events.ENTERED_SHOP,
-           Game_Events.EXITED_SHOP
+           Game_Events.EXITED_SHOP,
+           Game_Events.GET_COIN,
+           Game_Events.ENTER_BOSS_FIGHT
         ]);
     }
 }

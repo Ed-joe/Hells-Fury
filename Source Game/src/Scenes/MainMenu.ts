@@ -213,7 +213,7 @@ export default class MainMenu extends Scene {
         controls_back.fontSize = 64;
         controls_back.size.set(168, 65);
         controls_back.borderWidth = 2;
-        controls_back.borderColor = Color.WHITE;
+        controls_back.borderColor = Color.TRANSPARENT;
         controls_back.backgroundColor = Color.TRANSPARENT;
         controls_back.onClickEventId = "mainMenu";
     }
@@ -224,18 +224,19 @@ export default class MainMenu extends Scene {
 
             let sceneOptions = {
                 physics: {
-                    groupNames: ["ground", "player", "enemy"],
+                    groupNames: ["ground", "player", "enemy", "coin"],
                     collisions:
                     [
-                        [0, 1, 1],
-                        [1, 0, 0],
-                        [1, 0, 0]
+                        [0, 1, 1, 0],
+                        [1, 0, 0, 1],
+                        [1, 0, 0, 0],
+                        [0, 1, 0, 0]
                     ]
                 }
             }
 
             if(event.type === "newGame") {
-                // TODO PROJECT - setup new game scene from here (maybe add options)
+                // setup new game scene from here (maybe add options)
                 this.sceneManager.changeToScene(GluttonyLevel, {
                     health: 5,
                     coins: 0
@@ -265,7 +266,7 @@ export default class MainMenu extends Scene {
             }
 
             if(event.type === "levelGluttony") {
-                // TODO PROJECT - go to gluttony level (level 1)
+                // go to gluttony level (level 3)
                 console.log("Gluttony Level");
                 this.sceneManager.changeToScene(GluttonyLevel, {
                     health: 5,
@@ -274,11 +275,11 @@ export default class MainMenu extends Scene {
                 sceneOptions);
             }
             if(event.type === "levelLust") {
-                // TODO PROJECT - go to lust level (level 2)
+                // TODO PROJECT - go to lust level (level 1)
                 console.log("Lust Level");
             }
             if(event.type === "levelWrath") {
-                // TODO PROJECT - go to wrath level (level 3)
+                // TODO PROJECT - go to wrath level (level 2)
                 console.log("Wrath Level");
             }
             if(event.type === "levelGreed") {

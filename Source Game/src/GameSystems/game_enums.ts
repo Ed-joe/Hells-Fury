@@ -12,5 +12,7 @@ export enum Game_Events {
     ATTACK_OVER = "AttackOver",
     BOUGHT_HEART = "BoughtHeart",
     ENTERED_SHOP = "EnteredShop",
-    EXITED_SHOP = "ExitedShop"
+    EXITED_SHOP = "ExitedShop",
+    GET_COIN = "GetCoin",
+    ENTER_BOSS_FIGHT = "EnterBossFight"
 }
