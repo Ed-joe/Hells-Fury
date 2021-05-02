@@ -19,7 +19,12 @@ import GameEvent from "../Wolfie2D/Events/GameEvent";
 import Sprite from "../Wolfie2D/Nodes/Sprites/Sprite";
 import { TweenableProperties } from "./../Wolfie2D/Nodes/GameNode";
 import { EaseFunctionType } from "./../Wolfie2D/Utils/EaseFunctions";
-import GameOver from "./GameOver"
+import GameOver from "./GameOver";
+import Button from "../Wolfie2D/Nodes/UIElements/Button";
+import Rect from "../Wolfie2D/Nodes/Graphics/Rect";
+import { GraphicType } from "../Wolfie2D/Nodes/Graphics/GraphicTypes";
+import Input from "../Wolfie2D/Input/Input";
+import UIElement from "../Wolfie2D/Nodes/UIElement";
 
 export default class GluttonyLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -30,7 +35,10 @@ export default class GluttonyLevel extends Scene {
     private battle_manager: BattleManager;   // battle manager
     private health_sprites: Sprite[];        //sprites for health
     private level_start_label: Label;        //Label for when the level starts
-    private disablePause: boolean;           //Dont let pause while tru >:)
+    private disablePause: boolean;           //Dont let pause while tru >:)\
+    private shop_zone: Rect                 //Zone of the shop
+    private in_shop_zone: boolean           //if its in the shop zone
+    private shop_prompt: Label              //Shop prompt
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
         this.player_health = init.health;
@@ -48,6 +56,10 @@ export default class GluttonyLevel extends Scene {
         this.load.spritesheet("gluttony", "game_assets/spritesheets/gluttony.json");
         this.load.spritesheet("boss_hitbox", "game_assets/spritesheets/boss_hitbox.json");
         this.load.object("enemyData", "game_assets/data/enemy.json");
+        this.load.spritesheet("shopkeep", "game_assets/spritesheets/shopkeep.json")
+
+        //load shop screen
+        this.load.image("shop_ui", "game_assets/images/shop_ui.png")
 
         // load the tilemap
         // TODO PROJECT - switch with correct tilemap
@@ -82,16 +94,9 @@ export default class GluttonyLevel extends Scene {
         this.addLayer("below", 9);
 
         //Add pause screen layer
-        const center = this.viewport.getCenter();
         this.addUILayer("Pause").disable();
         let hb = this.add.sprite("pauseScreen", "Pause");
         hb.position.set(hb.size.x/2, hb.size.y/2)
-        // const new_game_button = this.add.uiElement(UIElementType.BUTTON, "Pause", {position: new Vec2(center.x, center.y), text: ""});
-        // new_game_button.size.set(330, 70);
-        // new_game_button.borderWidth = 2;
-        // new_game_button.borderColor = Color.WHITE;
-        // new_game_button.backgroundColor = Color.TRANSPARENT;
-        // new_game_button.onClickEventId = "newGame";
 
         // Add a layer for UI
         this.addUILayer("UI");
@@ -102,6 +107,9 @@ export default class GluttonyLevel extends Scene {
         this.initializeWeapons();
 
         this.initializePlayer();
+
+        //Add Shop layer and other shop initialization
+        this.initializeShop(new Vec2(1146, 300));
 
         // TODO PROJECT - write initializeEnemies()
         this.initializeEnemies();
@@ -125,6 +133,27 @@ export default class GluttonyLevel extends Scene {
     }
 
     updateScene(deltaT: number): void {
+        if ((!this.player.boundary.overlaps(this.shop_zone.boundary)) && this.in_shop_zone){
+            this.in_shop_zone = false;
+            this.shop_prompt.visible = false;
+        }
+
+        if(!this.player.frozen && Input.isJustPressed("interact") && this.in_shop_zone){
+            this.disablePause = true;
+            for(let enemy of this.enemies){
+                enemy.freeze();
+            }
+            this.player.freeze();
+            this.getLayer("shop").enable();
+        }else if(Input.isJustPressed("interact") && this.in_shop_zone && this.player.frozen){
+            this.getLayer("shop").disable();
+            this.player.unfreeze();
+            for(let enemy of this.enemies){
+                enemy.unfreeze();
+            }
+            this.disablePause = false;
+        }
+
         while(this.receiver.hasNextEvent()) {
             let event = this.receiver.getNextEvent();
             switch(event.type){
@@ -271,6 +300,19 @@ export default class GluttonyLevel extends Scene {
                         this.sceneManager.changeToScene(GameOver, {});
                     }
                     break;
+                case Game_Events.ENTERED_SHOP:
+                    {
+                        if(!this.in_shop_zone){
+                            this.in_shop_zone = true;
+                            this.shop_prompt.visible = true;
+                        }
+                    }
+                    break;
+                case Game_Events.EXITED_SHOP:
+                    {
+                        console.log("We Out now")
+                    }
+                    break;
             }
         }
     }
@@ -348,6 +390,53 @@ export default class GluttonyLevel extends Scene {
             }
 
         }
+    }
+
+    initializeShop(position: Vec2): void{
+        //Place shop keeper
+        let shop_keep = this.add.animatedSprite("shopkeep", "primary");
+        shop_keep.animation.play("IDLE", true);
+        shop_keep.position = position;
+        shop_keep.addPhysics(new AABB(new Vec2(0, 14), new Vec2(48, 40)));
+        this.shop_zone = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(position.x, position.y + 24) , size: new Vec2(192, 128)});
+        this.shop_zone.addPhysics(undefined, undefined, false, true);
+        this.shop_zone.setTrigger("player", Game_Events.ENTERED_SHOP, Game_Events.EXITED_SHOP);
+        this.shop_zone.color = new Color(0, 0, 0, 0);
+    
+
+        //Add shop prompt to main layer
+        this.shop_prompt = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(position.x, position.y - 50), text: "Press E to enter the shop"});
+        this.shop_prompt.font = "HellText";    
+        this.shop_prompt.textColor = Color.RED;
+        this.shop_prompt.fontSize = 20;
+        this.shop_prompt.size.set(30, 14);
+        this.shop_prompt.borderWidth = 2;
+        this.shop_prompt.borderColor = Color.TRANSPARENT;
+        this.shop_prompt.backgroundColor = Color.TRANSPARENT;
+        this.shop_prompt.visible = false;
+
+        const center = this.viewport.getCenter();
+        this.addUILayer("shop");
+        let contract = this.add.sprite("shop_ui", "shop");
+        contract.position.set(320, 180);
+        
+        const buy_heart = <Button>this.add.uiElement(UIElementType.BUTTON, "shop", {position: new Vec2(center.x, center.y), text: "5 Coins = "});
+        buy_heart.position.set(320, 160);
+        buy_heart.font = "HellText";    
+        buy_heart.textColor = Color.RED;
+        buy_heart.fontSize = 42;
+        buy_heart.size.set(250, 90);
+        buy_heart.borderWidth = 2;
+        buy_heart.borderColor = new Color(233, 229, 158);
+        buy_heart.backgroundColor = Color.TRANSPARENT;
+        buy_heart.onClickEventId = Game_Events.BOUGHT_HEART;
+        
+        let contract_heart_image = this.add.sprite("heart", "shop");
+        contract_heart_image.position.set(370, 160);
+
+        //Hide shop to start
+        this.getLayer("shop").disable();
+
     }
 
     initializeWeapons(): void {
@@ -432,7 +521,10 @@ export default class GluttonyLevel extends Scene {
            Game_Events.ON_PAUSE,
            Game_Events.ON_UNPAUSE,
            Game_Events.GLUT_ATTACK,
-           Game_Events.ATTACK_OVER
+           Game_Events.ATTACK_OVER,
+           Game_Events.BOUGHT_HEART,
+           Game_Events.ENTERED_SHOP,
+           Game_Events.EXITED_SHOP
         ]);
     }
 }

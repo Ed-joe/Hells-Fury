@@ -9,5 +9,8 @@ export enum Game_Events {
     ON_PAUSE = "OnPause",
     ON_UNPAUSE = "OnUnpause",
     GLUT_ATTACK = "GlutAttack",
-    ATTACK_OVER = "AttackOver"
+    ATTACK_OVER = "AttackOver",
+    BOUGHT_HEART = "BoughtHeart",
+    ENTERED_SHOP = "EnteredShop",
+    EXITED_SHOP = "ExitedShop"
 }

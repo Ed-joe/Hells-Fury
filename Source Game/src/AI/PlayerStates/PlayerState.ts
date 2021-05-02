@@ -31,7 +31,6 @@ export default abstract class PlayerState extends State {
 
         // update rotation for attacking
         this.owner.attack_direction = Vec2.UP.angleToCCW(this.parent.attack_direction);
-
         // invincible cheat for play testing ##CHEAT##
         if(Input.isJustPressed("invincible")) {
             this.parent.invincible_cheat = !this.parent.invincible_cheat;
