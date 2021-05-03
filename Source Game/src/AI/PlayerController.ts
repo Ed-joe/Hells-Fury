@@ -86,7 +86,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     activate(options: Record<string, any>): void {}
 
     handleEvent(event: GameEvent): void {
-        if(event.type === Game_Events.BAT_COLLISION) {
+        if(event.type === Game_Events.ENEMY_COLLISION) {
             // take 1 damage
             this.damage(1);
             this.invincible = true;
@@ -114,94 +114,6 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     update(deltaT: number): void {
         super.update(deltaT);
     }
-
-    // update(deltaT: number): void {
-    //     if(Input.isJustPressed("invincible")) {
-    //         this.invincible_cheat = !this.invincible_cheat;
-    //         console.log("invincible: " + this.invincible_cheat);
-    //     }
-
-    //     if(!this.owner.frozen){
-    //         // get the movement direction
-    //         this.direction.x = (Input.isPressed("left") ? -1 : 0) + (Input.isPressed("right") ? 1 : 0);
-    //         this.direction.y = (Input.isPressed("up") ? -1 : 0) + (Input.isPressed("down") ? 1 : 0);
-
-    //         let dont_interrupt: boolean = this.owner.animation.isPlaying("ATTACK") || this.owner.animation.isPlaying("DAMAGE");
-
-    //         if(!this.direction.isZero()) {
-    //             if(this.slippery) {
-    //                 // slippery movement
-    //                 if(this.direction.x !== 0) {this.curr_velocity.x += this.direction.normalized().scale(this.speed * deltaT).x / 20;}
-    //                 else {this.curr_velocity.x -= this.curr_velocity.normalized().scale(this.speed * deltaT).x / 40;}
-    //                 if(this.direction.y !== 0) {this.curr_velocity.y += this.direction.normalized().scale(this.speed * deltaT).y / 20;}
-    //                 else {this.curr_velocity.y -= this.curr_velocity.normalized().scale(this.speed * deltaT).y / 40;}
-
-    //                 if(this.curr_velocity.mag() > 6) {
-    //                     this.curr_velocity = this.curr_velocity.normalized().scale(6);
-    //                 }
-
-    //                 this.owner.move(this.curr_velocity);
-    //             } else {
-    //                 // normal movement
-    //                 this.owner.move(this.direction.normalized().scale(this.speed * deltaT));
-    //             }
-    //             if (!dont_interrupt) {
-    //                 this.owner.animation.playIfNotAlready("WALK", true);
-    //             }
-                
-    //         } else {
-    //             // no movement input
-    //             if(this.slippery && (Math.abs(this.curr_velocity.x) > 0 || Math.abs(this.curr_velocity.y) > 0)) {
-    //                 // slide a bit
-    //                 this.curr_velocity.x -= this.curr_velocity.normalized().scale(this.speed * deltaT).x / 40;
-    //                 this.curr_velocity.y -= this.curr_velocity.normalized().scale(this.speed * deltaT).y / 40;
-
-    //                 if(Math.abs(this.curr_velocity.x) < .05) {this.curr_velocity.x = 0;}
-    //                 if(Math.abs(this.curr_velocity.y) < .05) {this.curr_velocity.y = 0;}
-
-    //                 this.owner.move(this.curr_velocity);
-    //                 if(!dont_interrupt) {this.owner.animation.playIfNotAlready("IDLE", true);}
-    //             } else {
-    //                 // play idle animation
-    //                 if(!dont_interrupt) {this.owner.animation.playIfNotAlready("IDLE", true);}
-    //             }
-    //         }
-
-    //         // Get the unit vector in the attack direction
-    //         this.attack_direction = this.owner.position.dirTo(Input.getGlobalMousePosition());
-
-    //         // update rotation for attacking
-    //         this.owner.attack_direction = Vec2.UP.angleToCCW(this.attack_direction);
-
-    //         // punch attack
-    //         if(!this.owner.animation.isPlaying("ATTACK") && Input.isMouseJustPressed()) {
-                
-    //             let attack_success = this.fist.use(this.owner, "player", this.attack_direction);
-
-    //             if(attack_success) {
-    //                 this.owner.animation.play("ATTACK", false, Game_Events.IFRAMES_OVER);
-    //             }
-    //         }
-
-    //         // have player face left or right
-    //         if(!this.owner.animation.isPlaying("ATTACK")) {
-    //             let mouse_position = Input.getGlobalMousePosition();
-    //             if(mouse_position.x < this.owner.position.x) {
-    //                 this.owner.invertX = true;
-    //             } else {
-    //                 this.owner.invertX = false;
-    //             }
-    //         }
-    //     }
-        
-    //     if(Input.isJustPressed("pause")){
-    //         if(this.owner.getScene().getLayer("Pause").isHidden()){
-    //             this.emitter.fireEvent(Game_Events.ON_PAUSE);
-    //         }else{
-    //             this.emitter.fireEvent(Game_Events.ON_UNPAUSE);
-    //         }
-    //     }
-    // }
 
     damage(damage: number): void {
         if(!this.invincible && !this.invincible_cheat) {

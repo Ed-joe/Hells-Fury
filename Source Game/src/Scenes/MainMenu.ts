@@ -5,6 +5,7 @@ import Scene from "../Wolfie2D/Scene/Scene";
 import Color from "../Wolfie2D/Utils/Color";
 import Label from "../Wolfie2D/Nodes/UIElements/Label";
 import GluttonyLevel from "./GluttonyLevel";
+import LustLevel from "./LustLevel";
 import Button from "../Wolfie2D/Nodes/UIElements/Button"
 
 export default class MainMenu extends Scene {
@@ -276,7 +277,10 @@ export default class MainMenu extends Scene {
             }
             if(event.type === "levelLust") {
                 // TODO PROJECT - go to lust level (level 1)
-                console.log("Lust Level");
+                this.sceneManager.changeToScene(LustLevel, {
+                    health: 5,
+                    coins: 0
+                }, sceneOptions);
             }
             if(event.type === "levelWrath") {
                 // TODO PROJECT - go to wrath level (level 2)
