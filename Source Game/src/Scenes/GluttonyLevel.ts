@@ -44,6 +44,7 @@ export default class GluttonyLevel extends Scene {
     private shop_prompt: Label              //Shop prompt
     private coin_count_label: Label         //Coin count label
     private boss_room: Rect                 //Boss room door trigger
+    private MAX_COINS: number = 99;         // max coins for the player to hold at once
 
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
@@ -192,6 +193,15 @@ export default class GluttonyLevel extends Scene {
             this.disablePause = false;
         }
 
+        if(Input.isJustPressed("coins")) {
+            this.player_coins += 5;
+            this.player_coins = Math.min(this.player_coins, this.MAX_COINS);
+            this.coin_count_label.text =  " :  " + this.player_coins;
+            for(let i = 0; i < 5; i++) {
+                this.player._ai.handleEvent(new GameEvent(Game_Events.GET_COIN, {}));
+            }
+        }
+
         while(this.receiver.hasNextEvent()) {
             let event = this.receiver.getNextEvent();
             console.log(event.type);
@@ -288,6 +298,7 @@ export default class GluttonyLevel extends Scene {
                             node.destroy();
                         }
                         this.player_coins++;
+                        this.player_coins = Math.min(this.player_coins, this.MAX_COINS);
                         this.coin_count_label.text =  " :  " + this.player_coins;
                         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "coin_pickup", loop: false, holdReference: false})
                         this.player._ai.handleEvent(new GameEvent(Game_Events.GET_COIN, {}));
