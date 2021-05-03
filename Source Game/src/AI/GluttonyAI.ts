@@ -9,6 +9,7 @@ import OrthogonalTilemap from "./../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import BattlerAI from "./BattlerAI";
 import Attack from "./GluttonyStates/Attack";
 import Idle from "./GluttonyStates/Idle";
+import Dying from "./GluttonyStates/Dying"
 import BossState from "./GluttonyStates/BossState";
 import Damage from "./GluttonyStates/Damage";
 import { Game_Events } from "../GameSystems/game_enums";
@@ -37,6 +38,7 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
         this.addState(BossStates.DEFAULT, new Idle(this, owner));
         this.addState(BossStates.ATTACKING, new Attack(this, owner));
         this.addState(BossStates.DAMAGE, new Damage(this, owner));
+        this.addState(BossStates.DYING, new Dying(this, owner));
 
         this.health = options.health;
 
@@ -53,15 +55,12 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
 
     damage(damage: number): void {
         this.health -= damage;
-
-        this.changeState(BossStates.DAMAGE);
         
         if(this.health <= 0){
             this.owner.setAIActive(false, {});
             this.owner.isCollidable = false;
-            if(!this.owner.animation.isPlaying("DYING")) {
-                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gluttony_death", loop: false, holdReference: false})
-                this.owner.animation.play("DYING", false, Game_Events.BOSS_DIED);
+            if(this.currentState !== this.stateMap.get(BossStates.DYING)) {
+                this.changeState(BossStates.DYING);
             }
             // this.owner.animation.play("DYING");
             // this.owner.visible = false;
@@ -75,6 +74,8 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
         if(event.type === Game_Events.GLUT_ATTACK) {
             this.slam.use(this.owner, "enemies", Vec2.ZERO);
             this.changeState(BossStates.DEFAULT);
+        } else if (event.type === "GluttonyDeath") {
+            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gluttony_death", loop: false, holdReference: false});
         }
     }
 

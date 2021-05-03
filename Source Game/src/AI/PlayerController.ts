@@ -15,13 +15,15 @@ import Idle from "./PlayerStates/Idle";
 import Walk from "./PlayerStates/Walk";
 import Attack from "./PlayerStates/Attack";
 import Damage from "./PlayerStates/Damage";
+import Dying from "./PlayerStates/Dying";
 import Game from "../Wolfie2D/Loop/Game";
 
 export enum PlayerStates {
     IDLE = "idle",
     WALK = "walk",
     ATTACK = "attack",
-    DAMAGE = "damage"
+    DAMAGE = "damage",
+    DYING = "dying"
 }
 
 export default class PlayerController extends StateMachineAI implements BattlerAI {
@@ -75,6 +77,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.addState(PlayerStates.WALK, new Walk(this, this.owner));
         this.addState(PlayerStates.DAMAGE, new Damage(this, this.owner));
         this.addState(PlayerStates.ATTACK, new Attack(this, this.owner));
+        this.addState(PlayerStates.DYING, new Dying(this, this.owner));
 
         this.initialize(PlayerStates.IDLE);
     }
@@ -120,7 +123,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
             this.health -= damage;
             
             if(this.health <= 0){
-                this.emitter.fireEvent(Game_Events.GAME_OVER, {});
+                this.changeState(PlayerStates.DYING);
             } else {
                 this.changeState(PlayerStates.DAMAGE);
                 this.health_sprites[this.health_sprites.length - 1].getLayer().removeNode(this.health_sprites[this.health_sprites.length - 1]);

@@ -24,6 +24,9 @@ export default class TeleportStart extends EnemyState {
         if(!this.owner.animation.isPlaying("SINK")) {
             this.finished(EnemyStates.TELEPORT_END);
         }
+        if(this.parent.getPlayerPosition() === null) {
+            this.finished(EnemyStates.DEFAULT);
+        }
     }
 
     onExit(): Record<string, any> {

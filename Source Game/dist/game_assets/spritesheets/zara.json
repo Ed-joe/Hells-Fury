@@ -3,7 +3,7 @@
     "spriteSheetImage": "zara.png",
     "spriteWidth": 64,
     "spriteHeight": 64,
-    "columns": 18,
+    "columns": 32,
     "rows": 1,
     "durationType": "time",
     "animations": [
@@ -52,26 +52,26 @@
         {
             "name": "DYING",
             "frames": [
-                {"index": 18, "duration": 8},
-                {"index": 19, "duration": 8},
-                {"index": 20, "duration": 8},
-                {"index": 21, "duration": 8},
-                {"index": 22, "duration": 8},
-                {"index": 23, "duration": 8},
-                {"index": 24, "duration": 8},
-                {"index": 25, "duration": 8},
-                {"index": 26, "duration": 8},
-                {"index": 27, "duration": 8},
-                {"index": 28, "duration": 8},
-                {"index": 29, "duration": 8},
-                {"index": 30, "duration": 8},
-                {"index": 31, "duration": 8}
+                {"index": 18, "duration": 12},
+                {"index": 19, "duration": 12},
+                {"index": 20, "duration": 12},
+                {"index": 21, "duration": 12},
+                {"index": 22, "duration": 12},
+                {"index": 23, "duration": 12},
+                {"index": 24, "duration": 12},
+                {"index": 25, "duration": 12},
+                {"index": 26, "duration": 12},
+                {"index": 27, "duration": 12},
+                {"index": 28, "duration": 12},
+                {"index": 29, "duration": 12},
+                {"index": 30, "duration": 12},
+                {"index": 31, "duration": 12}
             ]
         },
         {
             "name": "DEAD",
             "frames": [
-                {"index": 31, "duration": 8}
+                {"index": 31, "duration": 100}
             ]
         }
     ]

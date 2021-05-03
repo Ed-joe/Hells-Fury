@@ -15,14 +15,17 @@ export default class TeleportStart extends EnemyState {
 
     onEnter(options: Record<string, any>): void {
         this.owner.animation.play("RUN", true);
-        this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
     }
 
     handleInput(event: GameEvent): void {}
 
     update(deltaT: number): void {
         // update last player position
-        this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
+        if(this.parent.getPlayerPosition() !== null) {
+            this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
+        } else {
+            this.finished(EnemyStates.DEFAULT);
+        }
 
         // if can't see player go idle
         if(this.lastPlayerPos === null) {
