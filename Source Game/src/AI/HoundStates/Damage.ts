@@ -16,7 +16,6 @@ export default class Damage extends EnemyState {
     }
 
     onEnter(options: Record<string, any>): void {
-        console.log("hound damage");
         this.owner.animation.play("DAMAGE", false);
     }
 

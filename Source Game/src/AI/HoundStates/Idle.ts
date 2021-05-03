@@ -16,7 +16,6 @@ export default class Idle extends EnemyState {
     }
 
     onEnter(options: Record<string, any>): void {
-        console.log("hound idle");
         this.owner.animation.play("IDLE", true);
     }
 

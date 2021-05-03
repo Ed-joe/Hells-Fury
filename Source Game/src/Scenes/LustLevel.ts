@@ -27,7 +27,7 @@ import Input from "../Wolfie2D/Input/Input";
 import Debug from "../Wolfie2D/Debug/Debug";
 import HoundAI from "../AI/HoundAI";
 
-export default class GluttonyLevel extends Scene {
+export default class LustLevel extends Scene {
     private player: AnimatedSprite;         // the player
     private player_health: number;          // players health
     private player_coins: number;           // PROJECT TODO - implement coin functionality
@@ -56,19 +56,17 @@ export default class GluttonyLevel extends Scene {
         // TODO PROJECT - add enemy spritesheets
         // Load in the enemy info
         this.load.spritesheet("hellbat", "game_assets/spritesheets/hellbat.json");
-        this.load.spritesheet("gluttony", "game_assets/spritesheets/gluttony.json");
-        this.load.spritesheet("boss_hitbox", "game_assets/spritesheets/boss_hitbox.json");
         this.load.spritesheet("coin", "game_assets/spritesheets/coin.json");
-        this.load.spritesheet("hellhound", "game_assets/spritesheets/hellhound.json")
-        this.load.object("enemyData", "game_assets/data/gluttony_enemy.json");
-        this.load.spritesheet("shopkeep", "game_assets/spritesheets/shopkeep.json")
+        this.load.spritesheet("hellhound", "game_assets/spritesheets/hellhound.json");
+        this.load.object("enemyData", "game_assets/data/lust_enemy.json");
+        this.load.spritesheet("shopkeep", "game_assets/spritesheets/shopkeep.json");
 
         //load shop screen
         this.load.image("shop_ui", "game_assets/images/shop_ui.png")
 
         // load the tilemap
         // TODO PROJECT - switch with correct tilemap
-        this.load.tilemap("gluttonyLevel", "game_assets/tilemaps/gluttony_level.json");
+        this.load.tilemap("lustLevel", "game_assets/tilemaps/lust_level.json");
 
         // load weapon info
         this.load.object("weaponData", "game_assets/data/weapon_data.json");
@@ -84,7 +82,7 @@ export default class GluttonyLevel extends Scene {
 
     startScene() {
         // Add in the tilemap
-        let tilemap_layers = this.add.tilemap("gluttonyLevel");
+        let tilemap_layers = this.add.tilemap("lustLevel");
 
         // get the wall layer
         this.walls = <OrthogonalTilemap>tilemap_layers[1].getItems()[0];
@@ -114,7 +112,7 @@ export default class GluttonyLevel extends Scene {
         this.initializePlayer();
 
         //Add Shop layer and other shop initialization
-        this.initializeShop(new Vec2(1146, 300));
+        this.initializeShop(new Vec2(780, 608));
 
         // TODO PROJECT - write initializeEnemies()
         this.initializeEnemies();
@@ -140,6 +138,8 @@ export default class GluttonyLevel extends Scene {
     }
 
     updateScene(deltaT: number): void {
+        Debug.log("playerpos", this.player.position.toString());
+
         if ((!this.player.boundary.overlaps(this.shop_zone.boundary)) && this.in_shop_zone){
             this.in_shop_zone = false;
             this.shop_prompt.visible = false;
@@ -265,12 +265,12 @@ export default class GluttonyLevel extends Scene {
                 case Game_Events.ENTER_BOSS_FIGHT:
                     {
                         let tilemap = this.getTilemap("Wall") as OrthogonalTilemap;
-                        for(let v of [new Vec2(1008, 1424), new Vec2(1040, 1424)]) {
+                        for(let v of [new Vec2(1008, 1360), new Vec2(1040, 1360)]) {
                             let tile_coords = tilemap.getColRowAt(v);
                             // let tile_world_pos = tilemap.getTileWorldPosition(tile_coords.y * tilemap.getDimensions().x + tile_coords.x);
                             tilemap.setTile(tile_coords.y * tilemap.getDimensions().x + tile_coords.x, 19);
                         }
-                        for(let v of [new Vec2(1008, 1456), new Vec2(1008, 1488), new Vec2(1040, 1456), new Vec2(1040, 1488)]) {
+                        for(let v of [new Vec2(1008, 1392), new Vec2(1008, 1424), new Vec2(1040, 1392), new Vec2(1040, 1424)]) {
                             let tile_coords = tilemap.getColRowAt(v);
                             // let tile_world_pos = tilemap.getTileWorldPosition(tile_coords.y * tilemap.getDimensions().x + tile_coords.x);
                             tilemap.setTile(tile_coords.y * tilemap.getDimensions().x + tile_coords.x, 18);
@@ -391,7 +391,7 @@ export default class GluttonyLevel extends Scene {
             {
                 speed: 150,
                 fist: fist,
-                slippery: true,
+                slippery: false,
                 health: this.player_health,
                 coins: this.player_coins,
                 health_sprites: this.health_sprites
@@ -557,11 +557,11 @@ export default class GluttonyLevel extends Scene {
         this.coin_count_label.font = "HellText";
 
         // End of level label (start off screen)
-        this.level_start_label = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(-320, 100), text: "Gluttony's Greasy Grotto"});
+        this.level_start_label = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(-320, 100), text: "Lust's Lascivious Lair"});
         this.level_start_label.size.set(1280, 60);
         this.level_start_label.borderRadius = 0;
         this.level_start_label.backgroundColor = Color.BLACK;
-        this.level_start_label.textColor = new Color(95, 90, 76);
+        this.level_start_label.textColor = new Color(255, 0, 196);
         this.level_start_label.fontSize = 48;
         this.level_start_label.font = "HellText";
 
@@ -584,7 +584,7 @@ export default class GluttonyLevel extends Scene {
     }
 
     protected initializeBossRoom(): void {
-        let boss_room = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1024, 1320), size: new Vec2(6 * 32, 3 * 32)});
+        let boss_room = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1024, 1224), size: new Vec2(6 * 32, 3 * 32)});
         boss_room.addPhysics(undefined, undefined, false, true);
         boss_room.setTrigger("player", Game_Events.ENTER_BOSS_FIGHT, "enter boss fight");
         boss_room.color = Color.TRANSPARENT;
