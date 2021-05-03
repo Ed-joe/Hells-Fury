@@ -91,7 +91,7 @@ export default class GluttonyLevel extends Scene {
         //Load bat audio
         this.load.spritesheet("hellbat", "game_assets/spritesheets/hellbat.json");
         this.load.audio("bat_death", "game_assets/sounds/bat_death.mp3");
-        this.load.audio("bat_attack", "game_assets/sounds/bat_attack.mp3");
+        this.load.audio("bat_damage", "game_assets/sounds/bat_damage.mp3");
 
         //load shop screen
         this.load.image("shop_ui", "game_assets/images/shop_ui.png")
