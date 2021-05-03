@@ -537,12 +537,12 @@ export default class GluttonyLevel extends Scene {
         
         const buy_heart = <Button>this.add.uiElement(UIElementType.BUTTON, "shop", {position: new Vec2(320, 160), text: "5 Coins = "});
         buy_heart.font = "HellText";    
-        buy_heart.textColor = Color.RED;
+        buy_heart.textColor = Color.BLACK;
         buy_heart.fontSize = 42;
         buy_heart.size.set(250, 90);
         buy_heart.borderWidth = 2;
-        buy_heart.borderColor = new Color(233, 229, 158);
-        buy_heart.backgroundColor = Color.BLACK;
+        buy_heart.borderColor = Color.TRANSPARENT;
+        buy_heart.backgroundColor = new Color(233, 229, 158, .2);
         buy_heart.onClickEventId = Game_Events.BOUGHT_HEART;
         
         let contract_heart_image = this.add.sprite("heart", "shop");
