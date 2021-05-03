@@ -7,12 +7,15 @@ import GameNode from "./../Wolfie2D/Nodes/GameNode";
 import AnimatedSprite from "./../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import OrthogonalTilemap from "./../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import BattlerAI from "./BattlerAI";
-import Attack from "./BatStates/Attack";
-import Idle from "./BatStates/Idle";
 import { Game_Events } from "./../GameSystems/game_enums";
-import Damaged from "./BatStates/Damaged"
+import Idle from "./HoundStates/Idle";
+import TeleportStart from "./HoundStates/TeleportStart";
+import TeleportEnd from "./HoundStates/TeleportEnd";
+import Attack from "./HoundStates/Attack";
+import Damage from "./HoundStates/Damage";
+import Run from "./HoundStates/Run";
 
-export default class BatAI extends StateMachineAI implements BattlerAI {
+export default class HoundAI extends StateMachineAI implements BattlerAI {
     /** The owner of this AI */
     owner: AnimatedSprite;
 
@@ -25,18 +28,16 @@ export default class BatAI extends StateMachineAI implements BattlerAI {
     /** A reference to the player object */
     player: GameNode;
 
-
-    
-    // update(deltaT: number): void {
-    //     console.log("BAT HERE");
-    // }
-
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.owner = owner;
 
         this.addState(EnemyStates.DEFAULT, new Idle(this, owner));
-        this.addState(EnemyStates.ATTACKING, new Attack(this, owner));
-        this.addState(EnemyStates.DAMAGED, new Damaged(this, owner));
+        this.addState(EnemyStates.TELEPORT_START, new TeleportStart(this, owner));
+        this.addState(EnemyStates.TELEPORT_END, new TeleportEnd(this, owner));
+        this.addState(EnemyStates.ATTACK, new Attack(this, owner));
+        this.addState(EnemyStates.DAMAGE, new Damage(this, owner));
+        this.addState(EnemyStates.RUN, new Run(this, owner));
+
         this.health = options.health;
 
         this.player = options.player;
@@ -59,7 +60,7 @@ export default class BatAI extends StateMachineAI implements BattlerAI {
                 this.owner.animation.play("DYING", false, Game_Events.ENEMY_DIED);
             }
         }else{
-            this.changeState(EnemyStates.DAMAGED);
+            this.changeState(EnemyStates.DAMAGE);
         }
     }
 
@@ -113,7 +114,10 @@ export default class BatAI extends StateMachineAI implements BattlerAI {
 
 export enum EnemyStates {
     DEFAULT = "default",
-    ATTACKING = "attacking",
-    DAMAGED = "damaged",
+    ATTACK = "attack",
+    DAMAGE = "damage",
+    TELEPORT_START = "teleportStart",
+    TELEPORT_END = "teleportEnd",
+    RUN = "run",
     PREVIOUS = "previous"
 }

@@ -28,7 +28,7 @@ export default class Idle extends PlayerState{
                 this.owner.invertX = true;
             } else {
                 this.owner.invertX = false;
-            }        
+            }
 
             // punch attack
             if(Input.isMouseJustPressed()) { 

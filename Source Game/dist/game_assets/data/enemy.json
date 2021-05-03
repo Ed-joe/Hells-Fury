@@ -3,7 +3,7 @@
     "enemies": [
         {
             "position": [358, 534],
-            "enemy_type": "hellbat",
+            "enemy_type": "hellhound",
             "health": 2
         },
         {

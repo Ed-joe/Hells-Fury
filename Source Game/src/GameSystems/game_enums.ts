@@ -1,7 +1,7 @@
 export enum Game_Events {
     ENEMY_DIED = "EnemyDied",
     BOSS_DIED = "BossDied",
-    BAT_COLLISION = "BatCollision",
+    ENEMY_COLLISION = "EnemyCollision",
     GAME_OVER = "GameOver",
     IFRAMES_OVER = "IframesOver",
     INTRO_END = "IntroEnd",
@@ -11,5 +11,6 @@ export enum Game_Events {
     GLUT_ATTACK = "GlutAttack",
     ATTACK_OVER = "AttackOver",
     GET_COIN = "GetCoin",
-    ENTER_BOSS_FIGHT = "EnterBossFight"
+    ENTER_BOSS_FIGHT = "EnterBossFight",
+    HELLHOUND_TP_START = "HellHoundTeleportStart"
 }

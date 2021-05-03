@@ -23,6 +23,7 @@ import GameOver from "./GameOver"
 import Debug from "../Wolfie2D/Debug/Debug";
 import Rect from "../Wolfie2D/Nodes/Graphics/Rect"
 import { GraphicType } from "../Wolfie2D/Nodes/Graphics/GraphicTypes"
+import HoundAI from "../AI/HoundAI";
 
 export default class GluttonyLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -51,6 +52,7 @@ export default class GluttonyLevel extends Scene {
         this.load.spritesheet("gluttony", "game_assets/spritesheets/gluttony.json");
         this.load.spritesheet("boss_hitbox", "game_assets/spritesheets/boss_hitbox.json");
         this.load.spritesheet("coin", "game_assets/spritesheets/coin.json");
+        this.load.spritesheet("hellhound", "game_assets/spritesheets/hellhound.json")
         this.load.object("enemyData", "game_assets/data/enemy.json");
 
         // load the tilemap
@@ -135,7 +137,7 @@ export default class GluttonyLevel extends Scene {
         while(this.receiver.hasNextEvent()) {
             let event = this.receiver.getNextEvent();
             switch(event.type){
-                case Game_Events.BAT_COLLISION:
+                case Game_Events.ENEMY_COLLISION:
                     {
                         let node = this.sceneGraph.getNode(event.data.get("node"));
                         let other = this.sceneGraph.getNode(event.data.get("other"));
@@ -283,6 +285,7 @@ export default class GluttonyLevel extends Scene {
                         this.player._ai.handleEvent(new GameEvent(Game_Events.ATTACK_OVER, {}));
                         this.player._ai.handleEvent(new GameEvent(Game_Events.IFRAMES_OVER, {}));
                     }
+                    break;
 
                 case Game_Events.INTRO_END:
                     {
@@ -376,7 +379,14 @@ export default class GluttonyLevel extends Scene {
                 // this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(9, 7)));
                 
                 this.enemies[i].setGroup("enemy");
-                this.enemies[i].setTrigger("player", Game_Events.BAT_COLLISION, "bat hit player");
+                this.enemies[i].setTrigger("player", Game_Events.ENEMY_COLLISION, "bat hit player");
+            }
+            else if(data.enemy_type === "hellhound") {
+                this.enemies[i].addPhysics();
+                this.enemies[i].addAI(HoundAI, enemyOptions);
+                
+                this.enemies[i].setGroup("enemy");
+                this.enemies[i].setTrigger("player", Game_Events.ENEMY_COLLISION, "hound hit player");
             }
             else if(data.enemy_type ===  "gluttony") {
                 let enemyOptions = {
@@ -483,7 +493,7 @@ export default class GluttonyLevel extends Scene {
         this.receiver.subscribe([
            Game_Events.ENEMY_DIED,
            Game_Events.BOSS_DIED,
-           Game_Events.BAT_COLLISION,
+           Game_Events.ENEMY_COLLISION,
            Game_Events.GAME_OVER,
            Game_Events.IFRAMES_OVER,
            Game_Events.INTRO_END,
