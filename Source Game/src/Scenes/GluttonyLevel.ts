@@ -254,7 +254,7 @@ export default class GluttonyLevel extends Scene {
                             node.destroy();
                         }
                         this.player_coins++;
-                        this.coin_count_label.text =  ": " + this.player_coins;
+                        this.coin_count_label.text =  " :  " + this.player_coins;
                         this.player._ai.handleEvent(new GameEvent(Game_Events.GET_COIN, {}));
                     }
                     break;
@@ -540,9 +540,9 @@ export default class GluttonyLevel extends Scene {
         }
         
         let coin_sprite = this.add.sprite("static_coin", "UI");
-        coin_sprite.position = new Vec2(580, 20);
+        coin_sprite.position = new Vec2(575, 20);
 
-        this.coin_count_label = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(595, 21), text: ": " + this.player_coins});
+        this.coin_count_label = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(595, 21), text: " :  " + this.player_coins});
         this.coin_count_label.font = "HellText";
 
         // End of level label (start off screen)
