@@ -14,7 +14,7 @@ export default class Idle extends BossState {
     
     constructor(parent: GluttonyAI, owner: GameNode){
         super(parent, owner);
-        this.attack_timer = new Timer(2000);
+        this.attack_timer = new Timer(950);
     }
 
     onEnter(options: Record<string, any>): void {
@@ -26,7 +26,7 @@ export default class Idle extends BossState {
     }
 
     update(deltaT: number): void {
-        if(this.parent.getPlayerPosition() !== null && this.attack_timer.isPaused()){
+        if(this.parent.getPlayerPosition() !== null && this.attack_timer.isPaused() && this.parent.getPlayerPosition().distanceTo(this.owner.position) < 300){
             this.attack_timer.start();
         }
         if(this.attack_timer.isStopped()) {
