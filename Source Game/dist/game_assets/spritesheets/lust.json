@@ -1,0 +1,80 @@
+{
+    "name": "Lust",
+    "spriteSheetImage": "lust.png",
+    "spriteWidth": 128,
+    "spriteHeight": 128,
+    "columns": 40,
+    "rows": 1,
+    "durationType": "time",
+    "animations": [
+        { 
+            "name": "IDLE",
+            "frames": [ 
+                {"index": 8, "duration": 15},
+                {"index": 10, "duration": 15},
+                {"index": 11, "duration": 15},
+                {"index": 12, "duration": 15},
+                {"index": 13, "duration": 15},
+                {"index": 14, "duration": 15},
+                {"index": 15, "duration": 15}
+            ]
+        },
+        {
+            "name": "DAMAGE",
+            "frames": [
+                {"index": 16, "duration": 12},
+                {"index": 17, "duration": 12},
+                {"index": 18, "duration": 12},
+                {"index": 19, "duration": 12}
+            ]
+        },
+        {
+            "name": "WALK_RL",
+            "frames": [
+                {"index": 0, "duration": 5},
+                {"index": 1, "duration": 5},
+                {"index": 2, "duration": 5},
+                {"index": 3, "duration": 5},
+                {"index": 4, "duration": 5},
+                {"index": 5, "duration": 5},
+                {"index": 6, "duration": 5},
+                {"index": 7, "duration": 5}
+            ]
+        },
+        {
+            "name": "WALK_D",
+            "frames": [
+                {"index": 20, "duration": 8},
+                {"index": 21, "duration": 8},
+                {"index": 22, "duration": 8},
+                {"index": 23, "duration": 8}
+            ]
+        },
+        {
+            "name": "WALK_UP",
+            "frames": [
+                {"index": 24, "duration": 8},
+                {"index": 25, "duration": 8},
+                {"index": 26, "duration": 8},
+                {"index": 27, "duration": 8}
+            ]
+        },
+        {
+            "name": "DYING",
+            "frames": [
+                {"index": 28, "duration": 8},
+                {"index": 29, "duration": 8},
+                {"index": 30, "duration": 8},
+                {"index": 31, "duration": 8},
+                {"index": 32, "duration": 8},
+                {"index": 33, "duration": 8},
+                {"index": 34, "duration": 8},
+                {"index": 35, "duration": 8},
+                {"index": 36, "duration": 8},
+                {"index": 37, "duration": 8},
+                {"index": 38, "duration": 8},
+                {"index": 39, "duration": 8}
+            ]
+        }
+    ]
+}
