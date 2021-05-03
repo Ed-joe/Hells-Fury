@@ -105,6 +105,9 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         }
         else if(event.type === Game_Events.GET_COIN) {
             this.coins++;
+        }else if(event.type === Game_Events.BOUGHT_HEART){
+            this.health++;
+            this.coins -= 5;
         }
     }
 

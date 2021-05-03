@@ -38,10 +38,11 @@ export default class GluttonyLevel extends Scene {
     private shop_zone: Rect                 //Zone of the shop
     private in_shop_zone: boolean           //if its in the shop zone
     private shop_prompt: Label              //Shop prompt
+    private coin_count_label: Label         //Coin count label
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
         this.player_health = init.health;
-        this.player_coins = init.coins;
+        this.player_coins = 5;
     }
     
     loadScene() {
@@ -49,6 +50,7 @@ export default class GluttonyLevel extends Scene {
         this.load.spritesheet("player", "game_assets/spritesheets/zara.json");
         //Load Zaras Heart image
         this.load.image("heart", "game_assets/images/heart.png");
+        this.load.image("static_coin", "game_assets/spritesheets/coin.png");
         // TODO PROJECT - add enemy spritesheets
         // Load in the enemy info
         this.load.spritesheet("hellbat", "game_assets/spritesheets/hellbat.json");
@@ -158,6 +160,7 @@ export default class GluttonyLevel extends Scene {
 
         while(this.receiver.hasNextEvent()) {
             let event = this.receiver.getNextEvent();
+            console.log(event.type);
             switch(event.type){
                 case Game_Events.BAT_COLLISION:
                     {
@@ -226,7 +229,7 @@ export default class GluttonyLevel extends Scene {
                         node.destroy();
 
                         // 25% chance to drop a coin
-                        if(Math.random() < .25) {
+                        if(Math.random() < 1) {
                             // drop a coin
                             let coin = this.add.animatedSprite("coin", "primary");
                             coin.position.set(enemy_position.x, enemy_position.y);
@@ -251,6 +254,7 @@ export default class GluttonyLevel extends Scene {
                             node.destroy();
                         }
                         this.player_coins++;
+                        this.coin_count_label.text =  ": " + this.player_coins;
                         this.player._ai.handleEvent(new GameEvent(Game_Events.GET_COIN, {}));
                     }
                     break;
@@ -355,9 +359,18 @@ export default class GluttonyLevel extends Scene {
                         }
                     }
                     break;
-                case Game_Events.EXITED_SHOP:
+                case Game_Events.BOUGHT_HEART:
                     {
-                        console.log("We Out now")
+                        if (this.player_coins >= 5){
+                            this.player_coins -= 5;
+                            let spriteToAdd = this.add.sprite("heart", "UI");
+                            let prev_sprite = this.health_sprites[this.health_sprites.length - 1];
+                            spriteToAdd.position = new Vec2(prev_sprite.position.x + 25, prev_sprite.position.y);
+                            this.health_sprites.push(spriteToAdd);
+                            this.player_health += 1
+                            this.coin_count_label.text =  ": " + this.player_coins;
+                            this.player._ai.handleEvent(new GameEvent(Game_Events.BOUGHT_HEART, {}));
+                        }
                     }
                     break;
             }
@@ -462,20 +475,18 @@ export default class GluttonyLevel extends Scene {
         this.shop_prompt.backgroundColor = Color.TRANSPARENT;
         this.shop_prompt.visible = false;
 
-        const center = this.viewport.getCenter();
         this.addUILayer("shop");
         let contract = this.add.sprite("shop_ui", "shop");
         contract.position.set(320, 180);
         
-        const buy_heart = <Button>this.add.uiElement(UIElementType.BUTTON, "shop", {position: new Vec2(center.x, center.y), text: "5 Coins = "});
-        buy_heart.position.set(320, 160);
+        const buy_heart = <Button>this.add.uiElement(UIElementType.BUTTON, "shop", {position: new Vec2(320, 160), text: "5 Coins = "});
         buy_heart.font = "HellText";    
         buy_heart.textColor = Color.RED;
         buy_heart.fontSize = 42;
         buy_heart.size.set(250, 90);
         buy_heart.borderWidth = 2;
         buy_heart.borderColor = new Color(233, 229, 158);
-        buy_heart.backgroundColor = Color.TRANSPARENT;
+        buy_heart.backgroundColor = Color.BLACK;
         buy_heart.onClickEventId = Game_Events.BOUGHT_HEART;
         
         let contract_heart_image = this.add.sprite("heart", "shop");
@@ -528,6 +539,12 @@ export default class GluttonyLevel extends Scene {
             prev_loc = new Vec2(prev_loc.x + 25, prev_loc.y);
         }
         
+        let coin_sprite = this.add.sprite("static_coin", "UI");
+        coin_sprite.position = new Vec2(580, 20);
+
+        this.coin_count_label = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(595, 21), text: ": " + this.player_coins});
+        this.coin_count_label.font = "HellText";
+
         // End of level label (start off screen)
         this.level_start_label = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(-320, 100), text: "Gluttony's Greasy Grotto"});
         this.level_start_label.size.set(1280, 60);
