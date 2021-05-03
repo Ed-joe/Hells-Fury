@@ -7,6 +7,7 @@ import Timer from "./../../Wolfie2D/Timing/Timer";
 import EnemyState from "./EnemyState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import BatAI, { EnemyStates } from "../BatAI";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export default class Damaged extends EnemyState {
 
@@ -21,6 +22,7 @@ export default class Damaged extends EnemyState {
     }
 
     onEnter(options: Record<string, any>): void {
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "bat_damage", loop: false, holdReference: false});
         (<AnimatedSprite> this.owner).animation.play("DAMAGE", false);
         this.lastPlayerPos = this.parent.getPlayerPosition();
     }
