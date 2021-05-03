@@ -57,8 +57,9 @@ export default class GluttonyLevel extends Scene {
         //Load Zaras Heart image and sounds
         this.load.image("heart", "game_assets/images/heart.png");
         this.load.image("static_coin", "game_assets/spritesheets/coin.png");
-        this.load.audio("zara_punch", "game_assets/sounds/zara_punch.mp3")
-        this.load.audio("zara_damage", "game_assets/sounds/zara_damage.mp3")
+        this.load.audio("zara_punch", "game_assets/sounds/zara_punch.mp3");
+        this.load.audio("zara_damage", "game_assets/sounds/zara_damage.mp3");
+        this.load.audio("zara_death", "game_assets/sounds/zara_death.mp3");
 
         // TODO PROJECT - add enemy spritesheets
         // Load in the enemy info
