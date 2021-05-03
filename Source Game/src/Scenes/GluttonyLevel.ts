@@ -399,7 +399,7 @@ export default class GluttonyLevel extends Scene {
                     break;
                 case Game_Events.BOUGHT_HEART:
                     {
-                        if (this.player_coins >= 5){
+                        if (this.player_coins >= 5 && this.player_health < 10){
                             this.player_coins -= 5;
                             let spriteToAdd = this.add.sprite("heart", "UI");
                             let prev_sprite = this.health_sprites[this.health_sprites.length - 1];
