@@ -31,7 +31,6 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
     slam: Weapon;
 
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
-        console.log("Initialize Gluttony");
         this.owner = owner;
         this.slam = options.slam;
         this.addState(BossStates.DEFAULT, new Idle(this, owner));

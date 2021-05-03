@@ -14,7 +14,6 @@ export default class TeleportStart extends EnemyState {
     }
 
     onEnter(options: Record<string, any>): void {
-        console.log("hound run");
         this.owner.animation.play("RUN", true);
         this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
     }
