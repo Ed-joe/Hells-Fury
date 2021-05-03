@@ -1,5 +1,6 @@
 import { Game_Events } from "../../GameSystems/game_enums";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import Input from "../../Wolfie2D/Input/Input";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import { PlayerStates } from "../PlayerController";
@@ -10,6 +11,7 @@ export default class Attack extends PlayerState {
 
     onEnter(options: Record<string, any>): void {
         // console.log("enter attack");
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "zara_punch", loop: false, holdReference: false})
         this.owner.animation.play("ATTACK", false, Game_Events.ATTACK_OVER);
     }
 

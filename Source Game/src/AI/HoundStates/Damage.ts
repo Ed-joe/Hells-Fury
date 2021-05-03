@@ -5,6 +5,7 @@ import NavigationPath from "./../../Wolfie2D/Pathfinding/NavigationPath";
 import HoundAI, { EnemyStates } from "../HoundAI";
 import EnemyState from "./EnemyState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export default class Damage extends EnemyState {
     private startPosition: Vec2;
@@ -16,6 +17,7 @@ export default class Damage extends EnemyState {
     }
 
     onEnter(options: Record<string, any>): void {
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "hound_damage", loop: false, holdReference: false})
         this.owner.animation.play("DAMAGE", false);
     }
 

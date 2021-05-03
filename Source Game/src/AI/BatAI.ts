@@ -11,6 +11,7 @@ import Attack from "./BatStates/Attack";
 import Idle from "./BatStates/Idle";
 import { Game_Events } from "./../GameSystems/game_enums";
 import Damaged from "./BatStates/Damaged"
+import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 
 export default class BatAI extends StateMachineAI implements BattlerAI {
     /** The owner of this AI */
@@ -56,6 +57,7 @@ export default class BatAI extends StateMachineAI implements BattlerAI {
             this.owner.isCollidable = false;
             if(!this.owner.animation.isPlaying("DYING")){
                 this.owner.removePhysics();
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "bat_death", loop: false, holdReference: false})
                 this.owner.animation.play("DYING", false, Game_Events.ENEMY_DIED);
             }
         }else{

@@ -1,5 +1,6 @@
 import { Game_Events } from "../../GameSystems/game_enums";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import Input from "../../Wolfie2D/Input/Input";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import { PlayerStates } from "../PlayerController";
@@ -10,6 +11,7 @@ export default class Damage extends PlayerState {
 
     onEnter(options: Record<string, any>): void {
         // console.log("enter damage");
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "zara_damage", loop: false, holdReference: false})
         this.owner.animation.play("DAMAGE", false, Game_Events.IFRAMES_OVER);
     }
 

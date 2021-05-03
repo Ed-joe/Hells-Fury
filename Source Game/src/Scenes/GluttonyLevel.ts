@@ -26,6 +26,8 @@ import { GraphicType } from "../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import Input from "../Wolfie2D/Input/Input";
 import Debug from "../Wolfie2D/Debug/Debug";
 import HoundAI from "../AI/HoundAI";
+import Game from "../Wolfie2D/Loop/Game";
+import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 
 export default class GluttonyLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -41,6 +43,8 @@ export default class GluttonyLevel extends Scene {
     private in_shop_zone: boolean           //if its in the shop zone
     private shop_prompt: Label              //Shop prompt
     private coin_count_label: Label         //Coin count label
+    private boss_room: Rect                 //Boss room door trigger
+
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
         this.player_health = init.health;
@@ -50,18 +54,44 @@ export default class GluttonyLevel extends Scene {
     loadScene() {
         // load the player and enemy spritesheets
         this.load.spritesheet("player", "game_assets/spritesheets/zara.json");
-        //Load Zaras Heart image
+        //Load Zaras Heart image and sounds
         this.load.image("heart", "game_assets/images/heart.png");
         this.load.image("static_coin", "game_assets/spritesheets/coin.png");
+        this.load.audio("zara_punch", "game_assets/sounds/zara_punch.mp3")
+        this.load.audio("zara_damage", "game_assets/sounds/zara_damage.mp3")
+
         // TODO PROJECT - add enemy spritesheets
         // Load in the enemy info
         this.load.spritesheet("hellbat", "game_assets/spritesheets/hellbat.json");
+
+        //Gluttony
         this.load.spritesheet("gluttony", "game_assets/spritesheets/gluttony.json");
         this.load.spritesheet("boss_hitbox", "game_assets/spritesheets/boss_hitbox.json");
+        this.load.audio("gluttony_attack", "game_assets/sounds/gluttony_attack.mp3");
+        this.load.audio("gluttony_damage", "game_assets/sounds/gluttony_damage.mp3");
+        this.load.audio("gluttony_death", "game_assets/sounds/gluttony_death.mp3");
+        
+        //coin
         this.load.spritesheet("coin", "game_assets/spritesheets/coin.json");
-        this.load.spritesheet("hellhound", "game_assets/spritesheets/hellhound.json")
+        this.load.audio("coin_pickup", "game_assets/sounds/coin_pickup.mp3");
+
+        //Hound
+        this.load.spritesheet("hellhound", "game_assets/spritesheets/hellhound.json");
+        this.load.audio("hound_damage", "game_assets/sounds/hound_damage.mp3");
+        this.load.audio("hound_death", "game_assets/sounds/hound_death.mp3");
+
+
         this.load.object("enemyData", "game_assets/data/gluttony_enemy.json");
-        this.load.spritesheet("shopkeep", "game_assets/spritesheets/shopkeep.json")
+        this.load.spritesheet("shopkeep", "game_assets/spritesheets/shopkeep.json");
+
+
+        //boss door audio
+        this.load.audio("boss_door_close", "game_assets/sounds/boss_door_close.mp3")
+
+        //Load bat audio
+        this.load.spritesheet("hellbat", "game_assets/spritesheets/hellbat.json");
+        this.load.audio("bat_death", "game_assets/sounds/bat_death.mp3");
+        this.load.audio("bat_attack", "game_assets/sounds/bat_attack.mp3");
 
         //load shop screen
         this.load.image("shop_ui", "game_assets/images/shop_ui.png")
@@ -258,13 +288,16 @@ export default class GluttonyLevel extends Scene {
                         }
                         this.player_coins++;
                         this.coin_count_label.text =  " :  " + this.player_coins;
+                        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "coin_pickup", loop: false, holdReference: false})
                         this.player._ai.handleEvent(new GameEvent(Game_Events.GET_COIN, {}));
                     }
                     break;
 
                 case Game_Events.ENTER_BOSS_FIGHT:
                     {
+                        this.boss_room.removePhysics();
                         let tilemap = this.getTilemap("Wall") as OrthogonalTilemap;
+                        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "boss_door_close", loop: false, holdReference: false})
                         for(let v of [new Vec2(1008, 1424), new Vec2(1040, 1424)]) {
                             let tile_coords = tilemap.getColRowAt(v);
                             // let tile_world_pos = tilemap.getTileWorldPosition(tile_coords.y * tilemap.getDimensions().x + tile_coords.x);
@@ -584,10 +617,10 @@ export default class GluttonyLevel extends Scene {
     }
 
     protected initializeBossRoom(): void {
-        let boss_room = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1024, 1320), size: new Vec2(6 * 32, 3 * 32)});
-        boss_room.addPhysics(undefined, undefined, false, true);
-        boss_room.setTrigger("player", Game_Events.ENTER_BOSS_FIGHT, "enter boss fight");
-        boss_room.color = Color.TRANSPARENT;
+        this.boss_room = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1024, 1320), size: new Vec2(6 * 32, 3 * 32)});
+        this.boss_room.addPhysics(undefined, undefined, false, true);
+        this.boss_room.setTrigger("player", Game_Events.ENTER_BOSS_FIGHT, "enter boss fight");
+        this.boss_room.color = Color.TRANSPARENT;
     }
 
 

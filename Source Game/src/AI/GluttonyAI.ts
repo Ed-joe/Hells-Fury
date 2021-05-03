@@ -13,6 +13,7 @@ import BossState from "./GluttonyStates/BossState";
 import Damage from "./GluttonyStates/Damage";
 import { Game_Events } from "../GameSystems/game_enums";
 import Weapon from "../GameSystems/Weapon";
+import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 
 
 export default class GluttonyAI extends StateMachineAI implements BattlerAI {
@@ -59,6 +60,7 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
             this.owner.setAIActive(false, {});
             this.owner.isCollidable = false;
             if(!this.owner.animation.isPlaying("DYING")) {
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gluttony_death", loop: false, holdReference: false})
                 this.owner.animation.play("DYING", false, Game_Events.BOSS_DIED);
             }
             // this.owner.animation.play("DYING");

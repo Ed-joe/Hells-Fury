@@ -9,6 +9,7 @@ import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import GluttonyAI, { BossStates } from "../GluttonyAI";
 import Weapon from "../../GameSystems/Weapon";
 import { Game_Events } from "../../GameSystems/game_enums";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export default class Attack extends BossState {
     // Timers for managing this state
@@ -26,6 +27,7 @@ export default class Attack extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gluttony_attack", loop: false, holdReference: false});
         (<AnimatedSprite> this.owner).animation.play("ATTACK", false, Game_Events.GLUT_ATTACK);
     }
 

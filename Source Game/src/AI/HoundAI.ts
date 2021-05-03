@@ -14,6 +14,7 @@ import TeleportEnd from "./HoundStates/TeleportEnd";
 import Attack from "./HoundStates/Attack";
 import Damage from "./HoundStates/Damage";
 import Run from "./HoundStates/Run";
+import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 
 export default class HoundAI extends StateMachineAI implements BattlerAI {
     /** The owner of this AI */
@@ -57,6 +58,7 @@ export default class HoundAI extends StateMachineAI implements BattlerAI {
             this.owner.isCollidable = false;
             if(!this.owner.animation.isPlaying("DYING")){
                 this.owner.removePhysics();
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "hound_death", loop: false, holdReference: false})
                 this.owner.animation.play("DYING", false, Game_Events.ENEMY_DIED);
             }
         }else{

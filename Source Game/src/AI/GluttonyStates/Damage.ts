@@ -7,6 +7,7 @@ import Timer from "./../../Wolfie2D/Timing/Timer";
 import BossState from "./BossState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import GluttonyAI, { BossStates } from "../GluttonyAI";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export default class Damage extends BossState {
 
@@ -18,6 +19,7 @@ export default class Damage extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gluttony_damage", loop: false, holdReference: false});
         (<AnimatedSprite> this.owner).animation.play("DAMAGE", false);
         // Reset the return object
         this.retObj = {};
