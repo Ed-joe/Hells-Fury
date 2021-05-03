@@ -23,7 +23,7 @@ export default class Idle extends EnemyState {
     }
 
     update(deltaT: number): void {
-        if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) <= 32 * 10){
+        if(this.parent.getPlayerPosition() !== null && this.parent.getPlayerPosition() !== undefined && this.owner.position.distanceTo(this.parent.getPlayerPosition()) <= 32 * 10){
             if(this.owner.position.distanceTo(this.parent.getPlayerPosition()) > 32 * 6) {
                 this.finished(EnemyStates.TELEPORT_START);
             } else {

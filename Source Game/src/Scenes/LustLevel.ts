@@ -26,6 +26,7 @@ import { GraphicType } from "../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import Input from "../Wolfie2D/Input/Input";
 import Debug from "../Wolfie2D/Debug/Debug";
 import HoundAI from "../AI/HoundAI";
+import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 
 export default class LustLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -41,6 +42,11 @@ export default class LustLevel extends Scene {
     private in_shop_zone: boolean           //if its in the shop zone
     private shop_prompt: Label              //Shop prompt
     private coin_count_label: Label         //Coin count label
+    private boss_room: Rect                 //Boss room door trigger
+    private MAX_COINS: number = 99;
+    private tutorial_labels: Label[];
+    private tutorial_zones: Rect[];
+
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
         this.player_health = init.health;
@@ -78,6 +84,19 @@ export default class LustLevel extends Scene {
         this.load.image("pauseScreen", "game_assets/images/pause_background.png");
         this.load.image("slam", "game_assets/spritesheets/smash.png");
         this.load.spritesheet("slam", "game_assets/spritesheets/smash.json");
+
+        this.load.audio("zara_punch", "game_assets/sounds/zara_punch.mp3");
+        this.load.audio("zara_damage", "game_assets/sounds/zara_damage.mp3");
+        this.load.audio("zara_death", "game_assets/sounds/zara_death.mp3");
+        this.load.audio("gluttony_attack", "game_assets/sounds/gluttony_attack.mp3");
+        this.load.audio("gluttony_damage", "game_assets/sounds/gluttony_damage.mp3");
+        this.load.audio("gluttony_death", "game_assets/sounds/gluttony_death.mp3");
+        this.load.audio("coin_pickup", "game_assets/sounds/coin_pickup.mp3");
+        this.load.audio("hound_damage", "game_assets/sounds/hound_damage.mp3");
+        this.load.audio("hound_death", "game_assets/sounds/hound_death.mp3");
+        this.load.audio("boss_door_close", "game_assets/sounds/boss_door_close.mp3");
+        this.load.audio("bat_death", "game_assets/sounds/bat_death.mp3");
+        this.load.audio("bat_damage", "game_assets/sounds/bat_damage.mp3");
     }
 
     startScene() {
@@ -133,12 +152,23 @@ export default class LustLevel extends Scene {
 
         this.initializeBossRoom();
 
+        this.initializeTutorial();
+
         // TODO PROJECT - receiver subscribe to events
         this.subscribeToEvents();
     }
 
     updateScene(deltaT: number): void {
-        Debug.log("playerpos", this.player.position.toString());
+        Debug.log("Playerpos", this.player.position.toString());
+
+        for (let i = 0; i < this.tutorial_zones.length; i++) {
+            if(this.player.boundary.overlaps(this.tutorial_zones[i].boundary)) {
+                this.tutorial_labels[i].visible = true;
+            } else {
+                this.tutorial_labels[i].visible = false;
+            }
+        }
+
 
         if ((!this.player.boundary.overlaps(this.shop_zone.boundary)) && this.in_shop_zone){
             this.in_shop_zone = false;
@@ -159,6 +189,15 @@ export default class LustLevel extends Scene {
                 enemy.unfreeze();
             }
             this.disablePause = false;
+        }
+
+        if(Input.isJustPressed("coins")) {
+            this.player_coins += 5;
+            this.player_coins = Math.min(this.player_coins, this.MAX_COINS);
+            this.coin_count_label.text =  " :  " + this.player_coins;
+            for(let i = 0; i < 5; i++) {
+                this.player._ai.handleEvent(new GameEvent(Game_Events.GET_COIN, {}));
+            }
         }
 
         while(this.receiver.hasNextEvent()) {
@@ -231,16 +270,13 @@ export default class LustLevel extends Scene {
                         this.battle_manager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai));
                         node.destroy();
 
-                        // 40% chance to drop a coin
-                        if(Math.random() < .4) {
-                            // drop a coin
-                            let coin = this.add.animatedSprite("coin", "primary");
-                            coin.position.set(enemy_position.x, enemy_position.y);
-                            coin.addPhysics(coin.boundary, Vec2.ZERO, false);
-                            coin.animation.play("IDLE", true);
-                            coin.setGroup("coin");
-                            coin.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
-                        }
+                        // drop a coin
+                        let coin = this.add.animatedSprite("coin", "primary");
+                        coin.position.set(enemy_position.x, enemy_position.y);
+                        coin.addPhysics(coin.boundary, Vec2.ZERO, false);
+                        coin.animation.play("IDLE", true);
+                        coin.setGroup("coin");
+                        coin.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
                     }
                     break;
 
@@ -257,14 +293,18 @@ export default class LustLevel extends Scene {
                             node.destroy();
                         }
                         this.player_coins++;
+                        this.player_coins = Math.min(this.player_coins, this.MAX_COINS);
                         this.coin_count_label.text =  " :  " + this.player_coins;
+                        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "coin_pickup", loop: false, holdReference: false})
                         this.player._ai.handleEvent(new GameEvent(Game_Events.GET_COIN, {}));
                     }
                     break;
 
                 case Game_Events.ENTER_BOSS_FIGHT:
                     {
+                        this.boss_room.removePhysics();
                         let tilemap = this.getTilemap("Wall") as OrthogonalTilemap;
+                        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "boss_door_close", loop: false, holdReference: false})
                         for(let v of [new Vec2(1008, 1360), new Vec2(1040, 1360)]) {
                             let tile_coords = tilemap.getColRowAt(v);
                             // let tile_world_pos = tilemap.getTileWorldPosition(tile_coords.y * tilemap.getDimensions().x + tile_coords.x);
@@ -384,12 +424,12 @@ export default class LustLevel extends Scene {
     initializePlayer(): void {
         // Create the player
         this.player = this.add.animatedSprite("player", "primary");
-        this.player.position.set(1018, 330);
+        this.player.position.set(1138, 116);
         this.player.addPhysics(new AABB(new Vec2(0, 14), new Vec2(16, 15)), new Vec2(0, 15));
         let fist = this.createWeapon("punch");
         this.player.addAI(PlayerController,
             {
-                speed: 150,
+                speed: 1000,
                 fist: fist,
                 slippery: false,
                 health: this.player_health,
@@ -478,7 +518,7 @@ export default class LustLevel extends Scene {
         //Add shop prompt to main layer
         this.shop_prompt = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(position.x, position.y - 50), text: "Press E to enter the shop"});
         this.shop_prompt.font = "HellText";    
-        this.shop_prompt.textColor = Color.RED;
+        this.shop_prompt.textColor = Color.BLACK;
         this.shop_prompt.fontSize = 20;
         this.shop_prompt.size.set(30, 14);
         this.shop_prompt.borderWidth = 2;
@@ -584,10 +624,159 @@ export default class LustLevel extends Scene {
     }
 
     protected initializeBossRoom(): void {
-        let boss_room = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1024, 1224), size: new Vec2(6 * 32, 3 * 32)});
-        boss_room.addPhysics(undefined, undefined, false, true);
-        boss_room.setTrigger("player", Game_Events.ENTER_BOSS_FIGHT, "enter boss fight");
-        boss_room.color = Color.TRANSPARENT;
+        this.boss_room = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1024, 1224), size: new Vec2(6 * 32, 3 * 32)});
+        this.boss_room.addPhysics(undefined, undefined, false, true);
+        this.boss_room.setTrigger("player", Game_Events.ENTER_BOSS_FIGHT, "enter boss fight");
+        this.boss_room.color = Color.TRANSPARENT;
+    }
+
+    protected initializeTutorial(): void {
+        this.tutorial_labels = new Array<Label>();
+        this.tutorial_zones = new Array<Rect>();
+
+        let tutorial_zone_1 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1138, 116), size: new Vec2(7 * 32, 5 * 32)});
+        tutorial_zone_1.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_1.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_1);
+
+        let tutorial_label_1 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1138, 48), text: "Use WASD to move"});
+        tutorial_label_1.font = "HellText";    
+        tutorial_label_1.textColor = Color.BLACK;
+        tutorial_label_1.fontSize = 32;
+        tutorial_label_1.size.set(30, 14);
+        tutorial_label_1.borderWidth = 2;
+        tutorial_label_1.borderColor = Color.TRANSPARENT;
+        tutorial_label_1.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_1.visible = false;
+        this.tutorial_labels.push(tutorial_label_1);
+
+        let tutorial_zone_2 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1680, 426), size: new Vec2(10 * 32, 5 * 32)});
+        tutorial_zone_2.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_2.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_2);
+
+        let tutorial_label_2 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1616, 360), text: "Click to attack in the\ndirection of your mouse"});
+        tutorial_label_2.font = "HellText";    
+        tutorial_label_2.textColor = Color.BLACK;
+        tutorial_label_2.fontSize = 32;
+        tutorial_label_2.size.set(30, 14);
+        tutorial_label_2.borderWidth = 2;
+        tutorial_label_2.borderColor = Color.TRANSPARENT;
+        tutorial_label_2.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_2.visible = false;
+        this.tutorial_labels.push(tutorial_label_2);
+
+        let tutorial_zone_3 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1776, 722), size: new Vec2(10 * 32, 4 * 32)});
+        tutorial_zone_3.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_3.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_3);
+
+        let tutorial_label_3 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1776, 642), text: "Hellbats take 2 punches to kill"});
+        tutorial_label_3.font = "HellText";    
+        tutorial_label_3.textColor = Color.BLACK;
+        tutorial_label_3.fontSize = 32;
+        tutorial_label_3.size.set(30, 14);
+        tutorial_label_3.borderWidth = 2;
+        tutorial_label_3.borderColor = Color.TRANSPARENT;
+        tutorial_label_3.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_3.visible = false;
+        this.tutorial_labels.push(tutorial_label_3);
+
+        let tutorial_zone_4 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1808, 1164), size: new Vec2(9 * 32, 4 * 32)});
+        tutorial_zone_4.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_4.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_4);
+
+        let tutorial_label_4 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1808, 1084), text: "Walk over coins to pick them up"});
+        tutorial_label_4.font = "HellText";    
+        tutorial_label_4.textColor = Color.BLACK;
+        tutorial_label_4.fontSize = 32;
+        tutorial_label_4.size.set(30, 14);
+        tutorial_label_4.borderWidth = 2;
+        tutorial_label_4.borderColor = Color.TRANSPARENT;
+        tutorial_label_4.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_4.visible = false;
+        this.tutorial_labels.push(tutorial_label_4);
+
+        let tutorial_zone_5 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1716, 1462), size: new Vec2(9 * 32, 4 * 32)});
+        tutorial_zone_5.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_5.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_5);
+
+        let tutorial_label_5 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1732, 1380), text: "Hellbats are scattered around Hell"});
+        tutorial_label_5.font = "HellText";
+        tutorial_label_5.textColor = Color.BLACK;
+        tutorial_label_5.fontSize = 32;
+        tutorial_label_5.size.set(30, 14);
+        tutorial_label_5.borderWidth = 2;
+        tutorial_label_5.borderColor = Color.TRANSPARENT;
+        tutorial_label_5.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_5.visible = false;
+        this.tutorial_labels.push(tutorial_label_5);
+
+        let tutorial_zone_6 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(292, 1392), size: new Vec2(9 * 32, 4 * 32)});
+        tutorial_zone_6.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_6.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_6);
+
+        let tutorial_label_6 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(292, 1302), text: "Hellhounds take 3 hits to kill"});
+        tutorial_label_6.font = "HellText";
+        tutorial_label_6.textColor = Color.BLACK;
+        tutorial_label_6.fontSize = 32;
+        tutorial_label_6.size.set(30, 14);
+        tutorial_label_6.borderWidth = 2;
+        tutorial_label_6.borderColor = Color.TRANSPARENT;
+        tutorial_label_6.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_6.visible = false;
+        this.tutorial_labels.push(tutorial_label_6);
+
+        let tutorial_zone_7 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1080, 370), size: new Vec2(9 * 32, 5 * 32)});
+        tutorial_zone_7.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_7.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_7);
+
+        let tutorial_label_7 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1100, 460), text: "You can find Lust in the center of the floor"});
+        tutorial_label_7.font = "HellText";
+        tutorial_label_7.textColor = Color.BLACK;
+        tutorial_label_7.fontSize = 32;
+        tutorial_label_7.size.set(30, 14);
+        tutorial_label_7.borderWidth = 2;
+        tutorial_label_7.borderColor = Color.TRANSPARENT;
+        tutorial_label_7.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_7.visible = false;
+        this.tutorial_labels.push(tutorial_label_7);
+
+        let tutorial_zone_8 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1028, 1488), size: new Vec2(6 * 32, 7 * 32)});
+        tutorial_zone_8.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_8.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_8);
+
+        let tutorial_label_8 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1028, 1432), text: "You can enter the boss room here..."});
+        tutorial_label_8.font = "HellText";
+        tutorial_label_8.textColor = Color.BLACK;
+        tutorial_label_8.fontSize = 32;
+        tutorial_label_8.size.set(30, 14);
+        tutorial_label_8.borderWidth = 2;
+        tutorial_label_8.borderColor = Color.TRANSPARENT;
+        tutorial_label_8.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_8.visible = false;
+        this.tutorial_labels.push(tutorial_label_8);
+
+        let tutorial_zone_9 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1028, 1488), size: new Vec2(6 * 32, 7 * 32)});
+        tutorial_zone_9.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_9.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_9);
+
+        let tutorial_label_9 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(884, 1470), text: "or you can look for the shop"});
+        tutorial_label_9.font = "HellText";
+        tutorial_label_9.textColor = Color.BLACK;
+        tutorial_label_9.fontSize = 32;
+        tutorial_label_9.size.set(30, 14);
+        tutorial_label_9.borderWidth = 2;
+        tutorial_label_9.borderColor = Color.TRANSPARENT;
+        tutorial_label_9.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_9.visible = false;
+        this.tutorial_labels.push(tutorial_label_9);
     }
 
 
