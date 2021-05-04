@@ -170,7 +170,7 @@ export default class LustLevel extends Scene {
 
     updateScene(deltaT: number): void {
         Debug.log("Playerpos", this.player.position.toString());
-
+        this.player_health = this.health_sprites.length
         for (let i = 0; i < this.tutorial_zones.length; i++) {
             if(this.player.boundary.overlaps(this.tutorial_zones[i].boundary)) {
                 this.tutorial_labels[i].visible = true;

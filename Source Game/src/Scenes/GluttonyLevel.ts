@@ -182,6 +182,7 @@ export default class GluttonyLevel extends Scene {
     }
 
     updateScene(deltaT: number): void {
+        this.player_health = this.health_sprites.length
         if ((!this.player.boundary.overlaps(this.shop_zone.boundary)) && this.in_shop_zone){
             this.in_shop_zone = false;
             this.shop_prompt.visible = false;
