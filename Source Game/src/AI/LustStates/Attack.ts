@@ -6,6 +6,7 @@ import Timer from "./../../Wolfie2D/Timing/Timer";
 import LustAI, { BossStates } from "../LustAI";
 import BossState from "./BossState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export default class Attack extends BossState {
 
@@ -24,6 +25,7 @@ export default class Attack extends BossState {
 
     update(deltaT: number): void {
         if(this.parent.getPlayerPosition() !== null){
+            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "lust_move", loop: false, holdReference: false})
             this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
             // Player is visible, restart the exitTimer
             this.owner.move(this.owner.position.dirTo(this.lastPlayerPos).scale(3.5));
