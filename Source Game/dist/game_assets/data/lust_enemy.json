@@ -1,5 +1,5 @@
 {
-    "numEnemies": 9,
+    "numEnemies": 12,
     "enemies": [
         {
             "position": [1816, 1028],
@@ -27,6 +27,16 @@
             "health": 2
         },
         {
+            "position": [402, 314],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [836, 162],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
             "position": [256, 1100],
             "enemy_type": "hellhound",
             "health": 3
@@ -38,6 +48,11 @@
         },
         {
             "position": [1440, 966],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [694, 362],
             "enemy_type": "hellhound",
             "health": 3
         },
