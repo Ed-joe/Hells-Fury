@@ -59,8 +59,8 @@ export default class LustAI extends StateMachineAI implements BattlerAI {
             this.owner.isCollidable = false;
             if(!this.owner.animation.isPlaying("DYING")){
                 this.owner.removePhysics();
-                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "bat_death", loop: false, holdReference: false})
-                this.owner.animation.play("DYING", false, Game_Events.ENEMY_DIED);
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "lust_death", loop: false, holdReference: false})
+                this.owner.animation.play("DYING", false, Game_Events.BOSS_DIED);
             }
         }else{
             this.changeState(BossStates.DAMAGED);

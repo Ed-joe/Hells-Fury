@@ -39,6 +39,7 @@ export default class LustLevel extends Scene {
     private battle_manager: BattleManager;   // battle manager
     private health_sprites: Sprite[];        //sprites for health
     private level_start_label: Label;        //Label for when the level starts
+    private level_end_label: Label;        //Label for when the level ends
     private disablePause: boolean;           //Dont let pause while tru >:)\
     private shop_zone: Rect                 //Zone of the shop
     private in_shop_zone: boolean           //if its in the shop zone
@@ -325,6 +326,12 @@ export default class LustLevel extends Scene {
                         coin.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
                     }
                     break;
+                
+                case Game_Events.NEXT_LEVEL:
+                    {
+                        
+                    }
+                    break;
 
                 case Game_Events.GET_COIN:
                     {
@@ -386,6 +393,7 @@ export default class LustLevel extends Scene {
                             node2.destroy();
                         }
                         node.destroy();
+                        this.level_end_label.tweens.play("slideIn");
                     }
                     break;
 
@@ -648,6 +656,14 @@ export default class LustLevel extends Scene {
         this.level_start_label.fontSize = 48;
         this.level_start_label.font = "HellText";
 
+        this.level_end_label = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(-320, 100), text: "Lust has been defeated!"});
+        this.level_end_label.size.set(1280, 60);
+        this.level_end_label.borderRadius = 0;
+        this.level_end_label.backgroundColor = Color.BLACK;
+        this.level_end_label.textColor = new Color(255, 0, 196);
+        this.level_end_label.fontSize = 48;
+        this.level_end_label.font = "HellText";
+
         // Add a tween to move the label on screen
         this.level_start_label.tweens.add("slideIn", {
             startDelay: 0,
@@ -663,6 +679,22 @@ export default class LustLevel extends Scene {
                 }
             ],
             onEnd: Game_Events.INTRO_END
+        });
+
+        this.level_end_label.tweens.add("slideIn", {
+            startDelay: 0,
+            endDelay: 2000,
+            duration: 2000,
+            reverseOnComplete: true,
+            effects: [
+                {
+                    property: TweenableProperties.posX,
+                    start: -320,
+                    end: 320,
+                    ease: EaseFunctionType.OUT_SINE
+                }
+            ],
+            onEnd: Game_Events.NEXT_LEVEL
         });
     }
 
@@ -840,7 +872,8 @@ export default class LustLevel extends Scene {
            Game_Events.ENTERED_SHOP,
            Game_Events.EXITED_SHOP,
            Game_Events.GET_COIN,
-           Game_Events.ENTER_BOSS_FIGHT
+           Game_Events.ENTER_BOSS_FIGHT,
+           Game_Events.NEXT_LEVEL
         ]);
     }
 }
