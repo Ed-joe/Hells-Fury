@@ -101,7 +101,10 @@ export default class LustLevel extends Scene {
         this.load.audio("boss_door_close", "game_assets/sounds/boss_door_close.mp3");
         this.load.audio("bat_death", "game_assets/sounds/bat_death.mp3");
         this.load.audio("bat_damage", "game_assets/sounds/bat_damage.mp3");
-        this.load.audio("lust_music", "game_assets/sounds/music/lust.mp3")
+        this.load.audio("lust_music", "game_assets/sounds/music/lust.mp3");
+        this.load.audio("lust_move", "game_assets/sounds/lust_move.mp3");
+        this.load.audio("lust_death", "game_assets/sounds/lust_death.mp3");
+        this.load.audio("lust_damage", "game_assets/sounds/lust_damage.mp3");
     }
 
     startScene() {

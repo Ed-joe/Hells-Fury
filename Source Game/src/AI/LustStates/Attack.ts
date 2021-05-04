@@ -8,27 +8,15 @@ import BossState from "./BossState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 
 export default class Attack extends BossState {
-    // Timers for managing this state
-    exitTimer: Timer;
-
-    resetTimer: Timer;
 
     // The last known position of the player
     lastPlayerPos: Vec2;
-    
-    //Done Moving
-    doneMoving: boolean;
 
     constructor(parent: LustAI, owner: AnimatedSprite){
         super(parent, owner);
-
-        // Regularly update the player location
-        this.exitTimer = new Timer(1000);
-        this.resetTimer = new Timer(2000);
     }
 
     onEnter(options: Record<string, any>): void {
-        this.resetTimer.start();
         this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
     }
 
@@ -38,42 +26,24 @@ export default class Attack extends BossState {
         if(this.parent.getPlayerPosition() !== null){
             this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
             // Player is visible, restart the exitTimer
-            this.exitTimer.start();
-            if(!this.doneMoving){
-                if(Math.abs(this.owner._velocity.x) > Math.abs(this.owner._velocity.y)) {
-                    this.owner.animation.playIfNotAlready("WALK_RL", true);
-                    if(this.owner._velocity.x < 0) {
-                        this.owner.invertX = true;
-                    }
-                    else {
-                        this.owner.invertX = false;
-                    }
+            this.owner.move(this.owner.position.dirTo(this.lastPlayerPos).scale(3.5));
+            if(Math.abs(this.owner._velocity.x) > Math.abs(this.owner._velocity.y)) {
+                this.owner.animation.playIfNotAlready("WALK_RL", true);
+                if(this.owner._velocity.x < 0) {
+                    this.owner.invertX = true;
                 }
                 else {
-                    if(this.owner._velocity.y > 0) {
-                        this.owner.animation.playIfNotAlready("WALK_DOWN", true);
-                    }
-                    else {
-                        this.owner.animation.playIfNotAlready("WALK_UP", true);
-                    }
+                    this.owner.invertX = false;
                 }
-                if(this.resetTimer.isStopped()) {
-                    this.finished(BossStates.DEFAULT);
-                }
-                if(this.owner.position.distanceTo(this.lastPlayerPos) < 5) {
-                    this.doneMoving = true;
-                }
-                this.owner.move(this.owner.position.dirTo(this.lastPlayerPos).scale(3.5));
             }
             else {
-                this.resetTimer.start();
-                this.doneMoving = false;
+                if(this.owner._velocity.y > 0) {
+                    this.owner.animation.playIfNotAlready("WALK_DOWN", true);
+                }
+                else {
+                    this.owner.animation.playIfNotAlready("WALK_UP", true);
+                }
             }
-        }
-
-        if(this.exitTimer.isStopped()){
-            // We haven't seen the player in a while, go check out where we last saw them, if possible
-                this.finished(BossStates.DEFAULT);
         }
     }
 
