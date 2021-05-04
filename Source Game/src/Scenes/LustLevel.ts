@@ -546,6 +546,7 @@ export default class LustLevel extends Scene {
             else if(data.enemy_type === "hellhound") {
                 this.enemies[i].addPhysics();
                 this.enemies[i].addAI(HoundAI, enemyOptions);
+                this.enemies[i].addPhysics(new AABB(new Vec2(0, 14), new Vec2(30, 20)));
                 
                 this.enemies[i].setGroup("enemy");
                 this.enemies[i].setTrigger("player", Game_Events.ENEMY_COLLISION, "hound hit player");
