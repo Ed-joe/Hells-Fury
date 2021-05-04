@@ -7,6 +7,7 @@ import Label from "../Wolfie2D/Nodes/UIElements/Label";
 import GluttonyLevel from "./GluttonyLevel";
 import LustLevel from "./LustLevel";
 import Button from "../Wolfie2D/Nodes/UIElements/Button"
+import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 
 export default class MainMenu extends Scene {
     private main_menu: Layer;
@@ -19,6 +20,7 @@ export default class MainMenu extends Scene {
         this.load.image("levelSelectImage", "game_assets/images/level_select_background.png");
         this.load.image("helpImage", "game_assets/images/help_background.png");
         this.load.image("controlsImage", "game_assets/images/controls_background.png");
+        this.load.audio("main_menu_music", "game_assets/sounds/music/main_menu.mp3")
     }
 
     startScene() {
@@ -217,6 +219,10 @@ export default class MainMenu extends Scene {
         controls_back.borderColor = Color.TRANSPARENT;
         controls_back.backgroundColor = Color.TRANSPARENT;
         controls_back.onClickEventId = "mainMenu";
+
+        //music
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "main_menu_music", loop: true, holdReference: true});
+    
     }
 
     updateScene() {
@@ -238,6 +244,7 @@ export default class MainMenu extends Scene {
 
             if(event.type === "newGame") {
                 // setup new game scene from here (maybe add options)
+                this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "main_menu_music"});
                 this.sceneManager.changeToScene(LustLevel, {
                     health: 5,
                     coins: 0

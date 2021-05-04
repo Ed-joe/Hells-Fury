@@ -27,6 +27,7 @@ import Input from "../Wolfie2D/Input/Input";
 import Debug from "../Wolfie2D/Debug/Debug";
 import HoundAI from "../AI/HoundAI";
 import { GameEventType } from "../Wolfie2D/Events/GameEventType";
+import GluttonyLevel from "./GluttonyLevel";
 
 export default class LustLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -97,6 +98,7 @@ export default class LustLevel extends Scene {
         this.load.audio("boss_door_close", "game_assets/sounds/boss_door_close.mp3");
         this.load.audio("bat_death", "game_assets/sounds/bat_death.mp3");
         this.load.audio("bat_damage", "game_assets/sounds/bat_damage.mp3");
+        this.load.audio("lust_music", "game_assets/sounds/music/lust.mp3")
     }
 
     startScene() {
@@ -156,6 +158,8 @@ export default class LustLevel extends Scene {
 
         // TODO PROJECT - receiver subscribe to events
         this.subscribeToEvents();
+
+        this.emitter.fireEvent(GameEventType.PLAY_MUSIC, {key: "lust_music", loop: true, holdReference: true});
     }
 
     updateScene(deltaT: number): void {
@@ -198,6 +202,46 @@ export default class LustLevel extends Scene {
             for(let i = 0; i < 5; i++) {
                 this.player._ai.handleEvent(new GameEvent(Game_Events.GET_COIN, {}));
             }
+        }
+
+        if(Input.isJustPressed("lust")){
+            this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "lust_music"});
+            this.sceneManager.changeToScene(LustLevel, 
+                {
+                    health: 5,
+                    coins: 0
+                }, 
+                {
+                    physics: {
+                        groupNames: ["ground", "player", "enemy", "coin"],
+                        collisions:
+                        [
+                            [0, 1, 1, 0],
+                            [1, 0, 0, 1],
+                            [1, 0, 0, 0],
+                            [0, 1, 0, 0]
+                        ]
+                    }
+                });
+        }else if(Input.isJustPressed("gluttony")){
+            this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "lust_music"});
+            this.sceneManager.changeToScene(GluttonyLevel, 
+                {
+                    health: 5,
+                    coins: 0
+                }, 
+                {
+                    physics: {
+                        groupNames: ["ground", "player", "enemy", "coin"],
+                        collisions:
+                        [
+                            [0, 1, 1, 0],
+                            [1, 0, 0, 1],
+                            [1, 0, 0, 0],
+                            [0, 1, 0, 0]
+                        ]
+                    }
+                });
         }
 
         while(this.receiver.hasNextEvent()) {
