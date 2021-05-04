@@ -275,6 +275,7 @@ export default class MainMenu extends Scene {
 
             if(event.type === "levelGluttony") {
                 // go to gluttony level (level 3)
+                this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "main_menu_music"});
                 console.log("Gluttony Level");
                 this.sceneManager.changeToScene(GluttonyLevel, {
                     health: 5,
@@ -284,6 +285,7 @@ export default class MainMenu extends Scene {
             }
             if(event.type === "levelLust") {
                 // TODO PROJECT - go to lust level (level 1)
+                this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "main_menu_music"});
                 this.sceneManager.changeToScene(LustLevel, {
                     health: 5,
                     coins: 0
