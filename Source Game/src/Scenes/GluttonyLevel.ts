@@ -53,6 +53,9 @@ export default class GluttonyLevel extends Scene {
     }
     
     loadScene() {
+        //Load Music
+        this.load.audio("gluttony_music", "game_assets/sounds/music/gluttony.mp3")
+
         // load the player and enemy spritesheets
         this.load.spritesheet("player", "game_assets/spritesheets/zara.json");
         //Load Zaras Heart image and sounds
@@ -164,11 +167,15 @@ export default class GluttonyLevel extends Scene {
         
         this.disablePause = true;
         this.level_start_label.tweens.play("slideIn");
-
+        
         this.initializeBossRoom();
 
-        // TODO PROJECT - receiver subscribe to events
+        //receiver subscribe to events
         this.subscribeToEvents();
+
+        //music
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gluttony_music", loop: true, holdReference: true});
+
     }
 
     updateScene(deltaT: number): void {

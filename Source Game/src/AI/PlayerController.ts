@@ -125,8 +125,8 @@ export default class PlayerController extends StateMachineAI implements BattlerA
             if(this.health <= 0){
                 if (this.currentState !== this.stateMap.get(PlayerStates.DYING)) {
                     this.health_sprites[this.health_sprites.length - 1].getLayer().removeNode(this.health_sprites[this.health_sprites.length - 1]);
-                this.health_sprites.splice(this.health_sprites.length - 1, 1);
-                this.changeState(PlayerStates.DYING);
+                    this.health_sprites.splice(this.health_sprites.length - 1, 1);
+                    this.changeState(PlayerStates.DYING);
                 }
             } else {
                 this.changeState(PlayerStates.DAMAGE);
