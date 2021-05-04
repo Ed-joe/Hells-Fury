@@ -335,8 +335,8 @@ export default class LustLevel extends Scene {
                         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "lust_music"});
                         this.sceneManager.changeToScene(GluttonyLevel, 
                             {
-                                health: 5,
-                                coins: 0
+                                health: this.player_health,
+                                coins: this.player_coins
                             }, 
                             {
                                 physics: {
