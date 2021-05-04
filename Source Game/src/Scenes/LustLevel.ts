@@ -252,7 +252,6 @@ export default class LustLevel extends Scene {
 
         while(this.receiver.hasNextEvent()) {
             let event = this.receiver.getNextEvent();
-            console.log(event.type);
             switch(event.type){
                 case Game_Events.ENEMY_COLLISION:
                     {
@@ -462,7 +461,6 @@ export default class LustLevel extends Scene {
                     break;
                 case Game_Events.GAME_OVER:
                     {
-                        console.log("GAME OVER");
                         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "lust_music"});
                         this.viewport.stopFollow();
                         this.viewport.setZoomLevel(1);
@@ -644,7 +642,6 @@ export default class LustLevel extends Scene {
         }
         else {
             sprite = this.add.sprite(weaponType.sprite_key, "below");
-            console.log(sprite.getLayer());
         }
 
         return new Weapon(sprite, weaponType, this.battle_manager);

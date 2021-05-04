@@ -255,7 +255,6 @@ export default class GluttonyLevel extends Scene {
 
         while(this.receiver.hasNextEvent()) {
             let event = this.receiver.getNextEvent();
-            console.log(event.type);
             switch(event.type){
                 case Game_Events.ENEMY_COLLISION:
                     {
@@ -469,7 +468,6 @@ export default class GluttonyLevel extends Scene {
                 case Game_Events.GAME_OVER:
                     {
                         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "gluttony_music"});
-                        console.log("GAME OVER");
                         this.viewport.stopFollow();
                         this.viewport.setZoomLevel(1);
                         this.sceneManager.changeToScene(GameOver, {});
@@ -653,7 +651,6 @@ export default class GluttonyLevel extends Scene {
         }
         else {
             sprite = this.add.sprite(weaponType.sprite_key, "below");
-            console.log(sprite.getLayer());
         }
 
         return new Weapon(sprite, weaponType, this.battle_manager);
