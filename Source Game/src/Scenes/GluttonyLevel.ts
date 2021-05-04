@@ -91,7 +91,7 @@ export default class GluttonyLevel extends Scene {
 
 
         //boss door audio
-        this.load.audio("boss_door_close", "game_assets/sounds/boss_door_close.mp3")
+        this.load.audio("boss_door_close", "game_assets/sounds/boss_door_close.mp3");
 
         //Load bat audio
         this.load.spritesheet("hellbat", "game_assets/spritesheets/hellbat.json");
@@ -279,16 +279,13 @@ export default class GluttonyLevel extends Scene {
                         this.battle_manager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai));
                         node.destroy();
 
-                        // 40% chance to drop a coin
-                        if(Math.random() < .4) {
-                            // drop a coin
-                            let coin = this.add.animatedSprite("coin", "primary");
-                            coin.position.set(enemy_position.x, enemy_position.y);
-                            coin.addPhysics(coin.boundary, Vec2.ZERO, false);
-                            coin.animation.play("IDLE", true);
-                            coin.setGroup("coin");
-                            coin.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
-                        }
+                        // drop a coin
+                        let coin = this.add.animatedSprite("coin", "primary");
+                        coin.position.set(enemy_position.x, enemy_position.y);
+                        coin.addPhysics(coin.boundary, Vec2.ZERO, false);
+                        coin.animation.play("IDLE", true);
+                        coin.setGroup("coin");
+                        coin.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
                     }
                     break;
 
@@ -530,7 +527,7 @@ export default class GluttonyLevel extends Scene {
         //Add shop prompt to main layer
         this.shop_prompt = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(position.x, position.y - 50), text: "Press E to enter the shop"});
         this.shop_prompt.font = "HellText";    
-        this.shop_prompt.textColor = Color.RED;
+        this.shop_prompt.textColor = Color.BLACK;
         this.shop_prompt.fontSize = 20;
         this.shop_prompt.size.set(30, 14);
         this.shop_prompt.borderWidth = 2;

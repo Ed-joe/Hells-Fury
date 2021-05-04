@@ -21,7 +21,7 @@ export default class TeleportStart extends EnemyState {
 
     update(deltaT: number): void {
         // update last player position
-        if(this.parent.getPlayerPosition() !== null) {
+        if(this.parent.getPlayerPosition() !== null && this.parent.getPlayerPosition() !== undefined) {
             this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
         } else {
             this.finished(EnemyStates.DEFAULT);
