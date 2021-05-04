@@ -1,5 +1,5 @@
 {
-    "numEnemies": 8,
+    "numEnemies": 9,
     "enemies": [
         {
             "position": [1816, 1028],
@@ -39,6 +39,11 @@
         {
             "position": [1440, 966],
             "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [1025, 986],
+            "enemy_type": "lust",
             "health": 3
         }
     ]

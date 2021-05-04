@@ -42,7 +42,7 @@
             ]
         },
         {
-            "name": "WALK_D",
+            "name": "WALK_DOWN",
             "frames": [
                 {"index": 20, "duration": 8},
                 {"index": 21, "duration": 8},
