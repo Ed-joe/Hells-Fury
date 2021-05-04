@@ -29,6 +29,7 @@ import HoundAI from "../AI/HoundAI";
 import Game from "../Wolfie2D/Loop/Game";
 import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 import LustLevel from "./LustLevel";
+import MainMenu from "./MainMenu";
 
 export default class GluttonyLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -46,6 +47,7 @@ export default class GluttonyLevel extends Scene {
     private coin_count_label: Label         //Coin count label
     private boss_room: Rect                 //Boss room door trigger
     private MAX_COINS: number = 99;         // max coins for the player to hold at once
+    private level_end_label: Label;        //Label for when the level ends
 
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
@@ -390,6 +392,32 @@ export default class GluttonyLevel extends Scene {
                             node2.destroy();
                         }
                         node.destroy();
+                        this.level_end_label.tweens.play("slideIn");
+                    }
+                    break;
+
+                case Game_Events.NEXT_LEVEL:
+                    {
+                        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "gluttony_music"});
+                        this.viewport.stopFollow();
+                        this.viewport.setZoomLevel(1);
+                        this.sceneManager.changeToScene(MainMenu, 
+                            {
+                                health: 5,
+                                coins: 0
+                            }, 
+                            {
+                                physics: {
+                                    groupNames: ["ground", "player", "enemy", "coin"],
+                                    collisions:
+                                    [
+                                        [0, 1, 1, 0],
+                                        [1, 0, 0, 1],
+                                        [1, 0, 0, 0],
+                                        [0, 1, 0, 0]
+                                    ]
+                                }
+                            });
                     }
                     break;
 
@@ -655,6 +683,14 @@ export default class GluttonyLevel extends Scene {
         this.level_start_label.textColor = new Color(95, 90, 76);
         this.level_start_label.fontSize = 48;
         this.level_start_label.font = "HellText";
+        
+        this.level_end_label = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(-320, 100), text: "Gluttony has been defeated!"});
+        this.level_end_label.size.set(1280, 60);
+        this.level_end_label.borderRadius = 0;
+        this.level_end_label.backgroundColor = Color.BLACK;
+        this.level_end_label.textColor = new Color(95, 90, 76);
+        this.level_end_label.fontSize = 48;
+        this.level_end_label.font = "HellText";
 
         // Add a tween to move the label on screen
         this.level_start_label.tweens.add("slideIn", {
@@ -671,6 +707,22 @@ export default class GluttonyLevel extends Scene {
                 }
             ],
             onEnd: Game_Events.INTRO_END
+        });
+
+        this.level_end_label.tweens.add("slideIn", {
+            startDelay: 0,
+            endDelay: 2000,
+            duration: 2000,
+            reverseOnComplete: true,
+            effects: [
+                {
+                    property: TweenableProperties.posX,
+                    start: -320,
+                    end: 320,
+                    ease: EaseFunctionType.OUT_SINE
+                }
+            ],
+            onEnd: Game_Events.NEXT_LEVEL
         });
     }
 
@@ -699,7 +751,8 @@ export default class GluttonyLevel extends Scene {
            Game_Events.ENTERED_SHOP,
            Game_Events.EXITED_SHOP,
            Game_Events.GET_COIN,
-           Game_Events.ENTER_BOSS_FIGHT
+           Game_Events.ENTER_BOSS_FIGHT,
+           Game_Events.NEXT_LEVEL
         ]);
     }
 }
