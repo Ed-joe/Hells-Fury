@@ -18,7 +18,13 @@ export default class Idle extends BossState {
 
     onEnter(options: Record<string, any>): void {
         (<AnimatedSprite> this.owner).animation.play("IDLE", true);
-        this.attack_timer.pause();
+        if(options.timer) {
+            this.attack_timer = new Timer(options.timer);
+            this.attack_timer.start();
+        } else {
+            this.attack_timer = new Timer(1000);
+            this.attack_timer.pause();
+        }
     }
 
     handleInput(event: GameEvent): void {

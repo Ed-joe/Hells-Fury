@@ -13,22 +13,31 @@ export default class Attack extends BossState {
     // The last known position of the player
     lastPlayerPos: Vec2;
 
+    soundTimer: Timer;
+
     constructor(parent: LustAI, owner: AnimatedSprite){
         super(parent, owner);
+
+        this. soundTimer = new Timer(3000);
     }
 
     onEnter(options: Record<string, any>): void {
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "lust_move", loop: false, holdReference: false});
+        this.soundTimer.start();
         this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
     }
 
     handleInput(event: GameEvent): void {}
 
     update(deltaT: number): void {
+        if(this.soundTimer.isStopped()) {
+            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "lust_move", loop: false, holdReference: false});
+            this.soundTimer.start();
+        }
         if(this.parent.getPlayerPosition() !== null){
-            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "lust_move", loop: false, holdReference: false})
             this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
             // Player is visible, restart the exitTimer
-            this.owner.move(this.owner.position.dirTo(this.lastPlayerPos).scale(3.5));
+            this.owner.move(this.owner.position.dirTo(this.lastPlayerPos).scale(2));
             if(Math.abs(this.owner._velocity.x) > Math.abs(this.owner._velocity.y)) {
                 this.owner.animation.playIfNotAlready("WALK_RL", true);
                 if(this.owner._velocity.x < 0) {

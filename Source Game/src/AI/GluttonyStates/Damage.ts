@@ -9,10 +9,6 @@ import GluttonyAI, { BossStates } from "../GluttonyAI";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export default class Damage extends BossState {
-
-    // The return object for this state
-    retObj: Record<string, any>;
-
     constructor(parent: GluttonyAI, owner: AnimatedSprite){
         super(parent, owner);
     }
@@ -20,8 +16,6 @@ export default class Damage extends BossState {
     onEnter(options: Record<string, any>): void {
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gluttony_damage", loop: false, holdReference: false});
         (<AnimatedSprite> this.owner).animation.play("DAMAGE", false);
-        // Reset the return object
-        this.retObj = {};
     }
 
     handleInput(event: GameEvent): void {}
@@ -34,7 +28,7 @@ export default class Damage extends BossState {
 
     onExit(): Record<string, any> {
         (<AnimatedSprite> this.owner).animation.stop();
-        return this.retObj;
+        return {"timer": 25};
     }
 
 }
