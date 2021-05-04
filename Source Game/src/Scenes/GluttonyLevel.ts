@@ -152,7 +152,7 @@ export default class GluttonyLevel extends Scene {
         this.initializePlayer();
 
         //Add Shop layer and other shop initialization
-        this.initializeShop(new Vec2(1146, 300));
+        this.initializeShop(new Vec2(350, 1333));
 
         // TODO PROJECT - write initializeEnemies()
         this.initializeEnemies();
@@ -596,7 +596,7 @@ export default class GluttonyLevel extends Scene {
     
 
         //Add shop prompt to main layer
-        this.shop_prompt = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(position.x, position.y - 50), text: "Press E to enter the shop"});
+        this.shop_prompt = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(position.x, position.y - 50), text: "Press 'E' to enter the shop"});
         this.shop_prompt.font = "HellText";    
         this.shop_prompt.textColor = Color.BLACK;
         this.shop_prompt.fontSize = 20;

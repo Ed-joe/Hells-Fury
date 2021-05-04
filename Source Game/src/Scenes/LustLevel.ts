@@ -587,7 +587,7 @@ export default class LustLevel extends Scene {
     
 
         //Add shop prompt to main layer
-        this.shop_prompt = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(position.x, position.y - 50), text: "Press E to enter the shop"});
+        this.shop_prompt = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(position.x, position.y - 50), text: "Press 'E' to enter the shop"});
         this.shop_prompt.font = "HellText";    
         this.shop_prompt.textColor = Color.BLACK;
         this.shop_prompt.fontSize = 20;
@@ -607,8 +607,8 @@ export default class LustLevel extends Scene {
         buy_heart.fontSize = 42;
         buy_heart.size.set(250, 90);
         buy_heart.borderWidth = 2;
-        buy_heart.borderColor = new Color(233, 229, 158);
-        buy_heart.backgroundColor = Color.BLACK;
+        buy_heart.borderColor = Color.TRANSPARENT;
+        buy_heart.backgroundColor = new Color(233, 229, 158, .2);
         buy_heart.onClickEventId = Game_Events.BOUGHT_HEART;
         
         let contract_heart_image = this.add.sprite("heart", "shop");
