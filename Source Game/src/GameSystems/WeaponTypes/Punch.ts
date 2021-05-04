@@ -1,4 +1,5 @@
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
+import Input from "../../Wolfie2D/Input/Input";
 import GameNode from "../../Wolfie2D/Nodes/GameNode";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Scene from "../../Wolfie2D/Scene/Scene";
@@ -24,8 +25,18 @@ export default class Punch extends WeaponType {
         // rotate this with the game node
         punch_sprite.rotation = attacker.attack_direction;
 
+        console.log(attacker.attack_direction);
+        console.log(Vec2.UP.angleToCCW(attacker._velocity));
+        console.log(attacker.moving);
+
+        if(attacker.moving && (Math.abs(attacker.attack_direction - Vec2.UP.angleToCCW(attacker._velocity)) < .3 || Math.abs(attacker.attack_direction - Vec2.UP.angleToCCW(attacker._velocity)) > 5.5)) {
+            punch_sprite.position = attacker.position.clone().add(direction.scaled(80));
+        }
+        else {
+            punch_sprite.position = attacker.position.clone().add(direction.scaled(50));
+        }
+
         // move the punch out from the player
-        punch_sprite.position = attacker.position.clone().add(direction.scaled(50));
 
         // play the punch animation but queue the normal animation
         punch_sprite.animation.play("PUNCH");

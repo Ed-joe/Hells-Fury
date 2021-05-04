@@ -16,6 +16,7 @@ export default class Walk extends PlayerState {
 
     update(deltaT: number): void {
         if(!this.owner.frozen) {
+            this.owner.moving = true;
             // have player face mouse
             let mouse_position = Input.getGlobalMousePosition();
             if(mouse_position.x < this.owner.position.x) {
@@ -59,6 +60,7 @@ export default class Walk extends PlayerState {
     }
 
     onExit(): Record<string, any> {
+        this.owner.moving = false;
         // console.log("exit walk");
         this.owner.animation.stop();
         return {};

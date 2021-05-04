@@ -556,7 +556,7 @@ export default class LustLevel extends Scene {
                     player: this.player
                 }
                 this.enemies[i].addAI(LustAI, enemyOptions);
-                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(56, 56)));
+                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(56, 50)));
                 this.enemies[i].setGroup("enemy");
                 this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
             }
@@ -587,7 +587,7 @@ export default class LustLevel extends Scene {
         //Add shop prompt to main layer
         this.shop_prompt = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(position.x, position.y - 50), text: "Press 'E' to enter the shop"});
         this.shop_prompt.font = "HellText";    
-        this.shop_prompt.textColor = Color.BLACK;
+        this.shop_prompt.textColor = Color.RED;
         this.shop_prompt.fontSize = 20;
         this.shop_prompt.size.set(30, 14);
         this.shop_prompt.borderWidth = 2;
@@ -601,7 +601,7 @@ export default class LustLevel extends Scene {
         
         const buy_heart = <Button>this.add.uiElement(UIElementType.BUTTON, "shop", {position: new Vec2(320, 160), text: "5 Coins = "});
         buy_heart.font = "HellText";    
-        buy_heart.textColor = Color.RED;
+        buy_heart.textColor = Color.BLACK;
         buy_heart.fontSize = 42;
         buy_heart.size.set(250, 90);
         buy_heart.borderWidth = 2;

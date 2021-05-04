@@ -48,6 +48,8 @@ export default class GluttonyLevel extends Scene {
     private boss_room: Rect                 //Boss room door trigger
     private MAX_COINS: number = 99;         // max coins for the player to hold at once
     private level_end_label: Label;        //Label for when the level ends
+    private tutorial_labels: Label[];
+    private tutorial_zones: Rect[];
 
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
@@ -154,6 +156,8 @@ export default class GluttonyLevel extends Scene {
         //Add Shop layer and other shop initialization
         this.initializeShop(new Vec2(350, 1333));
 
+        this.initializeTutorial();
+
         // TODO PROJECT - write initializeEnemies()
         this.initializeEnemies();
 
@@ -183,6 +187,15 @@ export default class GluttonyLevel extends Scene {
 
     updateScene(deltaT: number): void {
         this.player_health = this.health_sprites.length
+
+        for (let i = 0; i < this.tutorial_zones.length; i++) {
+            if(this.player.boundary.overlaps(this.tutorial_zones[i].boundary)) {
+                this.tutorial_labels[i].visible = true;
+            } else {
+                this.tutorial_labels[i].visible = false;
+            }
+        }
+
         if ((!this.player.boundary.overlaps(this.shop_zone.boundary)) && this.in_shop_zone){
             this.in_shop_zone = false;
             this.shop_prompt.visible = false;
@@ -722,6 +735,27 @@ export default class GluttonyLevel extends Scene {
             ],
             onEnd: Game_Events.NEXT_LEVEL
         });
+    }
+
+    protected initializeTutorial(): void {
+        this.tutorial_labels = new Array<Label>();
+        this.tutorial_zones = new Array<Rect>();
+
+        let tutorial_zone_1 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1025, 416), size: new Vec2(7 * 32, 5 * 32)});
+        tutorial_zone_1.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_1.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_1);
+
+        let tutorial_label_1 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1025, 430), text: "Careful... The floor here is slick with grease."});
+        tutorial_label_1.font = "HellText";    
+        tutorial_label_1.textColor = Color.BLACK;
+        tutorial_label_1.fontSize = 32;
+        tutorial_label_1.size.set(30, 14);
+        tutorial_label_1.borderWidth = 2;
+        tutorial_label_1.borderColor = Color.TRANSPARENT;
+        tutorial_label_1.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_1.visible = false;
+        this.tutorial_labels.push(tutorial_label_1);
     }
 
     protected initializeBossRoom(): void {

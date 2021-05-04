@@ -54,15 +54,15 @@
  "tileheight":32,
  "tilesets":[
         {
-         "columns":37,
+         "columns":43,
          "firstgid":1,
          "image":"hells_fury.png",
          "imageheight":32,
-         "imagewidth":1184,
+         "imagewidth":1376,
          "margin":0,
          "name":"Hell's fury",
          "spacing":0,
-         "tilecount":37,
+         "tilecount":43,
          "tileheight":32,
          "tilewidth":32
         }],
