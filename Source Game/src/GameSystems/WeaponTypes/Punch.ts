@@ -25,7 +25,7 @@ export default class Punch extends WeaponType {
         punch_sprite.rotation = attacker.attack_direction;
 
         // move the punch out from the player
-        punch_sprite.position = attacker.position.clone().add(direction.scaled(30));
+        punch_sprite.position = attacker.position.clone().add(direction.scaled(50));
 
         // play the punch animation but queue the normal animation
         punch_sprite.animation.play("PUNCH");
