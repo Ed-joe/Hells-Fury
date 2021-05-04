@@ -57,6 +57,16 @@
             "health": 2
         },
         {
+            "position": [1762, 509],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [1024, 1553],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
             "position": [1025, 938],
             "enemy_type": "gluttony",
             "health": 10

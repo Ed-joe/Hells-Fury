@@ -152,7 +152,7 @@ export default class GluttonyLevel extends Scene {
         this.initializePlayer();
 
         //Add Shop layer and other shop initialization
-        this.initializeShop(new Vec2(1146, 300));
+        this.initializeShop(new Vec2(350, 1333));
 
         // TODO PROJECT - write initializeEnemies()
         this.initializeEnemies();
@@ -182,6 +182,7 @@ export default class GluttonyLevel extends Scene {
     }
 
     updateScene(deltaT: number): void {
+        this.player_health = this.health_sprites.length
         if ((!this.player.boundary.overlaps(this.shop_zone.boundary)) && this.in_shop_zone){
             this.in_shop_zone = false;
             this.shop_prompt.visible = false;
@@ -254,7 +255,6 @@ export default class GluttonyLevel extends Scene {
 
         while(this.receiver.hasNextEvent()) {
             let event = this.receiver.getNextEvent();
-            console.log(event.type);
             switch(event.type){
                 case Game_Events.ENEMY_COLLISION:
                     {
@@ -468,7 +468,6 @@ export default class GluttonyLevel extends Scene {
                 case Game_Events.GAME_OVER:
                     {
                         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "gluttony_music"});
-                        console.log("GAME OVER");
                         this.viewport.stopFollow();
                         this.viewport.setZoomLevel(1);
                         this.sceneManager.changeToScene(GameOver, {});
@@ -595,7 +594,7 @@ export default class GluttonyLevel extends Scene {
     
 
         //Add shop prompt to main layer
-        this.shop_prompt = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(position.x, position.y - 50), text: "Press E to enter the shop"});
+        this.shop_prompt = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(position.x, position.y - 50), text: "Press 'E' to enter the shop"});
         this.shop_prompt.font = "HellText";    
         this.shop_prompt.textColor = Color.BLACK;
         this.shop_prompt.fontSize = 20;
@@ -652,7 +651,6 @@ export default class GluttonyLevel extends Scene {
         }
         else {
             sprite = this.add.sprite(weaponType.sprite_key, "below");
-            console.log(sprite.getLayer());
         }
 
         return new Weapon(sprite, weaponType, this.battle_manager);

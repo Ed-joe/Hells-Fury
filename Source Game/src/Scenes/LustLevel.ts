@@ -170,7 +170,7 @@ export default class LustLevel extends Scene {
 
     updateScene(deltaT: number): void {
         Debug.log("Playerpos", this.player.position.toString());
-
+        this.player_health = this.health_sprites.length
         for (let i = 0; i < this.tutorial_zones.length; i++) {
             if(this.player.boundary.overlaps(this.tutorial_zones[i].boundary)) {
                 this.tutorial_labels[i].visible = true;
@@ -252,7 +252,6 @@ export default class LustLevel extends Scene {
 
         while(this.receiver.hasNextEvent()) {
             let event = this.receiver.getNextEvent();
-            console.log(event.type);
             switch(event.type){
                 case Game_Events.ENEMY_COLLISION:
                     {
@@ -462,7 +461,6 @@ export default class LustLevel extends Scene {
                     break;
                 case Game_Events.GAME_OVER:
                     {
-                        console.log("GAME OVER");
                         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "lust_music"});
                         this.viewport.stopFollow();
                         this.viewport.setZoomLevel(1);
@@ -587,7 +585,7 @@ export default class LustLevel extends Scene {
     
 
         //Add shop prompt to main layer
-        this.shop_prompt = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(position.x, position.y - 50), text: "Press E to enter the shop"});
+        this.shop_prompt = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(position.x, position.y - 50), text: "Press 'E' to enter the shop"});
         this.shop_prompt.font = "HellText";    
         this.shop_prompt.textColor = Color.BLACK;
         this.shop_prompt.fontSize = 20;
@@ -607,8 +605,8 @@ export default class LustLevel extends Scene {
         buy_heart.fontSize = 42;
         buy_heart.size.set(250, 90);
         buy_heart.borderWidth = 2;
-        buy_heart.borderColor = new Color(233, 229, 158);
-        buy_heart.backgroundColor = Color.BLACK;
+        buy_heart.borderColor = Color.TRANSPARENT;
+        buy_heart.backgroundColor = new Color(233, 229, 158, .2);
         buy_heart.onClickEventId = Game_Events.BOUGHT_HEART;
         
         let contract_heart_image = this.add.sprite("heart", "shop");
@@ -644,7 +642,6 @@ export default class LustLevel extends Scene {
         }
         else {
             sprite = this.add.sprite(weaponType.sprite_key, "below");
-            console.log(sprite.getLayer());
         }
 
         return new Weapon(sprite, weaponType, this.battle_manager);

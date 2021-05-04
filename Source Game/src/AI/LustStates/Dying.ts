@@ -19,11 +19,8 @@ export default class Damage extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
-        this.parent.handleEvent(new GameEvent("LustDeath", {}));
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "lust_death", loop: false, holdReference: false});
         (<AnimatedSprite> this.owner).animation.play("DYING", false, Game_Events.BOSS_DIED);
-        // Reset the return object
-        this.retObj = {};
     }
 
     handleInput(event: GameEvent): void {}
@@ -33,7 +30,7 @@ export default class Damage extends BossState {
 
     onExit(): Record<string, any> {
         (<AnimatedSprite> this.owner).animation.stop();
-        return this.retObj;
+        return {};
     }
 
 }
