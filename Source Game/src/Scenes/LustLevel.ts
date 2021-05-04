@@ -475,7 +475,7 @@ export default class LustLevel extends Scene {
         let fist = this.createWeapon("punch");
         this.player.addAI(PlayerController,
             {
-                speed: 1000,
+                speed: 150,
                 fist: fist,
                 slippery: false,
                 health: this.player_health,
