@@ -27,7 +27,7 @@ export default class Damage extends EnemyState {
     update(deltaT: number): void {
         if(!this.owner.animation.isPlaying("DAMAGE")) {
             let playerPos = this.parent.getPlayerPosition();
-            if(playerPos !== null && this.owner.position.distanceTo(playerPos) <= 32 * 10){
+            if(playerPos !== null && this.owner.position.distanceTo(playerPos) <= 32 * 8){
                 if(this.owner.position.distanceTo(this.parent.getPlayerPosition()) > 32 * 6) {
                     this.finished(EnemyStates.TELEPORT_START);
                 } else {
