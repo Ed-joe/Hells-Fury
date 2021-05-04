@@ -5,21 +5,22 @@ import OrthogonalTilemap from "./../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap
 import Timer from "./../../Wolfie2D/Timing/Timer";
 import BossState from "./BossState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import GluttonyAI, { BossStates } from "../GluttonyAI";
+import LustAI, { BossStates } from "../LustAI";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+import { Game_Events } from "../../GameSystems/game_enums"
 
 export default class Damage extends BossState {
 
     // The return object for this state
     retObj: Record<string, any>;
 
-    constructor(parent: GluttonyAI, owner: AnimatedSprite){
+    constructor(parent: LustAI, owner: AnimatedSprite){
         super(parent, owner);
     }
 
     onEnter(options: Record<string, any>): void {
-        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gluttony_damage", loop: false, holdReference: false});
-        (<AnimatedSprite> this.owner).animation.play("DAMAGE", false);
+        this.parent.handleEvent(new GameEvent("LustDeath", {}));
+        (<AnimatedSprite> this.owner).animation.play("DYING", false, Game_Events.BOSS_DIED);
         // Reset the return object
         this.retObj = {};
     }
@@ -27,9 +28,6 @@ export default class Damage extends BossState {
     handleInput(event: GameEvent): void {}
 
     update(deltaT: number): void {
-        if(!(<AnimatedSprite> this.owner).animation.isPlaying("DAMAGE")) {
-            this.finished(BossStates.DEFAULT);
-        }
     }
 
     onExit(): Record<string, any> {

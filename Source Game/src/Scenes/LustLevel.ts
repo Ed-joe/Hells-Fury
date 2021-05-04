@@ -28,6 +28,7 @@ import Debug from "../Wolfie2D/Debug/Debug";
 import HoundAI from "../AI/HoundAI";
 import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 import GluttonyLevel from "./GluttonyLevel";
+import LustAI from "../AI/LustAI";
 
 export default class LustLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -67,6 +68,7 @@ export default class LustLevel extends Scene {
         this.load.spritesheet("hellhound", "game_assets/spritesheets/hellhound.json");
         this.load.object("enemyData", "game_assets/data/lust_enemy.json");
         this.load.spritesheet("shopkeep", "game_assets/spritesheets/shopkeep.json");
+        this.load.spritesheet("lust", "game_assets/spritesheets/lust.json");
 
         //load shop screen
         this.load.image("shop_ui", "game_assets/images/shop_ui.png")
@@ -506,7 +508,6 @@ export default class LustLevel extends Scene {
             }
 
             // Activate physics
-            //Only one enemy for now
             if(data.enemy_type === "hellbat") {
                 this.enemies[i].addPhysics();
                 this.enemies[i].addAI(BatAI, enemyOptions);
@@ -523,13 +524,12 @@ export default class LustLevel extends Scene {
                 this.enemies[i].setGroup("enemy");
                 this.enemies[i].setTrigger("player", Game_Events.ENEMY_COLLISION, "hound hit player");
             }
-            else if(data.enemy_type ===  "gluttony") {
+            else if(data.enemy_type ===  "lust") {
                 let enemyOptions = {
                     health: data.health,
-                    player: this.player,
-                    slam: this.createWeapon("slam")
+                    player: this.player
                 }
-                this.enemies[i].addAI(GluttonyAI, enemyOptions);
+                this.enemies[i].addAI(LustAI, enemyOptions);
                 this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(56, 56)));
                 this.enemies[i].setGroup("enemy");
                 this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
@@ -537,10 +537,9 @@ export default class LustLevel extends Scene {
             else {
                 let enemyOptions = {
                     health: data.health,
-                    player: this.player,
-                    slam: this.createWeapon("slam")
+                    player: this.player
                 }
-                this.enemies[i].addAI(GluttonyAI, enemyOptions);
+                this.enemies[i].addAI(LustAI, enemyOptions);
                 this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(50, 50)));
             }
 

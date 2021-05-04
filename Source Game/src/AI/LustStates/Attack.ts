@@ -1,13 +1,13 @@
 import AABB from "./../../Wolfie2D/DataTypes/Shapes/AABB";
 import Vec2 from "./../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "./../../Wolfie2D/Events/GameEvent";
-import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import OrthogonalTilemap from "./../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import Timer from "./../../Wolfie2D/Timing/Timer";
-import BatAI, { EnemyStates } from "../BatAI";
-import EnemyState from "./EnemyState";
+import LustAI, { BossStates } from "../LustAI";
+import BossState from "./BossState";
+import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 
-export default class Attack extends EnemyState {
+export default class Attack extends BossState {
     // Timers for managing this state
     exitTimer: Timer;
 
@@ -19,7 +19,7 @@ export default class Attack extends EnemyState {
     //Done Moving
     doneMoving: boolean;
 
-    constructor(parent: BatAI, owner: AnimatedSprite){
+    constructor(parent: LustAI, owner: AnimatedSprite){
         super(parent, owner);
 
         // Regularly update the player location
@@ -29,7 +29,6 @@ export default class Attack extends EnemyState {
 
     onEnter(options: Record<string, any>): void {
         this.resetTimer.start();
-        (<AnimatedSprite> this.owner).animation.play("ATTACK", true);
         this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
     }
 
@@ -37,12 +36,29 @@ export default class Attack extends EnemyState {
 
     update(deltaT: number): void {
         if(this.parent.getPlayerPosition() !== null){
+            this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
             // Player is visible, restart the exitTimer
             this.exitTimer.start();
             if(!this.doneMoving){
-                this.owner.invertX = this.owner._velocity.x < 0;
+                if(Math.abs(this.owner._velocity.x) > Math.abs(this.owner._velocity.y)) {
+                    this.owner.animation.playIfNotAlready("WALK_RL", true);
+                    if(this.owner._velocity.x < 0) {
+                        this.owner.invertX = true;
+                    }
+                    else {
+                        this.owner.invertX = false;
+                    }
+                }
+                else {
+                    if(this.owner._velocity.y > 0) {
+                        this.owner.animation.playIfNotAlready("WALK_DOWN", true);
+                    }
+                    else {
+                        this.owner.animation.playIfNotAlready("WALK_UP", true);
+                    }
+                }
                 if(this.resetTimer.isStopped()) {
-                    this.finished(EnemyStates.DEFAULT);
+                    this.finished(BossStates.DEFAULT);
                 }
                 if(this.owner.position.distanceTo(this.lastPlayerPos) < 5) {
                     this.doneMoving = true;
@@ -52,13 +68,12 @@ export default class Attack extends EnemyState {
             else {
                 this.resetTimer.start();
                 this.doneMoving = false;
-                this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
             }
         }
 
         if(this.exitTimer.isStopped()){
             // We haven't seen the player in a while, go check out where we last saw them, if possible
-                this.finished(EnemyStates.DEFAULT);
+                this.finished(BossStates.DEFAULT);
         }
     }
 

@@ -17,7 +17,7 @@ export default class Damaged extends EnemyState {
     // The last known position of the player
     lastPlayerPos: Vec2;
 
-    constructor(parent: BatAI, owner: GameNode){
+    constructor(parent: BatAI, owner: AnimatedSprite){
         super(parent, owner);
     }
 

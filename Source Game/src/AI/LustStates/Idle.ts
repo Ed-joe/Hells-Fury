@@ -3,7 +3,7 @@ import GameEvent from "./../../Wolfie2D/Events/GameEvent";
 import NavigationPath from "./../../Wolfie2D/Pathfinding/NavigationPath";
 import BossState from "./BossState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import GluttonyAI, { BossStates } from "../GluttonyAI";
+import LustAI, { BossStates } from "../LustAI";
 import Timer from "../../Wolfie2D/Timing/Timer";
 
 export default class Idle extends BossState {
@@ -11,7 +11,7 @@ export default class Idle extends BossState {
 
     private retObj: Record<string, any>;
     
-    constructor(parent: GluttonyAI, owner: AnimatedSprite){
+    constructor(parent: LustAI, owner: AnimatedSprite){
         super(parent, owner);
         this.attack_timer = new Timer(950);
     }
@@ -25,10 +25,7 @@ export default class Idle extends BossState {
     }
 
     update(deltaT: number): void {
-        if(this.parent.getPlayerPosition() !== null && this.attack_timer.isPaused() && this.parent.getPlayerPosition().distanceTo(this.owner.position) < 300){
-            this.attack_timer.start();
-        }
-        if(this.attack_timer.isStopped()) {
+        if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) < 200){
             this.finished(BossStates.ATTACKING);
         }
     }

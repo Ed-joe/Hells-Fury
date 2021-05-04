@@ -1,6 +1,5 @@
 import Vec2 from "./../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "./../../Wolfie2D/Events/GameEvent";
-import GameNode from "./../../Wolfie2D/Nodes/GameNode";
 import NavigationPath from "./../../Wolfie2D/Pathfinding/NavigationPath";
 import BatAI, { EnemyStates } from "../BatAI";
 import EnemyState from "./EnemyState";
@@ -11,7 +10,7 @@ export default class Idle extends EnemyState {
 
     private awayFromStartPosition: boolean;
 
-    constructor(parent: BatAI, owner: GameNode){
+    constructor(parent: BatAI, owner: AnimatedSprite){
         super(parent, owner);
     }
 

@@ -1,7 +1,6 @@
 import AABB from "./../../Wolfie2D/DataTypes/Shapes/AABB";
 import Vec2 from "./../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "./../../Wolfie2D/Events/GameEvent";
-import GameNode from "./../../Wolfie2D/Nodes/GameNode";
 import OrthogonalTilemap from "./../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import Timer from "./../../Wolfie2D/Timing/Timer";
 import BossState from "./BossState";
@@ -22,7 +21,7 @@ export default class Attack extends BossState {
     // The last known position of the player
     lastPlayerPos: Vec2;
 
-    constructor(parent: GluttonyAI, owner: GameNode){
+    constructor(parent: GluttonyAI, owner: AnimatedSprite){
         super(parent, owner);
     }
 
