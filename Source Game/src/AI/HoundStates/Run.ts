@@ -30,7 +30,7 @@ export default class TeleportStart extends EnemyState {
         // if can't see player go idle
         if(this.lastPlayerPos === null) {
             this.finished(EnemyStates.DEFAULT);
-        } else if (this.owner.position.distanceTo(this.lastPlayerPos) > 32 * 10) {
+        } else if (this.owner.position.distanceTo(this.lastPlayerPos) > 32 * 8) {
             this.finished(EnemyStates.DEFAULT);
         }
 

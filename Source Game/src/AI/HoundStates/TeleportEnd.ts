@@ -21,7 +21,7 @@ export default class TeleportEnd extends EnemyState {
 
     update(deltaT: number): void {
         if(!this.owner.animation.isPlaying("EMERGE")) {
-            this.finished(EnemyStates.ATTACK);
+            this.finished(EnemyStates.DEFAULT);
         }
     }
 

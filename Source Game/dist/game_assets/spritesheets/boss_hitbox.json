@@ -36,7 +36,7 @@
       "name": "DYING",
       "repeat": true,
       "frames": [
-        { "index": 0, "duration": 15 }
+        { "index": 0, "duration": 60 }
       ]
     }
   ]
