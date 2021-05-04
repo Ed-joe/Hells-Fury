@@ -329,10 +329,26 @@ export default class LustLevel extends Scene {
                 
                 case Game_Events.NEXT_LEVEL:
                     {
-                        
+                        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "lust_music"});
+                        this.sceneManager.changeToScene(GluttonyLevel, 
+                            {
+                                health: 5,
+                                coins: 0
+                            }, 
+                            {
+                                physics: {
+                                    groupNames: ["ground", "player", "enemy", "coin"],
+                                    collisions:
+                                    [
+                                        [0, 1, 1, 0],
+                                        [1, 0, 0, 1],
+                                        [1, 0, 0, 0],
+                                        [0, 1, 0, 0]
+                                    ]
+                                }
+                            });
                     }
                     break;
-
                 case Game_Events.GET_COIN:
                     {
                         let node = this.sceneGraph.getNode(event.data.get("node"));
@@ -444,6 +460,7 @@ export default class LustLevel extends Scene {
                 case Game_Events.GAME_OVER:
                     {
                         console.log("GAME OVER");
+                        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "lust_music"});
                         this.viewport.stopFollow();
                         this.viewport.setZoomLevel(1);
                         this.sceneManager.changeToScene(GameOver, {});
@@ -459,7 +476,7 @@ export default class LustLevel extends Scene {
                     break;
                 case Game_Events.BOUGHT_HEART:
                     {
-                        if (this.player_coins >= 5){
+                        if (this.player_coins >= 5 && this.player_health < 10){
                             this.player_coins -= 5;
                             let spriteToAdd = this.add.sprite("heart", "UI");
                             let prev_sprite = this.health_sprites[this.health_sprites.length - 1];
