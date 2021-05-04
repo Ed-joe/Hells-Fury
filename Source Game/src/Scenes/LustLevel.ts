@@ -485,7 +485,7 @@ export default class LustLevel extends Scene {
                             let prev_sprite = this.health_sprites[this.health_sprites.length - 1];
                             spriteToAdd.position = new Vec2(prev_sprite.position.x + 25, prev_sprite.position.y);
                             this.health_sprites.push(spriteToAdd);
-                            this.player_health += 1
+                            this.player_health += 1;
                             this.coin_count_label.text =  ": " + this.player_coins;
                             this.player._ai.handleEvent(new GameEvent(Game_Events.BOUGHT_HEART, {}));
                         }
@@ -750,7 +750,7 @@ export default class LustLevel extends Scene {
         tutorial_zone_2.color = Color.TRANSPARENT;
         this.tutorial_zones.push(tutorial_zone_2);
 
-        let tutorial_label_2 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1616, 360), text: "Click to attack in the\ndirection of your mouse"});
+        let tutorial_label_2 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1616, 360), text: "Click to attack in the direction of your mouse"});
         tutorial_label_2.font = "HellText";    
         tutorial_label_2.textColor = Color.BLACK;
         tutorial_label_2.fontSize = 32;
@@ -798,7 +798,7 @@ export default class LustLevel extends Scene {
         tutorial_zone_5.color = Color.TRANSPARENT;
         this.tutorial_zones.push(tutorial_zone_5);
 
-        let tutorial_label_5 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1732, 1380), text: "Hellbats are scattered around Hell"});
+        let tutorial_label_5 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1732, 1380), text: "Hellbats are scattered across"});
         tutorial_label_5.font = "HellText";
         tutorial_label_5.textColor = Color.BLACK;
         tutorial_label_5.fontSize = 32;
@@ -830,7 +830,7 @@ export default class LustLevel extends Scene {
         tutorial_zone_7.color = Color.TRANSPARENT;
         this.tutorial_zones.push(tutorial_zone_7);
 
-        let tutorial_label_7 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1100, 460), text: "You can find Lust in the center of the floor"});
+        let tutorial_label_7 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1100, 460), text: "You can find Lust at the center of the floor"});
         tutorial_label_7.font = "HellText";
         tutorial_label_7.textColor = Color.BLACK;
         tutorial_label_7.fontSize = 32;
@@ -872,6 +872,22 @@ export default class LustLevel extends Scene {
         tutorial_label_9.backgroundColor = Color.TRANSPARENT;
         tutorial_label_9.visible = false;
         this.tutorial_labels.push(tutorial_label_9);
+
+        let tutorial_zone_10 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1716, 1462), size: new Vec2(9 * 32, 4 * 32)});
+        tutorial_zone_10.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_10.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_10);
+
+        let tutorial_label_10 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1732, 1398), text: "the Circles of Hell"});
+        tutorial_label_10.font = "HellText";
+        tutorial_label_10.textColor = Color.BLACK;
+        tutorial_label_10.fontSize = 32;
+        tutorial_label_10.size.set(30, 14);
+        tutorial_label_10.borderWidth = 2;
+        tutorial_label_10.borderColor = Color.TRANSPARENT;
+        tutorial_label_10.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_10.visible = false;
+        this.tutorial_labels.push(tutorial_label_10);
     }
 
 
