@@ -1,0 +1,19 @@
+{
+    "name": "TopdownPlayer",
+    "spriteSheetImage": "player.png",
+    "spriteWidth": 16,
+    "spriteHeight": 16,
+    "columns": 5,
+    "rows": 1,
+    "durationType": "time",
+    "animations": [
+        { 
+            "name": "IDLE",
+            "frames": [ {"index": 0, "duration": 1} ]
+        },
+        {
+            "name": "WALK",
+            "frames": [ {"index": 1, "duration": 16}, {"index": 2, "duration": 16}, {"index": 3, "duration": 16}, {"index": 4, "duration": 16} ]
+        }
+    ]
+}

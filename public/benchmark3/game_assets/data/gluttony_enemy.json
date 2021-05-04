@@ -1,0 +1,80 @@
+{
+    "numEnemies": 13,
+    "enemies": [
+        {
+            "position": [358, 534],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [400, 830],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [211, 1286],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [555, 1140],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [501, 1456],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [692, 1776],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1688, 1506],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1545, 1172],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1800, 850],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1834, 1126],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1512, 540],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1762, 509],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [1024, 1553],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [1025, 938],
+            "enemy_type": "gluttony",
+            "health": 10
+        },
+        {
+            "position": [1025, 937],
+            "enemy_type": "boss_hitbox",
+            "health": 10
+        }
+    ]
+}
