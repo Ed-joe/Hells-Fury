@@ -11,7 +11,6 @@ export default class Dying extends PlayerState {
 
     onEnter(options: Record<string, any>): void {
         // console.log("enter damage");
-        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "gluttony_music"});
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "zara_death", loop: false, holdReference: false})
         this.owner.animation.play("DYING", false, Game_Events.GAME_OVER);
     }

@@ -238,7 +238,7 @@ export default class MainMenu extends Scene {
 
             if(event.type === "newGame") {
                 // setup new game scene from here (maybe add options)
-                this.sceneManager.changeToScene(GluttonyLevel, {
+                this.sceneManager.changeToScene(LustLevel, {
                     health: 5,
                     coins: 0
                 }, sceneOptions);

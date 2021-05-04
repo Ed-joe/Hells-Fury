@@ -22,7 +22,10 @@ import FixedUpdateGameLoop from "./Wolfie2D/Loop/FixedUpdateGameLoop";
             {name: "interact", keys: ["e"]},
             {name: "pause", keys: ["escape"]},
             {name: "invincible", keys: ["i"]},
-            {name: "coins", keys: ["c"]}
+            {name: "coins", keys: ["c"]},
+            {name: "lust", keys: ["1"]},
+            {name: "wrath", keys: ["2"]},
+            {name: "gluttony", keys: ["3"]}
         ]
     }
 

@@ -28,6 +28,7 @@ import Debug from "../Wolfie2D/Debug/Debug";
 import HoundAI from "../AI/HoundAI";
 import Game from "../Wolfie2D/Loop/Game";
 import { GameEventType } from "../Wolfie2D/Events/GameEventType";
+import LustLevel from "./LustLevel";
 
 export default class GluttonyLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -207,6 +208,46 @@ export default class GluttonyLevel extends Scene {
             for(let i = 0; i < 5; i++) {
                 this.player._ai.handleEvent(new GameEvent(Game_Events.GET_COIN, {}));
             }
+        }
+
+        if(Input.isJustPressed("lust")){
+            this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "gluttony_music"});
+            this.sceneManager.changeToScene(LustLevel, 
+                {
+                    health: 5,
+                    coins: 0
+                }, 
+                {
+                    physics: {
+                        groupNames: ["ground", "player", "enemy", "coin"],
+                        collisions:
+                        [
+                            [0, 1, 1, 0],
+                            [1, 0, 0, 1],
+                            [1, 0, 0, 0],
+                            [0, 1, 0, 0]
+                        ]
+                    }
+                });
+        }else if(Input.isJustPressed("gluttony")){
+            this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "gluttony_music"});
+            this.sceneManager.changeToScene(GluttonyLevel, 
+                {
+                    health: 5,
+                    coins: 0
+                }, 
+                {
+                    physics: {
+                        groupNames: ["ground", "player", "enemy", "coin"],
+                        collisions:
+                        [
+                            [0, 1, 1, 0],
+                            [1, 0, 0, 1],
+                            [1, 0, 0, 0],
+                            [0, 1, 0, 0]
+                        ]
+                    }
+                });
         }
 
         while(this.receiver.hasNextEvent()) {
@@ -398,6 +439,7 @@ export default class GluttonyLevel extends Scene {
                     break;
                 case Game_Events.GAME_OVER:
                     {
+                        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "gluttony_music"});
                         console.log("GAME OVER");
                         this.viewport.stopFollow();
                         this.viewport.setZoomLevel(1);
