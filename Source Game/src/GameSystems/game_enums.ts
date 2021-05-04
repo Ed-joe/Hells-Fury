@@ -15,5 +15,6 @@ export enum Game_Events {
     EXITED_SHOP = "ExitedShop",
     GET_COIN = "GetCoin",
     ENTER_BOSS_FIGHT = "EnterBossFight",
-    HELLHOUND_TP_START = "HellHoundTeleportStart"
+    HELLHOUND_TP_START = "HellHoundTeleportStart",
+    NEXT_LEVEL = "NextLevel"
 }
