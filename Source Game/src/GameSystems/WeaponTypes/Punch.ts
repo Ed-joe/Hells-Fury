@@ -25,10 +25,6 @@ export default class Punch extends WeaponType {
         // rotate this with the game node
         punch_sprite.rotation = attacker.attack_direction;
 
-        console.log(attacker.attack_direction);
-        console.log(Vec2.UP.angleToCCW(attacker._velocity));
-        console.log(attacker.moving);
-
         if(attacker.moving && (Math.abs(attacker.attack_direction - Vec2.UP.angleToCCW(attacker._velocity)) < .3 || Math.abs(attacker.attack_direction - Vec2.UP.angleToCCW(attacker._velocity)) > 5.5)) {
             punch_sprite.position = attacker.position.clone().add(direction.scaled(80));
         }
