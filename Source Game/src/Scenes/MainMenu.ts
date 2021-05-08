@@ -49,6 +49,12 @@ export default class MainMenu extends Scene {
         mmb.position.set(mmb.size.x/2, mmb.size.y/2);
 
         // Add new game button, and give it an event to emit on press
+        const new_game_text = <Button>this.add.uiElement(UIElementType.LABEL, "mainMenu", {position: new Vec2(center.x - 14, center.y - 170), text: "New Game"});
+        new_game_text.font = "HellText";
+        new_game_text.textColor = Color.WHITE;
+        new_game_text.fontSize = 66;
+        new_game_text.size.set(330, 70);
+
         const new_game_button = <Button>this.add.uiElement(UIElementType.BUTTON, "mainMenu", {position: new Vec2(center.x - 14, center.y - 170), text: "New Game"});
         new_game_button.font = "HellText";
         new_game_button.textColor = Color.BLACK;
@@ -60,6 +66,12 @@ export default class MainMenu extends Scene {
         new_game_button.onClickEventId = "newGame";
 
         // Add level select button
+        const level_text = <Button>this.add.uiElement(UIElementType.LABEL, "mainMenu", {position: new Vec2(center.x - 13, center.y - 60), text: "Level Select"});
+        level_text.font = "HellText";
+        level_text.textColor = Color.WHITE;
+        level_text.fontSize = 66;
+        level_text.size.set(420, 70);
+
         const level_select_button = <Button>this.add.uiElement(UIElementType.BUTTON, "mainMenu", {position: new Vec2(center.x - 13, center.y - 60), text: "Level Select"});
         level_select_button.font = "HellText";
         level_select_button.textColor = Color.BLACK;
@@ -71,6 +83,12 @@ export default class MainMenu extends Scene {
         level_select_button.onClickEventId = "levelSelect";
 
         // Add help button
+        const help_text = <Button>this.add.uiElement(UIElementType.LABEL, "mainMenu", {position: new Vec2(center.x - 21, center.y + 55), text: "Help"});
+        help_text.font = "HellText";
+        help_text.textColor = Color.WHITE;
+        help_text.fontSize = 67;
+        help_text.size.set(145, 75);
+
         const help_button = <Button>this.add.uiElement(UIElementType.BUTTON, "mainMenu", {position: new Vec2(center.x - 21, center.y + 55), text: "Help"});
         help_button.font = "HellText";
         help_button.textColor = Color.BLACK;
@@ -82,6 +100,12 @@ export default class MainMenu extends Scene {
         help_button.onClickEventId = "help";
 
         // Add controls
+        const controls_text = <Button>this.add.uiElement(UIElementType.LABEL, "mainMenu", {position: new Vec2(center.x - 13, center.y + 150), text: "Controls"});
+        controls_text.font = "HellText";
+        controls_text.textColor = Color.WHITE;
+        controls_text.fontSize = 67;
+        controls_text.size.set(268, 70);
+
         const controls_button = <Button>this.add.uiElement(UIElementType.BUTTON, "mainMenu", {position: new Vec2(center.x - 13, center.y + 150), text: "Controls"});
         controls_button.font = "HellText";
         controls_button.textColor = Color.BLACK;
