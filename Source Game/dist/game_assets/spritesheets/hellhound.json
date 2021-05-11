@@ -19,10 +19,10 @@
         {
             "name": "DAMAGE",
             "frames": [
-                {"index": 4, "duration": 12},
-                {"index": 5, "duration": 12},
-                {"index": 6, "duration": 12},
-                {"index": 7, "duration": 12}
+                {"index": 4, "duration": 7},
+                {"index": 5, "duration": 7},
+                {"index": 6, "duration": 7},
+                {"index": 7, "duration": 6}
             ]
         },
         {
