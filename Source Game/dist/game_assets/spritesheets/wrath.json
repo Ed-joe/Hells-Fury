@@ -61,6 +61,40 @@
                 {"index": 30, "duration": 8},
                 {"index": 31, "duration": 8}
             ]
+        },
+        {
+            "name": "CHARGE_D",
+            "frames": [
+                {"index": 32, "duration": 8},
+                {"index": 33, "duration": 8},
+                {"index": 34, "duration": 8},
+                {"index": 35, "duration": 8}
+            ]
+        },
+        {
+            "name": "SLASH_D",
+            "frames": [
+                {"index": 36, "duration": 8},
+                {"index": 37, "duration": 8},
+                {"index": 38, "duration": 8}
+            ]
+        },
+        {
+            "name": "CHARGE_UP",
+            "frames": [
+                {"index": 39, "duration": 8},
+                {"index": 40, "duration": 8},
+                {"index": 41, "duration": 8},
+                {"index": 42, "duration": 8}
+            ]
+        },
+        {
+            "name": "SLASH_UP",
+            "frames": [
+                {"index": 43, "duration": 8},
+                {"index": 44, "duration": 8},
+                {"index": 45, "duration": 8}
+            ]
         }
     ]
 }
