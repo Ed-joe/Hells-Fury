@@ -253,7 +253,13 @@ export default class MainMenu extends Scene {
         while(this.receiver.hasNextEvent()) {
             let event = this.receiver.getNextEvent();
 
-            let sceneOptions = {
+            let scene_options = {
+                health: 5,
+                coins: 0,
+                damage: 1
+            }
+
+            let physics_options = {
                 physics: {
                     groupNames: ["ground", "player", "enemy", "coin"],
                     collisions:
@@ -269,10 +275,7 @@ export default class MainMenu extends Scene {
             if(event.type === "newGame") {
                 // setup new game scene from here (maybe add options)
                 this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "main_menu_music"});
-                this.sceneManager.changeToScene(LustLevel, {
-                    health: 5,
-                    coins: 0
-                }, sceneOptions);
+                this.sceneManager.changeToScene(LustLevel, scene_options, physics_options);
             }
 
             if(event.type === "mainMenu") {
@@ -300,19 +303,12 @@ export default class MainMenu extends Scene {
             if(event.type === "levelGluttony") {
                 // go to gluttony level (level 3)
                 this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "main_menu_music"});
-                this.sceneManager.changeToScene(GluttonyLevel, {
-                    health: 5,
-                    coins: 0
-                }, 
-                sceneOptions);
+                this.sceneManager.changeToScene(GluttonyLevel, scene_options, physics_options);
             }
             if(event.type === "levelLust") {
                 // TODO PROJECT - go to lust level (level 1)
                 this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "main_menu_music"});
-                this.sceneManager.changeToScene(LustLevel, {
-                    health: 5,
-                    coins: 0
-                }, sceneOptions);
+                this.sceneManager.changeToScene(LustLevel, scene_options, physics_options);
             }
             if(event.type === "levelWrath") {
                 // TODO PROJECT - go to wrath level (level 2)
