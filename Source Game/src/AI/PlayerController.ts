@@ -17,6 +17,8 @@ import Attack from "./PlayerStates/Attack";
 import Damage from "./PlayerStates/Damage";
 import Dying from "./PlayerStates/Dying";
 import Game from "../Wolfie2D/Loop/Game";
+import Debug from "../Wolfie2D/Debug/Debug";
+import Label from "../Wolfie2D/Nodes/UIElements/Label";
 
 export enum PlayerStates {
     IDLE = "idle",
@@ -56,6 +58,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     // for i-frames
     invincible: boolean;
     invincible_cheat: boolean;
+    invincible_cheat_label: Label;
 
     // for emitting events
     emitter: Emitter;
@@ -74,6 +77,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.fists = options.fists;
         this.invincible_cheat = false;
         this.player_damage = options.damage;
+        this.invincible_cheat_label = options.invincible_cheat_label;
 
         // initialize states
         this.addState(PlayerStates.IDLE, new Idle(this, this.owner));
@@ -120,6 +124,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     }
 
     update(deltaT: number): void {
+        Debug.log("Position:", Math.round(this.owner.position.x) + ", " + Math.round(this.owner.position.y));
         super.update(deltaT);
     }
 

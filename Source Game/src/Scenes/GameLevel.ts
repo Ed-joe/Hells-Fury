@@ -227,6 +227,7 @@ export default class GameLevel extends Scene {
     }
 
     updateScene(deltaT: number): void {
+        Debug.log(" " + this.player.position.x + this.player.position.y);
         this.player_health = this.health_sprites.length
 
         for (let i = 0; i < this.tutorial_zones.length; i++) {
@@ -535,6 +536,10 @@ export default class GameLevel extends Scene {
         let fist1 = this.createWeapon("punch1");
         let fist2 = this.createWeapon("punch2");
         let fist3 = this.createWeapon("punch3");
+        let invincible_label = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(585, 280), text: "INVINCIBLE"});
+        invincible_label.textColor = Color.RED;
+        invincible_label.font = "HellText";
+        invincible_label.visible = false;
         this.player.addAI(PlayerController,
             {
                 speed: this.player_speed,
@@ -543,7 +548,8 @@ export default class GameLevel extends Scene {
                 health: this.player_health,
                 coins: this.player_coins,
                 damage: this.player_damage,
-                health_sprites: this.health_sprites
+                health_sprites: this.health_sprites,
+                invincible_cheat_label: invincible_label
             });
         this.player.animation.play("IDLE", true);
         this.player.setGroup("player");
