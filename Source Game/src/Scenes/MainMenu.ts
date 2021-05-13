@@ -319,10 +319,7 @@ export default class MainMenu extends Scene {
                 // TODO PROJECT - go to greed level (level 4)
                 console.log("Greed Level");
                 this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "main_menu_music"});
-                this.sceneManager.changeToScene(GreedLevel, {
-                    health: 5,
-                    coins: 0
-                }, sceneOptions);
+                this.sceneManager.changeToScene(GreedLevel, scene_options, physics_options);
             }
             if(event.type === "levelSloth") {
                 // TODO PROJECT - go to sloth level (level 5)
