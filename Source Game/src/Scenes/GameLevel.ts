@@ -524,6 +524,10 @@ export default class GameLevel extends Scene {
         // this.player.position.set(1018, 330);
         this.player.addPhysics(new AABB(new Vec2(0, 14), new Vec2(16, 15)), new Vec2(0, 15));
         let fist = this.createWeapon("punch");
+        let invincible_label = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(585, 280), text: "INVINCIBLE"});
+        invincible_label.textColor = Color.RED;
+        invincible_label.font = "HellText";
+        invincible_label.visible = false;
         this.player.addAI(PlayerController,
             {
                 speed: this.player_speed,
@@ -531,7 +535,8 @@ export default class GameLevel extends Scene {
                 slippery: this.player_slippery,
                 health: this.player_health,
                 coins: this.player_coins,
-                health_sprites: this.health_sprites
+                health_sprites: this.health_sprites,
+                invincible_cheat_label: invincible_label
             });
         this.player.animation.play("IDLE", true);
         this.player.setGroup("player");
