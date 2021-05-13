@@ -228,6 +228,7 @@ export default class GameLevel extends Scene {
     }
 
     updateScene(deltaT: number): void {
+        Debug.log(" " + this.player.position.x + this.player.position.y);
         this.player_health = this.health_sprites.length
 
         for (let i = 0; i < this.tutorial_zones.length; i++) {

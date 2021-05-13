@@ -17,6 +17,7 @@ import Attack from "./PlayerStates/Attack";
 import Damage from "./PlayerStates/Damage";
 import Dying from "./PlayerStates/Dying";
 import Game from "../Wolfie2D/Loop/Game";
+import Debug from "../Wolfie2D/Debug/Debug";
 
 export enum PlayerStates {
     IDLE = "idle",
@@ -115,6 +116,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     }
 
     update(deltaT: number): void {
+        Debug.log("Position:", Math.round(this.owner.position.x) + ", " + Math.round(this.owner.position.y));
         super.update(deltaT);
     }
 
