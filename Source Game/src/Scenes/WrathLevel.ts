@@ -84,10 +84,10 @@ export default class WrathLevel extends GameLevel {
                 groupNames: ["ground", "player", "enemy", "coin"],
                 collisions:
                 [
-                    [0, 1, 1, 0],
-                    [1, 0, 0, 1],
+                    [0, 1, 1, 1],
                     [1, 0, 0, 0],
-                    [0, 1, 0, 0]
+                    [1, 0, 0, 0],
+                    [1, 0, 0, 0]
                 ]
             }
         }

@@ -33,6 +33,8 @@ import LustLevel from "./LustLevel";
 import GluttonyLevel from "./GluttonyLevel";
 import MainMenu from "./MainMenu";
 import WrathAI from "../AI/WrathAI";
+import CoinEnemyAI from "../AI/CoinEnemyAI";
+import GreedAI from "../AI/GreedAI";
 
 export default class GameLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -75,11 +77,14 @@ export default class GameLevel extends Scene {
     boss_room_size: Vec2;
     upper_boss_door: Vec2[];
     lower_boss_door: Vec2[];
+    coin_hurt: boolean;
 
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
         this.player_health = init.health;
         this.player_coins = init.coins;
+        this.coin_hurt = false;
+        this.player_slippery = false;
         this.player_damage = init.damage;
     }
     
@@ -272,13 +277,13 @@ export default class GameLevel extends Scene {
         
         let physics_options = {
             physics: {
-                groupNames: ["ground", "player", "enemy", "coin"],
+                groupNames: ["wall", "player", "enemy", "coin"],
                 collisions:
                 [
-                    [0, 1, 1, 0],
-                    [1, 0, 0, 1],
+                    [0, 1, 1, 1],
                     [1, 0, 0, 0],
-                    [0, 1, 0, 0]
+                    [1, 0, 0, 0],
+                    [1, 0, 0, 0]
                 ]
             }
         }
@@ -378,7 +383,7 @@ export default class GameLevel extends Scene {
                         this.player_coins = Math.min(this.player_coins, this.MAX_COINS);
                         this.coin_count_label.text =  " :  " + this.player_coins;
                         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "coin_pickup", loop: false, holdReference: false})
-                        this.player._ai.handleEvent(new GameEvent(Game_Events.GET_COIN, {}));
+                        this.player._ai.handleEvent(new GameEvent(Game_Events.GET_COIN, {coin_hurt: String(this.coin_hurt)}));
                     }
                     break;
 
@@ -513,6 +518,43 @@ export default class GameLevel extends Scene {
                         }
                     }
                     break;
+                case Game_Events.GREED_ATTACK:
+                    {
+                        let positionX = this.player.position.x;
+                        let positionY = this.player.position.y;
+                        let greed_position = this.sceneGraph.getNode(event.data.get("owner")).position;
+                        let coin1 = this.add.animatedSprite("coin", "primary");
+                        coin1.addPhysics(coin1.boundary, Vec2.ZERO, false);
+                        coin1.position.set(greed_position.x, greed_position.y);
+                        coin1.animation.play("IDLE", true);
+                        coin1.setGroup("coin");
+                        coin1.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
+                        let coin1_vel = greed_position.dirTo(new Vec2(positionX, positionY)).scale(3.5);
+                        coin1.addAI(CoinEnemyAI, {player: this.player, velocityX: coin1_vel.x, velocityY: coin1_vel.y});
+                        let coin2 = this.add.animatedSprite("coin", "primary");
+                        coin2.addPhysics(coin2.boundary, Vec2.ZERO, false);
+                        coin2.position.set(greed_position.x, greed_position.y);
+                        coin2.animation.play("IDLE", true);
+                        coin2.setGroup("coin");
+                        coin2.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
+                        let coin2_vel = greed_position.dirTo(new Vec2(positionX - 64, positionY)).scale(3);
+                        coin2.addAI(CoinEnemyAI, {player: this.player, velocityX: coin2_vel.x , velocityY: coin2_vel.y});
+                        let coin3 = this.add.animatedSprite("coin", "primary");
+                        coin3.addPhysics(coin3.boundary, Vec2.ZERO, false);
+                        coin3.position.set(greed_position.x, greed_position.y);
+                        coin3.animation.play("IDLE", true);
+                        coin3.setGroup("coin");
+                        coin3.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
+                        let coin3_vel = greed_position.dirTo(new Vec2(positionX + 64, positionY)).scale(3);
+                        coin3.addAI(CoinEnemyAI, {player: this.player, velocityX: coin3_vel.x, velocityY: coin3_vel.y});
+                        for(let i = 0; i < this.enemies.length ; i++){
+                            if(this.enemies[i].imageId === "Gluttony"){
+                                this.enemies[i]._ai.handleEvent(event);
+                                break;
+                            }
+                        }
+                    }
+                    break;
                 case Game_Events.BOUGHT_DAMAGE:
                     {
                         console.log(this.player_damage);
@@ -614,6 +656,15 @@ export default class GameLevel extends Scene {
                 }
                 this.enemies[i].addAI(LustAI, enemyOptions);
                 this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(56, 50)));
+                this.enemies[i].setGroup("enemy");
+                this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
+            }else if(data.enemy_type ===  "greed") {
+                let enemyOptions = {
+                    health: data.health,
+                    player: this.player
+                }
+                this.enemies[i].addAI(GreedAI, enemyOptions);
+                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(56, 56)));
                 this.enemies[i].setGroup("enemy");
                 this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
             }
@@ -839,7 +890,8 @@ export default class GameLevel extends Scene {
            Game_Events.EXITED_SHOP,
            Game_Events.GET_COIN,
            Game_Events.ENTER_BOSS_FIGHT,
-           Game_Events.NEXT_LEVEL
+           Game_Events.NEXT_LEVEL,
+           Game_Events.GREED_ATTACK
         ]);
     }
 }

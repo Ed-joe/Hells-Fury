@@ -18,5 +18,6 @@ export enum Game_Events {
     ENTER_BOSS_FIGHT = "EnterBossFight",
     HELLHOUND_TP_START = "HellHoundTeleportStart",
     NEXT_LEVEL = "NextLevel",
-    WRATH_ATTACK = "WrathAttack"
+    WRATH_ATTACK = "WrathAttack",
+    GREED_ATTACK = "GreedAttack"
 }

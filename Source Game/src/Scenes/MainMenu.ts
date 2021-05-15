@@ -168,30 +168,30 @@ export default class MainMenu extends Scene {
         level_select_gluttony.backgroundColor = Color.TRANSPARENT;
         level_select_gluttony.onClickEventId = "levelGluttony";
 
-        const level_select_greed = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 21, center.y + 85), text: "Greed"});
+        const level_select_greed = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", { position: new Vec2(center.x - 20, center.y + 230), text: "Greed"});
         level_select_greed.font = "HellText";
         level_select_greed.textColor = Color.WHITE;
-        level_select_greed.fontSize = 60;
+        level_select_greed.fontSize = 52;
         level_select_greed.size.set(150, 50);
         level_select_greed.borderWidth = 2;
         level_select_greed.borderColor = Color.TRANSPARENT;
         level_select_greed.backgroundColor = Color.TRANSPARENT;
         level_select_greed.onClickEventId = "levelGreed";
 
-        const level_select_sloth = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 19, center.y + 160), text: "Sloth"});
+        const level_select_sloth = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 21, center.y + 85), text: "Sloth"});
         level_select_sloth.font = "HellText";
         level_select_sloth.textColor = Color.WHITE;
-        level_select_sloth.fontSize = 56;
+        level_select_sloth.fontSize = 60;
         level_select_sloth.size.set(135, 50);
         level_select_sloth.borderWidth = 2;
         level_select_sloth.borderColor = Color.TRANSPARENT;
         level_select_sloth.backgroundColor = Color.TRANSPARENT;
         level_select_sloth.onClickEventId = "levelSloth";
-
-        const level_select_envy = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 20, center.y + 230), text: "Envy"});
+        
+        const level_select_envy = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", { position: new Vec2(center.x - 19, center.y + 160), text: "Envy"});
         level_select_envy.font = "HellText";
         level_select_envy.textColor = Color.WHITE;
-        level_select_envy.fontSize = 52;
+        level_select_envy.fontSize = 56;
         level_select_envy.size.set(114, 50);
         level_select_envy.borderWidth = 2;
         level_select_envy.borderColor = Color.TRANSPARENT;
@@ -263,13 +263,13 @@ export default class MainMenu extends Scene {
 
             let physics_options = {
                 physics: {
-                    groupNames: ["ground", "player", "enemy", "coin"],
+                    groupNames: ["wall", "player", "enemy", "coin"],
                     collisions:
                     [
-                        [0, 1, 1, 0],
+                        [0, 1, 1, 1],
                         [1, 0, 0, 0],
                         [1, 0, 0, 0],
-                        [0, 0, 0, 0]
+                        [1, 0, 0, 0]
                     ]
                 }
             }
