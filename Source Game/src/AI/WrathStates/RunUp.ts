@@ -20,7 +20,7 @@ export default class RunUp extends BossState {
     }
 
     update(deltaT: number): void {
-        if (this.owner.position.y < 200) {
+        if (this.owner.position.y < 168) {
             this.finished(BossStates.CHARGE_DOWN);
         }
         this.owner.move(this.speed);

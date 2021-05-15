@@ -52,6 +52,7 @@ export default class Weapon extends Item {
      */
     use(user: GameNode, userType: string, direction: Vec2): boolean {
         // If the cooldown timer is still running, we can't use the weapon
+        console.log("use");
         if(!this.cooldownTimer.isStopped()){
             return false;
         }

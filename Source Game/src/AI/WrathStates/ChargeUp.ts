@@ -3,6 +3,7 @@ import GameEvent from "../../Wolfie2D/Events/GameEvent";
 import BossState from "./BossState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import WrathAI, { BossStates } from "../WrathAI";
+import { Game_Events } from "../../GameSystems/game_enums";
 
 export default class ChargeUp extends BossState {
     constructor(parent: WrathAI, owner: AnimatedSprite){
@@ -10,7 +11,7 @@ export default class ChargeUp extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
-        this.owner.animation.play("CHARGE_UP", false);
+        this.owner.animation.play("CHARGE_UP", false, Game_Events.WRATH_ATTACK_UP);
     }
 
     handleInput(event: GameEvent): void {}

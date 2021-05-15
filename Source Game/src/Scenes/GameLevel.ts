@@ -558,6 +558,28 @@ export default class GameLevel extends Scene {
                         }
                     }
                     break;
+
+                case Game_Events.WRATH_ATTACK_DOWN:
+                    {
+                        for(let i = 0; i < this.enemies.length ; i++){
+                            if(this.enemies[i].imageId === "Wrath"){
+                                this.enemies[i]._ai.handleEvent(event);
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                case Game_Events.WRATH_ATTACK_UP:
+                    {
+                        for(let i = 0; i < this.enemies.length ; i++){
+                            if(this.enemies[i].imageId === "Wrath"){
+                                this.enemies[i]._ai.handleEvent(event);
+                                break;
+                            }
+                        }
+                    }
+                    break;
+
                 case Game_Events.BOUGHT_DAMAGE:
                     {
                         if (this.player_coins >= 10 && this.player_damage < 3) {
@@ -673,7 +695,7 @@ export default class GameLevel extends Scene {
                 let enemyOptions = {
                     health: data.health,
                     player: this.player,
-                    slice: this.createWeapon("slam")
+                    slice: this.createWeapon("slice")
                 }
                 this.enemies[i].addAI(WrathAI, enemyOptions);
                 this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(26, 44)), new Vec2(0, 20));
@@ -788,6 +810,8 @@ export default class GameLevel extends Scene {
     createWeapon(type: string): Weapon {
         let weaponType = <WeaponType>RegistryManager.getRegistry("weaponTypes").get(type);
 
+        console.log(RegistryManager.getRegistry("weaponTypes"));
+
         let sprite = null;
         if(type === "punch1" || type === "punch2" || type === "punch3") {
             sprite = this.add.sprite(weaponType.sprite_key, "above");
@@ -894,7 +918,9 @@ export default class GameLevel extends Scene {
            Game_Events.GET_COIN,
            Game_Events.ENTER_BOSS_FIGHT,
            Game_Events.NEXT_LEVEL,
-           Game_Events.GREED_ATTACK
+           Game_Events.GREED_ATTACK,
+           Game_Events.WRATH_ATTACK_UP,
+           Game_Events.WRATH_ATTACK_DOWN
         ]);
     }
 }

@@ -11,7 +11,7 @@ export default class AttackUp extends BossState {
 
     onEnter(options: Record<string, any>): void {
         this.owner.animation.play("SLASH_UP", false);
-        this.parent.slice.use(this.owner, "enemies", Vec2.ZERO);
+        // this.parent.slice.use(this.owner, "enemies", Vec2.ZERO);
     }
 
     handleInput(event: GameEvent): void {}

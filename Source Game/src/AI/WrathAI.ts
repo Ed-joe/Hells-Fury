@@ -76,12 +76,15 @@ export default class WrathAI extends StateMachineAI implements BattlerAI {
     }
 
     handleEvent(event: GameEvent): void {
-        // if(event.type === Game_Events.WRATH_ATTACK) {
-        //     this.slice.use(this.owner, "enemies", Vec2.ZERO);
-        //     this.changeState(BossStates.DEFAULT);
-        // } else if (event.type === "WrathDeath") {
-        //     // this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gluttony_death", loop: false, holdReference: false});
-        // }
+        if(event.type === Game_Events.WRATH_ATTACK_UP) {
+            console.log("attack up");
+            this.slice.use(this.owner, "enemies", Vec2.ZERO);
+            this.changeState(BossStates.ATTACK_UP);
+        } else if (event.type === Game_Events.WRATH_ATTACK_DOWN) {
+            console.log("attack down");
+            this.slice.use(this.owner, "enemies", Vec2.ZERO);
+            this.changeState(BossStates.ATTACK_DOWN);
+        }
     }
 
     getPlayerPosition(): Vec2 {

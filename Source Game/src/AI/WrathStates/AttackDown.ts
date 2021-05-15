@@ -10,8 +10,8 @@ export default class AttackDown extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
+        // this.parent.slice.use(this.owner, "enemies", Vec2.ZERO);
         this.owner.animation.play("SLASH_DOWN", false);
-        this.parent.slice.use(this.owner, "enemies", Vec2.ZERO);
     }
 
     handleInput(event: GameEvent): void {}
