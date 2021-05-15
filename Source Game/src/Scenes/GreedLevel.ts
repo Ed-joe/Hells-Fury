@@ -35,16 +35,15 @@ export default class GreedLevel extends GameLevel {
             greedLevel: "game_assets/tilemaps/greed_level.json"
         }
         this.next_level_constructor = MainMenu
-        this.shop_pos = new Vec2(350, 1333);
-        this.player_start_pos = new Vec2(944, 1456);
+        this.player_start_pos = new Vec2(1009, 1756);
         this.player_speed = 150;
-        this.player_slippery = false;
         this.level_text_color = new Color(252, 219, 3);
         this.start_level_text = "Greed's Golden Gorge";
         this.end_level_text = "Greed has been defeated!"
         this.boss_room_pos = new Vec2(1008, 1233);
         this.boss_room_size = new Vec2(7 * 32, 3 * 32);
         this.coin_hurt = true;
+        this.has_shop = false;
         this.upper_boss_door = [new Vec2(944, 1326), new Vec2(976, 1326), new Vec2(1008, 1326), new Vec2(1040, 1326), new Vec2(1072, 1326)];
         this.lower_boss_door = [new Vec2(944, 1356), new Vec2(944, 1388), new Vec2(976, 1356), new Vec2(976, 1388), new Vec2(1008, 1356), new Vec2(1008, 1388), new Vec2(1040, 1356), new Vec2(1040, 1388), new Vec2(1072, 1356), new Vec2(1072, 1388)];
     }
@@ -89,12 +88,12 @@ export default class GreedLevel extends GameLevel {
         this.tutorial_labels = new Array<Label>();
         this.tutorial_zones = new Array<Rect>();
 
-        let tutorial_zone_1 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1025, 416), size: new Vec2(7 * 32, 5 * 32)});
+        let tutorial_zone_1 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1010, 1773), size: new Vec2(7 * 32, 5 * 32)});
         tutorial_zone_1.addPhysics(undefined, undefined, false, true);
         tutorial_zone_1.color = Color.TRANSPARENT;
         this.tutorial_zones.push(tutorial_zone_1);
 
-        let tutorial_label_1 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1025, 430), text: "Careful... The floor here is slick with grease."});
+        let tutorial_label_1 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1010, 1723), text: "Don't let your greed consume you, coins hurt!"});
         tutorial_label_1.font = "HellText";    
         tutorial_label_1.textColor = Color.BLACK;
         tutorial_label_1.fontSize = 32;
