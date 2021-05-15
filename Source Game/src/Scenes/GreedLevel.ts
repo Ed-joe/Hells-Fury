@@ -24,15 +24,15 @@ export default class GreedLevel extends GameLevel {
             lust_damage: "game_assets/sounds/lust_damage.mp3"
         }
         this.boss_sprite = {
-            lust: "game_assets/spritesheets/lust.json"
+            greed: "game_assets/spritesheets/gluttony.json"
         }
         this.boss_attack_image = {}
         this.boss_attack_sprite = {}
         this.enemy_data = {
-            enemyData: "game_assets/data/lust_enemy.json"
+            enemyData: "game_assets/data/greed_enemy.json"
         }
         this.level_tilemap = {
-            lustLevel: "game_assets/tilemaps/greed_level.json"
+            greedLevel: "game_assets/tilemaps/greed_level.json"
         }
         this.next_level_constructor = MainMenu
         this.shop_pos = new Vec2(350, 1333);
@@ -44,6 +44,7 @@ export default class GreedLevel extends GameLevel {
         this.end_level_text = "Greed has been defeated!"
         this.boss_room_pos = new Vec2(1008, 1233);
         this.boss_room_size = new Vec2(7 * 32, 3 * 32);
+        this.coin_hurt = true;
         this.upper_boss_door = [new Vec2(944, 1326), new Vec2(976, 1326), new Vec2(1008, 1326), new Vec2(1040, 1326), new Vec2(1072, 1326)];
         this.lower_boss_door = [new Vec2(944, 1356), new Vec2(944, 1388), new Vec2(976, 1356), new Vec2(976, 1388), new Vec2(1008, 1356), new Vec2(1008, 1388), new Vec2(1040, 1356), new Vec2(1040, 1388), new Vec2(1072, 1356), new Vec2(1072, 1388)];
     }
@@ -62,13 +63,13 @@ export default class GreedLevel extends GameLevel {
         }
         let physics_options = {
             physics: {
-                groupNames: ["ground", "player", "enemy", "coin"],
+                groupNames: ["wall", "player", "enemy", "coin"],
                 collisions:
                 [
-                    [0, 1, 1, 0],
-                    [1, 0, 0, 1],
+                    [0, 1, 1, 1],
                     [1, 0, 0, 0],
-                    [0, 1, 0, 0]
+                    [1, 0, 0, 0],
+                    [1, 0, 0, 0]
                 ]
             }
         }

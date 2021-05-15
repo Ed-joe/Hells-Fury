@@ -64,13 +64,13 @@ export default class GluttonyLevel extends GameLevel {
         }
         let physics_options = {
             physics: {
-                groupNames: ["ground", "player", "enemy", "coin"],
+                groupNames: ["wall", "player", "enemy", "coin"],
                 collisions:
                 [
-                    [0, 1, 1, 0],
-                    [1, 0, 0, 1],
+                    [0, 1, 1, 1],
                     [1, 0, 0, 0],
-                    [0, 1, 0, 0]
+                    [1, 0, 0, 0],
+                    [1, 0, 0, 0]
                 ]
             }
         }
