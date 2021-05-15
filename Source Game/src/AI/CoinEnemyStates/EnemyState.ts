@@ -1,6 +1,6 @@
-import State from "./../../Wolfie2D/DataTypes/State/State";
+import State from "../../Wolfie2D/DataTypes/State/State";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import EnemyAI from "../Coin_EnemyAI";
+import EnemyAI from "../CoinEnemyAI";
 
 export default abstract class EnemyState extends State {
     protected parent: EnemyAI;

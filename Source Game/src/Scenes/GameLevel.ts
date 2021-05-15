@@ -32,7 +32,7 @@ import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 import LustLevel from "./LustLevel";
 import GluttonyLevel from "./GluttonyLevel";
 import MainMenu from "./MainMenu";
-import Coin_EnemyAI from "../AI/Coin_EnemyAI";
+import Coin_EnemyAI from "../AI/CoinEnemyAI";
 import GreedAI from "../AI/GreedAI";
 
 export default class GameLevel extends Scene {

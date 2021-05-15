@@ -1,10 +1,10 @@
-import AABB from "./../../Wolfie2D/DataTypes/Shapes/AABB";
-import Vec2 from "./../../Wolfie2D/DataTypes/Vec2";
-import GameEvent from "./../../Wolfie2D/Events/GameEvent";
+import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
+import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
+import GameEvent from "../../Wolfie2D/Events/GameEvent";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import OrthogonalTilemap from "./../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
-import Timer from "./../../Wolfie2D/Timing/Timer";
-import Coin_EnemyAI, { EnemyStates } from "../Coin_EnemyAI";
+import OrthogonalTilemap from "../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
+import Timer from "../../Wolfie2D/Timing/Timer";
+import Coin_EnemyAI, { EnemyStates } from "../CoinEnemyAI";
 import EnemyState from "./EnemyState";
 import Game from "../../Wolfie2D/Loop/Game";
 import { Game_Events } from "../../GameSystems/game_enums";

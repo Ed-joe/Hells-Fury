@@ -1,13 +1,13 @@
-import StateMachineAI from "./../Wolfie2D/AI/StateMachineAI";
-import AABB from "./../Wolfie2D/DataTypes/Shapes/AABB";
-import State from "./../Wolfie2D/DataTypes/State/State";
-import Vec2 from "./../Wolfie2D/DataTypes/Vec2";
-import GameEvent from "./../Wolfie2D/Events/GameEvent";
-import GameNode from "./../Wolfie2D/Nodes/GameNode";
-import AnimatedSprite from "./../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import OrthogonalTilemap from "./../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
+import StateMachineAI from "../Wolfie2D/AI/StateMachineAI";
+import AABB from "../Wolfie2D/DataTypes/Shapes/AABB";
+import State from "../Wolfie2D/DataTypes/State/State";
+import Vec2 from "../Wolfie2D/DataTypes/Vec2";
+import GameEvent from "../Wolfie2D/Events/GameEvent";
+import GameNode from "../Wolfie2D/Nodes/GameNode";
+import AnimatedSprite from "../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import OrthogonalTilemap from "../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import BattlerAI from "./BattlerAI";
-import Attack from "./Coin_Enemy_States/Attack";
+import Attack from "./CoinEnemyStates/Attack";
 
 export default class Coin_EnemyAI extends StateMachineAI{
     /** The owner of this AI */
