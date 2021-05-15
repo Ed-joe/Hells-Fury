@@ -80,6 +80,7 @@ export default class GameLevel extends Scene {
     lower_boss_door: Vec2[];
     coin_hurt: boolean;
     has_shop: boolean;
+    greed_tiles: boolean;
 
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
@@ -89,6 +90,7 @@ export default class GameLevel extends Scene {
         this.player_slippery = false;
         this.player_damage = init.damage;
         this.has_shop = true;
+        this.greed_tiles = false;
     }
     
     loadScene() {
@@ -398,12 +400,20 @@ export default class GameLevel extends Scene {
                         for(let v of this.upper_boss_door) {
                             let tile_coords = tilemap.getColRowAt(v);
                             // let tile_world_pos = tilemap.getTileWorldPosition(tile_coords.y * tilemap.getDimensions().x + tile_coords.x);
-                            tilemap.setTile(tile_coords.y * tilemap.getDimensions().x + tile_coords.x, 19);
+                            if(this.greed_tiles){ 
+                                tilemap.setTile(tile_coords.y * tilemap.getDimensions().x + tile_coords.x, 45);
+                            }else{
+                                tilemap.setTile(tile_coords.y * tilemap.getDimensions().x + tile_coords.x, 19);
+                            }
                         }
                         for(let v of this.lower_boss_door) {
                             let tile_coords = tilemap.getColRowAt(v);
                             // let tile_world_pos = tilemap.getTileWorldPosition(tile_coords.y * tilemap.getDimensions().x + tile_coords.x);
-                            tilemap.setTile(tile_coords.y * tilemap.getDimensions().x + tile_coords.x, 18);
+                            if(this.greed_tiles){ 
+                                tilemap.setTile(tile_coords.y * tilemap.getDimensions().x + tile_coords.x, 44);
+                            }else{
+                                tilemap.setTile(tile_coords.y * tilemap.getDimensions().x + tile_coords.x, 18);
+                            }
                         }
                     }
                     break;

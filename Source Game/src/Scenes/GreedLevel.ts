@@ -44,6 +44,7 @@ export default class GreedLevel extends GameLevel {
         this.boss_room_size = new Vec2(7 * 32, 3 * 32);
         this.coin_hurt = true;
         this.has_shop = false;
+        this.greed_tiles = true;
         this.upper_boss_door = [new Vec2(944, 1326), new Vec2(976, 1326), new Vec2(1008, 1326), new Vec2(1040, 1326), new Vec2(1072, 1326)];
         this.lower_boss_door = [new Vec2(944, 1356), new Vec2(944, 1388), new Vec2(976, 1356), new Vec2(976, 1388), new Vec2(1008, 1356), new Vec2(1008, 1388), new Vec2(1040, 1356), new Vec2(1040, 1388), new Vec2(1072, 1356), new Vec2(1072, 1388)];
     }
