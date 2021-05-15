@@ -15,8 +15,8 @@
             "weaponType": "fist1",
             "name": "punch1",
             "displayName": "Punch1",
-            "animationSprite": "fist1",
-            "spriteKey": "fist1",
+            "animationSprite": "fistOne",
+            "spriteKey": "fistOne",
             "damage": 1,
             "cooldown": 1000,
             "useVolume": 0
@@ -25,8 +25,8 @@
             "weaponType": "fist2",
             "name": "punch2",
             "displayName": "Punch2",
-            "animationSprite": "fist2",
-            "spriteKey": "fist2",
+            "animationSprite": "fistTwo",
+            "spriteKey": "fistTwo",
             "damage": 2,
             "cooldown": 1000,
             "useVolume": 0
@@ -35,8 +35,8 @@
             "weaponType": "fist3",
             "name": "punch3",
             "displayName": "Punch3",
-            "animationSprite": "fist3",
-            "spriteKey": "fist3",
+            "animationSprite": "fistThree",
+            "spriteKey": "fistThree",
             "damage": 3,
             "cooldown": 1000,
             "useVolume": 0

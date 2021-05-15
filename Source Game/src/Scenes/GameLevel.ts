@@ -157,12 +157,12 @@ export default class GameLevel extends Scene {
         // load weapon info
         this.load.object("weaponData", "game_assets/data/weapon_data.json");
 
-        this.load.image("fist1", "game_assets/spritesheets/impact.png");
-        this.load.spritesheet("fist1", "game_assets/spritesheets/impact.json");
-        this.load.image("fist2", "game_assets/spritesheets/impact.png");
-        this.load.spritesheet("fist2", "game_assets/spritesheets/impact.json");
-        this.load.image("fist3", "game_assets/spritesheets/impact.png");
-        this.load.spritesheet("fist3", "game_assets/spritesheets/impact.json");
+        this.load.image("fistOne", "game_assets/spritesheets/impact.png");
+        this.load.spritesheet("fistOne", "game_assets/spritesheets/impact.json");
+        this.load.image("fistTwo", "game_assets/spritesheets/impact_purple.png");
+        this.load.spritesheet("fistTwo", "game_assets/spritesheets/impact_purple.json");
+        this.load.image("fistThree", "game_assets/spritesheets/impact_blue.png");
+        this.load.spritesheet("fistThree", "game_assets/spritesheets/impact_blue.json");
 
         //Load pause screen
         this.load.image("pauseScreen", "game_assets/images/pause_background.png");
@@ -576,7 +576,6 @@ export default class GameLevel extends Scene {
                             this.coin_count_label.text =  ": " + this.player_coins;
                             this.player._ai.handleEvent(event);
                         }
-                        console.log(this.player_damage);
                     }
                     break;
             }
@@ -624,7 +623,6 @@ export default class GameLevel extends Scene {
             let data = enemyData.enemies[i];
 
             // Create an enemy
-            console.log(data.enemy_type);
             this.enemies[i] = this.add.animatedSprite(data.enemy_type, "primary");
             this.enemies[i].position.set(data.position[0], data.position[1]);
             this.enemies[i].animation.play("IDLE");
