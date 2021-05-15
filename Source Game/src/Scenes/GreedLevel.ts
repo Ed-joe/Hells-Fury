@@ -24,7 +24,7 @@ export default class GreedLevel extends GameLevel {
             lust_damage: "game_assets/sounds/lust_damage.mp3"
         }
         this.boss_sprite = {
-            greed: "game_assets/spritesheets/gluttony.json"
+            greed: "game_assets/spritesheets/greed.json"
         }
         this.boss_attack_image = {}
         this.boss_attack_sprite = {}
@@ -44,6 +44,7 @@ export default class GreedLevel extends GameLevel {
         this.boss_room_size = new Vec2(7 * 32, 3 * 32);
         this.coin_hurt = true;
         this.has_shop = false;
+        this.greed_tiles = true;
         this.upper_boss_door = [new Vec2(944, 1326), new Vec2(976, 1326), new Vec2(1008, 1326), new Vec2(1040, 1326), new Vec2(1072, 1326)];
         this.lower_boss_door = [new Vec2(944, 1356), new Vec2(944, 1388), new Vec2(976, 1356), new Vec2(976, 1388), new Vec2(1008, 1356), new Vec2(1008, 1388), new Vec2(1040, 1356), new Vec2(1040, 1388), new Vec2(1072, 1356), new Vec2(1072, 1388)];
     }
@@ -93,7 +94,7 @@ export default class GreedLevel extends GameLevel {
         tutorial_zone_1.color = Color.TRANSPARENT;
         this.tutorial_zones.push(tutorial_zone_1);
 
-        let tutorial_label_1 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1010, 1723), text: "Don't let your greed consume you, coins hurt!"});
+        let tutorial_label_1 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1010, 1733), text: "Don't let your greed consume you, coins hurt!"});
         tutorial_label_1.font = "HellText";    
         tutorial_label_1.textColor = Color.BLACK;
         tutorial_label_1.fontSize = 32;

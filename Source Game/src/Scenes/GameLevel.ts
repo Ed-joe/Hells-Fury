@@ -80,6 +80,7 @@ export default class GameLevel extends Scene {
     lower_boss_door: Vec2[];
     coin_hurt: boolean;
     has_shop: boolean;
+    greed_tiles: boolean;
 
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
@@ -89,6 +90,7 @@ export default class GameLevel extends Scene {
         this.player_slippery = false;
         this.player_damage = init.damage;
         this.has_shop = true;
+        this.greed_tiles = false;
     }
     
     loadScene() {
@@ -398,12 +400,20 @@ export default class GameLevel extends Scene {
                         for(let v of this.upper_boss_door) {
                             let tile_coords = tilemap.getColRowAt(v);
                             // let tile_world_pos = tilemap.getTileWorldPosition(tile_coords.y * tilemap.getDimensions().x + tile_coords.x);
-                            tilemap.setTile(tile_coords.y * tilemap.getDimensions().x + tile_coords.x, 19);
+                            if(this.greed_tiles){ 
+                                tilemap.setTile(tile_coords.y * tilemap.getDimensions().x + tile_coords.x, 45);
+                            }else{
+                                tilemap.setTile(tile_coords.y * tilemap.getDimensions().x + tile_coords.x, 19);
+                            }
                         }
                         for(let v of this.lower_boss_door) {
                             let tile_coords = tilemap.getColRowAt(v);
                             // let tile_world_pos = tilemap.getTileWorldPosition(tile_coords.y * tilemap.getDimensions().x + tile_coords.x);
-                            tilemap.setTile(tile_coords.y * tilemap.getDimensions().x + tile_coords.x, 18);
+                            if(this.greed_tiles){ 
+                                tilemap.setTile(tile_coords.y * tilemap.getDimensions().x + tile_coords.x, 44);
+                            }else{
+                                tilemap.setTile(tile_coords.y * tilemap.getDimensions().x + tile_coords.x, 18);
+                            }
                         }
                     }
                     break;
@@ -526,7 +536,7 @@ export default class GameLevel extends Scene {
                         let positionX = this.player.position.x;
                         let positionY = this.player.position.y;
                         let greed_position = this.sceneGraph.getNode(event.data.get("owner")).position;
-                        let coin1 = this.add.animatedSprite("coin", "primary");
+                        let coin1 = this.add.animatedSprite("coin", "above");
                         coin1.addPhysics(coin1.boundary, Vec2.ZERO, false);
                         coin1.position.set(greed_position.x, greed_position.y);
                         coin1.animation.play("IDLE", true);
@@ -534,7 +544,7 @@ export default class GameLevel extends Scene {
                         coin1.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
                         let coin1_vel = greed_position.dirTo(new Vec2(positionX, positionY)).scale(3.5);
                         coin1.addAI(CoinEnemyAI, {player: this.player, velocityX: coin1_vel.x, velocityY: coin1_vel.y});
-                        let coin2 = this.add.animatedSprite("coin", "primary");
+                        let coin2 = this.add.animatedSprite("coin", "above");
                         coin2.addPhysics(coin2.boundary, Vec2.ZERO, false);
                         coin2.position.set(greed_position.x, greed_position.y);
                         coin2.animation.play("IDLE", true);
@@ -542,7 +552,7 @@ export default class GameLevel extends Scene {
                         coin2.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
                         let coin2_vel = greed_position.dirTo(new Vec2(positionX - 64, positionY)).scale(3);
                         coin2.addAI(CoinEnemyAI, {player: this.player, velocityX: coin2_vel.x , velocityY: coin2_vel.y});
-                        let coin3 = this.add.animatedSprite("coin", "primary");
+                        let coin3 = this.add.animatedSprite("coin", "above");
                         coin3.addPhysics(coin3.boundary, Vec2.ZERO, false);
                         coin3.position.set(greed_position.x, greed_position.y);
                         coin3.animation.play("IDLE", true);
@@ -551,7 +561,7 @@ export default class GameLevel extends Scene {
                         let coin3_vel = greed_position.dirTo(new Vec2(positionX + 64, positionY)).scale(3);
                         coin3.addAI(CoinEnemyAI, {player: this.player, velocityX: coin3_vel.x, velocityY: coin3_vel.y});
                         for(let i = 0; i < this.enemies.length ; i++){
-                            if(this.enemies[i].imageId === "Gluttony"){
+                            if(this.enemies[i].imageId === "Greed"){
                                 this.enemies[i]._ai.handleEvent(event);
                                 break;
                             }
