@@ -36,7 +36,7 @@ export default abstract class PlayerState extends State {
         // invincible cheat for play testing ##CHEAT##
         if(Input.isJustPressed("invincible")) {
             this.parent.invincible_cheat = !this.parent.invincible_cheat;
-            console.log("invincible: " + this.parent.invincible_cheat);
+            this.parent.invincible_cheat_label.visible = this.parent.invincible_cheat;
         }
 
         // pause functionality

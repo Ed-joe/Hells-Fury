@@ -9,48 +9,46 @@ import { UIElementType } from "../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Input from "../Wolfie2D/Input/Input";
 import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 import LustLevel from "./LustLevel";
-import GreedLevel from "./GreedLevel";
+import GluttonyLevel from "./GluttonyLevel";
+import Debug from "../Wolfie2D/Debug/Debug";
 
-export default class GluttonyLevel extends GameLevel {
+export default class GreedLevel extends GameLevel {
     initScene(init: Record<string, any>): void {
         super.initScene(init);
 
-        this.level_music_key = "gluttony_music";
-        this.level_music_path = "game_assets/sounds/music/gluttony.mp3";
+        this.level_music_key = "lust_music";
+        this.level_music_path = "game_assets/sounds/music/lust.mp3";
         this.boss_audios = {
-            gluttony_attack: "game_assets/sounds/gluttony_attack.mp3",
-            gluttony_damage: "game_assets/sounds/gluttony_damage.mp3",
-            gluttony_death: "game_assets/sounds/gluttony_death.mp3"
+            lust_move: "game_assets/sounds/lust_move.mp3",
+            lust_death: "game_assets/sounds/lust_death.mp3",
+            lust_damage: "game_assets/sounds/lust_damage.mp3"
         }
         this.boss_sprite = {
-            gluttony: "game_assets/spritesheets/gluttony.json",
-            boss_hitbox: "game_assets/spritesheets/boss_hitbox.json"
+            greed: "game_assets/spritesheets/gluttony.json"
         }
-        this.boss_attack_image = {
-            slam: "game_assets/spritesheets/smash.png"
-        }
-        this.boss_attack_sprite = {
-            slam: "game_assets/spritesheets/smash.json"
-        }
+        this.boss_attack_image = {}
+        this.boss_attack_sprite = {}
         this.enemy_data = {
-            enemyData: "game_assets/data/gluttony_enemy.json"
+            enemyData: "game_assets/data/greed_enemy.json"
         }
         this.level_tilemap = {
-            gluttonyLevel: "game_assets/tilemaps/gluttony_level.json"
+            greedLevel: "game_assets/tilemaps/greed_level.json"
         }
-        this.next_level_constructor = GreedLevel
+        this.next_level_constructor = MainMenu
         this.shop_pos = new Vec2(350, 1333);
-        this.player_start_pos = new Vec2(1018, 330);
+        this.player_start_pos = new Vec2(944, 1456);
         this.player_speed = 150;
-        this.player_slippery = true;
-        this.level_text_color = new Color(95, 90, 76);
-        this.start_level_text = "Gluttony's Greasy Grotto";
-        this.end_level_text = "Gluttony has been defeated!"
-        this.boss_room_pos = new Vec2(1024, 1320);
-        this.boss_room_size = new Vec2(6 * 32, 3 * 32);
-        this.upper_boss_door = [new Vec2(1008, 1424), new Vec2(1040, 1424)];
-        this.lower_boss_door = [new Vec2(1008, 1456), new Vec2(1008, 1488), new Vec2(1040, 1456), new Vec2(1040, 1488)];
+        this.player_slippery = false;
+        this.level_text_color = new Color(252, 219, 3);
+        this.start_level_text = "Greed's Golden Gorge";
+        this.end_level_text = "Greed has been defeated!"
+        this.boss_room_pos = new Vec2(1008, 1233);
+        this.boss_room_size = new Vec2(7 * 32, 3 * 32);
+        this.coin_hurt = true;
+        this.upper_boss_door = [new Vec2(944, 1326), new Vec2(976, 1326), new Vec2(1008, 1326), new Vec2(1040, 1326), new Vec2(1072, 1326)];
+        this.lower_boss_door = [new Vec2(944, 1356), new Vec2(944, 1388), new Vec2(976, 1356), new Vec2(976, 1388), new Vec2(1008, 1356), new Vec2(1008, 1388), new Vec2(1040, 1356), new Vec2(1040, 1388), new Vec2(1072, 1356), new Vec2(1072, 1388)];
     }
+
 
     startScene(): void {
         super.startScene();
@@ -61,8 +59,7 @@ export default class GluttonyLevel extends GameLevel {
     updateScene(deltaT: number): void {
         let scene_options = {
             health: 5,
-            coins: 0,
-            damage: 1
+            coins: 0
         }
         let physics_options = {
             physics: {

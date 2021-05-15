@@ -8,6 +8,8 @@ import GluttonyLevel from "./GluttonyLevel";
 import LustLevel from "./LustLevel";
 import Button from "../Wolfie2D/Nodes/UIElements/Button"
 import { GameEventType } from "../Wolfie2D/Events/GameEventType";
+import GreedLevel from "./GreedLevel";
+import WrathLevel from "./WrathLevel";
 
 export default class MainMenu extends Scene {
     private main_menu: Layer;
@@ -166,30 +168,30 @@ export default class MainMenu extends Scene {
         level_select_gluttony.backgroundColor = Color.TRANSPARENT;
         level_select_gluttony.onClickEventId = "levelGluttony";
 
-        const level_select_greed = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 21, center.y + 85), text: "Greed"});
+        const level_select_greed = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", { position: new Vec2(center.x - 20, center.y + 230), text: "Greed"});
         level_select_greed.font = "HellText";
         level_select_greed.textColor = Color.WHITE;
-        level_select_greed.fontSize = 60;
+        level_select_greed.fontSize = 52;
         level_select_greed.size.set(150, 50);
         level_select_greed.borderWidth = 2;
         level_select_greed.borderColor = Color.TRANSPARENT;
         level_select_greed.backgroundColor = Color.TRANSPARENT;
         level_select_greed.onClickEventId = "levelGreed";
 
-        const level_select_sloth = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 19, center.y + 160), text: "Sloth"});
+        const level_select_sloth = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 21, center.y + 85), text: "Sloth"});
         level_select_sloth.font = "HellText";
         level_select_sloth.textColor = Color.WHITE;
-        level_select_sloth.fontSize = 56;
+        level_select_sloth.fontSize = 60;
         level_select_sloth.size.set(135, 50);
         level_select_sloth.borderWidth = 2;
         level_select_sloth.borderColor = Color.TRANSPARENT;
         level_select_sloth.backgroundColor = Color.TRANSPARENT;
         level_select_sloth.onClickEventId = "levelSloth";
-
-        const level_select_envy = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 20, center.y + 230), text: "Envy"});
+        
+        const level_select_envy = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", { position: new Vec2(center.x - 19, center.y + 160), text: "Envy"});
         level_select_envy.font = "HellText";
         level_select_envy.textColor = Color.WHITE;
-        level_select_envy.fontSize = 52;
+        level_select_envy.fontSize = 56;
         level_select_envy.size.set(114, 50);
         level_select_envy.borderWidth = 2;
         level_select_envy.borderColor = Color.TRANSPARENT;
@@ -253,15 +255,21 @@ export default class MainMenu extends Scene {
         while(this.receiver.hasNextEvent()) {
             let event = this.receiver.getNextEvent();
 
-            let sceneOptions = {
+            let scene_options = {
+                health: 5,
+                coins: 0,
+                damage: 1
+            }
+
+            let physics_options = {
                 physics: {
-                    groupNames: ["ground", "player", "enemy", "coin"],
+                    groupNames: ["wall", "player", "enemy", "coin"],
                     collisions:
                     [
-                        [0, 1, 1, 0],
-                        [1, 0, 0, 1],
+                        [0, 1, 1, 1],
                         [1, 0, 0, 0],
-                        [0, 1, 0, 0]
+                        [1, 0, 0, 0],
+                        [1, 0, 0, 0]
                     ]
                 }
             }
@@ -269,10 +277,7 @@ export default class MainMenu extends Scene {
             if(event.type === "newGame") {
                 // setup new game scene from here (maybe add options)
                 this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "main_menu_music"});
-                this.sceneManager.changeToScene(LustLevel, {
-                    health: 5,
-                    coins: 0
-                }, sceneOptions);
+                this.sceneManager.changeToScene(LustLevel, scene_options, physics_options);
             }
 
             if(event.type === "mainMenu") {
@@ -300,27 +305,23 @@ export default class MainMenu extends Scene {
             if(event.type === "levelGluttony") {
                 // go to gluttony level (level 3)
                 this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "main_menu_music"});
-                this.sceneManager.changeToScene(GluttonyLevel, {
-                    health: 5,
-                    coins: 0
-                }, 
-                sceneOptions);
+                this.sceneManager.changeToScene(GluttonyLevel, scene_options, physics_options);
             }
             if(event.type === "levelLust") {
                 // TODO PROJECT - go to lust level (level 1)
                 this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "main_menu_music"});
-                this.sceneManager.changeToScene(LustLevel, {
-                    health: 5,
-                    coins: 0
-                }, sceneOptions);
+                this.sceneManager.changeToScene(LustLevel, scene_options, physics_options);
             }
             if(event.type === "levelWrath") {
                 // TODO PROJECT - go to wrath level (level 2)
-                console.log("Wrath Level");
+                this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "main_menu_music"});
+                this.sceneManager.changeToScene(WrathLevel, scene_options, physics_options);
             }
             if(event.type === "levelGreed") {
                 // TODO PROJECT - go to greed level (level 4)
                 console.log("Greed Level");
+                this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "main_menu_music"});
+                this.sceneManager.changeToScene(GreedLevel, scene_options, physics_options);
             }
             if(event.type === "levelSloth") {
                 // TODO PROJECT - go to sloth level (level 5)

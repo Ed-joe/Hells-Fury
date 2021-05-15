@@ -8,6 +8,7 @@ import { UIElementType } from "../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import GluttonyLevel from "./GluttonyLevel";
 import Input from "../Wolfie2D/Input/Input";
 import { GameEventType } from "../Wolfie2D/Events/GameEventType";
+import WrathLevel from "./WrathLevel";
 
 export default class LustLevel extends GameLevel {
     initScene(init: Record<string, any>): void {
@@ -31,7 +32,7 @@ export default class LustLevel extends GameLevel {
         this.level_tilemap = {
             lustLevel: "game_assets/tilemaps/lust_level.json"
         }
-        this.next_level_constructor = GluttonyLevel
+        this.next_level_constructor = WrathLevel;
         this.shop_pos = new Vec2(780, 608);
         this.player_start_pos = new Vec2(1138, 116);
         this.player_speed = 150;
@@ -54,17 +55,18 @@ export default class LustLevel extends GameLevel {
     updateScene(deltaT: number): void {
         let scene_options = {
             health: 5,
-            coins: 0
+            coins: 0,
+            damage: 1
         }
         let physics_options = {
             physics: {
-                groupNames: ["ground", "player", "enemy", "coin"],
+                groupNames: ["wall", "player", "enemy", "coin"],
                 collisions:
                 [
-                    [0, 1, 1, 0],
-                    [1, 0, 0, 1],
+                    [0, 1, 1, 1],
                     [1, 0, 0, 0],
-                    [0, 1, 0, 0]
+                    [1, 0, 0, 0],
+                    [1, 0, 0, 0]
                 ]
             }
         }

@@ -32,12 +32,16 @@ import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 import LustLevel from "./LustLevel";
 import GluttonyLevel from "./GluttonyLevel";
 import MainMenu from "./MainMenu";
+import WrathAI from "../AI/WrathAI";
+import CoinEnemyAI from "../AI/CoinEnemyAI";
+import GreedAI from "../AI/GreedAI";
 
 export default class GameLevel extends Scene {
     private player: AnimatedSprite;         // the player
     private player_health: number;          // players health
     private player_coins: number;           // PROJECT TODO - implement coin functionality
-    private enemies: Array<AnimatedSprite> ; // list of enemies
+    private player_damage: number;          // damage per punch
+    enemies: Array<AnimatedSprite> ; // list of enemies
     private walls: OrthogonalTilemap ;       // the wall layer
     private battle_manager: BattleManager;   // battle manager
     private health_sprites: Sprite[];        //sprites for health
@@ -73,11 +77,15 @@ export default class GameLevel extends Scene {
     boss_room_size: Vec2;
     upper_boss_door: Vec2[];
     lower_boss_door: Vec2[];
+    coin_hurt: boolean;
 
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
         this.player_health = init.health;
         this.player_coins = init.coins;
+        this.coin_hurt = false;
+        this.player_slippery = false;
+        this.player_damage = init.damage;
     }
     
     loadScene() {
@@ -100,19 +108,17 @@ export default class GameLevel extends Scene {
         for(let key in this.boss_sprite) {
             this.load.spritesheet(key, this.boss_sprite[key])
         }
-        // this.load.spritesheet("gluttony", "game_assets/spritesheets/gluttony.json");
-        // this.load.spritesheet("boss_hitbox", "game_assets/spritesheets/boss_hitbox.json");
 
         for(let key in this.boss_audios) {
             this.load.audio(key, this.boss_audios[key]);
         }
-        // this.load.audio("gluttony_attack", "game_assets/sounds/gluttony_attack.mp3");
-        // this.load.audio("gluttony_damage", "game_assets/sounds/gluttony_damage.mp3");
-        // this.load.audio("gluttony_death", "game_assets/sounds/gluttony_death.mp3");
         
         //coin
         this.load.spritesheet("coin", "game_assets/spritesheets/coin.json");
         this.load.audio("coin_pickup", "game_assets/sounds/coin_pickup.mp3");
+
+        // shop fist image
+        this.load.image("shop_fist", "game_assets/images/fist.png");
 
         //Hound
         this.load.spritesheet("hellhound", "game_assets/spritesheets/hellhound.json");
@@ -123,7 +129,6 @@ export default class GameLevel extends Scene {
         for(let key in this.enemy_data) {
             this.load.object(key, this.enemy_data[key]);
         }
-        // this.load.object("enemyData", "game_assets/data/gluttony_enemy.json");
 
         this.load.spritesheet("shopkeep", "game_assets/spritesheets/shopkeep.json");
 
@@ -143,13 +148,16 @@ export default class GameLevel extends Scene {
         for(let key in this.level_tilemap) {
             this.load.tilemap(key, this.level_tilemap[key]);
         }
-        // this.load.tilemap("gluttonyLevel", "game_assets/tilemaps/gluttony_level.json");
 
         // load weapon info
         this.load.object("weaponData", "game_assets/data/weapon_data.json");
 
-        this.load.image("fist", "game_assets/spritesheets/impact.png");
-        this.load.spritesheet("fist", "game_assets/spritesheets/impact.json");
+        this.load.image("fist1", "game_assets/spritesheets/impact.png");
+        this.load.spritesheet("fist1", "game_assets/spritesheets/impact.json");
+        this.load.image("fist2", "game_assets/spritesheets/impact.png");
+        this.load.spritesheet("fist2", "game_assets/spritesheets/impact.json");
+        this.load.image("fist3", "game_assets/spritesheets/impact.png");
+        this.load.spritesheet("fist3", "game_assets/spritesheets/impact.json");
 
         //Load pause screen
         this.load.image("pauseScreen", "game_assets/images/pause_background.png");
@@ -157,12 +165,10 @@ export default class GameLevel extends Scene {
         for(let key in this.boss_attack_image) {
             this.load.image(key, this.boss_attack_image[key]);
         }
-        // this.load.image("slam", "game_assets/spritesheets/smash.png");
 
         for(let key in this.boss_attack_sprite) {
             this.load.spritesheet(key, this.boss_attack_sprite[key]);
         }
-        // this.load.spritesheet("slam", "game_assets/spritesheets/smash.json");
     }
 
     startScene() {
@@ -199,7 +205,6 @@ export default class GameLevel extends Scene {
 
         //Add Shop layer and other shop initialization
         this.initializeShop(this.shop_pos);
-        // this.initializeShop(new Vec2(350, 1333));
 
         this.initializeEnemies();
 
@@ -228,6 +233,7 @@ export default class GameLevel extends Scene {
     }
 
     updateScene(deltaT: number): void {
+        Debug.log(" " + this.player.position.x + this.player.position.y);
         this.player_health = this.health_sprites.length
 
         for (let i = 0; i < this.tutorial_zones.length; i++) {
@@ -271,13 +277,13 @@ export default class GameLevel extends Scene {
         
         let physics_options = {
             physics: {
-                groupNames: ["ground", "player", "enemy", "coin"],
+                groupNames: ["wall", "player", "enemy", "coin"],
                 collisions:
                 [
-                    [0, 1, 1, 0],
-                    [1, 0, 0, 1],
+                    [0, 1, 1, 1],
                     [1, 0, 0, 0],
-                    [0, 1, 0, 0]
+                    [1, 0, 0, 0],
+                    [1, 0, 0, 0]
                 ]
             }
         }
@@ -377,7 +383,7 @@ export default class GameLevel extends Scene {
                         this.player_coins = Math.min(this.player_coins, this.MAX_COINS);
                         this.coin_count_label.text =  " :  " + this.player_coins;
                         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "coin_pickup", loop: false, holdReference: false})
-                        this.player._ai.handleEvent(new GameEvent(Game_Events.GET_COIN, {}));
+                        this.player._ai.handleEvent(new GameEvent(Game_Events.GET_COIN, {coin_hurt: String(this.coin_hurt)}));
                     }
                     break;
 
@@ -430,10 +436,10 @@ export default class GameLevel extends Scene {
                         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
                         this.viewport.stopFollow();
                         this.viewport.setZoomLevel(1);
-                        this.sceneManager.changeToScene(this.next_level_constructor, 
-                            {
+                        this.sceneManager.changeToScene(this.next_level_constructor, {
                                 health: this.player_health,
-                                coins: this.player_coins
+                                coins: this.player_coins,
+                                damage: this.player_damage
                             }, physics_options);
                     }
                     break;
@@ -472,7 +478,7 @@ export default class GameLevel extends Scene {
                     }
                     break;
                 case Game_Events.ON_UNPAUSE:
-                    {   
+                    {
                         for(let enemy of this.enemies){
                             enemy.unfreeze();
                         }
@@ -512,6 +518,54 @@ export default class GameLevel extends Scene {
                         }
                     }
                     break;
+                case Game_Events.GREED_ATTACK:
+                    {
+                        let positionX = this.player.position.x;
+                        let positionY = this.player.position.y;
+                        let greed_position = this.sceneGraph.getNode(event.data.get("owner")).position;
+                        let coin1 = this.add.animatedSprite("coin", "primary");
+                        coin1.addPhysics(coin1.boundary, Vec2.ZERO, false);
+                        coin1.position.set(greed_position.x, greed_position.y);
+                        coin1.animation.play("IDLE", true);
+                        coin1.setGroup("coin");
+                        coin1.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
+                        let coin1_vel = greed_position.dirTo(new Vec2(positionX, positionY)).scale(3.5);
+                        coin1.addAI(CoinEnemyAI, {player: this.player, velocityX: coin1_vel.x, velocityY: coin1_vel.y});
+                        let coin2 = this.add.animatedSprite("coin", "primary");
+                        coin2.addPhysics(coin2.boundary, Vec2.ZERO, false);
+                        coin2.position.set(greed_position.x, greed_position.y);
+                        coin2.animation.play("IDLE", true);
+                        coin2.setGroup("coin");
+                        coin2.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
+                        let coin2_vel = greed_position.dirTo(new Vec2(positionX - 64, positionY)).scale(3);
+                        coin2.addAI(CoinEnemyAI, {player: this.player, velocityX: coin2_vel.x , velocityY: coin2_vel.y});
+                        let coin3 = this.add.animatedSprite("coin", "primary");
+                        coin3.addPhysics(coin3.boundary, Vec2.ZERO, false);
+                        coin3.position.set(greed_position.x, greed_position.y);
+                        coin3.animation.play("IDLE", true);
+                        coin3.setGroup("coin");
+                        coin3.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
+                        let coin3_vel = greed_position.dirTo(new Vec2(positionX + 64, positionY)).scale(3);
+                        coin3.addAI(CoinEnemyAI, {player: this.player, velocityX: coin3_vel.x, velocityY: coin3_vel.y});
+                        for(let i = 0; i < this.enemies.length ; i++){
+                            if(this.enemies[i].imageId === "Gluttony"){
+                                this.enemies[i]._ai.handleEvent(event);
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                case Game_Events.BOUGHT_DAMAGE:
+                    {
+                        if (this.player_coins >= 10 && this.player_damage < 3) {
+                            this.player_coins -= 10;
+                            this.player_damage++;
+                            this.coin_count_label.text =  ": " + this.player_coins;
+                            this.player._ai.handleEvent(event);
+                        }
+                        console.log(this.player_damage);
+                    }
+                    break;
             }
         }
     }
@@ -522,15 +576,23 @@ export default class GameLevel extends Scene {
         this.player.position.set(this.player_start_pos.x, this.player_start_pos.y);
         // this.player.position.set(1018, 330);
         this.player.addPhysics(new AABB(new Vec2(0, 14), new Vec2(16, 15)), new Vec2(0, 15));
-        let fist = this.createWeapon("punch");
+        let fist1 = this.createWeapon("punch1");
+        let fist2 = this.createWeapon("punch2");
+        let fist3 = this.createWeapon("punch3");
+        let invincible_label = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(585, 280), text: "INVINCIBLE"});
+        invincible_label.textColor = Color.BLACK;
+        invincible_label.font = "HellText";
+        invincible_label.visible = false;
         this.player.addAI(PlayerController,
             {
                 speed: this.player_speed,
-                fist: fist,
+                fists: [fist1, fist2, fist3],
                 slippery: this.player_slippery,
                 health: this.player_health,
                 coins: this.player_coins,
-                health_sprites: this.health_sprites
+                damage: this.player_damage,
+                health_sprites: this.health_sprites,
+                invincible_cheat_label: invincible_label
             });
         this.player.animation.play("IDLE", true);
         this.player.setGroup("player");
@@ -549,6 +611,7 @@ export default class GameLevel extends Scene {
             let data = enemyData.enemies[i];
 
             // Create an enemy
+            console.log(data.enemy_type);
             this.enemies[i] = this.add.animatedSprite(data.enemy_type, "primary");
             this.enemies[i].position.set(data.position[0], data.position[1]);
             this.enemies[i].animation.play("IDLE");
@@ -569,7 +632,6 @@ export default class GameLevel extends Scene {
                 this.enemies[i].setTrigger("player", Game_Events.ENEMY_COLLISION, "bat hit player");
             }
             else if(data.enemy_type === "hellhound") {
-                this.enemies[i].addPhysics();
                 this.enemies[i].addAI(HoundAI, enemyOptions);
                 this.enemies[i].addPhysics(new AABB(new Vec2(0, 14), new Vec2(30, 20)));
 
@@ -594,6 +656,26 @@ export default class GameLevel extends Scene {
                 }
                 this.enemies[i].addAI(LustAI, enemyOptions);
                 this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(56, 50)));
+                this.enemies[i].setGroup("enemy");
+                this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
+            }else if(data.enemy_type ===  "greed") {
+                let enemyOptions = {
+                    health: data.health,
+                    player: this.player
+                }
+                this.enemies[i].addAI(GreedAI, enemyOptions);
+                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(56, 56)));
+                this.enemies[i].setGroup("enemy");
+                this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
+            }
+            else if (data.enemy_type === "wrath") {
+                let enemyOptions = {
+                    health: data.health,
+                    player: this.player,
+                    slice: this.createWeapon("slam")
+                }
+                this.enemies[i].addAI(WrathAI, enemyOptions);
+                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(26, 44)), new Vec2(0, 20));
                 this.enemies[i].setGroup("enemy");
                 this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
             }
@@ -634,21 +716,51 @@ export default class GameLevel extends Scene {
         this.shop_prompt.visible = false;
 
         this.addUILayer("shop");
-        let contract = this.add.sprite("shop_ui", "shop");
-        contract.position.set(320, 180);
+
+        // add heart contract on the left
+        let heart_contract = this.add.sprite("shop_ui", "shop");
+        heart_contract.position.set(200, 180);
         
-        const buy_heart = <Button>this.add.uiElement(UIElementType.BUTTON, "shop", {position: new Vec2(320, 160), text: "5 Coins = "});
+        const buy_heart = <Button>this.add.uiElement(UIElementType.BUTTON, "shop", {position: new Vec2(200, 160), text: "5 Coins = "});
         buy_heart.font = "HellText";    
         buy_heart.textColor = Color.BLACK;
         buy_heart.fontSize = 42;
         buy_heart.size.set(250, 90);
+        buy_heart.scale.set(1/2, 1/2);
         buy_heart.borderWidth = 2;
         buy_heart.borderColor = Color.TRANSPARENT;
         buy_heart.backgroundColor = new Color(233, 229, 158, .2);
         buy_heart.onClickEventId = Game_Events.BOUGHT_HEART;
         
         let contract_heart_image = this.add.sprite("heart", "shop");
-        contract_heart_image.position.set(370, 160);
+        contract_heart_image.position.set(250, 160);
+
+        // add damage contract on the right
+        let damage_contract = this.add.sprite("shop_ui", "shop");
+        damage_contract.position.set(440, 180);
+        
+        const buy_damage = <Button>this.add.uiElement(UIElementType.BUTTON, "shop", {position: new Vec2(440, 160), text: "10 Coins = "});
+        buy_damage.font = "HellText";
+        buy_damage.textColor = Color.BLACK;
+        buy_damage.fontSize = 42;
+        buy_damage.size.set(265, 90);
+        buy_damage.padding = Vec2.ZERO;
+        buy_damage.borderWidth = 2;
+        buy_damage.borderColor = Color.TRANSPARENT;
+        buy_damage.scale.set(1/2, 1/2);
+        buy_damage.backgroundColor = new Color(233, 229, 158, .2);
+        buy_damage.onClickEventId = Game_Events.BOUGHT_DAMAGE;
+        
+        let damage_contract_fist = this.add.sprite("shop_fist", "shop");
+        damage_contract_fist.position.set(495, 160);
+
+        // add e to exit to shop ui
+        let shop_exit = <Label>this.add.uiElement(UIElementType.LABEL, "shop", {position: new Vec2(320, 300), text: "Press 'E' to exit the shop"});
+        shop_exit.font = "HellText";    
+        shop_exit.textColor = Color.BLACK;
+        shop_exit.fontSize = 48;
+        shop_exit.borderColor = Color.TRANSPARENT;
+        shop_exit.backgroundColor = Color.TRANSPARENT;
 
         //Hide shop to start
         this.getLayer("shop").disable();
@@ -674,10 +786,9 @@ export default class GameLevel extends Scene {
         let weaponType = <WeaponType>RegistryManager.getRegistry("weaponTypes").get(type);
 
         let sprite = null;
-        if(type === "punch") {
+        if(type === "punch1" || type === "punch2" || type === "punch3") {
             sprite = this.add.sprite(weaponType.sprite_key, "above");
-        }
-        else {
+        } else {
             sprite = this.add.sprite(weaponType.sprite_key, "below");
         }
 
@@ -774,11 +885,13 @@ export default class GameLevel extends Scene {
            Game_Events.GLUT_ATTACK,
            Game_Events.ATTACK_OVER,
            Game_Events.BOUGHT_HEART,
+           Game_Events.BOUGHT_DAMAGE,
            Game_Events.ENTERED_SHOP,
            Game_Events.EXITED_SHOP,
            Game_Events.GET_COIN,
            Game_Events.ENTER_BOSS_FIGHT,
-           Game_Events.NEXT_LEVEL
+           Game_Events.NEXT_LEVEL,
+           Game_Events.GREED_ATTACK
         ]);
     }
 }

@@ -27,7 +27,14 @@ export default class Walk extends PlayerState {
 
             // punch attack
             if(Input.isMouseJustPressed()) { 
-                let attack_success = this.parent.fist.use(this.owner, "player", this.parent.attack_direction);
+                let attack_success;
+                if (this.parent.player_damage === 1) {
+                    attack_success = this.parent.fists[0].use(this.owner, "player", this.parent.attack_direction);
+                } else if (this.parent.player_damage === 2) {
+                    attack_success = this.parent.fists[1].use(this.owner, "player", this.parent.attack_direction);
+                } else {
+                    attack_success = this.parent.fists[2].use(this.owner, "player", this.parent.attack_direction);
+                }
 
                 if(attack_success) {
                     this.finished(PlayerStates.ATTACK);

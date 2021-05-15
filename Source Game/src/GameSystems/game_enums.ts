@@ -11,10 +11,13 @@ export enum Game_Events {
     GLUT_ATTACK = "GlutAttack",
     ATTACK_OVER = "AttackOver",
     BOUGHT_HEART = "BoughtHeart",
+    BOUGHT_DAMAGE = "BoughtDamage",
     ENTERED_SHOP = "EnteredShop",
     EXITED_SHOP = "ExitedShop",
     GET_COIN = "GetCoin",
     ENTER_BOSS_FIGHT = "EnterBossFight",
     HELLHOUND_TP_START = "HellHoundTeleportStart",
-    NEXT_LEVEL = "NextLevel"
+    NEXT_LEVEL = "NextLevel",
+    WRATH_ATTACK = "WrathAttack",
+    GREED_ATTACK = "GreedAttack"
 }
