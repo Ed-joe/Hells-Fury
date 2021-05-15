@@ -1,10 +1,8 @@
-import Vec2 from "./../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "./../../Wolfie2D/Events/GameEvent";
-import NavigationPath from "./../../Wolfie2D/Pathfinding/NavigationPath";
 import BossState from "./BossState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import WrathAI, { BossStates } from "../WrathAI";
-import Timer from "../../Wolfie2D/Timing/Timer";
+import { Game_Events } from "../../GameSystems/game_enums";
 
 export default class Dying extends BossState {
     constructor(parent: WrathAI, owner: AnimatedSprite){
@@ -12,7 +10,7 @@ export default class Dying extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
-        (<AnimatedSprite> this.owner).animation.play("DYING", false);
+        (<AnimatedSprite> this.owner).animation.play("DYING", false, Game_Events.BOSS_DIED);
     }
 
     handleInput(event: GameEvent): void {

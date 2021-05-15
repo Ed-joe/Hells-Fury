@@ -436,10 +436,10 @@ export default class GameLevel extends Scene {
                         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
                         this.viewport.stopFollow();
                         this.viewport.setZoomLevel(1);
-                        this.sceneManager.changeToScene(this.next_level_constructor, 
-                            {
+                        this.sceneManager.changeToScene(this.next_level_constructor, {
                                 health: this.player_health,
-                                coins: this.player_coins
+                                coins: this.player_coins,
+                                damage: this.player_damage
                             }, physics_options);
                     }
                     break;
@@ -557,13 +557,13 @@ export default class GameLevel extends Scene {
                     break;
                 case Game_Events.BOUGHT_DAMAGE:
                     {
-                        console.log(this.player_damage);
                         if (this.player_coins >= 10 && this.player_damage < 3) {
                             this.player_coins -= 10;
                             this.player_damage++;
                             this.coin_count_label.text =  ": " + this.player_coins;
                             this.player._ai.handleEvent(event);
                         }
+                        console.log(this.player_damage);
                     }
                     break;
             }
