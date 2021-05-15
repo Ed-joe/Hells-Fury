@@ -89,7 +89,7 @@ export default class LustAI extends StateMachineAI implements BattlerAI {
         for(let col = minIndex.x; col <= maxIndex.x; col++){
             for(let row = minIndex.y; row <= maxIndex.y; row++){
                 let tile_val = walls.getTileAtRowCol(new Vec2(col, row));
-                if(tile_val === 18 || tile_val === 19){
+                if(tile_val === 18 || tile_val === 19 || tile_val === 44 || tile_val === 45){
                     // Get the position of this tile
                     let tilePos = new Vec2(col * tileSize.x + tileSize.x/2, row * tileSize.y + tileSize.y/2);
 
