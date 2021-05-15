@@ -35,6 +35,7 @@ import MainMenu from "./MainMenu";
 import WrathAI from "../AI/WrathAI";
 import CoinEnemyAI from "../AI/CoinEnemyAI";
 import GreedAI from "../AI/GreedAI";
+import Idle from "../AI/PlayerStates/Idle";
 
 export default class GameLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -78,6 +79,7 @@ export default class GameLevel extends Scene {
     upper_boss_door: Vec2[];
     lower_boss_door: Vec2[];
     coin_hurt: boolean;
+    has_shop: boolean;
 
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
@@ -86,6 +88,7 @@ export default class GameLevel extends Scene {
         this.coin_hurt = false;
         this.player_slippery = false;
         this.player_damage = init.damage;
+        this.has_shop = true;
     }
     
     loadScene() {
@@ -244,7 +247,7 @@ export default class GameLevel extends Scene {
             }
         }
 
-        if ((!this.player.boundary.overlaps(this.shop_zone.boundary)) && this.in_shop_zone){
+        if (this.has_shop && (!this.player.boundary.overlaps(this.shop_zone.boundary)) && this.in_shop_zone){
             this.in_shop_zone = false;
             this.shop_prompt.visible = false;
         }
@@ -691,77 +694,79 @@ export default class GameLevel extends Scene {
     }
 
     initializeShop(position: Vec2): void{
-        //Place shop keeper
-        let shop_keep = this.add.animatedSprite("shopkeep", "primary");
-        shop_keep.animation.play("IDLE", true);
-        shop_keep.position = position;
-        shop_keep.addPhysics(new AABB(new Vec2(0, 14), new Vec2(48, 40)));
-        this.shop_zone = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(position.x, position.y + 24) , size: new Vec2(192, 128)});
-        this.shop_zone.addPhysics(undefined, undefined, false, true);
-        this.shop_zone.setTrigger("player", Game_Events.ENTERED_SHOP, Game_Events.EXITED_SHOP);
-        this.shop_zone.color = new Color(0, 0, 0, 0);
-    
-
-        //Add shop prompt to main layer
-        this.shop_prompt = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(position.x, position.y - 50), text: "Press 'E' to enter the shop"});
-        this.shop_prompt.font = "HellText";    
-        this.shop_prompt.textColor = Color.BLACK;
-        this.shop_prompt.fontSize = 20;
-        this.shop_prompt.size.set(30, 14);
-        this.shop_prompt.borderWidth = 2;
-        this.shop_prompt.borderColor = Color.TRANSPARENT;
-        this.shop_prompt.backgroundColor = Color.TRANSPARENT;
-        this.shop_prompt.visible = false;
-
-        this.addUILayer("shop");
-
-        // add heart contract on the left
-        let heart_contract = this.add.sprite("shop_ui", "shop");
-        heart_contract.position.set(200, 180);
+        if(this.has_shop){
+            //Place shop keeper
+            let shop_keep = this.add.animatedSprite("shopkeep", "primary");
+            shop_keep.animation.play("IDLE", true);
+            shop_keep.position = position;
+            shop_keep.addPhysics(new AABB(new Vec2(0, 14), new Vec2(48, 40)));
+            this.shop_zone = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(position.x, position.y + 24) , size: new Vec2(192, 128)});
+            this.shop_zone.addPhysics(undefined, undefined, false, true);
+            this.shop_zone.setTrigger("player", Game_Events.ENTERED_SHOP, Game_Events.EXITED_SHOP);
+            this.shop_zone.color = new Color(0, 0, 0, 0);
         
-        const buy_heart = <Button>this.add.uiElement(UIElementType.BUTTON, "shop", {position: new Vec2(200, 160), text: "5 Coins = "});
-        buy_heart.font = "HellText";    
-        buy_heart.textColor = Color.BLACK;
-        buy_heart.fontSize = 42;
-        buy_heart.size.set(250, 90);
-        buy_heart.scale.set(1/2, 1/2);
-        buy_heart.borderWidth = 2;
-        buy_heart.borderColor = Color.TRANSPARENT;
-        buy_heart.backgroundColor = new Color(233, 229, 158, .2);
-        buy_heart.onClickEventId = Game_Events.BOUGHT_HEART;
-        
-        let contract_heart_image = this.add.sprite("heart", "shop");
-        contract_heart_image.position.set(250, 160);
 
-        // add damage contract on the right
-        let damage_contract = this.add.sprite("shop_ui", "shop");
-        damage_contract.position.set(440, 180);
-        
-        const buy_damage = <Button>this.add.uiElement(UIElementType.BUTTON, "shop", {position: new Vec2(440, 160), text: "10 Coins = "});
-        buy_damage.font = "HellText";
-        buy_damage.textColor = Color.BLACK;
-        buy_damage.fontSize = 42;
-        buy_damage.size.set(265, 90);
-        buy_damage.padding = Vec2.ZERO;
-        buy_damage.borderWidth = 2;
-        buy_damage.borderColor = Color.TRANSPARENT;
-        buy_damage.scale.set(1/2, 1/2);
-        buy_damage.backgroundColor = new Color(233, 229, 158, .2);
-        buy_damage.onClickEventId = Game_Events.BOUGHT_DAMAGE;
-        
-        let damage_contract_fist = this.add.sprite("shop_fist", "shop");
-        damage_contract_fist.position.set(495, 160);
+            //Add shop prompt to main layer
+            this.shop_prompt = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(position.x, position.y - 50), text: "Press 'E' to enter the shop"});
+            this.shop_prompt.font = "HellText";    
+            this.shop_prompt.textColor = Color.BLACK;
+            this.shop_prompt.fontSize = 20;
+            this.shop_prompt.size.set(30, 14);
+            this.shop_prompt.borderWidth = 2;
+            this.shop_prompt.borderColor = Color.TRANSPARENT;
+            this.shop_prompt.backgroundColor = Color.TRANSPARENT;
+            this.shop_prompt.visible = false;
 
-        // add e to exit to shop ui
-        let shop_exit = <Label>this.add.uiElement(UIElementType.LABEL, "shop", {position: new Vec2(320, 300), text: "Press 'E' to exit the shop"});
-        shop_exit.font = "HellText";    
-        shop_exit.textColor = Color.BLACK;
-        shop_exit.fontSize = 48;
-        shop_exit.borderColor = Color.TRANSPARENT;
-        shop_exit.backgroundColor = Color.TRANSPARENT;
+            this.addUILayer("shop");
 
-        //Hide shop to start
-        this.getLayer("shop").disable();
+            // add heart contract on the left
+            let heart_contract = this.add.sprite("shop_ui", "shop");
+            heart_contract.position.set(200, 180);
+            
+            const buy_heart = <Button>this.add.uiElement(UIElementType.BUTTON, "shop", {position: new Vec2(200, 160), text: "5 Coins = "});
+            buy_heart.font = "HellText";    
+            buy_heart.textColor = Color.BLACK;
+            buy_heart.fontSize = 42;
+            buy_heart.size.set(250, 90);
+            buy_heart.scale.set(1/2, 1/2);
+            buy_heart.borderWidth = 2;
+            buy_heart.borderColor = Color.TRANSPARENT;
+            buy_heart.backgroundColor = new Color(233, 229, 158, .2);
+            buy_heart.onClickEventId = Game_Events.BOUGHT_HEART;
+            
+            let contract_heart_image = this.add.sprite("heart", "shop");
+            contract_heart_image.position.set(250, 160);
+
+            // add damage contract on the right
+            let damage_contract = this.add.sprite("shop_ui", "shop");
+            damage_contract.position.set(440, 180);
+            
+            const buy_damage = <Button>this.add.uiElement(UIElementType.BUTTON, "shop", {position: new Vec2(440, 160), text: "10 Coins = "});
+            buy_damage.font = "HellText";
+            buy_damage.textColor = Color.BLACK;
+            buy_damage.fontSize = 42;
+            buy_damage.size.set(265, 90);
+            buy_damage.padding = Vec2.ZERO;
+            buy_damage.borderWidth = 2;
+            buy_damage.borderColor = Color.TRANSPARENT;
+            buy_damage.scale.set(1/2, 1/2);
+            buy_damage.backgroundColor = new Color(233, 229, 158, .2);
+            buy_damage.onClickEventId = Game_Events.BOUGHT_DAMAGE;
+            
+            let damage_contract_fist = this.add.sprite("shop_fist", "shop");
+            damage_contract_fist.position.set(495, 160);
+
+            // add e to exit to shop ui
+            let shop_exit = <Label>this.add.uiElement(UIElementType.LABEL, "shop", {position: new Vec2(320, 300), text: "Press 'E' to exit the shop"});
+            shop_exit.font = "HellText";    
+            shop_exit.textColor = Color.BLACK;
+            shop_exit.fontSize = 48;
+            shop_exit.borderColor = Color.TRANSPARENT;
+            shop_exit.backgroundColor = Color.TRANSPARENT;
+
+            //Hide shop to start
+            this.getLayer("shop").disable();
+        }
     }
 
     initializeWeapons(): void {
