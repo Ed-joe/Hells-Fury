@@ -21,7 +21,7 @@ export default class BatAI extends StateMachineAI implements BattlerAI {
     health: number;
 
     /** The default movement speed of this AI */
-    speed: number = 20;
+    speed: number = 15;
 
     /** A reference to the player object */
     player: GameNode;

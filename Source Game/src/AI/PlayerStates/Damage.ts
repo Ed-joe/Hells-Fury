@@ -32,6 +32,7 @@ export default class Damage extends PlayerState {
                 let attack_success;
                 if (this.parent.player_damage === 1) {
                     attack_success = this.parent.fists[0].use(this.owner, "player", this.parent.attack_direction);
+                    
                 } else if (this.parent.player_damage === 2) {
                     attack_success = this.parent.fists[1].use(this.owner, "player", this.parent.attack_direction);
                 } else {

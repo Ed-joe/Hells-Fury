@@ -19,10 +19,10 @@
         {
             "name": "DAMAGE",
             "frames": [
-                {"index": 14, "duration": 12},
-                {"index": 15, "duration": 12},
-                {"index": 16, "duration": 12},
-                {"index": 17, "duration": 12}
+                {"index": 14, "duration": 8},
+                {"index": 15, "duration": 8},
+                {"index": 16, "duration": 8},
+                {"index": 17, "duration": 8}
             ]
         },
         {
@@ -65,10 +65,10 @@
         {
             "name": "CHARGE_DOWN",
             "frames": [
-                {"index": 32, "duration": 8},
-                {"index": 33, "duration": 8},
-                {"index": 34, "duration": 8},
-                {"index": 35, "duration": 8}
+                {"index": 32, "duration": 6},
+                {"index": 33, "duration": 6},
+                {"index": 34, "duration": 6},
+                {"index": 35, "duration": 6}
             ]
         },
         {
@@ -82,10 +82,10 @@
         {
             "name": "CHARGE_UP",
             "frames": [
-                {"index": 39, "duration": 8},
-                {"index": 40, "duration": 8},
-                {"index": 41, "duration": 8},
-                {"index": 42, "duration": 8}
+                {"index": 39, "duration": 6},
+                {"index": 40, "duration": 6},
+                {"index": 41, "duration": 6},
+                {"index": 42, "duration": 6}
             ]
         },
         {

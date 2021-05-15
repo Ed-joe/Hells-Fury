@@ -10,6 +10,7 @@ import Button from "../Wolfie2D/Nodes/UIElements/Button"
 import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 import GreedLevel from "./GreedLevel";
 import WrathLevel from "./WrathLevel";
+import SlothLevel from "./SlothLevel";
 
 export default class MainMenu extends Scene {
     private main_menu: Layer;
@@ -325,7 +326,8 @@ export default class MainMenu extends Scene {
             }
             if(event.type === "levelSloth") {
                 // TODO PROJECT - go to sloth level (level 5)
-                console.log("Sloth Level");
+                this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "main_menu_music"});
+                this.sceneManager.changeToScene(SlothLevel, scene_options, physics_options);
             }
             if(event.type === "levelEnvy") {
                 // TODO PROJECT - go to envy level (level 6)

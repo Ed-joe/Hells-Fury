@@ -47,7 +47,7 @@ export default class Attack extends EnemyState {
                 if(this.owner.position.distanceTo(this.lastPlayerPos) < 5) {
                     this.doneMoving = true;
                 }
-                this.owner.move(this.owner.position.dirTo(this.lastPlayerPos).scale(3.5));
+                this.owner.move(this.owner.position.dirTo(this.lastPlayerPos).scale(3));
             }
             else {
                 this.resetTimer.start();
