@@ -1,5 +1,5 @@
 {
-    "numWeapons": 4,
+    "numWeapons": 5,
     "weapons": [
         {
             "weaponType": "slam",
@@ -39,6 +39,16 @@
             "spriteKey": "fistThree",
             "damage": 3,
             "cooldown": 1000,
+            "useVolume": 0
+        },
+        {
+            "weaponType": "slice",
+            "name": "slice",
+            "displayName": "Slice",
+            "animationSprite": "slice",
+            "spriteKey": "slice",
+            "damage": 1,
+            "cooldown": 0,
             "useVolume": 0
         }
     ]

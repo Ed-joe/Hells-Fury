@@ -31,16 +31,12 @@ export default class WrathLevel extends GameLevel {
         this.boss_sprite = {
             wrath: "game_assets/spritesheets/wrath.json"
         }
-
-        // TODO
         this.boss_attack_image = {
-            slam: "game_assets/spritesheets/smash.png"
+            slice: "game_assets/spritesheets/wrath_slice.png"
         }
         this.boss_attack_sprite = {
-            slam: "game_assets/spritesheets/smash.json"
+            slice: "game_assets/spritesheets/wrath_slice.json"
         }
-
-
         this.enemy_data = {
             enemyData: "game_assets/data/wrath_enemy.json"
         }
@@ -49,15 +45,10 @@ export default class WrathLevel extends GameLevel {
         }
         this.next_level_constructor = GluttonyLevel
         this.shop_pos = new Vec2(383, 959);
-        // this.player_start_pos = new Vec2(1026, 1874);
-        this.player_start_pos = new Vec2(880, 418);
+        this.player_start_pos = new Vec2(1026, 1874);
         this.player_speed = 150;
         this.player_slippery = false;
-
-        // TODO
-        this.level_text_color = new Color(95, 90, 76);
-
-
+        this.level_text_color = new Color(194, 0, 13);
         this.start_level_text = "Wrath's Wretched Wasteland";
         this.end_level_text = "Wrath has been defeated!";
         this.boss_room_pos = new Vec2(1024, 432);

@@ -20,7 +20,7 @@ export default class Idle extends BossState {
 
     update(deltaT: number): void {
         if(this.parent.getPlayerPosition() !== null){
-            if (this.owner.position.y < 200) {
+            if (this.owner.position.y < 168) {
                 this.finished(BossStates.RUN_DOWN);
             } else {
                 this.finished(BossStates.RUN_UP);
