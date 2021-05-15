@@ -12,6 +12,8 @@ export default class Damage extends EnemyState {
 
     private awayFromStartPosition: boolean;
 
+    private lastPlayerPos: Vec2;
+
     constructor(parent: HoundAI, owner: AnimatedSprite){
         super(parent, owner);
     }
@@ -19,13 +21,14 @@ export default class Damage extends EnemyState {
     onEnter(options: Record<string, any>): void {
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "hound_damage", loop: false, holdReference: false})
         this.owner.animation.play("DAMAGE", false);
+        this.lastPlayerPos = this.parent.getPlayerPosition();
     }
 
     handleInput(event: GameEvent): void {
     }
 
     update(deltaT: number): void {
-        this.owner.move(this.owner.position.dirTo(this.parent.getPlayerPosition()).scale(-1));
+        this.owner.move(this.owner.position.dirTo(this.lastPlayerPos).scale(-1));
         if(!this.owner.animation.isPlaying("DAMAGE")) {
             let playerPos = this.parent.getPlayerPosition();
             if(playerPos !== null && this.owner.position.distanceTo(playerPos) <= 32 * 8){

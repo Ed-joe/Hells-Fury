@@ -30,7 +30,7 @@ export default class Damaged extends EnemyState {
     handleInput(event: GameEvent): void {}
 
     update(deltaT: number): void {
-        this.owner.move(this.owner.position.dirTo(this.parent.getPlayerPosition()).scale(-2));
+        this.owner.move(this.owner.position.dirTo(this.lastPlayerPos).scale(-2));
         if(!(<AnimatedSprite> this.owner).animation.isPlaying("DAMAGE")) {
             this.finished(EnemyStates.DEFAULT);
         }

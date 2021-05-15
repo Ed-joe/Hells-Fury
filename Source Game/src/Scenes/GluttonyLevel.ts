@@ -9,6 +9,7 @@ import { UIElementType } from "../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Input from "../Wolfie2D/Input/Input";
 import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 import LustLevel from "./LustLevel";
+import GreedLevel from "./GreedLevel";
 
 export default class GluttonyLevel extends GameLevel {
     initScene(init: Record<string, any>): void {
@@ -37,7 +38,7 @@ export default class GluttonyLevel extends GameLevel {
         this.level_tilemap = {
             gluttonyLevel: "game_assets/tilemaps/gluttony_level.json"
         }
-        this.next_level_constructor = MainMenu
+        this.next_level_constructor = GreedLevel
         this.shop_pos = new Vec2(350, 1333);
         this.player_start_pos = new Vec2(1018, 330);
         this.player_speed = 150;

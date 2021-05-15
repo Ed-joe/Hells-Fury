@@ -32,7 +32,8 @@ import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 import LustLevel from "./LustLevel";
 import GluttonyLevel from "./GluttonyLevel";
 import MainMenu from "./MainMenu";
-import Coin_EnemyAI from "../AI/CoinEnemyAI";
+import WrathAI from "../AI/WrathAI";
+import CoinEnemyAI from "../AI/CoinEnemyAI";
 import GreedAI from "../AI/GreedAI";
 import Idle from "../AI/PlayerStates/Idle";
 
@@ -41,7 +42,7 @@ export default class GameLevel extends Scene {
     private player_health: number;          // players health
     private player_coins: number;           // PROJECT TODO - implement coin functionality
     private player_damage: number;          // damage per punch
-    private enemies: Array<AnimatedSprite> ; // list of enemies
+    enemies: Array<AnimatedSprite> ; // list of enemies
     private walls: OrthogonalTilemap ;       // the wall layer
     private battle_manager: BattleManager;   // battle manager
     private health_sprites: Sprite[];        //sprites for health
@@ -438,10 +439,10 @@ export default class GameLevel extends Scene {
                         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
                         this.viewport.stopFollow();
                         this.viewport.setZoomLevel(1);
-                        this.sceneManager.changeToScene(this.next_level_constructor, 
-                            {
+                        this.sceneManager.changeToScene(this.next_level_constructor, {
                                 health: this.player_health,
-                                coins: this.player_coins
+                                coins: this.player_coins,
+                                damage: this.player_damage
                             }, physics_options);
                     }
                     break;
@@ -480,7 +481,7 @@ export default class GameLevel extends Scene {
                     }
                     break;
                 case Game_Events.ON_UNPAUSE:
-                    {   
+                    {
                         for(let enemy of this.enemies){
                             enemy.unfreeze();
                         }
@@ -532,7 +533,7 @@ export default class GameLevel extends Scene {
                         coin1.setGroup("coin");
                         coin1.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
                         let coin1_vel = greed_position.dirTo(new Vec2(positionX, positionY)).scale(3.5);
-                        coin1.addAI(Coin_EnemyAI, {player: this.player, velocityX: coin1_vel.x, velocityY: coin1_vel.y});
+                        coin1.addAI(CoinEnemyAI, {player: this.player, velocityX: coin1_vel.x, velocityY: coin1_vel.y});
                         let coin2 = this.add.animatedSprite("coin", "primary");
                         coin2.addPhysics(coin2.boundary, Vec2.ZERO, false);
                         coin2.position.set(greed_position.x, greed_position.y);
@@ -540,7 +541,7 @@ export default class GameLevel extends Scene {
                         coin2.setGroup("coin");
                         coin2.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
                         let coin2_vel = greed_position.dirTo(new Vec2(positionX - 64, positionY)).scale(3);
-                        coin2.addAI(Coin_EnemyAI, {player: this.player, velocityX: coin2_vel.x , velocityY: coin2_vel.y});
+                        coin2.addAI(CoinEnemyAI, {player: this.player, velocityX: coin2_vel.x , velocityY: coin2_vel.y});
                         let coin3 = this.add.animatedSprite("coin", "primary");
                         coin3.addPhysics(coin3.boundary, Vec2.ZERO, false);
                         coin3.position.set(greed_position.x, greed_position.y);
@@ -548,7 +549,7 @@ export default class GameLevel extends Scene {
                         coin3.setGroup("coin");
                         coin3.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
                         let coin3_vel = greed_position.dirTo(new Vec2(positionX + 64, positionY)).scale(3);
-                        coin3.addAI(Coin_EnemyAI, {player: this.player, velocityX: coin3_vel.x, velocityY: coin3_vel.y});
+                        coin3.addAI(CoinEnemyAI, {player: this.player, velocityX: coin3_vel.x, velocityY: coin3_vel.y});
                         for(let i = 0; i < this.enemies.length ; i++){
                             if(this.enemies[i].imageId === "Gluttony"){
                                 this.enemies[i]._ai.handleEvent(event);
@@ -559,13 +560,13 @@ export default class GameLevel extends Scene {
                     break;
                 case Game_Events.BOUGHT_DAMAGE:
                     {
-                        console.log(this.player_damage);
                         if (this.player_coins >= 10 && this.player_damage < 3) {
                             this.player_coins -= 10;
                             this.player_damage++;
                             this.coin_count_label.text =  ": " + this.player_coins;
                             this.player._ai.handleEvent(event);
                         }
+                        console.log(this.player_damage);
                     }
                     break;
             }
@@ -582,7 +583,7 @@ export default class GameLevel extends Scene {
         let fist2 = this.createWeapon("punch2");
         let fist3 = this.createWeapon("punch3");
         let invincible_label = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(585, 280), text: "INVINCIBLE"});
-        invincible_label.textColor = Color.RED;
+        invincible_label.textColor = Color.BLACK;
         invincible_label.font = "HellText";
         invincible_label.visible = false;
         this.player.addAI(PlayerController,
@@ -613,6 +614,7 @@ export default class GameLevel extends Scene {
             let data = enemyData.enemies[i];
 
             // Create an enemy
+            console.log(data.enemy_type);
             this.enemies[i] = this.add.animatedSprite(data.enemy_type, "primary");
             this.enemies[i].position.set(data.position[0], data.position[1]);
             this.enemies[i].animation.play("IDLE");
@@ -633,7 +635,6 @@ export default class GameLevel extends Scene {
                 this.enemies[i].setTrigger("player", Game_Events.ENEMY_COLLISION, "bat hit player");
             }
             else if(data.enemy_type === "hellhound") {
-                this.enemies[i].addPhysics();
                 this.enemies[i].addAI(HoundAI, enemyOptions);
                 this.enemies[i].addPhysics(new AABB(new Vec2(0, 14), new Vec2(30, 20)));
 
@@ -667,6 +668,17 @@ export default class GameLevel extends Scene {
                 }
                 this.enemies[i].addAI(GreedAI, enemyOptions);
                 this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(56, 56)));
+                this.enemies[i].setGroup("enemy");
+                this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
+            }
+            else if (data.enemy_type === "wrath") {
+                let enemyOptions = {
+                    health: data.health,
+                    player: this.player,
+                    slice: this.createWeapon("slam")
+                }
+                this.enemies[i].addAI(WrathAI, enemyOptions);
+                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(26, 44)), new Vec2(0, 20));
                 this.enemies[i].setGroup("enemy");
                 this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
             }

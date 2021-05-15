@@ -9,6 +9,7 @@ import LustLevel from "./LustLevel";
 import Button from "../Wolfie2D/Nodes/UIElements/Button"
 import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 import GreedLevel from "./GreedLevel";
+import WrathLevel from "./WrathLevel";
 
 export default class MainMenu extends Scene {
     private main_menu: Layer;
@@ -313,7 +314,8 @@ export default class MainMenu extends Scene {
             }
             if(event.type === "levelWrath") {
                 // TODO PROJECT - go to wrath level (level 2)
-                console.log("Wrath Level");
+                this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "main_menu_music"});
+                this.sceneManager.changeToScene(WrathLevel, scene_options, physics_options);
             }
             if(event.type === "levelGreed") {
                 // TODO PROJECT - go to greed level (level 4)
