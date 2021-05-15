@@ -11,6 +11,7 @@ export enum Game_Events {
     GLUT_ATTACK = "GlutAttack",
     ATTACK_OVER = "AttackOver",
     BOUGHT_HEART = "BoughtHeart",
+    BOUGHT_DAMAGE = "BoughtDamage",
     ENTERED_SHOP = "EnteredShop",
     EXITED_SHOP = "ExitedShop",
     GET_COIN = "GetCoin",

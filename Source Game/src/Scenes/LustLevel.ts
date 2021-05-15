@@ -54,7 +54,8 @@ export default class LustLevel extends GameLevel {
     updateScene(deltaT: number): void {
         let scene_options = {
             health: 5,
-            coins: 0
+            coins: 0,
+            damage: 1
         }
         let physics_options = {
             physics: {

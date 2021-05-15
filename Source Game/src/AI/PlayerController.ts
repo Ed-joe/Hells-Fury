@@ -33,11 +33,13 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     health: number;
     health_sprites: Sprite[];
 
+    player_damage: number;
+
     // player sprite
     owner: AnimatedSprite;
 
-    // fist item (for punching)
-    fist: Weapon;
+    // fist items (for punching)
+    fists: Weapon[];
 
     // Movement
     direction: Vec2;
@@ -72,8 +74,9 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.health = options.health;
         this.coins = options.coins;
         this.slippery = options.slippery !== undefined ? options.slippery : false;
-        this.fist = options.fist;
+        this.fists = options.fists;
         this.invincible_cheat = false;
+        this.player_damage = options.damage;
         this.invincible_cheat_label = options.invincible_cheat_label;
 
         // initialize states
@@ -119,6 +122,8 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         }else if(event.type === Game_Events.BOUGHT_HEART){
             this.health++;
             this.coins -= 5;
+        } else if(event.type === Game_Events.BOUGHT_DAMAGE) {
+            this.player_damage++;
         }
     }
 
@@ -141,7 +146,6 @@ export default class PlayerController extends StateMachineAI implements BattlerA
                 this.changeState(PlayerStates.DAMAGE);
                 this.health_sprites[this.health_sprites.length - 1].getLayer().removeNode(this.health_sprites[this.health_sprites.length - 1]);
                 this.health_sprites.splice(this.health_sprites.length - 1, 1);
-                // this.owner.animation.play("DAMAGE", false, Game_Events.IFRAMES_OVER);
                 this.invincible = true;
             }
         }
