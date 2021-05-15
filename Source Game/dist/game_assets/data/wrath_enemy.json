@@ -1,0 +1,65 @@
+{
+    "numEnemies": 12,
+    "enemies": [
+        {
+            "position": [948, 1355],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1119, 1449],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1025, 1004],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [1390, 1027],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1394, 1153],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1773, 1066],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [657, 1001],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [687, 1165],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [959, 667],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [1117, 667],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [326, 1133],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [1024, 288],
+            "enemy_type": "wrath",
+            "health": 10
+        }
+    ]
+}

@@ -76,6 +76,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.slippery = options.slippery !== undefined ? options.slippery : false;
         this.fists = options.fists;
         this.invincible_cheat = false;
+        this.invincible = false;
         this.player_damage = options.damage;
         this.invincible_cheat_label = options.invincible_cheat_label;
 

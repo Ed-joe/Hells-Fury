@@ -3,7 +3,7 @@
     "spriteSheetImage": "wrath.png",
     "spriteWidth": 128,
     "spriteHeight": 128,
-    "columns": 40,
+    "columns": 46,
     "rows": 1,
     "durationType": "time",
     "animations": [
@@ -26,7 +26,7 @@
             ]
         },
         {
-            "name": "WALK_D",
+            "name": "WALK_DOWN",
             "frames": [
                 {"index": 6, "duration": 8},
                 {"index": 7, "duration": 8},
@@ -63,7 +63,7 @@
             ]
         },
         {
-            "name": "CHARGE_D",
+            "name": "CHARGE_DOWN",
             "frames": [
                 {"index": 32, "duration": 8},
                 {"index": 33, "duration": 8},
@@ -72,7 +72,7 @@
             ]
         },
         {
-            "name": "SLASH_D",
+            "name": "SLASH_DOWN",
             "frames": [
                 {"index": 36, "duration": 8},
                 {"index": 37, "duration": 8},
