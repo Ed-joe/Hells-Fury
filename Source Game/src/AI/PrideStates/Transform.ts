@@ -34,7 +34,7 @@ export default class Transform extends BossState {
             if (![BossStates.GLUTTONY_ATTACK].includes(this.previous)) {
                 valid_next.push(BossStates.GLUTTONY_TRANSFORM);
             }
-            if (![BossStates.GREED_IDLE].includes(this.previous)) {
+            if (![BossStates.GREED_ATTACK].includes(this.previous)) {
                 valid_next.push(BossStates.GREED_TRANSFORM);
             }
             if (![BossStates.LUST_ATTACK].includes(this.previous)) {

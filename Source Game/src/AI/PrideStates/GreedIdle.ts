@@ -41,7 +41,7 @@ export default class GreedIdle extends BossState {
 
     onExit(): Record<string, any> {
         (<AnimatedSprite> this.owner).animation.stop();
-        return {previous: BossStates.GREED_IDLE};
+        return {previous: BossStates.GREED_ATTACK};
     }
 
 }

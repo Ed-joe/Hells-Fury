@@ -22,7 +22,7 @@ export default class GreedAttack extends BossState {
     }
 
     onExit(): Record<string, any> {
-        return {previous: BossStates.GREED_IDLE};
+        return {previous: BossStates.GREED_ATTACK};
     }
 
 }

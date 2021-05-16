@@ -16,6 +16,7 @@ export default class GluttonyAttack extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gluttony_charge", loop: false, holdReference: false});
         (<AnimatedSprite> this.owner).animation.play("GLUTTONY_ATTACK", false, Game_Events.GLUT_ATTACK);
     }
 
@@ -26,7 +27,7 @@ export default class GluttonyAttack extends BossState {
     }
 
     onExit(): Record<string, any> {
-        return {previous: BossStates.GLUTTONY_IDLE};
+        return {previous: BossStates.GLUTTONY_ATTACK};
     }
 
 }

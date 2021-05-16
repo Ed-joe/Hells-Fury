@@ -25,13 +25,16 @@ export default class PrideLevel extends GameLevel {
         this.level_music_path = "game_assets/sounds/music/wrath.mp3";
         this.boss_audios = {
             gluttony_attack: "game_assets/sounds/gluttony_attack.mp3",
+            gluttony_charge: "game_assets/sounds/gluttony_charge.mp3",
             envy_attack: "game_assets/sounds/envy_attack.mp3",
             envy_charge: "game_assets/sounds/envy_charge.mp3",
             greed_attack: "game_assets/sounds/greed_attack.mp3",
             lust_move: "game_assets/sounds/lust_move.mp3",
             sloth_catch: "game_assets/sounds/sloth_catch.mp3",
             sloth_throw: "game_assets/sounds/sloth_throw.mp3",
-            wrath_attack: "game_assets/sounds/wrath_attack.mp3"
+            wrath_attack: "game_assets/sounds/wrath_attack.mp3",
+            pride_damage: "game_assets/sounds/pride_damage.mp3",
+            pride_death: "game_assets/sounds/pride_death.mp3"
         }
         this.boss_sprite = {
             pride: "game_assets/spritesheets/pride.json"

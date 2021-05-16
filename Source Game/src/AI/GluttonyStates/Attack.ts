@@ -26,6 +26,7 @@ export default class Attack extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gluttony_charge", loop: false, holdReference: false});
         (<AnimatedSprite> this.owner).animation.play("ATTACK", false, Game_Events.GLUT_ATTACK);
     }
 

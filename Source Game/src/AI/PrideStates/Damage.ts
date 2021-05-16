@@ -5,6 +5,7 @@ import BossState from "./BossState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import PrideAI, { BossStates } from "../PrideAI";
 import Timer from "../../Wolfie2D/Timing/Timer";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export default class Damage extends BossState {
     private previous: BossStates;
@@ -14,6 +15,7 @@ export default class Damage extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "pride_damage", loop: false, holdReference: false});
         (<AnimatedSprite> this.owner).animation.play("DAMAGE", false);
         this.previous = options.previous;
     }
