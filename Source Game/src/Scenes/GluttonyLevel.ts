@@ -20,7 +20,7 @@ export default class GluttonyLevel extends GameLevel {
         super.initScene(init);
 
         this.level_music_key = "gluttony_music";
-        this.level_music_path = "game_assets/sounds/music/gluttony.mp3";
+        this.level_music_path = "game_assets/sounds/music/pride.mp3";
         this.boss_audios = {
             gluttony_attack: "game_assets/sounds/gluttony_attack.mp3",
             gluttony_damage: "game_assets/sounds/gluttony_damage.mp3",

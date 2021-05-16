@@ -22,9 +22,9 @@ export default class MainMenu extends Scene {
 
     loadScene() {
         this.load.spritesheet("mainMenuImage", "game_assets/spritesheets/main_background.json");
-        this.load.image("levelSelectImage", "game_assets/images/level_select_background.png");
-        this.load.image("helpImage", "game_assets/images/help_background.png");
-        this.load.image("controlsImage", "game_assets/images/controls_background.png");
+        this.load.spritesheet("levelSelectImage", "game_assets/spritesheets/levels_bg.json");
+        this.load.spritesheet("helpImage", "game_assets/spritesheets/help_bg.json");
+        this.load.spritesheet("controlsImage", "game_assets/spritesheets/controls_bg.json");
         this.load.audio("main_menu_music", "game_assets/sounds/music/main_menu.mp3")
     }
 
@@ -132,8 +132,9 @@ export default class MainMenu extends Scene {
         this.level_select.setHidden(true);
 
         // add level select background image
-        let lsb = this.add.sprite("levelSelectImage", "levelSelect");
+        let lsb = this.add.animatedSprite("levelSelectImage", "levelSelect");
         lsb.position.set(lsb.size.x/2, lsb.size.y/2);
+        lsb.animation.play("IDLE");
 
         const level_select_back = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x + 518, center.y + 308), text: "Back"});
         level_select_back.font = "HellText";
@@ -270,8 +271,9 @@ export default class MainMenu extends Scene {
         this.help.setHidden(true);
 
         // add help background image
-        let hb = this.add.sprite("helpImage", "help");
+        let hb = this.add.animatedSprite("helpImage", "help");
         hb.position.set(hb.size.x/2, hb.size.y/2);
+        hb.animation.play("IDLE");
 
         const help_back = <Button>this.add.uiElement(UIElementType.BUTTON, "help", {position: new Vec2(center.x + 518, center.y + 308), text: "Back"});
         help_back.font = "HellText";
@@ -295,8 +297,9 @@ export default class MainMenu extends Scene {
         this.controls.setHidden(true);
 
         // add controls background image
-        let cb = this.add.sprite("controlsImage", "controls");
+        let cb = this.add.animatedSprite("controlsImage", "controls");
         cb.position.set(cb.size.x/2, cb.size.y/2);
+        cb.animation.play("IDLE");
 
         const controls_back = <Button>this.add.uiElement(UIElementType.BUTTON, "controls", {position: new Vec2(center.x + 518, center.y + 308), text: "Back"});
         controls_back.font = "HellText";
