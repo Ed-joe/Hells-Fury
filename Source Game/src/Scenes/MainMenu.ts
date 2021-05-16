@@ -12,6 +12,7 @@ import GreedLevel from "./GreedLevel";
 import WrathLevel from "./WrathLevel";
 import SlothLevel from "./SlothLevel";
 import EnvyLevel from "./EnvyLevel";
+import PrideLevel from "./PrideLevel";
 
 export default class MainMenu extends Scene {
     private main_menu: Layer;
@@ -336,7 +337,8 @@ export default class MainMenu extends Scene {
             }
             if(event.type === "levelPride") {
                 // TODO PROJECT - go to pride level (level 7)
-                console.log("Pride Level");
+                this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "main_menu_music"});
+                this.sceneManager.changeToScene(PrideLevel, scene_options, physics_options);
             }
         }
     }

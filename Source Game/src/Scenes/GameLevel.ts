@@ -799,7 +799,21 @@ export default class GameLevel extends Scene {
                 this.enemies[i].addAI(SlothAI, enemyOptions);
                 
                 this.enemies[i].setGroup("enemy");
-                this.enemies[i].setTrigger("player", Game_Events.ENEMY_COLLISION, "bat hit player");
+                this.enemies[i].setTrigger("player", Game_Events.ENEMY_COLLISION, "boss hit player");
+            }
+            else if (data.enemy_type === "pride") {
+                let enemyOptions = {
+                    health: data.health,
+                    player: this.player,
+                    hitbox: new AABB(new Vec2(0, 20), new Vec2(56, 30)),
+                    hitbox_offset: new Vec2(0, 20)
+                }
+                
+                this.enemies[i].addPhysics(enemyOptions.hitbox, enemyOptions.hitbox_offset);
+                this.enemies[i].addAI(SlothAI, enemyOptions);
+                
+                this.enemies[i].setGroup("enemy");
+                this.enemies[i].setTrigger("player", Game_Events.ENEMY_COLLISION, "boss hit player");
             }
             else {
                 let enemyOptions = {
