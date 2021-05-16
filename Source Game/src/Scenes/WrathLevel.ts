@@ -23,7 +23,7 @@ export default class WrathLevel extends GameLevel {
         super.initScene(init);
 
         this.level_music_key = "wrath_music";
-        this.level_music_path = "game_assets/sounds/music/wrath.mp3";
+        this.level_music_path = "game_assets/sounds/music/gluttony.mp3";
         this.boss_audios = {
             wrath_attack: "game_assets/sounds/wrath_attack.mp3",
             wrath_damage: "game_assets/sounds/wrath_damage.mp3",
@@ -46,8 +46,8 @@ export default class WrathLevel extends GameLevel {
         }
         this.next_level_constructor = GluttonyLevel
         this.shop_pos = new Vec2(383, 959);
-        // this.player_start_pos = new Vec2(1026, 1874);
-        this.player_start_pos = new Vec2(1024, 432);
+        this.player_start_pos = new Vec2(1026, 1874);
+        // this.player_start_pos = new Vec2(1024, 432);
         this.player_speed = 150;
         this.player_slippery = false;
         this.level_text_color = new Color(194, 0, 13);

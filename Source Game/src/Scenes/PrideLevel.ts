@@ -22,7 +22,7 @@ export default class PrideLevel extends GameLevel {
         this.level_music_key = "pride_music";
         this.coin_path = "game_assets/spritesheets/bloody_coin.json";
         this.coin_hurt = true;
-        this.level_music_path = "game_assets/sounds/music/pride.mp3";
+        this.level_music_path = "game_assets/sounds/music/wrath.mp3";
         this.boss_audios = {
             gluttony_attack: "game_assets/sounds/gluttony_attack.mp3",
             envy_attack: "game_assets/sounds/envy_attack.mp3",
