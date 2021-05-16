@@ -20,6 +20,8 @@ export default class WrathRunUp extends BossState {
     }
 
     update(deltaT: number): void {
+        super.update(deltaT);
+
         if (this.owner.position.y < 168) {
             this.finished(BossStates.WRATH_CHARGE_DOWN);
         }

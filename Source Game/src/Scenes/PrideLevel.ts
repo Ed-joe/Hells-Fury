@@ -25,18 +25,26 @@ export default class PrideLevel extends GameLevel {
         this.level_music_path = "game_assets/sounds/music/pride.mp3";
         this.boss_audios = {
             gluttony_attack: "game_assets/sounds/gluttony_attack.mp3",
-            gluttony_damage: "game_assets/sounds/gluttony_damage.mp3",
-            gluttony_death: "game_assets/sounds/gluttony_death.mp3"
+            envy_attack: "game_assets/sounds/envy_attack.mp3",
+            envy_charge: "game_assets/sounds/envy_charge.mp3",
+            greed_attack: "game_assets/sounds/greed_attack.mp3",
+            lust_move: "game_assets/sounds/lust_move.mp3",
+            sloth_catch: "game_assets/sounds/sloth_catch.mp3",
+            sloth_throw: "game_assets/sounds/sloth_throw.mp3",
+            wrath_attack: "game_assets/sounds/wrath_attack.mp3"
         }
         this.boss_sprite = {
-            pride: "game_assets/spritesheets/pride.json",
-            boss_hitbox: "game_assets/spritesheets/boss_hitbox.json"
+            pride: "game_assets/spritesheets/pride.json"
         }
         this.boss_attack_image = {
-            slam: "game_assets/spritesheets/smash.png"
+            slam: "game_assets/spritesheets/smash.png",
+            slice: "game_assets/spritesheets/wrath_slice.png",
+            fist4: "game_assets/spritesheets/impact_green.png"
         }
         this.boss_attack_sprite = {
-            slam: "game_assets/spritesheets/smash.json"
+            slam: "game_assets/spritesheets/smash.json",
+            slice: "game_assets/spritesheets/wrath_slice.json",
+            fist4: "game_assets/spritesheets/impact_green.json"
         }
         this.enemy_data = {
             enemyData: "game_assets/data/pride_enemy.json"
@@ -52,10 +60,10 @@ export default class PrideLevel extends GameLevel {
         this.level_text_color = new Color(254, 254, 254);
         this.start_level_text = "Pride's Perfect Paradise";
         this.end_level_text = "Pride has been defeated!"
-        this.boss_room_pos = new Vec2(1024, 1320);
-        this.boss_room_size = new Vec2(6 * 32, 3 * 32);
-        this.upper_boss_door = [new Vec2(0, 0), new Vec2(0, 0)];
-        this.lower_boss_door = [new Vec2(0, 0), new Vec2(0, 0), new Vec2(0, 0), new Vec2(0, 0)];
+        this.boss_room_pos = new Vec2(0, 0);
+        this.boss_room_size = new Vec2(0, 0);
+        this.upper_boss_door = [];
+        this.lower_boss_door = [];
     }
 
     startScene(): void {

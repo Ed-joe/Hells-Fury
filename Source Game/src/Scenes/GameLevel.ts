@@ -351,7 +351,7 @@ export default class GameLevel extends Scene {
                 case Game_Events.GLUT_ATTACK:
                     {
                         for(let i = 0; i < this.enemies.length ; i++){
-                            if(this.enemies[i].imageId === "Gluttony"){
+                            if(this.enemies[i].imageId === "Gluttony" || this.enemies[i].imageId === "Pride"){
                                 this.enemies[i]._ai.handleEvent(new GameEvent(Game_Events.GLUT_ATTACK));
                                 break;
                             }
@@ -606,7 +606,7 @@ export default class GameLevel extends Scene {
                         let coin3_vel = greed_position.dirTo(new Vec2(positionX + 64, positionY)).scale(3);
                         coin3.addAI(CoinEnemyAI, {player: this.player, velocityX: coin3_vel.x, velocityY: coin3_vel.y});
                         for(let i = 0; i < this.enemies.length ; i++){
-                            if(this.enemies[i].imageId === "Greed"){
+                            if(this.enemies[i].imageId === "Greed" || this.enemies[i].imageId === "Pride"){
                                 this.enemies[i]._ai.handleEvent(event);
                                 break;
                             }
@@ -617,7 +617,7 @@ export default class GameLevel extends Scene {
                 case Game_Events.WRATH_ATTACK_DOWN:
                     {
                         for(let i = 0; i < this.enemies.length ; i++){
-                            if(this.enemies[i].imageId === "Wrath"){
+                            if(this.enemies[i].imageId === "Wrath" || this.enemies[i].imageId === "Pride"){
                                 this.enemies[i]._ai.handleEvent(event);
                                 break;
                             }
@@ -627,7 +627,7 @@ export default class GameLevel extends Scene {
                 case Game_Events.WRATH_ATTACK_UP:
                     {
                         for(let i = 0; i < this.enemies.length ; i++){
-                            if(this.enemies[i].imageId === "Wrath"){
+                            if(this.enemies[i].imageId === "Wrath" || this.enemies[i].imageId === "Pride"){
                                 this.enemies[i]._ai.handleEvent(event);
                                 break;
                             }
@@ -638,7 +638,7 @@ export default class GameLevel extends Scene {
                 case Game_Events.ENVY_PUNCH:
                     {
                         for(let i = 0; i < this.enemies.length ; i++){
-                            if(this.enemies[i].imageId === "Envy"){
+                            if(this.enemies[i].imageId === "Envy" || this.enemies[i].imageId === "Pride"){
                                 this.enemies[i]._ai.handleEvent(event);
                                 break;
                             }
@@ -791,20 +791,6 @@ export default class GameLevel extends Scene {
                 this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
             }
             else if (data.enemy_type === "sloth") {
-                let enemyOptions = {
-                    health: data.health,
-                    player: this.player,
-                    hitbox: new AABB(new Vec2(0, 20), new Vec2(56, 30)),
-                    hitbox_offset: new Vec2(0, 20)
-                }
-                
-                this.enemies[i].addPhysics(enemyOptions.hitbox, enemyOptions.hitbox_offset);
-                this.enemies[i].addAI(SlothAI, enemyOptions);
-                
-                this.enemies[i].setGroup("enemy");
-                this.enemies[i].setTrigger("player", Game_Events.ENEMY_COLLISION, "boss hit player");
-            }
-            else if (data.enemy_type === "pride") {
                 let enemyOptions = {
                     health: data.health,
                     player: this.player,

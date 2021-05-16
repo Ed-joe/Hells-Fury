@@ -4,11 +4,11 @@ import PrideAI, { BossStates } from "../PrideAI";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
 
+var transform_timer: Timer;
+
 export default abstract class BossState extends State {
     protected parent: PrideAI;
     protected owner: AnimatedSprite;
-
-    protected transform_timer: Timer;
 
     constructor(parent: PrideAI, owner: AnimatedSprite){
         super(parent);
@@ -16,12 +16,13 @@ export default abstract class BossState extends State {
     }
 
     onEnter(options: Record<string, any>): void {
-        this.transform_timer = new Timer(9000);
-        this.transform_timer.start();
+        console.log("set timer");
+        transform_timer = new Timer(9000);
+        transform_timer.start();
     }
 
     update(deltaT: number): void {
-        if (this.transform_timer.isStopped()) {
+        if (transform_timer.isStopped()) {
             // transform into random other boss
             this.finished(BossStates.TRANSFORM);
         }
