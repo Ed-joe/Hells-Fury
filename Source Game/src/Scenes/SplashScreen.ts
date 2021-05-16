@@ -11,7 +11,7 @@ export default class SplashScreen extends Scene {
     private splash_background: Layer;
 
     loadScene() {
-        this.load.image("splashImage", "game_assets/images/splash_screen.png");
+        this.load.spritesheet("splashImage", "game_assets/spritesheets/general_background.json");
     }
 
     startScene() {
@@ -22,8 +22,9 @@ export default class SplashScreen extends Scene {
 
         // Add a background to the scene
         this.splash_background = this.addParallaxLayer("splash_background", new Vec2(0.5, 1), -1);
-        let sb = this.add.sprite("splashImage", "splash_background");
+        let sb = this.add.animatedSprite("splashImage", "splash_background");
         sb.position.set(sb.size.x/2, sb.size.y/2);
+        sb.animation.play("IDLE", true);
 
         // Add transparent button
         const confirm = this.add.uiElement(UIElementType.BUTTON, "splashScreen", {position: new Vec2(center.x, center.y), text: ""});

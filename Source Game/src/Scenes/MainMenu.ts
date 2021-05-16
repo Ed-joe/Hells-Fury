@@ -21,7 +21,7 @@ export default class MainMenu extends Scene {
     private controls: Layer;
 
     loadScene() {
-        this.load.image("mainMenuImage", "game_assets/images/general_background.png");
+        this.load.spritesheet("mainMenuImage", "game_assets/spritesheets/main_background.json");
         this.load.image("levelSelectImage", "game_assets/images/level_select_background.png");
         this.load.image("helpImage", "game_assets/images/help_background.png");
         this.load.image("controlsImage", "game_assets/images/controls_background.png");
@@ -50,8 +50,9 @@ export default class MainMenu extends Scene {
         this.main_menu = this.addUILayer("mainMenu");
 
         // add main menu background image
-        let mmb = this.add.sprite("mainMenuImage", "mainMenu");
+        let mmb = this.add.animatedSprite("mainMenuImage", "mainMenu");
         mmb.position.set(mmb.size.x/2, mmb.size.y/2);
+        mmb.animation.play("IDLE");
 
         // Add new game button, and give it an event to emit on press
 
