@@ -36,6 +36,7 @@ import WrathAI from "../AI/WrathAI";
 import CoinEnemyAI from "../AI/CoinEnemyAI";
 import GreedAI from "../AI/GreedAI";
 import Idle from "../AI/PlayerStates/Idle";
+import SlothAI from "../AI/SlothAI";
 
 export default class GameLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -665,8 +666,14 @@ export default class GameLevel extends Scene {
                 this.enemies[i].setTrigger("player", Game_Events.ENEMY_COLLISION, "bat hit player");
             }
             else if(data.enemy_type === "hellhound") {
+                let enemyOptions = {
+                    health: data.health,
+                    player: this.player,
+                    hitbox: new AABB(new Vec2(0, 14), new Vec2(25, 20))
+                }
+
                 this.enemies[i].addAI(HoundAI, enemyOptions);
-                this.enemies[i].addPhysics(new AABB(new Vec2(0, 14), new Vec2(30, 20)));
+                this.enemies[i].addPhysics(enemyOptions.hitbox);
 
                 this.enemies[i].setGroup("enemy");
                 this.enemies[i].setTrigger("player", Game_Events.ENEMY_COLLISION, "hound hit player");
@@ -711,6 +718,19 @@ export default class GameLevel extends Scene {
                 this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(26, 44)), new Vec2(0, 20));
                 this.enemies[i].setGroup("enemy");
                 this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
+            }
+            else if (data.enemy_type === "sloth") {
+                let enemyOptions = {
+                    health: data.health,
+                    player: this.player,
+                    hitbox: new AABB(Vec2.ZERO, new Vec2(56, 50))
+                }
+                
+                this.enemies[i].addPhysics(enemyOptions.hitbox);
+                this.enemies[i].addAI(SlothAI, enemyOptions);
+                
+                this.enemies[i].setGroup("enemy");
+                this.enemies[i].setTrigger("player", Game_Events.ENEMY_COLLISION, "bat hit player");
             }
             else {
                 let enemyOptions = {

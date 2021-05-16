@@ -1,0 +1,80 @@
+{
+    "numEnemies": 15,
+    "enemies": [
+        {
+            "position": [1766, 1348],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1822, 868],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [1809, 426],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1523, 337],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1010, 219],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [486, 437],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [282, 860],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [347, 1379],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [912, 1701],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [1057, 1723],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1010, 565],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [1438, 964],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1022, 1357],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [618, 956],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1012, 864],
+            "enemy_type": "sloth",
+            "health": 8
+        }
+    ]
+}

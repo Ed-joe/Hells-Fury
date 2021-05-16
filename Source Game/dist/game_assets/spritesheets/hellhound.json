@@ -51,12 +51,12 @@
         {
             "name": "SINK",
             "frames": [
-                {"index": 8, "duration": 4},
-                {"index": 9, "duration": 4},
-                {"index": 10, "duration": 4},
-                {"index": 11, "duration": 4},
-                {"index": 12, "duration": 4},
-                {"index": 13, "duration": 4}
+                {"index": 8, "duration": 5},
+                {"index": 9, "duration": 5},
+                {"index": 10, "duration": 5},
+                {"index": 11, "duration": 5},
+                {"index": 12, "duration": 5},
+                {"index": 13, "duration": 5}
             ]
         },
         {
@@ -68,12 +68,12 @@
         {
             "name": "EMERGE",
             "frames": [
-                {"index": 13, "duration": 8},
-                {"index": 12, "duration": 8},
-                {"index": 11, "duration": 8},
-                {"index": 10, "duration": 8},
-                {"index": 9, "duration": 8},
-                {"index": 8, "duration": 8}
+                {"index": 13, "duration": 5},
+                {"index": 12, "duration": 5},
+                {"index": 11, "duration": 5},
+                {"index": 10, "duration": 5},
+                {"index": 9, "duration": 5},
+                {"index": 8, "duration": 5}
             ]
         },
         {

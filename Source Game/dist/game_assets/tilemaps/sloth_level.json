@@ -39,6 +39,11 @@
                  "name":"Collidable",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"Group",
+                 "type":"string",
+                 "value":"wall"
                 }],
          "type":"tilelayer",
          "visible":true,
