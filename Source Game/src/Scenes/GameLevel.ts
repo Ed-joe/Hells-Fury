@@ -57,6 +57,8 @@ export default class GameLevel extends Scene {
     private boss_room: Rect                 //Boss room door trigger
     private MAX_COINS: number = 99;         // max coins for the player to hold at once
     private level_end_label: Label;        //Label for when the level ends
+    private damage_buy_contract: Button    //Button for damage buy
+    private health_buy_contract: Button    //button for health buy
     
     tutorial_labels: Label[];
     tutorial_zones: Rect[];
@@ -515,6 +517,9 @@ export default class GameLevel extends Scene {
                     break;
                 case Game_Events.ENTERED_SHOP:
                     {
+                        if(this.player_health < 10){
+                            this.health_buy_contract.text = "5 Coins = ";
+                        }
                         if(!this.in_shop_zone){
                             this.in_shop_zone = true;
                             this.shop_prompt.visible = true;
@@ -531,6 +536,9 @@ export default class GameLevel extends Scene {
                             this.health_sprites.push(spriteToAdd);
                             this.player_health += 1
                             this.coin_count_label.text =  ": " + this.player_coins;
+                            if(this.player_health === 10){
+                                this.health_buy_contract.text = "Maxed";
+                            }
                             this.player._ai.handleEvent(new GameEvent(Game_Events.BOUGHT_HEART, {}));
                         }
                     }
@@ -612,6 +620,9 @@ export default class GameLevel extends Scene {
                             this.player_damage++;
                             this.coin_count_label.text =  ": " + this.player_coins;
                             this.player._ai.handleEvent(event);
+                            if(this.player_damage === 3){
+                                this.damage_buy_contract.text = "Sold Out";
+                            }
                         }
                     }
                     break;
@@ -800,16 +811,20 @@ export default class GameLevel extends Scene {
             let heart_contract = this.add.sprite("shop_ui", "shop");
             heart_contract.position.set(200, 180);
             
-            const buy_heart = <Button>this.add.uiElement(UIElementType.BUTTON, "shop", {position: new Vec2(200, 160), text: "5 Coins = "});
-            buy_heart.font = "HellText";    
-            buy_heart.textColor = Color.BLACK;
-            buy_heart.fontSize = 42;
-            buy_heart.size.set(250, 90);
-            buy_heart.scale.set(1/2, 1/2);
-            buy_heart.borderWidth = 2;
-            buy_heart.borderColor = Color.TRANSPARENT;
-            buy_heart.backgroundColor = new Color(233, 229, 158, .2);
-            buy_heart.onClickEventId = Game_Events.BOUGHT_HEART;
+            if(this.player_health === 10){
+                this.health_buy_contract = <Button>this.add.uiElement(UIElementType.BUTTON, "shop", {position: new Vec2(200, 160), text: "Maxed"});
+            }else{
+                this.health_buy_contract = <Button>this.add.uiElement(UIElementType.BUTTON, "shop", {position: new Vec2(200, 160), text: "5 Coins = "});
+            }
+            this.health_buy_contract.font = "HellText";    
+            this.health_buy_contract.textColor = Color.BLACK;
+            this.health_buy_contract.fontSize = 42;
+            this.health_buy_contract.size.set(250, 90);
+            this.health_buy_contract.scale.set(1/2, 1/2);
+            this.health_buy_contract.borderWidth = 2;
+            this.health_buy_contract.borderColor = Color.TRANSPARENT;
+            this.health_buy_contract.backgroundColor = new Color(233, 229, 158, .2);
+            this.health_buy_contract.onClickEventId = Game_Events.BOUGHT_HEART;
             
             let contract_heart_image = this.add.sprite("heart", "shop");
             contract_heart_image.position.set(250, 160);
@@ -818,17 +833,23 @@ export default class GameLevel extends Scene {
             let damage_contract = this.add.sprite("shop_ui", "shop");
             damage_contract.position.set(440, 180);
             
-            const buy_damage = <Button>this.add.uiElement(UIElementType.BUTTON, "shop", {position: new Vec2(440, 160), text: "10 Coins = "});
-            buy_damage.font = "HellText";
-            buy_damage.textColor = Color.BLACK;
-            buy_damage.fontSize = 42;
-            buy_damage.size.set(265, 90);
-            buy_damage.padding = Vec2.ZERO;
-            buy_damage.borderWidth = 2;
-            buy_damage.borderColor = Color.TRANSPARENT;
-            buy_damage.scale.set(1/2, 1/2);
-            buy_damage.backgroundColor = new Color(233, 229, 158, .2);
-            buy_damage.onClickEventId = Game_Events.BOUGHT_DAMAGE;
+
+              
+            if(this.player_damage === 3){
+                this.damage_buy_contract = <Button>this.add.uiElement(UIElementType.BUTTON, "shop", {position: new Vec2(440, 160), text: "Sold Out"});
+            }else{
+                this.damage_buy_contract = <Button>this.add.uiElement(UIElementType.BUTTON, "shop", {position: new Vec2(440, 160), text: "10 Coins = "});
+            }
+            this.damage_buy_contract.font = "HellText";
+            this.damage_buy_contract.textColor = Color.BLACK;
+            this.damage_buy_contract.fontSize = 42;
+            this.damage_buy_contract.size.set(265, 90);
+            this.damage_buy_contract.padding = Vec2.ZERO;
+            this.damage_buy_contract.borderWidth = 2;
+            this.damage_buy_contract.borderColor = Color.TRANSPARENT;
+            this.damage_buy_contract.scale.set(1/2, 1/2);
+            this.damage_buy_contract.backgroundColor = new Color(233, 229, 158, .2);
+            this.damage_buy_contract.onClickEventId = Game_Events.BOUGHT_DAMAGE;
             
             let damage_contract_fist = this.add.sprite("shop_fist", "shop");
             damage_contract_fist.position.set(495, 160);
