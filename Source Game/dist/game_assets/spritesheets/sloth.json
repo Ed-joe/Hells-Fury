@@ -27,17 +27,23 @@
         {
             "name": "THROW",
             "frames": [
-                {"index": 7, "duration": 8},
-                {"index": 8, "duration": 8},
-                {"index": 9, "duration": 8},
-                {"index": 10, "duration": 8},
-                {"index": 11, "duration": 8},
-                {"index": 12, "duration": 8},
-                {"index": 13, "duration": 8},
-                {"index": 14, "duration": 8},
-                {"index": 15, "duration": 8},
-                {"index": 16, "duration": 8},
-                {"index": 17, "duration": 8}
+                {"index": 7, "duration": 3},
+                {"index": 8, "duration": 3},
+                {"index": 9, "duration": 3},
+                {"index": 10, "duration": 3},
+                {"index": 11, "duration": 3},
+                {"index": 12, "duration": 3},
+                {"index": 13, "duration": 3},
+                {"index": 14, "duration": 3},
+                {"index": 15, "duration": 3},
+                {"index": 16, "duration": 3},
+                {"index": 17, "duration": 3}
+            ]
+        },
+        {
+            "name": "SHADOW",
+            "frames": [
+                {"index": 17, "duration": 1}
             ]
         },
         {
@@ -46,14 +52,23 @@
                 {"index": 17, "duration": 8},
                 {"index": 16, "duration": 8},
                 {"index": 15, "duration": 8},
-                {"index": 14, "duration": 8},
-                {"index": 13, "duration": 8},
-                {"index": 12, "duration": 8},
-                {"index": 11, "duration": 8},
-                {"index": 10, "duration": 8},
-                {"index": 9, "duration": 8},
-                {"index": 8, "duration": 8},
-                {"index": 7, "duration": 8}
+                {"index": 14, "duration": 4},
+                {"index": 13, "duration": 4},
+                {"index": 12, "duration": 4},
+                {"index": 11, "duration": 4},
+                {"index": 10, "duration": 4},
+                {"index": 9, "duration": 4},
+                {"index": 8, "duration": 4},
+                {"index": 7, "duration": 4}
+            ]
+        },
+        {
+            "name": "DAMAGE",
+            "frames": [
+                {"index": 18, "duration": 6},
+                {"index": 19, "duration": 6},
+                {"index": 20, "duration": 6},
+                {"index": 21, "duration": 6}
             ]
         },
         {

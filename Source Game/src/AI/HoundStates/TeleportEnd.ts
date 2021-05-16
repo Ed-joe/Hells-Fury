@@ -26,6 +26,10 @@ export default class TeleportEnd extends EnemyState {
     }
 
     onExit(): Record<string, any> {
+        this.owner.removePhysics();
+        this.owner.addPhysics(this.parent.hitbox);
+        this.owner.setGroup("enemy");
+        this.owner.setTrigger("player", Game_Events.ENEMY_COLLISION, "hound hit player");
         return {}
     }
 

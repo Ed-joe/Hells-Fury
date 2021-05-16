@@ -7,16 +7,18 @@ import GameNode from "./../Wolfie2D/Nodes/GameNode";
 import AnimatedSprite from "./../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import OrthogonalTilemap from "./../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import BattlerAI from "./BattlerAI";
-import { Game_Events } from "./../GameSystems/game_enums";
-import Idle from "./HoundStates/Idle";
-import TeleportStart from "./HoundStates/TeleportStart";
-import TeleportEnd from "./HoundStates/TeleportEnd";
-import Attack from "./HoundStates/Attack";
-import Damage from "./HoundStates/Damage";
-import Run from "./HoundStates/Run";
+import { Game_Events } from "../GameSystems/game_enums";
 import { GameEventType } from "../Wolfie2D/Events/GameEventType";
+import Idle from "./SlothStates/Idle";
+import Damage from "./SlothStates/Damage";
+import Dying from "./SlothStates/Dying";
+import Fall from "./SlothStates/Fall";
+import MovingShadow from "./SlothStates/MovingShadow";
+import TossUp from "./SlothStates/TossUp";
+import Walk from "./SlothStates/Walk";
 
-export default class HoundAI extends StateMachineAI implements BattlerAI {
+
+export default class SlothAI extends StateMachineAI implements BattlerAI {
     /** The owner of this AI */
     owner: AnimatedSprite;
 
@@ -33,22 +35,22 @@ export default class HoundAI extends StateMachineAI implements BattlerAI {
 
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.owner = owner;
-
-        this.addState(EnemyStates.DEFAULT, new Idle(this, owner));
-        this.addState(EnemyStates.TELEPORT_START, new TeleportStart(this, owner));
-        this.addState(EnemyStates.TELEPORT_END, new TeleportEnd(this, owner));
-        this.addState(EnemyStates.ATTACK, new Attack(this, owner));
-        this.addState(EnemyStates.DAMAGE, new Damage(this, owner));
-        this.addState(EnemyStates.RUN, new Run(this, owner));
+        this.addState(BossStates.DEFAULT, new Idle(this, owner));
+        this.addState(BossStates.DAMAGE, new Damage(this, owner));
+        this.addState(BossStates.DYING, new Dying(this, owner));
+        this.addState(BossStates.FALL, new Fall(this, owner));
+        this.addState(BossStates.MOVING_SHADOW, new MovingShadow(this, owner));
+        this.addState(BossStates.TOSS_UP, new TossUp(this, owner));
+        this.addState(BossStates.WALK, new Walk(this, owner));
 
         this.health = options.health;
 
         this.player = options.player;
 
-        this.hitbox = options.hitbox;
+        this.hitbox = new AABB(Vec2.ZERO, new Vec2(56, 50));
 
         // Initialize to the default state
-        this.initialize(EnemyStates.DEFAULT);
+        this.initialize(BossStates.DEFAULT);
     }
 
     activate(options: Record<string, any>): void {
@@ -56,18 +58,21 @@ export default class HoundAI extends StateMachineAI implements BattlerAI {
 
     damage(damage: number): void {
         this.health -= damage;
-    
+        
         if(this.health <= 0){
             this.owner.setAIActive(false, {});
             this.owner.isCollidable = false;
-            if(!this.owner.animation.isPlaying("DYING")){
-                this.owner.removePhysics();
-                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "hound_death", loop: false, holdReference: false})
-                this.owner.animation.play("DYING", false, Game_Events.ENEMY_DIED);
+            if(this.currentState !== this.stateMap.get(BossStates.DYING)) {
+                this.changeState(BossStates.DYING);
             }
-        }else{
-            this.changeState(EnemyStates.DAMAGE);
         }
+        else {
+            this.changeState(BossStates.DAMAGE);
+        }
+    }
+
+    handleEvent(event: GameEvent): void {
+        
     }
 
     getPlayerPosition(): Vec2 {
@@ -93,8 +98,7 @@ export default class HoundAI extends StateMachineAI implements BattlerAI {
 
         for(let col = minIndex.x; col <= maxIndex.x; col++){
             for(let row = minIndex.y; row <= maxIndex.y; row++){
-                let tile_val = walls.getTileAtRowCol(new Vec2(col, row));
-                if(tile_val === 18 || tile_val === 19 || tile_val === 44 || tile_val === 45){
+                if(walls.isTileCollidable(col, row)){
                     // Get the position of this tile
                     let tilePos = new Vec2(col * tileSize.x + tileSize.x/2, row * tileSize.y + tileSize.y/2);
 
@@ -114,16 +118,17 @@ export default class HoundAI extends StateMachineAI implements BattlerAI {
         return pos;
     }
 
+
     // State machine defers updates and event handling to its children
     // Check super classes for details
 }
 
-export enum EnemyStates {
+export enum BossStates {
     DEFAULT = "default",
-    ATTACK = "attack",
     DAMAGE = "damage",
-    TELEPORT_START = "teleportStart",
-    TELEPORT_END = "teleportEnd",
-    RUN = "run",
-    PREVIOUS = "previous"
+    TOSS_UP = "toss_up",
+    MOVING_SHADOW = "moving_shadow",
+    FALL = "fall",
+    WALK = "walk",
+    DYING = "dying"
 }

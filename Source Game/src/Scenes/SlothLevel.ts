@@ -24,30 +24,30 @@ export default class SlothLevel extends GameLevel {
             lust_death: "game_assets/sounds/lust_death.mp3",
             lust_damage: "game_assets/sounds/lust_damage.mp3"
         }
+
+
         this.boss_sprite = {
-            greed: "game_assets/spritesheets/gluttony.json"
+            sloth: "game_assets/spritesheets/sloth.json"
         }
         this.boss_attack_image = {}
         this.boss_attack_sprite = {}
         this.enemy_data = {
-            enemyData: "game_assets/data/greed_enemy.json"
+            enemyData: "game_assets/data/sloth_enemy.json"
         }
-
-
         this.level_tilemap = {
             greedLevel: "game_assets/tilemaps/sloth_level.json"
         }
 
         // TODO
         this.next_level_constructor = MainMenu
-        this.shop_pos = new Vec2(350, 1333);
-        this.player_start_pos = new Vec2(944, 1456);
-
-
+        
+        
+        this.shop_pos = new Vec2(1298, 500);
+        this.player_start_pos = new Vec2(1480, 1663);
         this.player_speed = 110;
-        this.level_text_color = new Color(0, 0, 153);
+        this.level_text_color = new Color(0, 0, 190);
         this.start_level_text = "Sloth's Sluggish Slum";
-        this.end_level_text = "Sloth has been defeated!"
+        this.end_level_text = "Sloth has been defeated!";
         this.boss_room_pos = new Vec2(1024, 1072);
         this.boss_room_size = new Vec2(7 * 32, 3 * 32);
         this.upper_boss_door = [new Vec2(976, 1200), new Vec2(1008, 1200), new Vec2(1040, 1200), new Vec2(1072, 1200)];
@@ -94,12 +94,12 @@ export default class SlothLevel extends GameLevel {
         this.tutorial_labels = new Array<Label>();
         this.tutorial_zones = new Array<Rect>();
 
-        let tutorial_zone_1 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1025, 416), size: new Vec2(7 * 32, 5 * 32)});
+        let tutorial_zone_1 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1480, 1663), size: new Vec2(7 * 32, 5 * 32)});
         tutorial_zone_1.addPhysics(undefined, undefined, false, true);
         tutorial_zone_1.color = Color.TRANSPARENT;
         this.tutorial_zones.push(tutorial_zone_1);
 
-        let tutorial_label_1 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1025, 430), text: "You feel sluggish..."});
+        let tutorial_label_1 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1480, 1732), text: "You feel sluggish..."});
         tutorial_label_1.font = "HellText";    
         tutorial_label_1.textColor = Color.BLACK;
         tutorial_label_1.fontSize = 32;

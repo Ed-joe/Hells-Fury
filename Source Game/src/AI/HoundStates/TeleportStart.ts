@@ -4,6 +4,7 @@ import HoundAI, { EnemyStates } from "../HoundAI";
 import EnemyState from "./EnemyState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import { Game_Events } from "../../GameSystems/game_enums";
+import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
 
 export default class TeleportStart extends EnemyState {
     // The last known position of the player
@@ -15,7 +16,7 @@ export default class TeleportStart extends EnemyState {
 
     onEnter(options: Record<string, any>): void {
         this.owner.animation.play("SINK", false, Game_Events.HELLHOUND_TP_START);
-        this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
+        this.lastPlayerPos = this.parent.player.position;
     }
 
     handleInput(event: GameEvent): void {}
@@ -30,7 +31,10 @@ export default class TeleportStart extends EnemyState {
     }
 
     onExit(): Record<string, any> {
-        this.owner.position = this.lastPlayerPos;
+        this.owner.removePhysics();
+        this.owner.addPhysics(new AABB(Vec2.ZERO, new Vec2(1, 1)), new Vec2(500, 500));
+        this.owner.setGroup("wall");
+        this.owner.position = new Vec2(this.lastPlayerPos.x, this.lastPlayerPos.y);
         return {}
     }
 
