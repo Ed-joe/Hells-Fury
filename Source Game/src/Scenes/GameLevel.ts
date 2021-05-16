@@ -203,6 +203,15 @@ export default class GameLevel extends Scene {
         this.addUILayer("Pause").disable();
         let hb = this.add.sprite("pauseScreen", "Pause");
         hb.position.set(hb.size.x/2, hb.size.y/2)
+        let exit_to_main = <Button>this.add.uiElement(UIElementType.BUTTON, "Pause", {position: new Vec2(660, 360), text: "Exit to Main Menu"});
+        exit_to_main.font = "HellText";    
+        exit_to_main.textColor = Color.BLACK;
+        exit_to_main.fontSize = 42;
+        exit_to_main.size.set(350, 90);
+        exit_to_main.borderWidth = 2;
+        exit_to_main.borderColor = Color.TRANSPARENT;
+        exit_to_main.backgroundColor = new Color(233, 229, 158, .2);
+        exit_to_main.onClickEventId = Game_Events.EXIT_TO_MAIN;
 
         // Add a layer for UI
         this.addUILayer("UI");
@@ -513,6 +522,14 @@ export default class GameLevel extends Scene {
                         this.viewport.stopFollow();
                         this.viewport.setZoomLevel(1);
                         this.sceneManager.changeToScene(GameOver, {});
+                    }
+                    break;
+                case Game_Events.EXIT_TO_MAIN:
+                    {
+                        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
+                        this.viewport.stopFollow();
+                        this.viewport.setZoomLevel(1);
+                        this.sceneManager.changeToScene(MainMenu, {});
                     }
                     break;
                 case Game_Events.ENTERED_SHOP:
@@ -995,7 +1012,8 @@ export default class GameLevel extends Scene {
            Game_Events.GREED_ATTACK,
            Game_Events.WRATH_ATTACK_UP,
            Game_Events.WRATH_ATTACK_DOWN,
-           Game_Events.ENVY_PUNCH
+           Game_Events.ENVY_PUNCH,
+           Game_Events.EXIT_TO_MAIN
         ]);
     }
 }
