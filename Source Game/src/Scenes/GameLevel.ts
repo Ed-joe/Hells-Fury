@@ -167,6 +167,8 @@ export default class GameLevel extends Scene {
         this.load.spritesheet("fistTwo", "game_assets/spritesheets/impact_purple.json");
         this.load.image("fistThree", "game_assets/spritesheets/impact_blue.png");
         this.load.spritesheet("fistThree", "game_assets/spritesheets/impact_blue.json");
+        this.load.image("fistFour", "game_assets/spritesheets/impact_green.png");
+        this.load.spritesheet("fistFour", "game_assets/spritesheets/impact_green.json");
 
         //Load pause screen
         this.load.image("pauseScreen", "game_assets/images/pause_background.png");
@@ -201,6 +203,15 @@ export default class GameLevel extends Scene {
         this.addUILayer("Pause").disable();
         let hb = this.add.sprite("pauseScreen", "Pause");
         hb.position.set(hb.size.x/2, hb.size.y/2)
+        let exit_to_main = <Button>this.add.uiElement(UIElementType.BUTTON, "Pause", {position: new Vec2(660, 360), text: "Exit to Main Menu"});
+        exit_to_main.font = "HellText";    
+        exit_to_main.textColor = Color.BLACK;
+        exit_to_main.fontSize = 42;
+        exit_to_main.size.set(350, 90);
+        exit_to_main.borderWidth = 2;
+        exit_to_main.borderColor = Color.TRANSPARENT;
+        exit_to_main.backgroundColor = new Color(233, 229, 158, .2);
+        exit_to_main.onClickEventId = Game_Events.EXIT_TO_MAIN;
 
         // Add a layer for UI
         this.addUILayer("UI");
@@ -513,6 +524,14 @@ export default class GameLevel extends Scene {
                         this.sceneManager.changeToScene(GameOver, {});
                     }
                     break;
+                case Game_Events.EXIT_TO_MAIN:
+                    {
+                        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
+                        this.viewport.stopFollow();
+                        this.viewport.setZoomLevel(1);
+                        this.sceneManager.changeToScene(MainMenu, {});
+                    }
+                    break;
                 case Game_Events.ENTERED_SHOP:
                     {
                         if(this.player_health < 10){
@@ -593,6 +612,17 @@ export default class GameLevel extends Scene {
                     {
                         for(let i = 0; i < this.enemies.length ; i++){
                             if(this.enemies[i].imageId === "Wrath"){
+                                this.enemies[i]._ai.handleEvent(event);
+                                break;
+                            }
+                        }
+                    }
+                    break;
+
+                case Game_Events.ENVY_PUNCH:
+                    {
+                        for(let i = 0; i < this.enemies.length ; i++){
+                            if(this.enemies[i].imageId === "Envy"){
                                 this.enemies[i]._ai.handleEvent(event);
                                 break;
                             }
@@ -734,11 +764,11 @@ export default class GameLevel extends Scene {
             else if (data.enemy_type === "envy") {
                 let enemyOptions = {
                     health: data.health,
-                    player: this.player
-                    // slice: this.createWeapon("slice")
+                    player: this.player,
+                    punch: this.createWeapon("punch4")
                 }
                 this.enemies[i].addAI(EnvyAI, enemyOptions);
-                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(26, 44)), new Vec2(0, 20));
+                this.enemies[i].addPhysics(new AABB(new Vec2(0, 14), new Vec2(16, 18)), new Vec2(0, 11));
                 this.enemies[i].setGroup("enemy");
                 this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
             }
@@ -873,10 +903,8 @@ export default class GameLevel extends Scene {
     createWeapon(type: string): Weapon {
         let weaponType = <WeaponType>RegistryManager.getRegistry("weaponTypes").get(type);
 
-        console.log(RegistryManager.getRegistry("weaponTypes"));
-
         let sprite = null;
-        if(type === "punch1" || type === "punch2" || type === "punch3") {
+        if(type === "punch1" || type === "punch2" || type === "punch3" || type === "punch4") {
             sprite = this.add.sprite(weaponType.sprite_key, "above");
         } else {
             sprite = this.add.sprite(weaponType.sprite_key, "below");
@@ -983,7 +1011,9 @@ export default class GameLevel extends Scene {
            Game_Events.NEXT_LEVEL,
            Game_Events.GREED_ATTACK,
            Game_Events.WRATH_ATTACK_UP,
-           Game_Events.WRATH_ATTACK_DOWN
+           Game_Events.WRATH_ATTACK_DOWN,
+           Game_Events.ENVY_PUNCH,
+           Game_Events.EXIT_TO_MAIN
         ]);
     }
 }

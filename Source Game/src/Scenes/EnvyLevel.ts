@@ -26,8 +26,12 @@ export default class EnvyLevel extends GameLevel {
         this.boss_sprite = {
             envy: "game_assets/spritesheets/envy.json"
         }
-        this.boss_attack_image = {punch: "game_assets/spritesheets/impact_green.png"}
-        this.boss_attack_sprite = {punch: "game_assets/spritesheets/impact_green.json"}
+        this.boss_attack_image = {
+            fist4: "game_assets/spritesheets/impact_green.png"
+        }
+        this.boss_attack_sprite = {
+            fist4: "game_assets/spritesheets/impact_green.json"
+        }
         this.enemy_data = {
             enemyData: "game_assets/data/envy_enemy.json"
         }

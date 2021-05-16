@@ -1,5 +1,5 @@
 {
-    "numWeapons": 5,
+    "numWeapons": 6,
     "weapons": [
         {
             "weaponType": "slam",
@@ -47,6 +47,16 @@
             "displayName": "Slice",
             "animationSprite": "slice",
             "spriteKey": "slice",
+            "damage": 1,
+            "cooldown": 0,
+            "useVolume": 0
+        },
+        {
+            "weaponType": "fist4",
+            "name": "punch4",
+            "displayName": "Punch4",
+            "animationSprite": "fistFour",
+            "spriteKey": "fistFour",
             "damage": 1,
             "cooldown": 0,
             "useVolume": 0
