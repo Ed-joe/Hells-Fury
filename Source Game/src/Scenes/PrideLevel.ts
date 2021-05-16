@@ -11,12 +11,17 @@ import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 import LustLevel from "./LustLevel";
 import GreedLevel from "./GreedLevel";
 import SlothLevel from "./SlothLevel";
+import EnvyLevel from "./EnvyLevel";
+import WrathLevel from "./WrathLevel";
+import GluttonyLevel from "./GluttonyLevel";
 
-export default class GluttonyLevel extends GameLevel {
+export default class PrideLevel extends GameLevel {
     initScene(init: Record<string, any>): void {
         super.initScene(init);
 
         this.level_music_key = "pride_music";
+        this.coin_path = "game_assets/spritesheets/bloody_coin.json";
+        this.coin_hurt = true;
         this.level_music_path = "game_assets/sounds/music/pride.mp3";
         this.boss_audios = {
             gluttony_attack: "game_assets/sounds/gluttony_attack.mp3",
@@ -39,12 +44,12 @@ export default class GluttonyLevel extends GameLevel {
         this.level_tilemap = {
             gluttonyLevel: "game_assets/tilemaps/pride_level.json"
         }
-        this.next_level_constructor = SlothLevel
+        this.next_level_constructor = MainMenu
         this.shop_pos = new Vec2(0, 0);
         this.player_start_pos = new Vec2(31*32, 46*32);
         this.player_speed = 150;
         this.player_slippery = false;
-        this.level_text_color = new Color(95, 90, 76);
+        this.level_text_color = new Color(254, 254, 254);
         this.start_level_text = "Pride's Perfect Paradise";
         this.end_level_text = "Pride has been defeated!"
         this.boss_room_pos = new Vec2(1024, 1320);
@@ -84,6 +89,21 @@ export default class GluttonyLevel extends GameLevel {
         }else if(Input.isJustPressed("gluttony")){
             this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
             this.sceneManager.changeToScene(GluttonyLevel, scene_options, physics_options);
+        }else if(Input.isJustPressed("envy")){
+            this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
+            this.sceneManager.changeToScene(EnvyLevel, scene_options, physics_options);
+        }else if(Input.isJustPressed("wrath")){
+            this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
+            this.sceneManager.changeToScene(WrathLevel, scene_options, physics_options);
+        }else if(Input.isJustPressed("pride")){
+            this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
+            this.sceneManager.changeToScene(PrideLevel, scene_options, physics_options);
+        }else if(Input.isJustPressed("greed")){
+            this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
+            this.sceneManager.changeToScene(GreedLevel, scene_options, physics_options);
+        }else if(Input.isJustPressed("sloth")){
+            this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
+            this.sceneManager.changeToScene(SlothLevel, scene_options, physics_options);
         }
 
         super.updateScene(deltaT);

@@ -87,6 +87,7 @@ export default class GameLevel extends Scene {
     has_shop: boolean;
     greed_tiles: boolean;
     lose_money: boolean;
+    coin_path: string;
 
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
@@ -98,6 +99,7 @@ export default class GameLevel extends Scene {
         this.has_shop = true;
         this.greed_tiles = false;
         this.lose_money = false;
+        this.coin_path = "game_assets/spritesheets/coin.json";
     }
     
     loadScene() {
@@ -126,7 +128,7 @@ export default class GameLevel extends Scene {
         }
         
         //coin
-        this.load.spritesheet("coin", "game_assets/spritesheets/coin.json");
+        this.load.spritesheet("coin", this.coin_path);
         this.load.audio("coin_pickup", "game_assets/sounds/coin_pickup.mp3");
 
         // shop fist image
