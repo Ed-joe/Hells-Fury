@@ -1,0 +1,23 @@
+{
+    "name": "coin",
+    "spriteSheetImage": "coin.png",
+    "spriteWidth": 16,
+    "spriteHeight": 16,
+    "leftBuffer": 0,
+    "rightBuffer": 0,
+    "topBuffer": 0,
+    "bottomBuffer": 0,
+    "columns": 1,
+    "rows": 1,
+    "durationType": "time",
+    "animations": [
+      {
+        "name": "IDLE",
+        "repeat": true,
+        "frames": [
+          { "index": 0, "duration": 15 }
+        ]
+      }
+    ]
+  }
+  

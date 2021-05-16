@@ -5,6 +5,7 @@ import BossState from "./BossState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import EnvyAI, { BossStates } from "../EnvyAI";
 import { Game_Events } from "../../GameSystems/game_enums"
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export default class Damage extends BossState {
 
@@ -16,7 +17,7 @@ export default class Damage extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
-        this.parent.handleEvent(new GameEvent("EnvyDeath", {}));
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "envy_death", loop: false, holdReference: false});
         (<AnimatedSprite> this.owner).animation.play("DYING", false, Game_Events.BOSS_DIED);
         // Reset the return object
         this.retObj = {};

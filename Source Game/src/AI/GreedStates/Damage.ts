@@ -14,7 +14,7 @@ export default class Damage extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
-        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "lust_damage", loop: false, holdReference: false});
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "greed_damage", loop: false, holdReference: false});
         (<AnimatedSprite> this.owner).animation.play("DAMAGE", false);
     }
 

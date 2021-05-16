@@ -11,6 +11,7 @@ import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 import LustLevel from "./LustLevel";
 import GluttonyLevel from "./GluttonyLevel";
 import Debug from "../Wolfie2D/Debug/Debug";
+import EnvyLevel from "./EnvyLevel";
 
 export default class SlothLevel extends GameLevel {
     initScene(init: Record<string, any>): void {
@@ -19,13 +20,14 @@ export default class SlothLevel extends GameLevel {
         // TODO
         this.level_music_key = "sloth_music";
         this.level_music_path = "game_assets/sounds/music/sloth.mp3";
+
+
         this.boss_audios = {
-            lust_move: "game_assets/sounds/lust_move.mp3",
-            lust_death: "game_assets/sounds/lust_death.mp3",
-            lust_damage: "game_assets/sounds/lust_damage.mp3"
+            sloth_catch: "game_assets/sounds/sloth_catch.mp3",
+            sloth_damage: "game_assets/sounds/sloth_damage.mp3",
+            sloth_death: "game_assets/sounds/sloth_death.mp3",
+            sloth_throw: "game_assets/sounds/sloth_throw.mp3"
         }
-
-
         this.boss_sprite = {
             sloth: "game_assets/spritesheets/sloth.json"
         }
@@ -37,13 +39,10 @@ export default class SlothLevel extends GameLevel {
         this.level_tilemap = {
             greedLevel: "game_assets/tilemaps/sloth_level.json"
         }
-
-        // TODO
-        this.next_level_constructor = MainMenu
-        
-        
+        this.next_level_constructor = EnvyLevel;
         this.shop_pos = new Vec2(1298, 500);
-        this.player_start_pos = new Vec2(1480, 1663);
+        // this.player_start_pos = new Vec2(1480, 1663);
+        this.player_start_pos = new Vec2(1024, 1200);
         this.player_speed = 110;
         this.level_text_color = new Color(0, 0, 190);
         this.start_level_text = "Sloth's Sluggish Slum";
