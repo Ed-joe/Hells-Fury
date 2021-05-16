@@ -11,7 +11,7 @@ export default class GameOver extends Scene {
     private game_over_background: Layer;
 
     loadScene() {
-        this.load.spritesheet("gameOverImage", "game_assets/images/gameover_bg.json");
+        this.load.spritesheet("gameOverImage", "game_assets/spritesheets/gameover_bg.json");
     }
 
     startScene() {
