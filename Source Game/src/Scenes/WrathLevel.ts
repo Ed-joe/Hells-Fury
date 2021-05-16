@@ -152,6 +152,36 @@ export default class WrathLevel extends GameLevel {
         this.tutorial_labels = new Array<Label>();
         this.tutorial_zones = new Array<Rect>();
 
-        
+        let tutorial_zone_1 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1026, 1874), size: new Vec2(7 * 32, 5 * 32)});
+        tutorial_zone_1.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_1.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_1);
+
+        let tutorial_label_1 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1026, 1800), text: "Wrath's dungeon is unforgiving!"});
+        tutorial_label_1.font = "HellText";    
+        tutorial_label_1.textColor = Color.BLACK;
+        tutorial_label_1.fontSize = 32;
+        tutorial_label_1.size.set(30, 14);
+        tutorial_label_1.borderWidth = 2;
+        tutorial_label_1.borderColor = Color.TRANSPARENT;
+        tutorial_label_1.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_1.visible = false;
+        this.tutorial_labels.push(tutorial_label_1);
+
+        let tutorial_zone_2 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1026, 1874), size: new Vec2(7 * 32, 5 * 32)});
+        tutorial_zone_2.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_2.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_2);
+
+        let tutorial_label_2 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1026, 1825), text: "Defeat all enemies to proceed."});
+        tutorial_label_2.font = "HellText";    
+        tutorial_label_2.textColor = Color.BLACK;
+        tutorial_label_2.fontSize = 32;
+        tutorial_label_2.size.set(30, 14);
+        tutorial_label_2.borderWidth = 2;
+        tutorial_label_2.borderColor = Color.TRANSPARENT;
+        tutorial_label_2.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_2.visible = false;
+        this.tutorial_labels.push(tutorial_label_2);
     }
 }

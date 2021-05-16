@@ -48,8 +48,8 @@ export default class EnvyLevel extends GameLevel {
         }
         this.next_level_constructor = GreedLevel
         this.shop_pos = new Vec2(1679, 157);
-        // this.player_start_pos = new Vec2(430, 1779); //spawn pos
-        this.player_start_pos = new Vec2(1008, 1556); // // boss
+        this.player_start_pos = new Vec2(430, 1779); //spawn pos
+        // this.player_start_pos = new Vec2(1008, 1556); // // boss
         this.player_speed = 150;
         this.level_text_color = new Color(89, 147, 36);
         this.start_level_text = "Envy's Emerald Enclave";
@@ -131,5 +131,21 @@ export default class EnvyLevel extends GameLevel {
         tutorial_label_1.backgroundColor = Color.TRANSPARENT;
         tutorial_label_1.visible = false;
         this.tutorial_labels.push(tutorial_label_1);
+
+        let tutorial_zone_2 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1610, 300), size: new Vec2(7 * 32, 5 * 32)});
+        tutorial_zone_2.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_2.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_2);
+
+        let tutorial_label_2 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1690, 230), text: "This will be your last chance to spend your gold! Use it wisely."});
+        tutorial_label_2.font = "HellText";    
+        tutorial_label_2.textColor = Color.RED;
+        tutorial_label_2.fontSize = 30;
+        tutorial_label_2.size.set(30, 14);
+        tutorial_label_2.borderWidth = 2;
+        tutorial_label_2.borderColor = Color.TRANSPARENT;
+        tutorial_label_2.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_2.visible = false;
+        this.tutorial_labels.push(tutorial_label_2);
     }
 }

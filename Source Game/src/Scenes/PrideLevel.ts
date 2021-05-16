@@ -57,7 +57,7 @@ export default class PrideLevel extends GameLevel {
         }
         this.next_level_constructor = MainMenu
         this.shop_pos = new Vec2(0, 0);
-        this.player_start_pos = new Vec2(32.5*32, 41.5*32);
+        this.player_start_pos = new Vec2(32.5*32, 43*32);
         this.player_speed = 150;
         this.player_slippery = false;
         this.level_text_color = new Color(254, 254, 254);
@@ -123,6 +123,70 @@ export default class PrideLevel extends GameLevel {
     protected initializeLabels(): void {
         this.tutorial_labels = new Array<Label>();
         this.tutorial_zones = new Array<Rect>();
+
+        let tutorial_zone_1 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1040, 1300), size: new Vec2(7 * 32, 7 * 32)});
+        tutorial_zone_1.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_1.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_1);
+
+        let tutorial_label_1 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1040, 1275), text: "Pride's hubris prevents him"});
+        tutorial_label_1.font = "HellText";    
+        tutorial_label_1.textColor = Color.BLACK;
+        tutorial_label_1.fontSize = 32;
+        tutorial_label_1.size.set(30, 14);
+        tutorial_label_1.borderWidth = 2;
+        tutorial_label_1.borderColor = Color.TRANSPARENT;
+        tutorial_label_1.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_1.visible = false;
+        this.tutorial_labels.push(tutorial_label_1);
+
+        let tutorial_zone_2 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1040, 1300), size: new Vec2(7 * 32, 7 * 32)});
+        tutorial_zone_2.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_2.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_2);
+
+        let tutorial_label_2 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1040, 1300), text: "from calling any backup."});
+        tutorial_label_2.font = "HellText";    
+        tutorial_label_2.textColor = Color.BLACK;
+        tutorial_label_2.fontSize = 32;
+        tutorial_label_2.size.set(30, 14);
+        tutorial_label_2.borderWidth = 2;
+        tutorial_label_2.borderColor = Color.TRANSPARENT;
+        tutorial_label_2.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_2.visible = false;
+        this.tutorial_labels.push(tutorial_label_2);
+
+        let tutorial_zone_3 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1040, 1300), size: new Vec2(7 * 32, 7 * 32)});
+        tutorial_zone_3.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_3.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_3);
+
+        let tutorial_label_3 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1040, 1325), text: "There will be no other"});
+        tutorial_label_3.font = "HellText";    
+        tutorial_label_3.textColor = Color.BLACK;
+        tutorial_label_3.fontSize = 32;
+        tutorial_label_3.size.set(30, 14);
+        tutorial_label_3.borderWidth = 2;
+        tutorial_label_3.borderColor = Color.TRANSPARENT;
+        tutorial_label_3.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_3.visible = false;
+        this.tutorial_labels.push(tutorial_label_3);
+
+        let tutorial_zone_4 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1040, 1300), size: new Vec2(7 * 32, 7 * 32)});
+        tutorial_zone_4.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_4.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_4);
+
+        let tutorial_label_4 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1040, 1350), text: "enemies on this floor."});
+        tutorial_label_4.font = "HellText";    
+        tutorial_label_4.textColor = Color.BLACK;
+        tutorial_label_4.fontSize = 32;
+        tutorial_label_4.size.set(30, 14);
+        tutorial_label_4.borderWidth = 2;
+        tutorial_label_4.borderColor = Color.TRANSPARENT;
+        tutorial_label_4.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_4.visible = false;
+        this.tutorial_labels.push(tutorial_label_4);
 
         // let tutorial_zone_1 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1025, 416), size: new Vec2(7 * 32, 5 * 32)});
         // tutorial_zone_1.addPhysics(undefined, undefined, false, true);
