@@ -3,6 +3,7 @@ import GameEvent from "./../../Wolfie2D/Events/GameEvent";
 import BossState from "./BossState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import SlothAI, { BossStates } from "../SlothAI";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export default class TossUp extends BossState {
     constructor(parent: SlothAI, owner: AnimatedSprite){
@@ -10,6 +11,7 @@ export default class TossUp extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "sloth_throw", loop: false, holdReference: false});
         this.owner.animation.play("THROW", false);
     }
 

@@ -20,13 +20,14 @@ export default class SlothLevel extends GameLevel {
         // TODO
         this.level_music_key = "lust_music";
         this.level_music_path = "game_assets/sounds/music/lust.mp3";
+
+
         this.boss_audios = {
-            lust_move: "game_assets/sounds/lust_move.mp3",
-            lust_death: "game_assets/sounds/lust_death.mp3",
-            lust_damage: "game_assets/sounds/lust_damage.mp3"
+            sloth_catch: "game_assets/sounds/sloth_catch.mp3",
+            sloth_damage: "game_assets/sounds/sloth_damage.mp3",
+            sloth_death: "game_assets/sounds/sloth_death.mp3",
+            sloth_throw: "game_assets/sounds/sloth_throw.mp3"
         }
-
-
         this.boss_sprite = {
             sloth: "game_assets/spritesheets/sloth.json"
         }
