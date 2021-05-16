@@ -9,6 +9,10 @@ import GluttonyLevel from "./GluttonyLevel";
 import Input from "../Wolfie2D/Input/Input";
 import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 import WrathLevel from "./WrathLevel";
+import EnvyLevel from "./EnvyLevel";
+import PrideLevel from "./PrideLevel";
+import GreedLevel from "./GreedLevel";
+import SlothLevel from "./SlothLevel";
 
 export default class LustLevel extends GameLevel {
     initScene(init: Record<string, any>): void {
@@ -77,6 +81,21 @@ export default class LustLevel extends GameLevel {
         }else if(Input.isJustPressed("gluttony")){
             this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
             this.sceneManager.changeToScene(GluttonyLevel, scene_options, physics_options);
+        }else if(Input.isJustPressed("envy")){
+            this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
+            this.sceneManager.changeToScene(EnvyLevel, scene_options, physics_options);
+        }else if(Input.isJustPressed("wrath")){
+            this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
+            this.sceneManager.changeToScene(WrathLevel, scene_options, physics_options);
+        }else if(Input.isJustPressed("pride")){
+            this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
+            this.sceneManager.changeToScene(PrideLevel, scene_options, physics_options);
+        }else if(Input.isJustPressed("greed")){
+            this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
+            this.sceneManager.changeToScene(GreedLevel, scene_options, physics_options);
+        }else if(Input.isJustPressed("sloth")){
+            this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
+            this.sceneManager.changeToScene(SlothLevel, scene_options, physics_options);
         }
 
 

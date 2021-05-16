@@ -25,7 +25,11 @@ import FixedUpdateGameLoop from "./Wolfie2D/Loop/FixedUpdateGameLoop";
             {name: "coins", keys: ["c"]},
             {name: "lust", keys: ["1"]},
             {name: "wrath", keys: ["2"]},
-            {name: "gluttony", keys: ["3"]}
+            {name: "gluttony", keys: ["3"]},
+            {name: "sloth", keys: ["4"]},
+            {name: "envy", keys: ["5"]},
+            {name: "greed", keys: ["6"]},
+            {name: "pride", keys: ["7"]},
         ]
     }
 

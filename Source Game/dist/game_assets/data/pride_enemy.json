@@ -1,0 +1,10 @@
+{
+    "numEnemies": 1,
+    "enemies": [
+        {
+            "position": [1025, 938],
+            "enemy_type": "pride",
+            "health": 3
+        }
+    ]
+}

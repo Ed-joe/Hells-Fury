@@ -88,6 +88,7 @@ export default class GameLevel extends Scene {
     has_shop: boolean;
     greed_tiles: boolean;
     lose_money: boolean;
+    coin_path: string;
 
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
@@ -99,6 +100,7 @@ export default class GameLevel extends Scene {
         this.has_shop = true;
         this.greed_tiles = false;
         this.lose_money = false;
+        this.coin_path = "game_assets/spritesheets/coin.json";
     }
     
     loadScene() {
@@ -127,7 +129,7 @@ export default class GameLevel extends Scene {
         }
         
         //coin
-        this.load.spritesheet("coin", "game_assets/spritesheets/coin.json");
+        this.load.spritesheet("coin", this.coin_path);
         this.load.audio("coin_pickup", "game_assets/sounds/coin_pickup.mp3");
 
         // shop fist image
@@ -800,7 +802,21 @@ export default class GameLevel extends Scene {
                 this.enemies[i].addAI(SlothAI, enemyOptions);
                 
                 this.enemies[i].setGroup("enemy");
-                this.enemies[i].setTrigger("player", Game_Events.ENEMY_COLLISION, "bat hit player");
+                this.enemies[i].setTrigger("player", Game_Events.ENEMY_COLLISION, "boss hit player");
+            }
+            else if (data.enemy_type === "pride") {
+                let enemyOptions = {
+                    health: data.health,
+                    player: this.player,
+                    hitbox: new AABB(new Vec2(0, 20), new Vec2(56, 30)),
+                    hitbox_offset: new Vec2(0, 20)
+                }
+                
+                this.enemies[i].addPhysics(enemyOptions.hitbox, enemyOptions.hitbox_offset);
+                this.enemies[i].addAI(SlothAI, enemyOptions);
+                
+                this.enemies[i].setGroup("enemy");
+                this.enemies[i].setTrigger("player", Game_Events.ENEMY_COLLISION, "boss hit player");
             }
             else if (data.enemy_type === "pride") {
                 let enemyOptions = {

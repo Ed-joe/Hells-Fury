@@ -13,21 +13,23 @@ import GreedLevel from "./GreedLevel";
 import SlothLevel from "./SlothLevel";
 import EnvyLevel from "./EnvyLevel";
 import WrathLevel from "./WrathLevel";
-import PrideLevel from "./PrideLevel";
+import GluttonyLevel from "./GluttonyLevel";
 
-export default class GluttonyLevel extends GameLevel {
+export default class PrideLevel extends GameLevel {
     initScene(init: Record<string, any>): void {
         super.initScene(init);
 
-        this.level_music_key = "gluttony_music";
-        this.level_music_path = "game_assets/sounds/music/gluttony.mp3";
+        this.level_music_key = "pride_music";
+        this.coin_path = "game_assets/spritesheets/bloody_coin.json";
+        this.coin_hurt = true;
+        this.level_music_path = "game_assets/sounds/music/pride.mp3";
         this.boss_audios = {
             gluttony_attack: "game_assets/sounds/gluttony_attack.mp3",
             gluttony_damage: "game_assets/sounds/gluttony_damage.mp3",
             gluttony_death: "game_assets/sounds/gluttony_death.mp3"
         }
         this.boss_sprite = {
-            gluttony: "game_assets/spritesheets/gluttony.json",
+            pride: "game_assets/spritesheets/pride.json",
             boss_hitbox: "game_assets/spritesheets/boss_hitbox.json"
         }
         this.boss_attack_image = {
@@ -37,23 +39,23 @@ export default class GluttonyLevel extends GameLevel {
             slam: "game_assets/spritesheets/smash.json"
         }
         this.enemy_data = {
-            enemyData: "game_assets/data/gluttony_enemy.json"
+            enemyData: "game_assets/data/pride_enemy.json"
         }
         this.level_tilemap = {
-            gluttonyLevel: "game_assets/tilemaps/gluttony_level.json"
+            gluttonyLevel: "game_assets/tilemaps/pride_level.json"
         }
-        this.next_level_constructor = SlothLevel
-        this.shop_pos = new Vec2(350, 1333);
-        this.player_start_pos = new Vec2(1018, 330);
+        this.next_level_constructor = MainMenu
+        this.shop_pos = new Vec2(0, 0);
+        this.player_start_pos = new Vec2(31*32, 46*32);
         this.player_speed = 150;
-        this.player_slippery = true;
-        this.level_text_color = new Color(95, 90, 76);
-        this.start_level_text = "Gluttony's Greasy Grotto";
-        this.end_level_text = "Gluttony has been defeated!"
+        this.player_slippery = false;
+        this.level_text_color = new Color(254, 254, 254);
+        this.start_level_text = "Pride's Perfect Paradise";
+        this.end_level_text = "Pride has been defeated!"
         this.boss_room_pos = new Vec2(1024, 1320);
         this.boss_room_size = new Vec2(6 * 32, 3 * 32);
-        this.upper_boss_door = [new Vec2(1008, 1424), new Vec2(1040, 1424)];
-        this.lower_boss_door = [new Vec2(1008, 1456), new Vec2(1008, 1488), new Vec2(1040, 1456), new Vec2(1040, 1488)];
+        this.upper_boss_door = [new Vec2(0, 0), new Vec2(0, 0)];
+        this.lower_boss_door = [new Vec2(0, 0), new Vec2(0, 0), new Vec2(0, 0), new Vec2(0, 0)];
     }
 
     startScene(): void {
@@ -111,20 +113,20 @@ export default class GluttonyLevel extends GameLevel {
         this.tutorial_labels = new Array<Label>();
         this.tutorial_zones = new Array<Rect>();
 
-        let tutorial_zone_1 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1025, 416), size: new Vec2(7 * 32, 5 * 32)});
-        tutorial_zone_1.addPhysics(undefined, undefined, false, true);
-        tutorial_zone_1.color = Color.TRANSPARENT;
-        this.tutorial_zones.push(tutorial_zone_1);
+        // let tutorial_zone_1 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1025, 416), size: new Vec2(7 * 32, 5 * 32)});
+        // tutorial_zone_1.addPhysics(undefined, undefined, false, true);
+        // tutorial_zone_1.color = Color.TRANSPARENT;
+        // this.tutorial_zones.push(tutorial_zone_1);
 
-        let tutorial_label_1 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1025, 430), text: "Careful... The floor here is slick with grease."});
-        tutorial_label_1.font = "HellText";    
-        tutorial_label_1.textColor = Color.BLACK;
-        tutorial_label_1.fontSize = 32;
-        tutorial_label_1.size.set(30, 14);
-        tutorial_label_1.borderWidth = 2;
-        tutorial_label_1.borderColor = Color.TRANSPARENT;
-        tutorial_label_1.backgroundColor = Color.TRANSPARENT;
-        tutorial_label_1.visible = false;
-        this.tutorial_labels.push(tutorial_label_1);
+        // let tutorial_label_1 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1025, 430), text: "Careful... The floor here is slick with grease."});
+        // tutorial_label_1.font = "HellText";    
+        // tutorial_label_1.textColor = Color.BLACK;
+        // tutorial_label_1.fontSize = 32;
+        // tutorial_label_1.size.set(30, 14);
+        // tutorial_label_1.borderWidth = 2;
+        // tutorial_label_1.borderColor = Color.TRANSPARENT;
+        // tutorial_label_1.backgroundColor = Color.TRANSPARENT;
+        // tutorial_label_1.visible = false;
+        // this.tutorial_labels.push(tutorial_label_1);
     }
 }
