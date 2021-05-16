@@ -42,7 +42,7 @@ export default class GreedLevel extends GameLevel {
             greedLevel: "game_assets/tilemaps/greed_level.json"
         }
         this.next_level_constructor = PrideLevel
-        this.player_start_pos = new Vec2(1008, 1233);
+        this.player_start_pos = new Vec2(1009, 1756);
         this.player_speed = 150;
         this.level_text_color = new Color(252, 219, 3);
         this.start_level_text = "Greed's Golden Gorge";
