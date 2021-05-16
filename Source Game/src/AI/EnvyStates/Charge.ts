@@ -11,7 +11,11 @@ export default class Charge extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
-        this.owner.animation.play("CHARGE", false);
+        this.owner.animation.play("CHARGE", false, Game_Events.ENVY_PUNCH);
+
+        // update rotation for attacking
+        let attack_direction = this.owner.position.dirTo(this.parent.player.position);
+        this.owner.attack_direction = Vec2.UP.angleToCCW(attack_direction);
     }
 
     handleInput(event: GameEvent): void {}

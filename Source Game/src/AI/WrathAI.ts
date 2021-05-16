@@ -77,11 +77,9 @@ export default class WrathAI extends StateMachineAI implements BattlerAI {
 
     handleEvent(event: GameEvent): void {
         if(event.type === Game_Events.WRATH_ATTACK_UP) {
-            console.log("attack up");
             this.slice.use(this.owner, "enemies", Vec2.ZERO);
             this.changeState(BossStates.ATTACK_UP);
         } else if (event.type === Game_Events.WRATH_ATTACK_DOWN) {
-            console.log("attack down");
             this.slice.use(this.owner, "enemies", Vec2.ZERO);
             this.changeState(BossStates.ATTACK_DOWN);
         }

@@ -115,7 +115,6 @@ export default class PlayerController extends StateMachineAI implements BattlerA
             this.changeState(PlayerStates.WALK);
         }
         else if(event.type === Game_Events.GET_COIN) {
-            console.log(event.data);
             if(event.data.get("coin_hurt") === "true"){
                 this.damage(1);
             }

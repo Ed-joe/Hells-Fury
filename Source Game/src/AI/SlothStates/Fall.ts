@@ -24,7 +24,6 @@ export default class Fall extends BossState {
     }
 
     onExit(): Record<string, any> {
-        console.log("physics back");
         this.owner.removePhysics();
         this.owner.addPhysics(this.parent.hitbox);
         this.owner.setGroup("enemy");

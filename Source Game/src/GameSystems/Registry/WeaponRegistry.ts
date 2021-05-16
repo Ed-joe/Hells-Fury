@@ -4,6 +4,7 @@ import WeaponType from "../WeaponTypes/WeaponType";
 import Punch from "../WeaponTypes/Punch";
 import GluttonySlam from "../WeaponTypes/GluttonySlam";
 import WrathSlice from "../WeaponTypes/WrathSlice";
+import EnvyPunch from "../WeaponTypes/EnvyPunch";
 
 export default class WeaponRegistry extends Registry<WeaponConstructor> {
     public preload(): void {
@@ -16,6 +17,8 @@ export default class WeaponRegistry extends Registry<WeaponConstructor> {
         this.registerItem("slam", GluttonySlam);
 
         this.registerItem("slice", WrathSlice);
+
+        this.registerItem("fist4", EnvyPunch);
     }
 
     public registerAndPreloadItem(key: string): void {}

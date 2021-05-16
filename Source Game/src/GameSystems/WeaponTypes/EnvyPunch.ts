@@ -6,13 +6,12 @@ import Scene from "../../Wolfie2D/Scene/Scene";
 import WeaponType from "./WeaponType";
 
 
-export default class WrathSlice extends WeaponType {
+export default class EnvyPunch extends WeaponType {
     sprite_key: string;
     damage: number;
     display_name: string;
     cooldown: number;
     use_volume: number;
-    flip: boolean;
 
     initialize(options: Record<string, any>): void {
         this.damage = options.damage;
@@ -20,25 +19,24 @@ export default class WrathSlice extends WeaponType {
         this.display_name = options.displayName;
         this.sprite_key = options.spriteKey;
         this.use_volume = options.useVolume;
-        this.flip = true;
     }
 
-    doAnimation(attacker: GameNode, direction: Vec2, slice_sprite: AnimatedSprite): void {
+    doAnimation(attacker: GameNode, direction: Vec2, punch_sprite: AnimatedSprite): void {
         // rotate this with the game node
-        slice_sprite.rotation = this.flip ? Math.PI : 0;
-        slice_sprite.position = this.flip ? new Vec2(attacker.position.x, attacker.position.y + 32) : new Vec2(attacker.position.x, attacker.position.y);
-        this.flip = !this.flip;
+        punch_sprite.rotation = attacker.attack_direction;
+
+        punch_sprite.position = attacker.position.clone().add(direction.scaled(50));
 
         // play the punch animation but queue the normal animation
-        slice_sprite.animation.play("SLICE");
-        slice_sprite.animation.queue("NORMAL", true);
+        punch_sprite.animation.play("PUNCH");
+        punch_sprite.animation.queue("NORMAL", true);
     }
 
     createRequiredAssets(scene: Scene): [AnimatedSprite] {
-        let slice = scene.add.animatedSprite(this.sprite_key, "below");
-        slice.animation.play("NORMAL", true);
+        let punch = scene.add.animatedSprite(this.sprite_key, "above");
+        punch.animation.play("NORMAL", true);
 
-        return [slice];
+        return [punch];
     }
 
     hits(node: GameNode, punch_sprite: AnimatedSprite): boolean {

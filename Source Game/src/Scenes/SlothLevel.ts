@@ -11,6 +11,7 @@ import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 import LustLevel from "./LustLevel";
 import GluttonyLevel from "./GluttonyLevel";
 import Debug from "../Wolfie2D/Debug/Debug";
+import EnvyLevel from "./EnvyLevel";
 
 export default class SlothLevel extends GameLevel {
     initScene(init: Record<string, any>): void {
@@ -37,11 +38,7 @@ export default class SlothLevel extends GameLevel {
         this.level_tilemap = {
             greedLevel: "game_assets/tilemaps/sloth_level.json"
         }
-
-        // TODO
-        this.next_level_constructor = MainMenu
-        
-        
+        this.next_level_constructor = EnvyLevel;
         this.shop_pos = new Vec2(1298, 500);
         this.player_start_pos = new Vec2(1480, 1663);
         this.player_speed = 110;

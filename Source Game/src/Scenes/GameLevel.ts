@@ -59,6 +59,7 @@ export default class GameLevel extends Scene {
     private level_end_label: Label;        //Label for when the level ends
     private damage_buy_contract: Button    //Button for damage buy
     private health_buy_contract: Button    //button for health buy
+    private prev_health: number             // player health on previous frame
     
     tutorial_labels: Label[];
     tutorial_zones: Rect[];
@@ -85,6 +86,7 @@ export default class GameLevel extends Scene {
     coin_hurt: boolean;
     has_shop: boolean;
     greed_tiles: boolean;
+    lose_money: boolean;
 
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
@@ -95,6 +97,7 @@ export default class GameLevel extends Scene {
         this.player_damage = init.damage;
         this.has_shop = true;
         this.greed_tiles = false;
+        this.lose_money = false;
     }
     
     loadScene() {
@@ -167,6 +170,8 @@ export default class GameLevel extends Scene {
         this.load.spritesheet("fistTwo", "game_assets/spritesheets/impact_purple.json");
         this.load.image("fistThree", "game_assets/spritesheets/impact_blue.png");
         this.load.spritesheet("fistThree", "game_assets/spritesheets/impact_blue.json");
+        this.load.image("fistFour", "game_assets/spritesheets/impact_green.png");
+        this.load.spritesheet("fistFour", "game_assets/spritesheets/impact_green.json");
 
         //Load pause screen
         this.load.image("pauseScreen", "game_assets/images/pause_background.png");
@@ -248,11 +253,21 @@ export default class GameLevel extends Scene {
         //music
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: this.level_music_key, loop: true, holdReference: true});
 
+        this.prev_health = this.player_health;
+
     }
 
     updateScene(deltaT: number): void {
         Debug.log(" " + this.player.position.x + this.player.position.y);
+
         this.player_health = this.health_sprites.length
+        if (this.prev_health > this.player_health) {
+            if (this.lose_money && this.player_coins > 0) {
+                this.player_coins -= 1;
+                this.coin_count_label.text =  ": " + this.player_coins;
+            }
+        }
+        this.prev_health = this.player_health;
 
         for (let i = 0; i < this.tutorial_zones.length; i++) {
             if(this.player.boundary.overlaps(this.tutorial_zones[i].boundary)) {
@@ -617,6 +632,17 @@ export default class GameLevel extends Scene {
                     }
                     break;
 
+                case Game_Events.ENVY_PUNCH:
+                    {
+                        for(let i = 0; i < this.enemies.length ; i++){
+                            if(this.enemies[i].imageId === "Envy"){
+                                this.enemies[i]._ai.handleEvent(event);
+                                break;
+                            }
+                        }
+                    }
+                    break;
+
                 case Game_Events.BOUGHT_DAMAGE:
                     {
                         if (this.player_coins >= 10 && this.player_damage < 3) {
@@ -673,6 +699,8 @@ export default class GameLevel extends Scene {
         // Initialize the enemies
         for(let i = 0; i < enemyData.numEnemies; i++){
             let data = enemyData.enemies[i];
+
+
 
             // Create an enemy
             this.enemies[i] = this.add.animatedSprite(data.enemy_type, "primary");
@@ -751,11 +779,11 @@ export default class GameLevel extends Scene {
             else if (data.enemy_type === "envy") {
                 let enemyOptions = {
                     health: data.health,
-                    player: this.player
-                    // slice: this.createWeapon("slice")
+                    player: this.player,
+                    punch: this.createWeapon("punch4")
                 }
                 this.enemies[i].addAI(EnvyAI, enemyOptions);
-                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(26, 44)), new Vec2(0, 20));
+                this.enemies[i].addPhysics(new AABB(new Vec2(0, 14), new Vec2(16, 18)), new Vec2(0, 11));
                 this.enemies[i].setGroup("enemy");
                 this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
             }
@@ -890,10 +918,8 @@ export default class GameLevel extends Scene {
     createWeapon(type: string): Weapon {
         let weaponType = <WeaponType>RegistryManager.getRegistry("weaponTypes").get(type);
 
-        console.log(RegistryManager.getRegistry("weaponTypes"));
-
         let sprite = null;
-        if(type === "punch1" || type === "punch2" || type === "punch3") {
+        if(type === "punch1" || type === "punch2" || type === "punch3" || type === "punch4") {
             sprite = this.add.sprite(weaponType.sprite_key, "above");
         } else {
             sprite = this.add.sprite(weaponType.sprite_key, "below");
@@ -1001,6 +1027,7 @@ export default class GameLevel extends Scene {
            Game_Events.GREED_ATTACK,
            Game_Events.WRATH_ATTACK_UP,
            Game_Events.WRATH_ATTACK_DOWN,
+           Game_Events.ENVY_PUNCH,
            Game_Events.EXIT_TO_MAIN
         ]);
     }
