@@ -3,7 +3,7 @@
     "spriteSheetImage": "envy.png",
     "spriteWidth": 64,
     "spriteHeight": 64,
-    "columns": 32,
+    "columns": 34,
     "rows": 1,
     "durationType": "time",
     "animations": [
