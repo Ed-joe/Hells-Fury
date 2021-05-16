@@ -59,6 +59,7 @@ export default class GameLevel extends Scene {
     private level_end_label: Label;        //Label for when the level ends
     private damage_buy_contract: Button    //Button for damage buy
     private health_buy_contract: Button    //button for health buy
+    private prev_health: number             // player health on previous frame
     
     tutorial_labels: Label[];
     tutorial_zones: Rect[];
@@ -85,6 +86,7 @@ export default class GameLevel extends Scene {
     coin_hurt: boolean;
     has_shop: boolean;
     greed_tiles: boolean;
+    lose_money: boolean;
 
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
@@ -95,6 +97,7 @@ export default class GameLevel extends Scene {
         this.player_damage = init.damage;
         this.has_shop = true;
         this.greed_tiles = false;
+        this.lose_money = false;
     }
     
     loadScene() {
@@ -250,11 +253,21 @@ export default class GameLevel extends Scene {
         //music
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: this.level_music_key, loop: true, holdReference: true});
 
+        this.prev_health = this.player_health;
+
     }
 
     updateScene(deltaT: number): void {
         Debug.log(" " + this.player.position.x + this.player.position.y);
+
         this.player_health = this.health_sprites.length
+        if (this.prev_health > this.player_health) {
+            if (this.lose_money && this.player_coins > 0) {
+                this.player_coins -= 1;
+                this.coin_count_label.text =  ": " + this.player_coins;
+            }
+        }
+        this.prev_health = this.player_health;
 
         for (let i = 0; i < this.tutorial_zones.length; i++) {
             if(this.player.boundary.overlaps(this.tutorial_zones[i].boundary)) {
@@ -686,6 +699,8 @@ export default class GameLevel extends Scene {
         // Initialize the enemies
         for(let i = 0; i < enemyData.numEnemies; i++){
             let data = enemyData.enemies[i];
+
+
 
             // Create an enemy
             this.enemies[i] = this.add.animatedSprite(data.enemy_type, "primary");
