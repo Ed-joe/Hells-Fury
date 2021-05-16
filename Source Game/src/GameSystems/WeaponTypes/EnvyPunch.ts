@@ -23,7 +23,7 @@ export default class EnvyPunch extends WeaponType {
 
     doAnimation(attacker: GameNode, direction: Vec2, punch_sprite: AnimatedSprite): void {
         // rotate this with the game node
-        punch_sprite.rotation = attacker.attack_direction;
+        punch_sprite.rotation = Vec2.UP.angleToCCW(direction);
 
         punch_sprite.position = attacker.position.clone().add(direction.scaled(50));
 

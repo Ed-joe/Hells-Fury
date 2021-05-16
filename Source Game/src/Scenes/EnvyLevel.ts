@@ -16,13 +16,17 @@ import GreedLevel from "./GreedLevel";
 export default class EnvyLevel extends GameLevel {
     initScene(init: Record<string, any>): void {
         super.initScene(init);
-
+        
+        // TODO
         this.level_music_key = "lust_music";
         this.level_music_path = "game_assets/sounds/music/lust.mp3";
+
+
         this.boss_audios = {
-            lust_move: "game_assets/sounds/lust_move.mp3",
-            lust_death: "game_assets/sounds/lust_death.mp3",
-            lust_damage: "game_assets/sounds/lust_damage.mp3"
+            envy_attack: "game_assets/sounds/envy_attack.mp3",
+            envy_charge: "game_assets/sounds/envy_charge.mp3",
+            envy_damage: "game_assets/sounds/envy_damage.mp3",
+            envy_death: "game_assets/sounds/envy_death.mp3"
         }
         this.boss_sprite = {
             envy: "game_assets/spritesheets/envy.json"
