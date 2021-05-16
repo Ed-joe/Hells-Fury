@@ -36,6 +36,7 @@ import WrathAI from "../AI/WrathAI";
 import CoinEnemyAI from "../AI/CoinEnemyAI";
 import GreedAI from "../AI/GreedAI";
 import Idle from "../AI/PlayerStates/Idle";
+import EnvyAI from "../AI/EnvyAI";
 import SlothAI from "../AI/SlothAI";
 
 export default class GameLevel extends Scene {
@@ -717,6 +718,17 @@ export default class GameLevel extends Scene {
                     slice: this.createWeapon("slice")
                 }
                 this.enemies[i].addAI(WrathAI, enemyOptions);
+                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(26, 44)), new Vec2(0, 20));
+                this.enemies[i].setGroup("enemy");
+                this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
+            }
+            else if (data.enemy_type === "envy") {
+                let enemyOptions = {
+                    health: data.health,
+                    player: this.player
+                    // slice: this.createWeapon("slice")
+                }
+                this.enemies[i].addAI(EnvyAI, enemyOptions);
                 this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(26, 44)), new Vec2(0, 20));
                 this.enemies[i].setGroup("enemy");
                 this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
