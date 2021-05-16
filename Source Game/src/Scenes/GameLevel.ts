@@ -488,6 +488,10 @@ export default class GameLevel extends Scene {
                         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
                         this.viewport.stopFollow();
                         this.viewport.setZoomLevel(1);
+                        if(this.player_health < 8)
+                            this.player_health += 2;
+                        else 
+                            this.player_health = 10;
                         this.sceneManager.changeToScene(this.next_level_constructor, {
                                 health: this.player_health,
                                 coins: this.player_coins,
