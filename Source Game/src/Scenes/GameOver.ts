@@ -11,7 +11,7 @@ export default class GameOver extends Scene {
     private game_over_background: Layer;
 
     loadScene() {
-        this.load.image("gameOverImage", "game_assets/images/game_over_background.png");
+        this.load.spritesheet("gameOverImage", "game_assets/spritesheets/gameover_bg.json");
     }
 
     startScene() {
@@ -22,9 +22,9 @@ export default class GameOver extends Scene {
 
         // Add a background to the scene
         this.game_over_background = this.addParallaxLayer("game_over_background", new Vec2(0.5, 1), -1);
-        let go = this.add.sprite("gameOverImage", "game_over_background");
+        let go = this.add.animatedSprite("gameOverImage", "game_over_background");
         go.position.set(go.size.x/2, go.size.y/2);
-
+        go.animation.play("IDLE");
         // Add transparent button
         const confirm = this.add.uiElement(UIElementType.BUTTON, "gameOver", {position: new Vec2(center.x, center.y), text: ""});
         confirm.size.set(1280, 720);

@@ -177,7 +177,7 @@ export default class GameLevel extends Scene {
         this.load.spritesheet("fistFour", "game_assets/spritesheets/impact_green.json");
 
         //Load pause screen
-        this.load.image("pauseScreen", "game_assets/images/pause_background.png");
+        this.load.spritesheet("pauseScreen", "game_assets/spritesheets/pause_bg.json");
 
         for(let key in this.boss_attack_image) {
             this.load.image(key, this.boss_attack_image[key]);
@@ -207,17 +207,25 @@ export default class GameLevel extends Scene {
 
         //Add pause screen layer
         this.addUILayer("Pause").disable();
-        let hb = this.add.sprite("pauseScreen", "Pause");
+        let hb = this.add.animatedSprite("pauseScreen", "Pause");
         hb.position.set(hb.size.x/2, hb.size.y/2)
+        hb.animation.play("IDLE");
         let exit_to_main = <Button>this.add.uiElement(UIElementType.BUTTON, "Pause", {position: new Vec2(660, 360), text: "Exit to Main Menu"});
         exit_to_main.font = "HellText";    
-        exit_to_main.textColor = Color.BLACK;
-        exit_to_main.fontSize = 42;
-        exit_to_main.size.set(350, 90);
+        exit_to_main.textColor = Color.WHITE;
+        exit_to_main.fontSize = 60;
+        exit_to_main.size.set(650, 80);
         exit_to_main.borderWidth = 2;
         exit_to_main.borderColor = Color.TRANSPARENT;
-        exit_to_main.backgroundColor = new Color(233, 229, 158, .2);
+        exit_to_main.backgroundColor = Color.TRANSPARENT;
+        // exit_to_main.backgroundColor = new Color(233, 229, 158, .2);
         exit_to_main.onClickEventId = Game_Events.EXIT_TO_MAIN;
+        exit_to_main.onEnter = function(): void {
+            this.textColor = Color.RED;
+        };
+        exit_to_main.onLeave = function(): void {
+            this.textColor = Color.WHITE;
+        };
 
         // Add a layer for UI
         this.addUILayer("UI");
@@ -480,6 +488,10 @@ export default class GameLevel extends Scene {
                         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
                         this.viewport.stopFollow();
                         this.viewport.setZoomLevel(1);
+                        if(this.player_health < 8)
+                            this.player_health += 2;
+                        else 
+                            this.player_health = 10;
                         this.sceneManager.changeToScene(this.next_level_constructor, {
                                 health: this.player_health,
                                 coins: this.player_coins,
