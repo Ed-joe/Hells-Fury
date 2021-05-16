@@ -25,8 +25,8 @@ export default class Walk extends BossState {
     handleInput(event: GameEvent): void {}
 
     update(deltaT: number): void {
-        if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) < 50){
-            this.finished(BossStates.ATTACKING);
+        if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) < 100){
+            this.finished(BossStates.CHARGING);
         }
         if(this.parent.getPlayerPosition() !== null){
             this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);

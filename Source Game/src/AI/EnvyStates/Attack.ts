@@ -16,13 +16,15 @@ export default class Attack extends BossState {
 
     onEnter(options: Record<string, any>): void {
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "envy_attack", loop: false, holdReference: false});
-        (<AnimatedSprite> this.owner).animation.play("ATTACK", false);
+        (<AnimatedSprite> this.owner).animation.play("PUNCH", false);
     }
 
     handleInput(event: GameEvent): void {}
 
     update(deltaT: number): void {
-        
+        if (!this.owner.animation.isPlaying("PUNCH")) {
+            this.finished(BossStates.WALKING);
+        }
     }
 
     onExit(): Record<string, any> {

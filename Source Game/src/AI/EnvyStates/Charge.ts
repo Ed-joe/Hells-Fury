@@ -5,26 +5,26 @@ import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import EnvyAI, { BossStates } from "../EnvyAI";
 import { Game_Events } from "../../GameSystems/game_enums";
 
-export default class ChargeUp extends BossState {
+export default class Charge extends BossState {
     constructor(parent: EnvyAI, owner: AnimatedSprite){
         super(parent, owner);
     }
 
     onEnter(options: Record<string, any>): void {
-        this.owner.animation.play("CHARGE_UP", false, Game_Events.WRATH_ATTACK_UP);
+        this.owner.animation.play("CHARGE", false);
     }
 
     handleInput(event: GameEvent): void {}
 
     update(deltaT: number): void {
-        if (!this.owner.animation.isPlaying("CHARGE_UP")) {
-            this.finished(BossStates.ATTACK_UP)
+        if (!this.owner.animation.isPlaying("CHARGE")) {
+            this.finished(BossStates.ATTACKING)
         }
     }
 
     onExit(): Record<string, any> {
         this.owner.animation.stop();
-        return {previous: BossStates.CHARGE_UP};
+        return {};
     }
 
 }

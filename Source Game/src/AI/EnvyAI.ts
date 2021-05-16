@@ -10,6 +10,7 @@ import Idle from "./EnvyStates/Idle";
 import Attack from "./EnvyStates/Attack";
 import Damaged from "./EnvyStates/Damage"
 import Walk from "./EnvyStates/Walk";
+import Charge from "./EnvyStates/Charge";
 
 export default class EnvyAI extends StateMachineAI implements BattlerAI {
     /** The owner of this AI */
@@ -28,8 +29,8 @@ export default class EnvyAI extends StateMachineAI implements BattlerAI {
         this.owner = owner;
         this.addState(BossStates.DEFAULT, new Idle(this, owner));
         this.addState(BossStates.WALKING, new Walk(this, owner));
+        this.addState(BossStates.CHARGING, new Charge(this, owner));
         this.addState(BossStates.DYING, new Dying(this, owner));
-        this.addState(BossStates.DYING, new Walk(this, owner));
         this.addState(BossStates.DAMAGED, new Damaged(this, owner));
         this.addState(BossStates.ATTACKING, new Attack(this, owner));
         this.health = options.health;
@@ -112,5 +113,6 @@ export enum BossStates {
     PREVIOUS = "previous",
     DYING = "dying",
     ATTACKING = "attacking",
-    WALKING = "WALKING"
+    WALKING = "WALKING",
+    CHARGING = "CHARGING"
 }
