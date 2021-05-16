@@ -7,7 +7,7 @@ import PrideAI, { BossStates } from "../PrideAI";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import { Game_Events } from "../../GameSystems/game_enums";
 
-export default class SlothTransform extends BossState {
+export default class WrathTransform extends BossState {
     private previous: BossStates;
 
     constructor(parent: PrideAI, owner: AnimatedSprite){
@@ -16,7 +16,7 @@ export default class SlothTransform extends BossState {
 
     onEnter(options: Record<string, any>): void {
         super.onEnter(options);
-        (<AnimatedSprite> this.owner).animation.play("SLOTH_TFORM", false);
+        (<AnimatedSprite> this.owner).animation.play("WRATH_TFORM", false);
         this.previous = options.previous;
     }
 
@@ -24,18 +24,18 @@ export default class SlothTransform extends BossState {
     }
 
     update(deltaT: number): void {
-        if (!this.owner.animation.isPlaying("SLOTH_TFORM")) {
-            this.finished(BossStates.SLOTH_WALK);
+        if (!this.owner.animation.isPlaying("WRATH_TFORM")) {
+            this.finished(BossStates.WRATH_RUN_UP);
         }
     }
 
     onExit(): Record<string, any> {
         this.owner.removePhysics();
-        this.owner.addPhysics(this.parent.sloth_hitbox, this.parent.sloth_hitbox_offset);
+        this.owner.addPhysics(this.parent.wrath_hitbox, this.parent.wrath_hitbox_offset);
         this.owner.setGroup("enemy");
         this.owner.setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
         (<AnimatedSprite> this.owner).animation.stop();
-        return {previous: BossStates.SLOTH_TRANSFORM};
+        return {previous: BossStates.WRATH_TRANSFORM};
     }
 
 }

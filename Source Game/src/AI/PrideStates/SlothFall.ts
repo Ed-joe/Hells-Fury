@@ -1,30 +1,26 @@
 import Vec2 from "./../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "./../../Wolfie2D/Events/GameEvent";
-import NavigationPath from "./../../Wolfie2D/Pathfinding/NavigationPath";
 import BossState from "./BossState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import PrideAI, { BossStates } from "../PrideAI";
-import Timer from "../../Wolfie2D/Timing/Timer";
 import { Game_Events } from "../../GameSystems/game_enums";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
-export default class SlothTransform extends BossState {
-    private previous: BossStates;
-
+export default class SlothFall extends BossState {
     constructor(parent: PrideAI, owner: AnimatedSprite){
         super(parent, owner);
     }
 
     onEnter(options: Record<string, any>): void {
-        super.onEnter(options);
-        (<AnimatedSprite> this.owner).animation.play("SLOTH_TFORM", false);
-        this.previous = options.previous;
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "sloth_catch", loop: false, holdReference: false});
+        this.owner.animation.play("SLOTH_CATCH", false);
     }
 
     handleInput(event: GameEvent): void {
     }
 
     update(deltaT: number): void {
-        if (!this.owner.animation.isPlaying("SLOTH_TFORM")) {
+        if(!this.owner.animation.isPlaying("SLOTH_CATCH")){
             this.finished(BossStates.SLOTH_WALK);
         }
     }
@@ -34,8 +30,8 @@ export default class SlothTransform extends BossState {
         this.owner.addPhysics(this.parent.sloth_hitbox, this.parent.sloth_hitbox_offset);
         this.owner.setGroup("enemy");
         this.owner.setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
-        (<AnimatedSprite> this.owner).animation.stop();
-        return {previous: BossStates.SLOTH_TRANSFORM};
+        this.owner.animation.stop();
+        return {previous: BossStates.SLOTH_FALL};
     }
 
 }

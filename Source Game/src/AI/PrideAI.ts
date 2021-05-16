@@ -10,6 +10,7 @@ import BattlerAI from "./BattlerAI";
 import { Game_Events } from "../GameSystems/game_enums";
 import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 import Weapon from "../GameSystems/Weapon";
+import Idle from "./PrideStates/Idle";
 
 
 
@@ -26,8 +27,6 @@ export default class PrideAI extends StateMachineAI implements BattlerAI {
     /** A reference to the player object */
     player: GameNode;
 
-    pride_hitbox: AABB;
-    pride_hitbox_offset: Vec2;
     envy_hitbox: AABB;
     envy_hitbox_offset: Vec2;
     gluttony_hitbox: AABB;
@@ -46,17 +45,34 @@ export default class PrideAI extends StateMachineAI implements BattlerAI {
 
     slam: Weapon;
 
+    slice: Weapon;
+
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.owner = owner;
-        // this.addState(BossStates.DEFAULT, new Idle(this, owner));
+        this.addState(BossStates.DEFAULT, new Idle(this, owner));
         
 
         this.health = options.health;
 
         this.player = options.player;
 
-        // this.hitbox = options.hitbox;
-        // this.hitbox_offset = options.hitbox_offset;
+        this.envy_hitbox = options.envy_hitbox;
+        this.envy_hitbox_offset = options.envy_hitbox_offset;
+        this.gluttony_hitbox = options.gluttony_hitbox;
+        this.gluttony_hitbox_offset = options.gluttony_hitbox_offset;
+        this.greed_hitbox = options.greed_hitbox;
+        this.greed_hitbox_offset = options.greed_hitbox_offset;
+        this.lust_hitbox = options.lust_hitbox;
+        this.lust_hitbox_offset = options.lust_hitbox_offset;
+        this.sloth_hitbox = options.sloth_hitbox;
+        this.sloth_hitbox_offset = options.sloth_hitbox_offset;
+        this.wrath_hitbox = options.wrath_hitbox;
+        this.wrath_hitbox_offset = options.wrath_hitbox_offset;
+
+        this.slice = options.slice;
+        this.punch = options.punch;
+        this.punch_direction = Vec2.ZERO;
+        this.slam = options.slam;
 
         // Initialize to the default state
         this.initialize(BossStates.DEFAULT);
@@ -88,6 +104,12 @@ export default class PrideAI extends StateMachineAI implements BattlerAI {
             this.changeState(BossStates.GLUTTONY_IDLE);
         } else if(event.type === Game_Events.GREED_ATTACK) {
             this.changeState(BossStates.GREED_IDLE);
+        } else if(event.type === Game_Events.WRATH_ATTACK_UP) {
+            this.slice.use(this.owner, "enemies", Vec2.UP);
+            this.changeState(BossStates.WRATH_ATTACK_UP);
+        } else if (event.type === Game_Events.WRATH_ATTACK_DOWN) {
+            this.slice.use(this.owner, "enemies", Vec2.DOWN);
+            this.changeState(BossStates.WRATH_ATTACK_DOWN);
         }
     }
 

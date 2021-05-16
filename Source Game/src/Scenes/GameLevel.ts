@@ -38,6 +38,7 @@ import GreedAI from "../AI/GreedAI";
 import Idle from "../AI/PlayerStates/Idle";
 import EnvyAI from "../AI/EnvyAI";
 import SlothAI from "../AI/SlothAI";
+import PrideAI from "../AI/PrideAI";
 
 export default class GameLevel extends Scene {
     private player: AnimatedSprite;         // the player
@@ -798,6 +799,32 @@ export default class GameLevel extends Scene {
                 this.enemies[i].addPhysics(enemyOptions.hitbox, enemyOptions.hitbox_offset);
                 this.enemies[i].addAI(SlothAI, enemyOptions);
                 
+                this.enemies[i].setGroup("enemy");
+                this.enemies[i].setTrigger("player", Game_Events.ENEMY_COLLISION, "bat hit player");
+            }
+            else if (data.enemy_type === "pride") {
+                let enemyOptions = {
+                    health: data.health,
+                    player: this.player,
+                    envy_hitbox: new AABB(new Vec2(0, 14), new Vec2(16, 18)),
+                    envy_hitbox_offset: new Vec2(0, 11),
+                    gluttony_hitbox: new AABB(Vec2.ZERO, new Vec2(56, 56)),
+                    gluttony_hitbox_offset: Vec2.ZERO,
+                    greed_hitbox: new AABB(Vec2.ZERO, new Vec2(56, 56)),
+                    greed_hitbox_offset: Vec2.ZERO,
+                    lust_hitbox: new AABB(Vec2.ZERO, new Vec2(56, 50)),
+                    lust_hitbox_offset: Vec2.ZERO,
+                    sloth_hitbox: new AABB(new Vec2(0, 20), new Vec2(56, 30)),
+                    sloth_hitbox_offset: new Vec2(0, 20),
+                    wrath_hitbox: new AABB(Vec2.ZERO, new Vec2(26, 44)), 
+                    wrath_hitbox_offset: new Vec2(0, 20),
+                    slice: this.createWeapon("slice"),
+                    punch: this.createWeapon("punch4"),
+                    slam: this.createWeapon("slam")
+                };
+                
+                this.enemies[i].addPhysics();
+                this.enemies[i].addAI(PrideAI, enemyOptions);
                 this.enemies[i].setGroup("enemy");
                 this.enemies[i].setTrigger("player", Game_Events.ENEMY_COLLISION, "bat hit player");
             }
