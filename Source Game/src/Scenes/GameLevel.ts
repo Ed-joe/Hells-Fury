@@ -164,6 +164,8 @@ export default class GameLevel extends Scene {
         this.load.spritesheet("fistTwo", "game_assets/spritesheets/impact_purple.json");
         this.load.image("fistThree", "game_assets/spritesheets/impact_blue.png");
         this.load.spritesheet("fistThree", "game_assets/spritesheets/impact_blue.json");
+        this.load.image("fistFour", "game_assets/spritesheets/impact_blue.png");
+        this.load.spritesheet("fistFour", "game_assets/spritesheets/impact_blue.json");
 
         //Load pause screen
         this.load.image("pauseScreen", "game_assets/images/pause_background.png");
