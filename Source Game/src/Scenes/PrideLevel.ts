@@ -54,16 +54,16 @@ export default class PrideLevel extends GameLevel {
         }
         this.next_level_constructor = MainMenu
         this.shop_pos = new Vec2(0, 0);
-        this.player_start_pos = new Vec2(31*32, 46*32);
+        this.player_start_pos = new Vec2(32.5*32, 41.5*32);
         this.player_speed = 150;
         this.player_slippery = false;
         this.level_text_color = new Color(254, 254, 254);
         this.start_level_text = "Pride's Perfect Paradise";
         this.end_level_text = "Pride has been defeated!"
-        this.boss_room_pos = new Vec2(0, 0);
-        this.boss_room_size = new Vec2(0, 0);
-        this.upper_boss_door = [];
-        this.lower_boss_door = [];
+        this.boss_room_pos = new Vec2(1040, 946);
+        this.boss_room_size = new Vec2(7 * 32, 3 * 32);
+        this.upper_boss_door = [new Vec2(1008, 1040), new Vec2(1040, 1040), new Vec2(1072, 1040)];
+        this.lower_boss_door = [new Vec2(1008, 1072), new Vec2(1040, 1072), new Vec2(1072, 1072), new Vec2(1008, 1104), new Vec2(1040, 1104), new Vec2(1072, 1104)];
     }
 
     startScene(): void {

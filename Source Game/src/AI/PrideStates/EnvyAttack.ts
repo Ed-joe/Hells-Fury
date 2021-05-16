@@ -22,7 +22,7 @@ export default class EnvyAttack extends BossState {
     handleInput(event: GameEvent): void {}
 
     update(deltaT: number): void {
-        if (!this.owner.animation.isPlaying("PUNCH")) {
+        if (!this.owner.animation.isPlaying("ENVY_PUNCH")) {
             this.finished(BossStates.ENVY_WALK);
         }
     }

@@ -33,7 +33,7 @@ export default class SlothWalk extends BossState {
 
     onExit(): Record<string, any> {
         this.owner.animation.stop();
-        return {previous: BossStates.SLOTH_WALK};
+        return {previous: BossStates.SLOTH_TOSS_UP};
     }
 
 }

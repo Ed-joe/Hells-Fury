@@ -755,7 +755,7 @@ export default class GameLevel extends Scene {
                     player: this.player
                 }
                 this.enemies[i].addAI(LustAI, enemyOptions);
-                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(56, 50)));
+                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(30, 38)), new Vec2(0, 15));
                 this.enemies[i].setGroup("enemy");
                 this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
             }else if(data.enemy_type ===  "greed") {
@@ -809,13 +809,13 @@ export default class GameLevel extends Scene {
                     health: data.health,
                     player: this.player,
                     envy_hitbox: new AABB(new Vec2(0, 14), new Vec2(16, 18)),
-                    envy_hitbox_offset: new Vec2(0, 11),
+                    envy_hitbox_offset: new Vec2(0, 30),
                     gluttony_hitbox: new AABB(Vec2.ZERO, new Vec2(56, 56)),
                     gluttony_hitbox_offset: Vec2.ZERO,
                     greed_hitbox: new AABB(Vec2.ZERO, new Vec2(56, 56)),
                     greed_hitbox_offset: Vec2.ZERO,
-                    lust_hitbox: new AABB(Vec2.ZERO, new Vec2(56, 50)),
-                    lust_hitbox_offset: Vec2.ZERO,
+                    lust_hitbox: new AABB(Vec2.ZERO, new Vec2(30, 38)),
+                    lust_hitbox_offset:  new Vec2(0, 15),
                     sloth_hitbox: new AABB(new Vec2(0, 20), new Vec2(56, 30)),
                     sloth_hitbox_offset: new Vec2(0, 20),
                     wrath_hitbox: new AABB(Vec2.ZERO, new Vec2(26, 44)), 

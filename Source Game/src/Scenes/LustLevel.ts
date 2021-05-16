@@ -38,7 +38,8 @@ export default class LustLevel extends GameLevel {
         }
         this.next_level_constructor = WrathLevel;
         this.shop_pos = new Vec2(780, 608);
-        this.player_start_pos = new Vec2(1138, 116);
+        // this.player_start_pos = new Vec2(1138, 116);
+        this.player_start_pos = new Vec2(1024, 1224);
         this.player_speed = 150;
         this.player_slippery = false;
         this.level_text_color = new Color(255, 0, 196);
