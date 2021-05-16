@@ -41,7 +41,8 @@ export default class SlothLevel extends GameLevel {
         }
         this.next_level_constructor = EnvyLevel;
         this.shop_pos = new Vec2(1298, 500);
-        this.player_start_pos = new Vec2(1480, 1663);
+        // this.player_start_pos = new Vec2(1480, 1663);
+        this.player_start_pos = new Vec2(1024, 1200);
         this.player_speed = 110;
         this.level_text_color = new Color(0, 0, 190);
         this.start_level_text = "Sloth's Sluggish Slum";

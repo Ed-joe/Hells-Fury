@@ -1,0 +1,43 @@
+{
+  "name": "Boss_hitbox",
+  "spriteSheetImage": "boss_hitbox.png",
+  "spriteWidth": 128,
+  "spriteHeight": 128,
+  "leftBuffer": 0,
+  "rightBuffer": 0,
+  "topBuffer": 0,
+  "bottomBuffer": 0,
+  "columns": 1,
+  "rows": 1,
+  "durationType": "time",
+  "animations": [
+    {
+      "name": "IDLE",
+      "repeat": true,
+      "frames": [
+        { "index": 0, "duration": 15 }
+      ]
+    },
+    {
+      "name": "ATTACK",
+      "repeat": true,
+      "frames": [
+        { "index": 0, "duration": 10000 }
+      ]
+    },
+    {
+      "name": "DAMAGE",
+      "repeat": true,
+      "frames": [
+        { "index": 0, "duration": 15 }
+      ]
+    },
+    {
+      "name": "DYING",
+      "repeat": true,
+      "frames": [
+        { "index": 0, "duration": 60 }
+      ]
+    }
+  ]
+}

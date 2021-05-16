@@ -1,0 +1,100 @@
+{
+    "name": "Wrath",
+    "spriteSheetImage": "wrath.png",
+    "spriteWidth": 128,
+    "spriteHeight": 128,
+    "columns": 46,
+    "rows": 1,
+    "durationType": "time",
+    "animations": [
+        { 
+            "name": "IDLE",
+            "frames": [ 
+                {"index": 2, "duration": 15},
+                {"index": 3, "duration": 15},
+                {"index": 4, "duration": 15},
+                {"index": 5, "duration": 15}
+            ]
+        },
+        {
+            "name": "DAMAGE",
+            "frames": [
+                {"index": 14, "duration": 8},
+                {"index": 15, "duration": 8},
+                {"index": 16, "duration": 8},
+                {"index": 17, "duration": 8}
+            ]
+        },
+        {
+            "name": "WALK_DOWN",
+            "frames": [
+                {"index": 6, "duration": 8},
+                {"index": 7, "duration": 8},
+                {"index": 8, "duration": 8},
+                {"index": 9, "duration": 8}
+            ]
+        },
+        {
+            "name": "WALK_UP",
+            "frames": [
+                {"index": 10, "duration": 8},
+                {"index": 11, "duration": 8},
+                {"index": 12, "duration": 8},
+                {"index": 13, "duration": 8}
+            ]
+        },
+        {
+            "name": "DYING",
+            "frames": [
+                {"index": 18, "duration": 8},
+                {"index": 19, "duration": 8},
+                {"index": 20, "duration": 8},
+                {"index": 21, "duration": 8},
+                {"index": 22, "duration": 8},
+                {"index": 23, "duration": 8},
+                {"index": 24, "duration": 8},
+                {"index": 25, "duration": 8},
+                {"index": 26, "duration": 8},
+                {"index": 27, "duration": 8},
+                {"index": 28, "duration": 8},
+                {"index": 29, "duration": 8},
+                {"index": 30, "duration": 8},
+                {"index": 31, "duration": 8}
+            ]
+        },
+        {
+            "name": "CHARGE_DOWN",
+            "frames": [
+                {"index": 32, "duration": 6},
+                {"index": 33, "duration": 6},
+                {"index": 34, "duration": 6},
+                {"index": 35, "duration": 6}
+            ]
+        },
+        {
+            "name": "SLASH_DOWN",
+            "frames": [
+                {"index": 36, "duration": 8},
+                {"index": 37, "duration": 8},
+                {"index": 38, "duration": 8}
+            ]
+        },
+        {
+            "name": "CHARGE_UP",
+            "frames": [
+                {"index": 39, "duration": 6},
+                {"index": 40, "duration": 6},
+                {"index": 41, "duration": 6},
+                {"index": 42, "duration": 6}
+            ]
+        },
+        {
+            "name": "SLASH_UP",
+            "frames": [
+                {"index": 43, "duration": 8},
+                {"index": 44, "duration": 8},
+                {"index": 45, "duration": 8}
+            ]
+        }
+    ]
+}

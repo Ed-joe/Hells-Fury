@@ -27,7 +27,7 @@ export default class Fall extends BossState {
 
     onExit(): Record<string, any> {
         this.owner.removePhysics();
-        this.owner.addPhysics(this.parent.hitbox);
+        this.owner.addPhysics(this.parent.hitbox, this.parent.hitbox_offset);
         this.owner.setGroup("enemy");
         this.owner.setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
         this.owner.animation.stop();

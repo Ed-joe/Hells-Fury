@@ -1,0 +1,80 @@
+{
+    "numEnemies": 15,
+    "enemies": [
+        {
+            "position": [887, 1381],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [1144, 1459],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [1429, 1381],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1699, 1685],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1429, 1381],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1487, 1125],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1625, 805],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [1731, 399],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [1392, 498],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [881, 493],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [304, 269],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [476, 741],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [340, 995],
+            "enemy_type": "hellbat",
+            "health": 2
+        },
+        {
+            "position": [577, 1449],
+            "enemy_type": "hellhound",
+            "health": 3
+        },
+        {
+            "position": [1012, 864],
+            "enemy_type": "envy",
+            "health": 18
+        }
+    ]
+}

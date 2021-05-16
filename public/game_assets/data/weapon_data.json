@@ -1,0 +1,65 @@
+{
+    "numWeapons": 6,
+    "weapons": [
+        {
+            "weaponType": "slam",
+            "name": "slam",
+            "displayName": "Slam",
+            "animationSprite": "slam",
+            "spriteKey": "slam",
+            "damage": 1,
+            "cooldown": 0,
+            "useVolume": 0
+        },
+        {
+            "weaponType": "fist1",
+            "name": "punch1",
+            "displayName": "Punch1",
+            "animationSprite": "fistOne",
+            "spriteKey": "fistOne",
+            "damage": 1,
+            "cooldown": 1000,
+            "useVolume": 0
+        },
+        {
+            "weaponType": "fist2",
+            "name": "punch2",
+            "displayName": "Punch2",
+            "animationSprite": "fistTwo",
+            "spriteKey": "fistTwo",
+            "damage": 2,
+            "cooldown": 1000,
+            "useVolume": 0
+        },
+        {
+            "weaponType": "fist3",
+            "name": "punch3",
+            "displayName": "Punch3",
+            "animationSprite": "fistThree",
+            "spriteKey": "fistThree",
+            "damage": 3,
+            "cooldown": 1000,
+            "useVolume": 0
+        },
+        {
+            "weaponType": "slice",
+            "name": "slice",
+            "displayName": "Slice",
+            "animationSprite": "slice",
+            "spriteKey": "slice",
+            "damage": 1,
+            "cooldown": 0,
+            "useVolume": 0
+        },
+        {
+            "weaponType": "fist4",
+            "name": "punch4",
+            "displayName": "Punch4",
+            "animationSprite": "fistFour",
+            "spriteKey": "fistFour",
+            "damage": 1,
+            "cooldown": 0,
+            "useVolume": 0
+        }
+    ]
+}

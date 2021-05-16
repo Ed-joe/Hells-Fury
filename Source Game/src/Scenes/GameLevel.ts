@@ -791,10 +791,11 @@ export default class GameLevel extends Scene {
                 let enemyOptions = {
                     health: data.health,
                     player: this.player,
-                    hitbox: new AABB(Vec2.ZERO, new Vec2(56, 50))
+                    hitbox: new AABB(new Vec2(0, 20), new Vec2(56, 30)),
+                    hitbox_offset: new Vec2(0, 20)
                 }
                 
-                this.enemies[i].addPhysics(enemyOptions.hitbox);
+                this.enemies[i].addPhysics(enemyOptions.hitbox, enemyOptions.hitbox_offset);
                 this.enemies[i].addAI(SlothAI, enemyOptions);
                 
                 this.enemies[i].setGroup("enemy");
