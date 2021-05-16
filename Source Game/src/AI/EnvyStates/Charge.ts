@@ -4,6 +4,7 @@ import BossState from "./BossState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import EnvyAI, { BossStates } from "../EnvyAI";
 import { Game_Events } from "../../GameSystems/game_enums";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export default class Charge extends BossState {
     constructor(parent: EnvyAI, owner: AnimatedSprite){
@@ -11,11 +12,11 @@ export default class Charge extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "envy_charge", loop: false, holdReference: false});
         this.owner.animation.play("CHARGE", false, Game_Events.ENVY_PUNCH);
 
         // update rotation for attacking
-        let attack_direction = this.owner.position.dirTo(this.parent.player.position);
-        this.owner.attack_direction = Vec2.UP.angleToCCW(attack_direction);
+        this.parent.punch_direction = this.owner.position.dirTo(this.parent.player.position);
     }
 
     handleInput(event: GameEvent): void {}

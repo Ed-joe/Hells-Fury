@@ -3,6 +3,7 @@ import GameEvent from "../../Wolfie2D/Events/GameEvent";
 import BossState from "./BossState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import WrathAI, { BossStates } from "../WrathAI";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export default class AttackDown extends BossState {
     constructor(parent: WrathAI, owner: AnimatedSprite){
@@ -10,7 +11,7 @@ export default class AttackDown extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
-        // this.parent.slice.use(this.owner, "enemies", Vec2.ZERO);
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "wrath_attack", loop: false, holdReference: false});
         this.owner.animation.play("SLASH_DOWN", false);
     }
 

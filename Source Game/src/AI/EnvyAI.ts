@@ -29,6 +29,7 @@ export default class EnvyAI extends StateMachineAI implements BattlerAI {
     player: GameNode;
 
     punch: Weapon;
+    punch_direction: Vec2;
 
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.owner = owner;
@@ -43,6 +44,7 @@ export default class EnvyAI extends StateMachineAI implements BattlerAI {
         this.player = options.player;
 
         this.punch = options.punch;
+        this.punch_direction = Vec2.ZERO;
 
         // Initialize to the default state
         this.initialize(BossStates.DEFAULT);

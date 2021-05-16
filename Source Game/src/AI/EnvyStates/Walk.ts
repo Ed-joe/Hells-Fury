@@ -25,13 +25,13 @@ export default class Walk extends BossState {
     handleInput(event: GameEvent): void {}
 
     update(deltaT: number): void {
-        if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) < 100){
+        if(this.parent.getPlayerPosition() !== null && this.owner.position.distanceTo(this.parent.getPlayerPosition()) < 64){
             this.finished(BossStates.CHARGING);
         }
         if(this.parent.getPlayerPosition() !== null){
             this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
             // Player is visible, restart the exitTimer
-            this.owner.move(this.owner.position.dirTo(this.lastPlayerPos).scale(2));
+            this.owner.move(this.owner.position.dirTo(this.lastPlayerPos).scale(4));
             if(this.owner._velocity.x < 0) {
                 this.owner.invertX = true;
             }
