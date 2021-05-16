@@ -41,11 +41,16 @@
             ]
         },
         {
-            "name": "ATTACK",
+            "name": "CHARGE",
             "frames": [
-                {"index": 14, "duration": 8},
-                {"index": 15, "duration": 8},
-                {"index": 16, "duration": 8},
+                {"index": 14, "duration": 12},
+                {"index": 15, "duration": 12},
+                {"index": 16, "duration": 12}
+            ]
+        },
+        {
+            "name": "PUNCH",
+            "frames": [
                 {"index": 17, "duration": 8},
                 {"index": 18, "duration": 12},
                 {"index": 19, "duration": 12}
