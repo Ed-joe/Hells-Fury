@@ -3,7 +3,7 @@
     "spriteSheetImage": "pride.png",
     "spriteWidth": 128,
     "spriteHeight": 128,
-    "columns": 106,
+    "columns": 136,
     "rows": 1,
     "durationType": "time",
     "animations": [
@@ -217,6 +217,77 @@
                 {"index": 73, "duration": 8},
                 {"index": 74, "duration": 8},
                 {"index": 75, "duration": 8}
+            ]
+        },
+        {
+            "name": "TRANSFORM",
+            "frames": [
+                {"index": 106, "duration": 8},
+                {"index": 107, "duration": 8},
+                {"index": 108, "duration": 8},
+                {"index": 109, "duration": 8},
+                {"index": 110, "duration": 8},
+                {"index": 111, "duration": 8}
+            ]
+        },
+        {
+            "name": "GREED_TFORM",
+            "frames": [
+                {"index": 111, "duration": 8},
+                {"index": 112, "duration": 8},
+                {"index": 113, "duration": 8},
+                {"index": 114, "duration": 8},
+                {"index": 115, "duration": 8}
+            ]
+        },
+        {
+            "name": "ENVY_TFORM",
+            "frames": [
+                {"index": 111, "duration": 8},
+                {"index": 116, "duration": 8},
+                {"index": 117, "duration": 8},
+                {"index": 118, "duration": 8},
+                {"index": 119, "duration": 8}
+            ]
+        },
+        {
+            "name": "SLOTH_TFORM",
+            "frames": [
+                {"index": 111, "duration": 8},
+                {"index": 120, "duration": 8},
+                {"index": 121, "duration": 8},
+                {"index": 122, "duration": 8},
+                {"index": 123, "duration": 8}
+            ]
+        },
+        {
+            "name": "GLUTTONY_TFORM",
+            "frames": [
+                {"index": 111, "duration": 8},
+                {"index": 124, "duration": 8},
+                {"index": 125, "duration": 8},
+                {"index": 126, "duration": 8},
+                {"index": 127, "duration": 8}
+            ]
+        },
+        {
+            "name": "WRATH_TFORM",
+            "frames": [
+                {"index": 111, "duration": 8},
+                {"index": 128, "duration": 8},
+                {"index": 129, "duration": 8},
+                {"index": 130, "duration": 8},
+                {"index": 131, "duration": 8}
+            ]
+        },
+        {
+            "name": "LUST_TFORM",
+            "frames": [
+                {"index": 111, "duration": 8},
+                {"index": 132, "duration": 8},
+                {"index": 133, "duration": 8},
+                {"index": 134, "duration": 8},
+                {"index": 135, "duration": 8}
             ]
         }
     ]
