@@ -54,11 +54,6 @@ export default class MainMenu extends Scene {
         mmb.position.set(mmb.size.x/2, mmb.size.y/2);
 
         // Add new game button, and give it an event to emit on press
-        const new_game_text = <Button>this.add.uiElement(UIElementType.LABEL, "mainMenu", {position: new Vec2(center.x - 14, center.y - 170), text: "New Game"});
-        new_game_text.font = "HellText";
-        new_game_text.textColor = Color.WHITE;
-        new_game_text.fontSize = 66;
-        new_game_text.size.set(330, 70);
 
         const new_game_button = <Button>this.add.uiElement(UIElementType.BUTTON, "mainMenu", {position: new Vec2(center.x - 14, center.y - 170), text: "New Game"});
         new_game_button.font = "HellText";
@@ -69,13 +64,14 @@ export default class MainMenu extends Scene {
         new_game_button.borderColor = Color.TRANSPARENT;
         new_game_button.backgroundColor = Color.TRANSPARENT;
         new_game_button.onClickEventId = "newGame";
+        new_game_button.onEnter = function(): void {
+            this.textColor = Color.WHITE;
+        };
+        new_game_button.onLeave = function(): void {
+            this.textColor = Color.BLACK;
+        };
 
         // Add level select button
-        const level_text = <Button>this.add.uiElement(UIElementType.LABEL, "mainMenu", {position: new Vec2(center.x - 13, center.y - 60), text: "Level Select"});
-        level_text.font = "HellText";
-        level_text.textColor = Color.WHITE;
-        level_text.fontSize = 66;
-        level_text.size.set(420, 70);
 
         const level_select_button = <Button>this.add.uiElement(UIElementType.BUTTON, "mainMenu", {position: new Vec2(center.x - 13, center.y - 60), text: "Level Select"});
         level_select_button.font = "HellText";
@@ -86,13 +82,14 @@ export default class MainMenu extends Scene {
         level_select_button.borderColor = Color.TRANSPARENT;
         level_select_button.backgroundColor = Color.TRANSPARENT;
         level_select_button.onClickEventId = "levelSelect";
+        level_select_button.onEnter = function(): void {
+            this.textColor = Color.WHITE;
+        };
+        level_select_button.onLeave = function(): void {
+            this.textColor = Color.BLACK;
+        };
 
         // Add help button
-        const help_text = <Button>this.add.uiElement(UIElementType.LABEL, "mainMenu", {position: new Vec2(center.x - 21, center.y + 55), text: "Help"});
-        help_text.font = "HellText";
-        help_text.textColor = Color.WHITE;
-        help_text.fontSize = 67;
-        help_text.size.set(145, 75);
 
         const help_button = <Button>this.add.uiElement(UIElementType.BUTTON, "mainMenu", {position: new Vec2(center.x - 21, center.y + 55), text: "Help"});
         help_button.font = "HellText";
@@ -103,13 +100,13 @@ export default class MainMenu extends Scene {
         help_button.borderColor = Color.TRANSPARENT;
         help_button.backgroundColor = Color.TRANSPARENT;
         help_button.onClickEventId = "help";
-
+        help_button.onEnter = function(): void {
+            this.textColor = Color.WHITE;
+        };
+        help_button.onLeave = function(): void {
+            this.textColor = Color.BLACK;
+        };
         // Add controls
-        const controls_text = <Button>this.add.uiElement(UIElementType.LABEL, "mainMenu", {position: new Vec2(center.x - 13, center.y + 150), text: "Controls"});
-        controls_text.font = "HellText";
-        controls_text.textColor = Color.WHITE;
-        controls_text.fontSize = 67;
-        controls_text.size.set(268, 70);
 
         const controls_button = <Button>this.add.uiElement(UIElementType.BUTTON, "mainMenu", {position: new Vec2(center.x - 13, center.y + 150), text: "Controls"});
         controls_button.font = "HellText";
@@ -120,6 +117,12 @@ export default class MainMenu extends Scene {
         controls_button.borderColor = Color.TRANSPARENT;
         controls_button.backgroundColor = Color.TRANSPARENT;
         controls_button.onClickEventId = "controls";
+        controls_button.onEnter = function(): void {
+            this.textColor = Color.WHITE;
+        };
+        controls_button.onLeave = function(): void {
+            this.textColor = Color.BLACK;
+        };
 
 
         /* ################ LEVEL SELECT ################ */
@@ -140,6 +143,13 @@ export default class MainMenu extends Scene {
         level_select_back.borderColor = Color.TRANSPARENT;
         level_select_back.backgroundColor = Color.TRANSPARENT;
         level_select_back.onClickEventId = "mainMenu";
+        
+        level_select_back.onEnter = function(): void {
+            this.textColor = Color.WHITE;
+        };
+        level_select_back.onLeave = function(): void {
+            this.textColor = Color.BLACK;
+        };
 
         const level_select_lust = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 20, center.y - 195), text: "Lust"});
         level_select_lust.font = "HellText";
@@ -150,6 +160,12 @@ export default class MainMenu extends Scene {
         level_select_lust.borderColor = Color.TRANSPARENT;
         level_select_lust.backgroundColor = Color.TRANSPARENT;
         level_select_lust.onClickEventId = "levelLust";
+        level_select_lust.onEnter = function(): void {
+            this.textColor = Color.RED;
+        };
+        level_select_lust.onLeave = function(): void {
+            this.textColor = Color.WHITE;
+        };
 
         const level_select_wrath = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 20, center.y - 95), text: "Wrath"});
         level_select_wrath.font = "HellText";
@@ -160,6 +176,12 @@ export default class MainMenu extends Scene {
         level_select_wrath.borderColor = Color.TRANSPARENT;
         level_select_wrath.backgroundColor = Color.TRANSPARENT;
         level_select_wrath.onClickEventId = "levelWrath";
+        level_select_wrath.onEnter = function(): void {
+            this.textColor = Color.RED;
+        };
+        level_select_wrath.onLeave = function(): void {
+            this.textColor = Color.WHITE;
+        };
 
         const level_select_gluttony = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 21, center.y + 3), text: "Gluttony"});
         level_select_gluttony.font = "HellText";
@@ -170,6 +192,12 @@ export default class MainMenu extends Scene {
         level_select_gluttony.borderColor = Color.TRANSPARENT;
         level_select_gluttony.backgroundColor = Color.TRANSPARENT;
         level_select_gluttony.onClickEventId = "levelGluttony";
+        level_select_gluttony.onEnter = function(): void {
+            this.textColor = Color.RED;
+        };
+        level_select_gluttony.onLeave = function(): void {
+            this.textColor = Color.WHITE;
+        };
 
         const level_select_greed = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", { position: new Vec2(center.x - 20, center.y + 230), text: "Greed"});
         level_select_greed.font = "HellText";
@@ -180,6 +208,12 @@ export default class MainMenu extends Scene {
         level_select_greed.borderColor = Color.TRANSPARENT;
         level_select_greed.backgroundColor = Color.TRANSPARENT;
         level_select_greed.onClickEventId = "levelGreed";
+        level_select_greed.onEnter = function(): void {
+            this.textColor = Color.RED;
+        };
+        level_select_greed.onLeave = function(): void {
+            this.textColor = Color.WHITE;
+        };
 
         const level_select_sloth = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 21, center.y + 85), text: "Sloth"});
         level_select_sloth.font = "HellText";
@@ -190,6 +224,12 @@ export default class MainMenu extends Scene {
         level_select_sloth.borderColor = Color.TRANSPARENT;
         level_select_sloth.backgroundColor = Color.TRANSPARENT;
         level_select_sloth.onClickEventId = "levelSloth";
+        level_select_sloth.onEnter = function(): void {
+            this.textColor = Color.RED;
+        };
+        level_select_sloth.onLeave = function(): void {
+            this.textColor = Color.WHITE;
+        };
         
         const level_select_envy = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", { position: new Vec2(center.x - 19, center.y + 160), text: "Envy"});
         level_select_envy.font = "HellText";
@@ -200,6 +240,12 @@ export default class MainMenu extends Scene {
         level_select_envy.borderColor = Color.TRANSPARENT;
         level_select_envy.backgroundColor = Color.TRANSPARENT;
         level_select_envy.onClickEventId = "levelEnvy";
+        level_select_envy.onEnter = function(): void {
+            this.textColor = Color.RED;
+        };
+        level_select_envy.onLeave = function(): void {
+            this.textColor = Color.WHITE;
+        };
 
         const level_select_pride = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 22, center.y + 295), text: "Pride"});
         level_select_pride.font = "HellText";
@@ -210,6 +256,12 @@ export default class MainMenu extends Scene {
         level_select_pride.borderColor = Color.TRANSPARENT;
         level_select_pride.backgroundColor = Color.TRANSPARENT;
         level_select_pride.onClickEventId = "levelPride";
+        level_select_pride.onEnter = function(): void {
+            this.textColor = Color.RED;
+        };
+        level_select_pride.onLeave = function(): void {
+            this.textColor = Color.WHITE;
+        };
 
         /* ################ HELP ################ */
         // create help layer
@@ -229,6 +281,12 @@ export default class MainMenu extends Scene {
         help_back.borderColor = Color.TRANSPARENT;
         help_back.backgroundColor = Color.TRANSPARENT;
         help_back.onClickEventId = "mainMenu";
+        help_back.onEnter = function(): void {
+            this.textColor = Color.WHITE;
+        };
+        help_back.onLeave = function(): void {
+            this.textColor = Color.BLACK;
+        };
 
         /* ################ CONTROLS ################ */
         // create controls layer
@@ -248,6 +306,12 @@ export default class MainMenu extends Scene {
         controls_back.borderColor = Color.TRANSPARENT;
         controls_back.backgroundColor = Color.TRANSPARENT;
         controls_back.onClickEventId = "mainMenu";
+        controls_back.onEnter = function(): void {
+            this.textColor = Color.WHITE;
+        };
+        controls_back.onLeave = function(): void {
+            this.textColor = Color.BLACK;
+        };
 
         //music
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "main_menu_music", loop: true, holdReference: true});
