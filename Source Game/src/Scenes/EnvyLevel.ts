@@ -18,8 +18,8 @@ export default class EnvyLevel extends GameLevel {
         super.initScene(init);
         
         // TODO
-        this.level_music_key = "lust_music";
-        this.level_music_path = "game_assets/sounds/music/lust.mp3";
+        this.level_music_key = "envy_music";
+        this.level_music_path = "game_assets/sounds/music/envy.mp3";
 
 
         this.boss_audios = {
