@@ -104,11 +104,16 @@
             ]
         },
         {
-            "name": "ENVY_ATTACK",
+            "name": "ENVY_CHARGE",
             "frames": [
                 {"index": 10, "duration": 8},
                 {"index": 11, "duration": 8},
-                {"index": 12, "duration": 8},
+                {"index": 12, "duration": 8}
+            ]
+        },
+        {
+            "name": "ENVY_PUNCH",
+            "frames": [
                 {"index": 13, "duration": 8},
                 {"index": 14, "duration": 8},
                 {"index": 15, "duration": 8}
