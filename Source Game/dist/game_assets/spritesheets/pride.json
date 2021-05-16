@@ -3,7 +3,7 @@
     "spriteSheetImage": "pride.png",
     "spriteWidth": 128,
     "spriteHeight": 128,
-    "columns": 136,
+    "columns": 145,
     "rows": 1,
     "durationType": "time",
     "animations": [
@@ -288,6 +288,25 @@
                 {"index": 133, "duration": 8},
                 {"index": 134, "duration": 8},
                 {"index": 135, "duration": 8}
+            ]
+        },
+        {
+            "name": "GREED_IDLE",
+            "frames": [
+                {"index": 136, "duration": 8},
+                {"index": 137, "duration": 8},
+                {"index": 138, "duration": 8},
+                {"index": 139, "duration": 8},
+                {"index": 140, "duration": 8}
+            ]
+        },
+        {
+            "name": "GLUTTONY_IDLE",
+            "frames": [
+                {"index": 141, "duration": 8},
+                {"index": 142, "duration": 8},
+                {"index": 143, "duration": 8},
+                {"index": 144, "duration": 8}
             ]
         }
     ]

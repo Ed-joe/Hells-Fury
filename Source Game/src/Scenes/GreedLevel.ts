@@ -17,8 +17,8 @@ export default class GreedLevel extends GameLevel {
         super.initScene(init);
 
         // TODO
-        this.level_music_key = "lust_music";
-        this.level_music_path = "game_assets/sounds/music/lust.mp3";
+        this.level_music_key = "greed_music";
+        this.level_music_path = "game_assets/sounds/music/greed.mp3";
 
         this.boss_audios = {
             greed_attack: "game_assets/sounds/greed_attack.mp3",
