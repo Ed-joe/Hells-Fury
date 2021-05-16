@@ -16,12 +16,14 @@ export default class GreedLevel extends GameLevel {
     initScene(init: Record<string, any>): void {
         super.initScene(init);
 
+        // TODO
         this.level_music_key = "lust_music";
         this.level_music_path = "game_assets/sounds/music/lust.mp3";
+
         this.boss_audios = {
-            lust_move: "game_assets/sounds/lust_move.mp3",
-            lust_death: "game_assets/sounds/lust_death.mp3",
-            lust_damage: "game_assets/sounds/lust_damage.mp3"
+            greed_attack: "game_assets/sounds/greed_attack.mp3",
+            greed_damage: "game_assets/sounds/greed_damage.mp3",
+            greed_death: "game_assets/sounds/greed_death.mp3"
         }
         this.boss_sprite = {
             greed: "game_assets/spritesheets/greed.json"
@@ -35,7 +37,8 @@ export default class GreedLevel extends GameLevel {
             greedLevel: "game_assets/tilemaps/greed_level.json"
         }
         this.next_level_constructor = MainMenu
-        this.player_start_pos = new Vec2(1009, 1756);
+        // this.player_start_pos = new Vec2(1009, 1756);
+        this.player_start_pos = new Vec2(1008, 1233);
         this.player_speed = 150;
         this.level_text_color = new Color(252, 219, 3);
         this.start_level_text = "Greed's Golden Gorge";

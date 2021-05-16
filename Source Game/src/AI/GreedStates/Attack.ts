@@ -23,7 +23,7 @@ export default class Attack extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
-        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gluttony_attack", loop: false, holdReference: false});
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "greed_attack", loop: false, holdReference: false});
         (<AnimatedSprite> this.owner).animation.play("ATTACK", false, Game_Events.GREED_ATTACK);
     }
 
