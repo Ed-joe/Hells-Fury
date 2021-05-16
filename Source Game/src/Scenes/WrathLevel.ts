@@ -18,16 +18,13 @@ export default class WrathLevel extends GameLevel {
     initScene(init: Record<string, any>): void {
         super.initScene(init);
 
-        // TODO
         this.level_music_key = "wrath_music";
         this.level_music_path = "game_assets/sounds/music/wrath.mp3";
         this.boss_audios = {
-            wrath_attack: "game_assets/sounds/gluttony_attack.mp3",
-            wrath_damage: "game_assets/sounds/gluttony_damage.mp3",
-            wrath_death: "game_assets/sounds/gluttony_death.mp3"
+            wrath_attack: "game_assets/sounds/wrath_attack.mp3",
+            wrath_damage: "game_assets/sounds/wrath_damage.mp3",
+            wrath_death: "game_assets/sounds/wrath_death.mp3"
         }
-
-
         this.boss_sprite = {
             wrath: "game_assets/spritesheets/wrath.json"
         }

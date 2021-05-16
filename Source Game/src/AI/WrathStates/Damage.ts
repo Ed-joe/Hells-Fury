@@ -3,6 +3,7 @@ import GameEvent from "../../Wolfie2D/Events/GameEvent";
 import BossState from "./BossState";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import WrathAI, { BossStates } from "../WrathAI";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export default class Damage extends BossState {
     private previous: BossStates;
@@ -12,6 +13,7 @@ export default class Damage extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "wrath_damage", loop: false, holdReference: false});
         this.owner.animation.play("DAMAGE", false);
         this.previous = options.previous;
 
