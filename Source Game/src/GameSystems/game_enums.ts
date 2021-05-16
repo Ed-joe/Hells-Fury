@@ -20,5 +20,6 @@ export enum Game_Events {
     NEXT_LEVEL = "NextLevel",
     WRATH_ATTACK_UP = "WrathAttackUp",
     GREED_ATTACK = "GreedAttack",
-    WRATH_ATTACK_DOWN = "WrathAttackDown"
+    WRATH_ATTACK_DOWN = "WrathAttackDown",
+    EXIT_TO_MAIN = "EXIT_TO_MAIN"
 }
