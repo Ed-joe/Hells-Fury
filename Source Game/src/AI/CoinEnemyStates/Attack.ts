@@ -36,7 +36,6 @@ export default class Attack extends EnemyState {
         if(Math.abs(this.parent.start_velocity.y) > 0) {
             this.parent.start_velocity.y -= this.parent.start_velocity.normalized().scale(this.parent.speed * deltaT).y / 15;
         }
-        console.log()
         if(this.parent.start_velocity.mag() < .05 && this.deleteTimer.isStopped()){
             this.owner.destroy();
         }

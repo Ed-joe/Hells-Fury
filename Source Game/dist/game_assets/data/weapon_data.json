@@ -57,8 +57,8 @@
             "displayName": "Punch4",
             "animationSprite": "fistFour",
             "spriteKey": "fistFour",
-            "damage": 3,
-            "cooldown": 1000,
+            "damage": 1,
+            "cooldown": 0,
             "useVolume": 0
         }
     ]

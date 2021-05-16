@@ -165,8 +165,8 @@ export default class GameLevel extends Scene {
         this.load.spritesheet("fistTwo", "game_assets/spritesheets/impact_purple.json");
         this.load.image("fistThree", "game_assets/spritesheets/impact_blue.png");
         this.load.spritesheet("fistThree", "game_assets/spritesheets/impact_blue.json");
-        this.load.image("fistFour", "game_assets/spritesheets/impact_blue.png");
-        this.load.spritesheet("fistFour", "game_assets/spritesheets/impact_blue.json");
+        this.load.image("fistFour", "game_assets/spritesheets/impact_green.png");
+        this.load.spritesheet("fistFour", "game_assets/spritesheets/impact_green.json");
 
         //Load pause screen
         this.load.image("pauseScreen", "game_assets/images/pause_background.png");
@@ -594,6 +594,17 @@ export default class GameLevel extends Scene {
                     }
                     break;
 
+                case Game_Events.ENVY_PUNCH:
+                    {
+                        for(let i = 0; i < this.enemies.length ; i++){
+                            if(this.enemies[i].imageId === "Envy"){
+                                this.enemies[i]._ai.handleEvent(event);
+                                break;
+                            }
+                        }
+                    }
+                    break;
+
                 case Game_Events.BOUGHT_DAMAGE:
                     {
                         if (this.player_coins >= 10 && this.player_damage < 3) {
@@ -725,11 +736,11 @@ export default class GameLevel extends Scene {
             else if (data.enemy_type === "envy") {
                 let enemyOptions = {
                     health: data.health,
-                    player: this.player
-                    // slice: this.createWeapon("slice")
+                    player: this.player,
+                    punch: this.createWeapon("punch4")
                 }
                 this.enemies[i].addAI(EnvyAI, enemyOptions);
-                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(26, 44)), new Vec2(0, 20));
+                this.enemies[i].addPhysics(new AABB(new Vec2(0, 14), new Vec2(16, 18)), new Vec2(0, 11));
                 this.enemies[i].setGroup("enemy");
                 this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
             }
@@ -854,10 +865,8 @@ export default class GameLevel extends Scene {
     createWeapon(type: string): Weapon {
         let weaponType = <WeaponType>RegistryManager.getRegistry("weaponTypes").get(type);
 
-        console.log(RegistryManager.getRegistry("weaponTypes"));
-
         let sprite = null;
-        if(type === "punch1" || type === "punch2" || type === "punch3") {
+        if(type === "punch1" || type === "punch2" || type === "punch3" || type === "punch4") {
             sprite = this.add.sprite(weaponType.sprite_key, "above");
         } else {
             sprite = this.add.sprite(weaponType.sprite_key, "below");
@@ -964,7 +973,8 @@ export default class GameLevel extends Scene {
            Game_Events.NEXT_LEVEL,
            Game_Events.GREED_ATTACK,
            Game_Events.WRATH_ATTACK_UP,
-           Game_Events.WRATH_ATTACK_DOWN
+           Game_Events.WRATH_ATTACK_DOWN,
+           Game_Events.ENVY_PUNCH
         ]);
     }
 }

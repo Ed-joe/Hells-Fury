@@ -30,7 +30,6 @@ export default class WrathSlice extends WeaponType {
         this.flip = !this.flip;
 
         // play the punch animation but queue the normal animation
-        console.log("slice animation");
         slice_sprite.animation.play("SLICE");
         slice_sprite.animation.queue("NORMAL", true);
     }

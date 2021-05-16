@@ -11,6 +11,9 @@ import Attack from "./EnvyStates/Attack";
 import Damaged from "./EnvyStates/Damage"
 import Walk from "./EnvyStates/Walk";
 import Charge from "./EnvyStates/Charge";
+import Weapon from "../GameSystems/Weapon";
+import GameEvent from "../Wolfie2D/Events/GameEvent";
+import { Game_Events } from "../GameSystems/game_enums";
 
 export default class EnvyAI extends StateMachineAI implements BattlerAI {
     /** The owner of this AI */
@@ -25,6 +28,8 @@ export default class EnvyAI extends StateMachineAI implements BattlerAI {
     /** A reference to the player object */
     player: GameNode;
 
+    punch: Weapon;
+
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.owner = owner;
         this.addState(BossStates.DEFAULT, new Idle(this, owner));
@@ -37,8 +42,16 @@ export default class EnvyAI extends StateMachineAI implements BattlerAI {
 
         this.player = options.player;
 
+        this.punch = options.punch;
+
         // Initialize to the default state
         this.initialize(BossStates.DEFAULT);
+    }
+
+    handleEvent(event: GameEvent): void {
+        if (event.type === Game_Events.ENVY_PUNCH) {
+            this.punch.use(this.owner, "enemies", this.owner.position.dirTo(this.player.position));
+        }
     }
 
     activate(options: Record<string, any>): void {

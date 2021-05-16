@@ -11,7 +11,6 @@ export default class MovingShadow extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
-        console.log("no physics");
         this.owner.removePhysics();
         this.owner.addPhysics(new AABB(Vec2.ZERO, new Vec2(1, 1)), new Vec2(500, 500));
         this.owner.setGroup("wall");
