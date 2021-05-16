@@ -72,6 +72,7 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
 
     handleEvent(event: GameEvent): void {
         if(event.type === Game_Events.GLUT_ATTACK) {
+            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gluttony_attack", loop: false, holdReference: false});
             this.slam.use(this.owner, "enemies", Vec2.ZERO);
             this.changeState(BossStates.DEFAULT);
         } else if (event.type === "GluttonyDeath") {

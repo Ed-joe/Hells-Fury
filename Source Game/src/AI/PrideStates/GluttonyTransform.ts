@@ -18,6 +18,7 @@ export default class GluttonyTransform extends BossState {
         super.onEnter(options);
         (<AnimatedSprite> this.owner).animation.play("GLUTTONY_TFORM", false);
         this.previous = options.previous;
+        this.owner.position = new Vec2(1040, 656);
     }
 
     handleInput(event: GameEvent): void {

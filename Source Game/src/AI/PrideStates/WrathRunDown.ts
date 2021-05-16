@@ -22,7 +22,7 @@ export default class WrathRunDown extends BossState {
     update(deltaT: number): void {
         super.update(deltaT);
 
-        if (this.owner.position.y > 420) {
+        if (this.owner.position.y > 932) {
             this.finished(BossStates.WRATH_CHARGE_UP);
         }
         this.owner.move(this.speed);

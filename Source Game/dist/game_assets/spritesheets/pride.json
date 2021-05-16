@@ -19,10 +19,10 @@
         {
             "name": "DAMAGE",
             "frames": [
-                {"index": 80, "duration": 8},
-                {"index": 81, "duration": 8},
-                {"index": 82, "duration": 8},
-                {"index": 83, "duration": 8}
+                {"index": 80, "duration": 4},
+                {"index": 81, "duration": 4},
+                {"index": 82, "duration": 4},
+                {"index": 83, "duration": 4}
             ]
         },
         {
@@ -55,17 +55,17 @@
         {
             "name": "SLOTH_THROW",
             "frames": [
-                {"index": 19, "duration": 8},
-                {"index": 20, "duration": 8},
-                {"index": 21, "duration": 8},
-                {"index": 22, "duration": 8},
-                {"index": 23, "duration": 8},
-                {"index": 24, "duration": 8},
-                {"index": 25, "duration": 8},
-                {"index": 26, "duration": 8},
-                {"index": 27, "duration": 8},
-                {"index": 28, "duration": 8},
-                {"index": 29, "duration": 8}
+                {"index": 19, "duration": 3},
+                {"index": 20, "duration": 3},
+                {"index": 21, "duration": 3},
+                {"index": 22, "duration": 3},
+                {"index": 23, "duration": 3},
+                {"index": 24, "duration": 3},
+                {"index": 25, "duration": 3},
+                {"index": 26, "duration": 3},
+                {"index": 27, "duration": 3},
+                {"index": 28, "duration": 3},
+                {"index": 29, "duration": 3}
             ]
         },
         {
@@ -80,13 +80,13 @@
                 {"index": 29, "duration": 8},
                 {"index": 28, "duration": 8},
                 {"index": 27, "duration": 8},
-                {"index": 26, "duration": 8},
-                {"index": 25, "duration": 8},
-                {"index": 24, "duration": 8},
-                {"index": 23, "duration": 8},
-                {"index": 22, "duration": 8},
-                {"index": 21, "duration": 8},
-                {"index": 20, "duration": 8}
+                {"index": 26, "duration": 4},
+                {"index": 25, "duration": 4},
+                {"index": 24, "duration": 4},
+                {"index": 23, "duration": 4},
+                {"index": 22, "duration": 4},
+                {"index": 21, "duration": 4},
+                {"index": 20, "duration": 4}
             ]
         },
         {

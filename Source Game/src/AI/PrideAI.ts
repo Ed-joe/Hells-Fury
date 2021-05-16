@@ -152,15 +152,21 @@ export default class PrideAI extends StateMachineAI implements BattlerAI {
     handleEvent(event: GameEvent): void {
         if (event.type === Game_Events.ENVY_PUNCH) {
             this.punch.use(this.owner, "enemies", this.owner.position.dirTo(this.player.position));
-        } else if(event.type === Game_Events.GLUT_ATTACK) {
+        }
+        else if(event.type === Game_Events.GLUT_ATTACK) {
+            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gluttony_attack", loop: false, holdReference: false});
             this.slam.use(this.owner, "enemies", Vec2.ZERO);
             this.changeState(BossStates.GLUTTONY_IDLE);
-        } else if(event.type === Game_Events.GREED_ATTACK) {
+        }
+        else if(event.type === Game_Events.GREED_ATTACK) {
+            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "greed_attack", loop: false, holdReference: false});
             this.changeState(BossStates.GREED_IDLE);
-        } else if(event.type === Game_Events.WRATH_ATTACK_UP) {
+        }
+        else if(event.type === Game_Events.WRATH_ATTACK_UP) {
             this.slice.use(this.owner, "enemies", Vec2.UP);
             this.changeState(BossStates.WRATH_ATTACK_UP);
-        } else if (event.type === Game_Events.WRATH_ATTACK_DOWN) {
+        }
+        else if (event.type === Game_Events.WRATH_ATTACK_DOWN) {
             this.slice.use(this.owner, "enemies", Vec2.DOWN);
             this.changeState(BossStates.WRATH_ATTACK_DOWN);
         }

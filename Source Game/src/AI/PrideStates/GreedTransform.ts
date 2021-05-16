@@ -17,6 +17,7 @@ export default class GreedTransform extends BossState {
     onEnter(options: Record<string, any>): void {
         super.onEnter(options);
         (<AnimatedSprite> this.owner).animation.play("GREED_TFORM", false);
+        this.owner.position = new Vec2(1040, 656);
         this.previous = options.previous;
     }
 

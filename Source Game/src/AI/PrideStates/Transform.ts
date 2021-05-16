@@ -31,7 +31,7 @@ export default class Transform extends BossState {
             if (![BossStates.ENVY_WALK].includes(this.previous)) {
                 valid_next.push(BossStates.ENVY_TRANSFORM);
             }
-            if (![BossStates.GLUTTONY_IDLE].includes(this.previous)) {
+            if (![BossStates.GLUTTONY_ATTACK].includes(this.previous)) {
                 valid_next.push(BossStates.GLUTTONY_TRANSFORM);
             }
             if (![BossStates.GREED_IDLE].includes(this.previous)) {
@@ -40,7 +40,7 @@ export default class Transform extends BossState {
             if (![BossStates.LUST_ATTACK].includes(this.previous)) {
                 valid_next.push(BossStates.LUST_TRANSFORM);
             }
-            if (![BossStates.SLOTH_WALK].includes(this.previous)) {
+            if (![BossStates.SLOTH_TOSS_UP].includes(this.previous)) {
                 valid_next.push(BossStates.SLOTH_TRANSFORM);
             }
             if (![BossStates.WRATH_RUN_DOWN, BossStates.WRATH_RUN_UP].includes(this.previous)) {

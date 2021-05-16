@@ -24,7 +24,6 @@ export default class LustAttack extends BossState {
     onEnter(options: Record<string, any>): void {
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "lust_move", loop: false, holdReference: false});
         this.soundTimer.start();
-        this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
     }
 
     handleInput(event: GameEvent): void {}
@@ -32,12 +31,13 @@ export default class LustAttack extends BossState {
     update(deltaT: number): void {
         super.update(deltaT);
 
+        this.lastPlayerPos = new Vec2(this.parent.player.position.x, this.parent.player.position.y);
+
         if(this.soundTimer.isStopped()) {
             this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "lust_move", loop: false, holdReference: false});
             this.soundTimer.start();
         }
-        if(this.parent.getPlayerPosition() !== null){
-            this.lastPlayerPos = new Vec2(this.parent.getPlayerPosition().x, this.parent.getPlayerPosition().y);
+        if(this.lastPlayerPos !== null){
             // Player is visible, restart the exitTimer
             this.owner.move(this.owner.position.dirTo(this.lastPlayerPos).scale(2));
             if(Math.abs(this.owner._velocity.x) > Math.abs(this.owner._velocity.y)) {

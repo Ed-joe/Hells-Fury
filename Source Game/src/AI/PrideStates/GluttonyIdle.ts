@@ -43,7 +43,7 @@ export default class GluttonyIdle extends BossState {
 
     onExit(): Record<string, any> {
         (<AnimatedSprite> this.owner).animation.stop();
-        return {previous: BossStates.GLUTTONY_IDLE};
+        return {previous: BossStates.GLUTTONY_ATTACK};
     }
 
 }

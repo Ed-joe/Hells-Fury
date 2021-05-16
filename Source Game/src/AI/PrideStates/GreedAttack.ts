@@ -13,7 +13,6 @@ export default class GreedAttack extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
-        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "greed_attack", loop: false, holdReference: false});
         (<AnimatedSprite> this.owner).animation.play("GREED_ATTACK", false, Game_Events.GREED_ATTACK);
     }
 

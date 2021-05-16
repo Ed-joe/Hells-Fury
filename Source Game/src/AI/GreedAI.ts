@@ -67,6 +67,7 @@ export default class GreedAI extends StateMachineAI implements BattlerAI {
 
     handleEvent(event: GameEvent): void {
         if(event.type === Game_Events.GREED_ATTACK) {
+            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "greed_attack", loop: false, holdReference: false});
             this.changeState(BossStates.DEFAULT);
         }
     }
