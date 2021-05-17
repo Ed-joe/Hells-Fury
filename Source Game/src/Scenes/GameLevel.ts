@@ -41,6 +41,8 @@ import SlothAI from "../AI/SlothAI";
 import PrideAI from "../AI/PrideAI";
 
 export default class GameLevel extends Scene {
+    static completed_levels: boolean[] = [true, false, false, false, false, false, false]; // for unlocking levels
+
     private player: AnimatedSprite;         // the player
     private player_health: number;          // players health
     private player_coins: number;           // PROJECT TODO - implement coin functionality
@@ -97,6 +99,7 @@ export default class GameLevel extends Scene {
         this.coin_hurt = false;
         this.player_slippery = false;
         this.player_damage = init.damage;
+        console.log(init.damage);
         this.has_shop = true;
         this.greed_tiles = false;
         this.lose_money = false;
@@ -485,6 +488,44 @@ export default class GameLevel extends Scene {
 
                 case Game_Events.NEXT_LEVEL:
                     {
+                        if(this.level_music_key === "lust_music") {
+                            GameLevel.completed_levels[1] = true;
+                        }
+                        else if(this.level_music_key === "wrath_music") {
+                            GameLevel.completed_levels[0] = true;
+                            GameLevel.completed_levels[1] = true;
+                            GameLevel.completed_levels[2] = true;
+                        }
+                        else if(this.level_music_key === "gluttony_music") {
+                            GameLevel.completed_levels[0] = true;
+                            GameLevel.completed_levels[1] = true;
+                            GameLevel.completed_levels[2] = true;
+                            GameLevel.completed_levels[3] = true;
+                        }
+                        else if(this.level_music_key === "sloth_music") {
+                            GameLevel.completed_levels[0] = true;
+                            GameLevel.completed_levels[1] = true;
+                            GameLevel.completed_levels[2] = true;
+                            GameLevel.completed_levels[3] = true;
+                            GameLevel.completed_levels[4] = true;
+                        }
+                        else if(this.level_music_key === "envy_music") {
+                            GameLevel.completed_levels[0] = true;
+                            GameLevel.completed_levels[1] = true;
+                            GameLevel.completed_levels[2] = true;
+                            GameLevel.completed_levels[3] = true;
+                            GameLevel.completed_levels[4] = true;
+                            GameLevel.completed_levels[5] = true;
+                        }
+                        else {
+                            GameLevel.completed_levels[0] = true;
+                            GameLevel.completed_levels[1] = true;
+                            GameLevel.completed_levels[2] = true;
+                            GameLevel.completed_levels[3] = true;
+                            GameLevel.completed_levels[4] = true;
+                            GameLevel.completed_levels[5] = true;
+                            GameLevel.completed_levels[6] = true;
+                        }
                         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
                         this.viewport.stopFollow();
                         this.viewport.setZoomLevel(1);

@@ -13,6 +13,7 @@ import WrathLevel from "./WrathLevel";
 import SlothLevel from "./SlothLevel";
 import EnvyLevel from "./EnvyLevel";
 import PrideLevel from "./PrideLevel";
+import GameLevel from "./GameLevel";
 
 export default class MainMenu extends Scene {
     private main_menu: Layer;
@@ -153,7 +154,17 @@ export default class MainMenu extends Scene {
             this.textColor = Color.BLACK;
         };
 
-        const level_select_lust = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 20, center.y - 195), text: "Lust"});
+        const level_select_lust = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 10, center.y - 195), text: "???"});
+        if(GameLevel.completed_levels[0]) {
+            level_select_lust.text = "Lust";
+            level_select_lust.onClickEventId = "levelLust";
+            level_select_lust.onEnter = function(): void {
+                this.textColor = Color.RED;
+            };
+            level_select_lust.onLeave = function(): void {
+                this.textColor = Color.WHITE;
+            };
+        }
         level_select_lust.font = "HellText";
         level_select_lust.textColor = Color.WHITE;
         level_select_lust.fontSize = 64;
@@ -161,15 +172,18 @@ export default class MainMenu extends Scene {
         level_select_lust.borderWidth = 2;
         level_select_lust.borderColor = Color.TRANSPARENT;
         level_select_lust.backgroundColor = Color.TRANSPARENT;
-        level_select_lust.onClickEventId = "levelLust";
-        level_select_lust.onEnter = function(): void {
-            this.textColor = Color.RED;
-        };
-        level_select_lust.onLeave = function(): void {
-            this.textColor = Color.WHITE;
-        };
 
-        const level_select_wrath = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 20, center.y - 95), text: "Wrath"});
+        const level_select_wrath = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 10, center.y - 95), text: "???"});
+        if(GameLevel.completed_levels[1]) {
+            level_select_wrath.text = "Wrath";
+            level_select_wrath.onClickEventId = "levelWrath";
+            level_select_wrath.onEnter = function(): void {
+                this.textColor = Color.RED;
+            };
+            level_select_wrath.onLeave = function(): void {
+                this.textColor = Color.WHITE;
+            };
+        }
         level_select_wrath.font = "HellText";
         level_select_wrath.textColor = Color.WHITE;
         level_select_wrath.fontSize = 64;
@@ -177,15 +191,18 @@ export default class MainMenu extends Scene {
         level_select_wrath.borderWidth = 2;
         level_select_wrath.borderColor = Color.TRANSPARENT;
         level_select_wrath.backgroundColor = Color.TRANSPARENT;
-        level_select_wrath.onClickEventId = "levelWrath";
-        level_select_wrath.onEnter = function(): void {
-            this.textColor = Color.RED;
-        };
-        level_select_wrath.onLeave = function(): void {
-            this.textColor = Color.WHITE;
-        };
 
-        const level_select_gluttony = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 21, center.y + 3), text: "Gluttony"});
+        const level_select_gluttony = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 10, center.y + 3), text: "???"});
+        if(GameLevel.completed_levels[2]) {
+            level_select_gluttony.text = "Gluttony";
+            level_select_gluttony.onClickEventId = "levelGluttony";
+            level_select_gluttony.onEnter = function(): void {
+                this.textColor = Color.RED;
+            };
+            level_select_gluttony.onLeave = function(): void {
+                this.textColor = Color.WHITE;
+            };
+        }
         level_select_gluttony.font = "HellText";
         level_select_gluttony.textColor = Color.WHITE;
         level_select_gluttony.fontSize = 64;
@@ -193,15 +210,18 @@ export default class MainMenu extends Scene {
         level_select_gluttony.borderWidth = 2;
         level_select_gluttony.borderColor = Color.TRANSPARENT;
         level_select_gluttony.backgroundColor = Color.TRANSPARENT;
-        level_select_gluttony.onClickEventId = "levelGluttony";
-        level_select_gluttony.onEnter = function(): void {
-            this.textColor = Color.RED;
-        };
-        level_select_gluttony.onLeave = function(): void {
-            this.textColor = Color.WHITE;
-        };
 
-        const level_select_greed = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", { position: new Vec2(center.x - 20, center.y + 230), text: "Greed"});
+        const level_select_greed = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", { position: new Vec2(center.x - 10, center.y + 230), text: "???"});
+        if(GameLevel.completed_levels[5]) {
+            level_select_greed.text = "Greed";
+            level_select_greed.onClickEventId = "levelGreed";
+            level_select_greed.onEnter = function(): void {
+                this.textColor = Color.RED;
+            };
+            level_select_greed.onLeave = function(): void {
+                this.textColor = Color.WHITE;
+            };
+        }
         level_select_greed.font = "HellText";
         level_select_greed.textColor = Color.WHITE;
         level_select_greed.fontSize = 52;
@@ -209,15 +229,18 @@ export default class MainMenu extends Scene {
         level_select_greed.borderWidth = 2;
         level_select_greed.borderColor = Color.TRANSPARENT;
         level_select_greed.backgroundColor = Color.TRANSPARENT;
-        level_select_greed.onClickEventId = "levelGreed";
-        level_select_greed.onEnter = function(): void {
-            this.textColor = Color.RED;
-        };
-        level_select_greed.onLeave = function(): void {
-            this.textColor = Color.WHITE;
-        };
 
-        const level_select_sloth = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 21, center.y + 85), text: "Sloth"});
+        const level_select_sloth = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 10, center.y + 85), text: "???"});
+        if(GameLevel.completed_levels[3]) {
+            level_select_sloth.text = "Sloth";
+            level_select_sloth.onClickEventId = "levelSloth";
+            level_select_sloth.onEnter = function(): void {
+                this.textColor = Color.RED;
+            };
+            level_select_sloth.onLeave = function(): void {
+                this.textColor = Color.WHITE;
+            };
+        }
         level_select_sloth.font = "HellText";
         level_select_sloth.textColor = Color.WHITE;
         level_select_sloth.fontSize = 60;
@@ -225,15 +248,18 @@ export default class MainMenu extends Scene {
         level_select_sloth.borderWidth = 2;
         level_select_sloth.borderColor = Color.TRANSPARENT;
         level_select_sloth.backgroundColor = Color.TRANSPARENT;
-        level_select_sloth.onClickEventId = "levelSloth";
-        level_select_sloth.onEnter = function(): void {
-            this.textColor = Color.RED;
-        };
-        level_select_sloth.onLeave = function(): void {
-            this.textColor = Color.WHITE;
-        };
         
-        const level_select_envy = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", { position: new Vec2(center.x - 19, center.y + 160), text: "Envy"});
+        const level_select_envy = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", { position: new Vec2(center.x - 9, center.y + 160), text: "???"});
+        if(GameLevel.completed_levels[4]) {
+            level_select_envy.text = "Envy";
+            level_select_envy.onClickEventId = "levelEnvy";
+            level_select_envy.onEnter = function(): void {
+                this.textColor = Color.RED;
+            };
+            level_select_envy.onLeave = function(): void {
+                this.textColor = Color.WHITE;
+            };
+        }
         level_select_envy.font = "HellText";
         level_select_envy.textColor = Color.WHITE;
         level_select_envy.fontSize = 56;
@@ -241,15 +267,18 @@ export default class MainMenu extends Scene {
         level_select_envy.borderWidth = 2;
         level_select_envy.borderColor = Color.TRANSPARENT;
         level_select_envy.backgroundColor = Color.TRANSPARENT;
-        level_select_envy.onClickEventId = "levelEnvy";
-        level_select_envy.onEnter = function(): void {
-            this.textColor = Color.RED;
-        };
-        level_select_envy.onLeave = function(): void {
-            this.textColor = Color.WHITE;
-        };
 
-        const level_select_pride = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 22, center.y + 295), text: "Pride"});
+        const level_select_pride = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(center.x - 11, center.y + 295), text: "???"});
+        if(GameLevel.completed_levels[6]) {
+            level_select_pride.text = "Pride";
+            level_select_pride.onClickEventId = "levelPride";
+            level_select_pride.onEnter = function(): void {
+                this.textColor = Color.RED;
+            };
+            level_select_pride.onLeave = function(): void {
+                this.textColor = Color.WHITE;
+            };
+        }
         level_select_pride.font = "HellText";
         level_select_pride.textColor = Color.WHITE;
         level_select_pride.fontSize = 48;
@@ -257,13 +286,6 @@ export default class MainMenu extends Scene {
         level_select_pride.borderWidth = 2;
         level_select_pride.borderColor = Color.TRANSPARENT;
         level_select_pride.backgroundColor = Color.TRANSPARENT;
-        level_select_pride.onClickEventId = "levelPride";
-        level_select_pride.onEnter = function(): void {
-            this.textColor = Color.RED;
-        };
-        level_select_pride.onLeave = function(): void {
-            this.textColor = Color.WHITE;
-        };
 
         /* ################ HELP ################ */
         // create help layer
