@@ -57,6 +57,8 @@ export default class BatAI extends StateMachineAI implements BattlerAI {
             this.owner.isCollidable = false;
             if(!this.owner.animation.isPlaying("DYING")){
                 this.owner.removePhysics();
+                this.owner.addPhysics(new AABB(Vec2.ZERO, new Vec2(1, 1)), new Vec2(500, 500));
+                this.owner.setGroup("wall");
                 this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "bat_death", loop: false, holdReference: false})
                 this.owner.animation.play("DYING", false, Game_Events.ENEMY_DIED);
             }

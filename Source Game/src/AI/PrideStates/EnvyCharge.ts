@@ -29,7 +29,7 @@ export default class EnvyCharge extends BossState {
 
     onExit(): Record<string, any> {
         this.owner.animation.stop();
-        return {previous: BossStates.ENVY_CHARGE};
+        return {previous: BossStates.ENVY_WALK};
     }
 
 }

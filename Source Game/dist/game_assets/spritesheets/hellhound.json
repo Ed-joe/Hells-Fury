@@ -79,17 +79,17 @@
         {
             "name": "DYING",
             "frames": [
-                {"index": 27, "duration": 6},
-                {"index": 28, "duration": 6},
-                {"index": 29, "duration": 6},
-                {"index": 30, "duration": 6},
-                {"index": 31, "duration": 6},
-                {"index": 32, "duration": 6},
-                {"index": 33, "duration": 6},
-                {"index": 34, "duration": 6},
-                {"index": 35, "duration": 6},
-                {"index": 36, "duration": 6},
-                {"index": 37, "duration": 6}
+                {"index": 27, "duration": 4},
+                {"index": 28, "duration": 4},
+                {"index": 29, "duration": 4},
+                {"index": 30, "duration": 4},
+                {"index": 31, "duration": 4},
+                {"index": 32, "duration": 4},
+                {"index": 33, "duration": 4},
+                {"index": 34, "duration": 4},
+                {"index": 35, "duration": 4},
+                {"index": 36, "duration": 4},
+                {"index": 37, "duration": 4}
             ]
         }
     ]

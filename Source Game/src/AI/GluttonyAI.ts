@@ -76,6 +76,9 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
             this.slam.use(this.owner, "enemies", Vec2.ZERO);
             this.changeState(BossStates.DEFAULT);
         } else if (event.type === "GluttonyDeath") {
+            this.owner.removePhysics();
+            this.owner.addPhysics(new AABB(Vec2.ZERO, new Vec2(1, 1)), new Vec2(500, 500));
+            this.owner.setGroup("wall");
             this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gluttony_death", loop: false, holdReference: false});
         }
     }

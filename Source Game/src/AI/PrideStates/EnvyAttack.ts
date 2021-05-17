@@ -28,7 +28,7 @@ export default class EnvyAttack extends BossState {
     }
 
     onExit(): Record<string, any> {
-        return {previous: BossStates.ENVY_ATTACK};
+        return {previous: BossStates.ENVY_WALK};
     }
 
 }

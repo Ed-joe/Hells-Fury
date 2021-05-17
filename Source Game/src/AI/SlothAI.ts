@@ -65,6 +65,9 @@ export default class SlothAI extends StateMachineAI implements BattlerAI {
             this.owner.setAIActive(false, {});
             this.owner.isCollidable = false;
             if(this.currentState !== this.stateMap.get(BossStates.DYING)) {
+                this.owner.removePhysics();
+                this.owner.addPhysics(new AABB(Vec2.ZERO, new Vec2(1, 1)), new Vec2(500, 500));
+                this.owner.setGroup("wall");
                 this.changeState(BossStates.DYING);
             }
         }

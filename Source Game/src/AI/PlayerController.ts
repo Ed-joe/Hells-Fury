@@ -100,12 +100,10 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         if(event.type === Game_Events.ENEMY_COLLISION) {
             // take 1 damage
             this.damage(1);
-            this.invincible = true;
         }
         else if(event.type === Game_Events.BOSS_COLLISION) {
             // take 1 damage
             this.damage(1);
-            this.invincible = true;
         }
         else if(event.type === Game_Events.IFRAMES_OVER) {
             this.invincible = false;
@@ -135,6 +133,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     damage(damage: number): void {
         if(!this.invincible && !this.invincible_cheat) {
             this.health -= damage;
+            this.invincible = true;
             
             if(this.health <= 0){
                 if (this.currentState !== this.stateMap.get(PlayerStates.DYING)) {
@@ -146,7 +145,6 @@ export default class PlayerController extends StateMachineAI implements BattlerA
                 this.changeState(PlayerStates.DAMAGE);
                 this.health_sprites[this.health_sprites.length - 1].getLayer().removeNode(this.health_sprites[this.health_sprites.length - 1]);
                 this.health_sprites.splice(this.health_sprites.length - 1, 1);
-                this.invincible = true;
             }
         }
     }

@@ -397,6 +397,7 @@ export default class GameLevel extends Scene {
                         let enemy_position = node.position;
                         for(let i = 0; i < this.enemies.length ; i++){
                             if(this.enemies[i].id === (<AnimatedSprite> node).id){
+                                this.enemies[i].removePhysics();
                                 this.enemies.splice(i, 1);
                                 break;
                             }
