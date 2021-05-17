@@ -3,7 +3,7 @@
     "spriteSheetImage": "pride.png",
     "spriteWidth": 128,
     "spriteHeight": 128,
-    "columns": 136,
+    "columns": 145,
     "rows": 1,
     "durationType": "time",
     "animations": [
@@ -19,10 +19,10 @@
         {
             "name": "DAMAGE",
             "frames": [
-                {"index": 80, "duration": 8},
-                {"index": 81, "duration": 8},
-                {"index": 82, "duration": 8},
-                {"index": 83, "duration": 8}
+                {"index": 80, "duration": 4},
+                {"index": 81, "duration": 4},
+                {"index": 82, "duration": 4},
+                {"index": 83, "duration": 4}
             ]
         },
         {
@@ -55,16 +55,22 @@
         {
             "name": "SLOTH_THROW",
             "frames": [
-                {"index": 19, "duration": 8},
-                {"index": 20, "duration": 8},
-                {"index": 21, "duration": 8},
-                {"index": 22, "duration": 8},
-                {"index": 23, "duration": 8},
-                {"index": 24, "duration": 8},
-                {"index": 25, "duration": 8},
-                {"index": 26, "duration": 8},
-                {"index": 27, "duration": 8},
-                {"index": 28, "duration": 8},
+                {"index": 19, "duration": 3},
+                {"index": 20, "duration": 3},
+                {"index": 21, "duration": 3},
+                {"index": 22, "duration": 3},
+                {"index": 23, "duration": 3},
+                {"index": 24, "duration": 3},
+                {"index": 25, "duration": 3},
+                {"index": 26, "duration": 3},
+                {"index": 27, "duration": 3},
+                {"index": 28, "duration": 3},
+                {"index": 29, "duration": 3}
+            ]
+        },
+        {
+            "name": "SLOTH_SHADOW",
+            "frames": [
                 {"index": 29, "duration": 8}
             ]
         },
@@ -74,14 +80,13 @@
                 {"index": 29, "duration": 8},
                 {"index": 28, "duration": 8},
                 {"index": 27, "duration": 8},
-                {"index": 26, "duration": 8},
-                {"index": 27, "duration": 8},
-                {"index": 25, "duration": 8},
-                {"index": 24, "duration": 8},
-                {"index": 23, "duration": 8},
-                {"index": 22, "duration": 8},
-                {"index": 21, "duration": 8},
-                {"index": 20, "duration": 8}
+                {"index": 26, "duration": 4},
+                {"index": 25, "duration": 4},
+                {"index": 24, "duration": 4},
+                {"index": 23, "duration": 4},
+                {"index": 22, "duration": 4},
+                {"index": 21, "duration": 4},
+                {"index": 20, "duration": 4}
             ]
         },
         {
@@ -95,20 +100,25 @@
         {
             "name": "ENVY_WALK",
             "frames": [
-                {"index": 4, "duration": 8},
-                {"index": 5, "duration": 8},
-                {"index": 6, "duration": 8},
-                {"index": 7, "duration": 8},
-                {"index": 8, "duration": 8},
-                {"index": 9, "duration": 8}
+                {"index": 4, "duration": 10},
+                {"index": 5, "duration": 10},
+                {"index": 6, "duration": 10},
+                {"index": 7, "duration": 10},
+                {"index": 8, "duration": 10},
+                {"index": 9, "duration": 10}
             ]
         },
         {
-            "name": "ENVY_ATTACK",
+            "name": "ENVY_CHARGE",
             "frames": [
-                {"index": 10, "duration": 8},
-                {"index": 11, "duration": 8},
-                {"index": 12, "duration": 8},
+                {"index": 10, "duration": 12},
+                {"index": 11, "duration": 12},
+                {"index": 12, "duration": 12}
+            ]
+        },
+        {
+            "name": "ENVY_PUNCH",
+            "frames": [
                 {"index": 13, "duration": 8},
                 {"index": 14, "duration": 8},
                 {"index": 15, "duration": 8}
@@ -130,19 +140,16 @@
                 {"index": 31, "duration": 8},
                 {"index": 32, "duration": 8},
                 {"index": 33, "duration": 8},
-                {"index": 34, "duration": 8},
-                {"index": 35, "duration": 8},
-                {"index": 36, "duration": 8},
-                {"index": 37, "duration": 8}
+                {"index": 34, "duration": 8}
             ]
         },
         {
             "name": "WRATH_CHARGE_DOWN",
             "frames": [
-                {"index": 38, "duration": 8},
-                {"index": 39, "duration": 8},
-                {"index": 40, "duration": 8},
-                {"index": 41, "duration": 8}
+                {"index": 38, "duration": 6},
+                {"index": 39, "duration": 6},
+                {"index": 40, "duration": 6},
+                {"index": 41, "duration": 6}
             ]
         },
         {
@@ -156,10 +163,10 @@
         {
             "name": "WRATH_CHARGE_UP",
             "frames": [
-                {"index": 45, "duration": 8},
-                {"index": 46, "duration": 8},
-                {"index": 47, "duration": 8},
-                {"index": 48, "duration": 8}
+                {"index": 45, "duration": 6},
+                {"index": 46, "duration": 6},
+                {"index": 47, "duration": 6},
+                {"index": 48, "duration": 6}
             ]
         },
         {
@@ -209,85 +216,104 @@
         {
             "name": "LUST_WALK_RL",
             "frames": [
-                {"index": 68, "duration": 8},
-                {"index": 69, "duration": 8},
-                {"index": 70, "duration": 8},
-                {"index": 71, "duration": 8},
-                {"index": 72, "duration": 8},
-                {"index": 73, "duration": 8},
-                {"index": 74, "duration": 8},
-                {"index": 75, "duration": 8}
+                {"index": 68, "duration": 5},
+                {"index": 69, "duration": 5},
+                {"index": 70, "duration": 5},
+                {"index": 71, "duration": 5},
+                {"index": 72, "duration": 5},
+                {"index": 73, "duration": 5},
+                {"index": 74, "duration": 5},
+                {"index": 75, "duration": 5}
             ]
         },
         {
             "name": "TRANSFORM",
             "frames": [
-                {"index": 106, "duration": 8},
-                {"index": 107, "duration": 8},
-                {"index": 108, "duration": 8},
-                {"index": 109, "duration": 8},
-                {"index": 110, "duration": 8},
-                {"index": 111, "duration": 8}
+                {"index": 106, "duration": 6},
+                {"index": 107, "duration": 6},
+                {"index": 108, "duration": 6},
+                {"index": 109, "duration": 6},
+                {"index": 110, "duration": 6},
+                {"index": 111, "duration": 6}
             ]
         },
         {
             "name": "GREED_TFORM",
             "frames": [
-                {"index": 111, "duration": 8},
-                {"index": 112, "duration": 8},
-                {"index": 113, "duration": 8},
-                {"index": 114, "duration": 8},
-                {"index": 115, "duration": 8}
+                {"index": 111, "duration": 6},
+                {"index": 112, "duration": 6},
+                {"index": 113, "duration": 6},
+                {"index": 114, "duration": 6},
+                {"index": 115, "duration": 6}
             ]
         },
         {
             "name": "ENVY_TFORM",
             "frames": [
-                {"index": 111, "duration": 8},
-                {"index": 116, "duration": 8},
-                {"index": 117, "duration": 8},
-                {"index": 118, "duration": 8},
-                {"index": 119, "duration": 8}
+                {"index": 111, "duration": 6},
+                {"index": 116, "duration": 6},
+                {"index": 117, "duration": 6},
+                {"index": 118, "duration": 6},
+                {"index": 119, "duration": 6}
             ]
         },
         {
             "name": "SLOTH_TFORM",
             "frames": [
-                {"index": 111, "duration": 8},
-                {"index": 120, "duration": 8},
-                {"index": 121, "duration": 8},
-                {"index": 122, "duration": 8},
-                {"index": 123, "duration": 8}
+                {"index": 111, "duration": 6},
+                {"index": 120, "duration": 6},
+                {"index": 121, "duration": 6},
+                {"index": 122, "duration": 6},
+                {"index": 123, "duration": 6}
             ]
         },
         {
             "name": "GLUTTONY_TFORM",
             "frames": [
-                {"index": 111, "duration": 8},
-                {"index": 124, "duration": 8},
-                {"index": 125, "duration": 8},
-                {"index": 126, "duration": 8},
-                {"index": 127, "duration": 8}
+                {"index": 111, "duration": 6},
+                {"index": 124, "duration": 6},
+                {"index": 125, "duration": 6},
+                {"index": 126, "duration": 6},
+                {"index": 127, "duration": 6}
             ]
         },
         {
             "name": "WRATH_TFORM",
             "frames": [
-                {"index": 111, "duration": 8},
-                {"index": 128, "duration": 8},
-                {"index": 129, "duration": 8},
-                {"index": 130, "duration": 8},
-                {"index": 131, "duration": 8}
+                {"index": 111, "duration": 6},
+                {"index": 128, "duration": 6},
+                {"index": 129, "duration": 6},
+                {"index": 130, "duration": 6},
+                {"index": 131, "duration": 6}
             ]
         },
         {
             "name": "LUST_TFORM",
             "frames": [
-                {"index": 111, "duration": 8},
-                {"index": 132, "duration": 8},
-                {"index": 133, "duration": 8},
-                {"index": 134, "duration": 8},
-                {"index": 135, "duration": 8}
+                {"index": 111, "duration": 6},
+                {"index": 132, "duration": 6},
+                {"index": 133, "duration": 6},
+                {"index": 134, "duration": 6},
+                {"index": 135, "duration": 6}
+            ]
+        },
+        {
+            "name": "GREED_IDLE",
+            "frames": [
+                {"index": 136, "duration": 15},
+                {"index": 137, "duration": 15},
+                {"index": 138, "duration": 15},
+                {"index": 139, "duration": 15},
+                {"index": 140, "duration": 15}
+            ]
+        },
+        {
+            "name": "GLUTTONY_IDLE",
+            "frames": [
+                {"index": 141, "duration": 15},
+                {"index": 142, "duration": 15},
+                {"index": 143, "duration": 15},
+                {"index": 144, "duration": 15}
             ]
         }
     ]

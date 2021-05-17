@@ -74,7 +74,7 @@
         {
             "position": [1025, 937],
             "enemy_type": "boss_hitbox",
-            "health": 10
+            "health": 16
         }
     ]
 }
