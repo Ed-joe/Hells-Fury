@@ -451,9 +451,9 @@ export default class GameLevel extends Scene {
 
                 case Game_Events.ENTER_BOSS_FIGHT:
                     {
-                        let backdrop = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(320, 300), size: new Vec2(450, 18)});
+                        let backdrop = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(320, 330), size: new Vec2(450, 18)});
                         backdrop.color = Color.BLACK;
-                        this.boss_health_bar = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(320, 300), size: new Vec2(450, 18)});
+                        this.boss_health_bar = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(320, 330), size: new Vec2(450, 18)});
                         this.boss_room.removePhysics();
                         let tilemap = this.getTilemap("Wall") as OrthogonalTilemap;
                         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "boss_door_close", loop: false, holdReference: false})
