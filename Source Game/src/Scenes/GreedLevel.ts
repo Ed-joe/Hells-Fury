@@ -29,19 +29,20 @@ export default class GreedLevel extends GameLevel {
             greed_attack: "game_assets/sounds/greed_attack.mp3",
             greed_damage: "game_assets/sounds/greed_damage.mp3",
             greed_death: "game_assets/sounds/greed_death.mp3"
-        }
+        };
         this.boss_sprite = {
             greed: "game_assets/spritesheets/greed.json"
-        }
-        this.boss_attack_image = {}
-        this.boss_attack_sprite = {}
+        };
+        this.boss_attack_image = {};
+        this.boss_attack_sprite = {};
         this.enemy_data = {
             enemyData: "game_assets/data/greed_enemy.json"
-        }
+        };
         this.level_tilemap = {
             greedLevel: "game_assets/tilemaps/greed_level.json"
-        }
-        this.next_level_constructor = PrideLevel
+        };
+        this.next_level_constructor = PrideLevel;
+        this.retry_level_constructor = GreedLevel;
         this.player_start_pos = new Vec2(1009, 1756);
         this.player_speed = 150;
         this.level_text_color = new Color(252, 219, 3);

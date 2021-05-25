@@ -43,6 +43,7 @@ export default class SlothLevel extends GameLevel {
             greedLevel: "game_assets/tilemaps/sloth_level.json"
         }
         this.next_level_constructor = EnvyLevel;
+        this.retry_level_constructor = SlothLevel;
         this.shop_pos = new Vec2(1298, 500);
         this.player_start_pos = new Vec2(1480, 1663);
         this.player_speed = 110;

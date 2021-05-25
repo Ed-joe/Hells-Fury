@@ -46,7 +46,8 @@ export default class EnvyLevel extends GameLevel {
         this.level_tilemap = {
             envyLevel: "game_assets/tilemaps/envy_level.json"
         }
-        this.next_level_constructor = GreedLevel
+        this.next_level_constructor = GreedLevel;
+        this.retry_level_constructor = EnvyLevel;
         this.shop_pos = new Vec2(1679, 157);
         this.player_start_pos = new Vec2(430, 1779); //spawn pos
         // this.player_start_pos = new Vec2(1008, 1556); // // boss
