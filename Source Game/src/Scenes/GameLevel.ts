@@ -169,6 +169,9 @@ export default class GameLevel extends Scene {
             this.load.tilemap(key, this.level_tilemap[key]);
         }
 
+
+        // load health bar border
+        this.load.image("bar", "game_assets/images/health_bar.png");
         // load weapon info
         this.load.object("weaponData", "game_assets/data/weapon_data.json");
 
@@ -451,6 +454,8 @@ export default class GameLevel extends Scene {
 
                 case Game_Events.ENTER_BOSS_FIGHT:
                     {
+                        let border = this.add.sprite("bar", "UI");
+                        border.position = new Vec2(320, 330);
                         let backdrop = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(320, 330), size: new Vec2(450, 18)});
                         backdrop.color = Color.BLACK;
                         this.boss_health_bar = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(320, 330), size: new Vec2(450, 18)});
