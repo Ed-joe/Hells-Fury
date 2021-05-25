@@ -24,19 +24,20 @@ export default class LustLevel extends GameLevel {
             lust_move: "game_assets/sounds/lust_move.mp3",
             lust_death: "game_assets/sounds/lust_death.mp3",
             lust_damage: "game_assets/sounds/lust_damage.mp3"
-        }
+        };
         this.boss_sprite = {
             lust: "game_assets/spritesheets/lust.json"
-        }
-        this.boss_attack_image = {}
-        this.boss_attack_sprite = {}
+        };
+        this.boss_attack_image = {};
+        this.boss_attack_sprite = {};
         this.enemy_data = {
             enemyData: "game_assets/data/lust_enemy.json"
-        }
+        };
         this.level_tilemap = {
             lustLevel: "game_assets/tilemaps/lust_level.json"
-        }
+        };
         this.next_level_constructor = WrathLevel;
+        this.retry_level_constructor = LustLevel;
         this.shop_pos = new Vec2(780, 608);
         this.player_start_pos = new Vec2(1138, 116);
         this.player_speed = 150;

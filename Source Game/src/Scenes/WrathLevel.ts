@@ -44,7 +44,8 @@ export default class WrathLevel extends GameLevel {
         this.level_tilemap = {
             wrathLevel: "game_assets/tilemaps/wrath_level.json"
         }
-        this.next_level_constructor = GluttonyLevel
+        this.next_level_constructor = GluttonyLevel;
+        this.retry_level_constructor = WrathLevel;
         this.shop_pos = new Vec2(383, 959);
         this.player_start_pos = new Vec2(1026, 1874);
         this.player_speed = 150;

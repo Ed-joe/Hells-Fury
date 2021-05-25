@@ -44,6 +44,7 @@ export default class GluttonyLevel extends GameLevel {
             gluttonyLevel: "game_assets/tilemaps/gluttony_level.json"
         }
         this.next_level_constructor = SlothLevel
+        this.retry_level_constructor = GluttonyLevel
         this.shop_pos = new Vec2(350, 1333);
         this.player_start_pos = new Vec2(1018, 330);
         this.player_speed = 150;

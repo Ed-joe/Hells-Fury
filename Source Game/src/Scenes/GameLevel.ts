@@ -75,6 +75,7 @@ export default class GameLevel extends Scene {
     enemy_data: Record<string, string>;
     level_tilemap: Record<string, string>;
     next_level_constructor: new (...args: any) => Scene;
+    retry_level_constructor: new (...args: any) => Scene;
     shop_pos: Vec2;
     player_start_pos: Vec2;
     player_speed: number;
@@ -591,7 +592,7 @@ export default class GameLevel extends Scene {
                         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
                         this.viewport.stopFollow();
                         this.viewport.setZoomLevel(1);
-                        this.sceneManager.changeToScene(GameOver, {});
+                        this.sceneManager.changeToScene(GameOver, {retry: this.retry_level_constructor});
                     }
                     break;
                 case Game_Events.EXIT_TO_MAIN:
@@ -827,7 +828,7 @@ export default class GameLevel extends Scene {
                     health: data.health,
                     player: this.player,
                     slice: this.createWeapon("slice")
-                }
+                };
                 this.enemies[i].addAI(WrathAI, enemyOptions);
                 this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(26, 44)), new Vec2(0, 20));
                 this.enemies[i].setGroup("enemy");
@@ -838,7 +839,7 @@ export default class GameLevel extends Scene {
                     health: data.health,
                     player: this.player,
                     punch: this.createWeapon("punch4")
-                }
+                };
                 this.enemies[i].addAI(EnvyAI, enemyOptions);
                 this.enemies[i].addPhysics(new AABB(new Vec2(0, 14), new Vec2(16, 18)), new Vec2(0, 11));
                 this.enemies[i].setGroup("enemy");
@@ -850,7 +851,7 @@ export default class GameLevel extends Scene {
                     player: this.player,
                     hitbox: new AABB(new Vec2(0, 20), new Vec2(56, 30)),
                     hitbox_offset: new Vec2(0, 20)
-                }
+                };
                 
                 this.enemies[i].addPhysics(enemyOptions.hitbox, enemyOptions.hitbox_offset);
                 this.enemies[i].addAI(SlothAI, enemyOptions);
