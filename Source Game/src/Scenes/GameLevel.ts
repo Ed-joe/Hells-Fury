@@ -14,7 +14,7 @@ import BattleManager from "../GameSystems/BattleManager";
 import WeaponType from "../GameSystems/WeaponTypes/WeaponType"
 import BattlerAI from "../AI/BattlerAI";
 import GluttonyAI from "../AI/GluttonyAI";
-import { Game_Events } from "./../GameSystems/game_enums";
+import { Game_Events } from "../GameSystems/game_enums";
 import GameEvent from "../Wolfie2D/Events/GameEvent";
 import Sprite from "../Wolfie2D/Nodes/Sprites/Sprite";
 import { TweenableProperties } from "./../Wolfie2D/Nodes/GameNode";
@@ -91,6 +91,7 @@ export default class GameLevel extends Scene {
     greed_tiles: boolean;
     lose_money: boolean;
     coin_path: string;
+    boss_health_bar: Rect;
 
     // use initScene to differentiate between level select start and game continue?
     initScene(init: Record<string, any>): void {
@@ -338,6 +339,18 @@ export default class GameLevel extends Scene {
         while(this.receiver.hasNextEvent()) {
             let event = this.receiver.getNextEvent();
             switch(event.type){
+                case Game_Events.BOSS_DAMAGE:
+                    {
+                        let damage = event.data.get("damage");
+                        let total_health = event.data.get("total_health");
+                        let new_x = this.boss_health_bar.size.x - (damage * 450) / total_health;
+                        if(new_x < 0){
+                            new_x = 0;
+                        }
+                        this.boss_health_bar.size = new Vec2(new_x, this.boss_health_bar.size.y);
+                        this.boss_health_bar.position = new Vec2(this.boss_health_bar.position.x - ((damage * 450) / total_health)/2, this.boss_health_bar.position.y);
+                    }
+                    break;
                 case Game_Events.ENEMY_COLLISION:
                     {
                         let node = this.sceneGraph.getNode(event.data.get("node"));
@@ -437,6 +450,9 @@ export default class GameLevel extends Scene {
 
                 case Game_Events.ENTER_BOSS_FIGHT:
                     {
+                        let backdrop = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(320, 300), size: new Vec2(450, 18)});
+                        backdrop.color = Color.BLACK;
+                        this.boss_health_bar = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(320, 300), size: new Vec2(450, 18)});
                         this.boss_room.removePhysics();
                         let tilemap = this.getTilemap("Wall") as OrthogonalTilemap;
                         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "boss_door_close", loop: false, holdReference: false})
@@ -798,6 +814,9 @@ export default class GameLevel extends Scene {
                     player: this.player,
                     slam: this.createWeapon("slam")
                 }
+                let collidable_box = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(data.position[0], data.position[1]), size: Vec2.ZERO});
+                collidable_box.addPhysics(new AABB(Vec2.ZERO, new Vec2(50, 50)));
+                collidable_box.color = Color.TRANSPARENT;
                 this.enemies[i].addAI(GluttonyAI, enemyOptions);
                 this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(56, 56)));
                 this.enemies[i].setGroup("enemy");
@@ -1112,7 +1131,8 @@ export default class GameLevel extends Scene {
            Game_Events.WRATH_ATTACK_UP,
            Game_Events.WRATH_ATTACK_DOWN,
            Game_Events.ENVY_PUNCH,
-           Game_Events.EXIT_TO_MAIN
+           Game_Events.EXIT_TO_MAIN,
+           Game_Events.BOSS_DAMAGE
         ]);
     }
 }

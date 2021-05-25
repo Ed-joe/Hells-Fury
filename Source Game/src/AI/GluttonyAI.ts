@@ -15,6 +15,7 @@ import Damage from "./GluttonyStates/Damage";
 import { Game_Events } from "../GameSystems/game_enums";
 import Weapon from "../GameSystems/Weapon";
 import { GameEventType } from "../Wolfie2D/Events/GameEventType";
+import Game from "../Wolfie2D/Loop/Game";
 
 
 export default class GluttonyAI extends StateMachineAI implements BattlerAI {
@@ -23,6 +24,7 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
 
     /** The amount of health this entity has */
     health: number;
+    starting_health: number;
 
     /** The default movement speed of this AI */
     speed: number = 20;
@@ -41,6 +43,7 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
         this.addState(BossStates.DYING, new Dying(this, owner));
 
         this.health = options.health;
+        this.starting_health = options.health;
 
         this.player = options.player;
 
@@ -54,6 +57,7 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
     }
 
     damage(damage: number): void {
+        this.emitter.fireEvent(Game_Events.BOSS_DAMAGE, {damage: damage, total_health: this.starting_health});
         this.health -= damage;
         
         if(this.health <= 0){

@@ -46,7 +46,7 @@ export default class PrideAI extends StateMachineAI implements BattlerAI {
 
     /** The amount of health this entity has */
     health: number;
-
+    starting_health: number;
     /** The default movement speed of this AI */
     speed: number = 20;
 
@@ -106,6 +106,8 @@ export default class PrideAI extends StateMachineAI implements BattlerAI {
         
 
         this.health = options.health;
+        this.starting_health = options.health;
+
 
         this.player = options.player;
 
@@ -135,6 +137,7 @@ export default class PrideAI extends StateMachineAI implements BattlerAI {
     }
 
     damage(damage: number): void {
+        this.emitter.fireEvent(Game_Events.BOSS_DAMAGE, {damage: damage, total_health: this.starting_health});
         this.health -= damage;
         
         if(this.health <= 0){

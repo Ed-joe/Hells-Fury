@@ -23,6 +23,7 @@ export default class GreedAI extends StateMachineAI implements BattlerAI {
 
     /** The amount of health this entity has */
     health: number;
+    starting_health: number;
 
     /** The default movement speed of this AI */
     speed: number = 0;
@@ -38,8 +39,10 @@ export default class GreedAI extends StateMachineAI implements BattlerAI {
         this.addState(BossStates.DYING, new Dying(this, owner));
 
         this.health = options.health;
+        this.starting_health = options.health;
 
         this.player = options.player;
+        
 
         // Initialize to the default state
         this.initialize(BossStates.DEFAULT);
@@ -51,6 +54,7 @@ export default class GreedAI extends StateMachineAI implements BattlerAI {
     }
 
     damage(damage: number): void {
+        this.emitter.fireEvent(Game_Events.BOSS_DAMAGE, {damage: damage, total_health: this.starting_health});
         this.health -= damage;
         
         if(this.health <= 0){
