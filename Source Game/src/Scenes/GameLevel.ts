@@ -141,6 +141,8 @@ export default class GameLevel extends Scene {
 
         // shop fist image
         this.load.image("shop_fist", "game_assets/images/fist.png");
+        this.load.audio("shop_success", "game_assets/sounds/shop_success.mp3");
+        this.load.audio("shop_deny", "game_assets/sounds/shop_deny.mp3");
 
         //Hound
         this.load.spritesheet("hellhound", "game_assets/spritesheets/hellhound.json");
@@ -638,11 +640,14 @@ export default class GameLevel extends Scene {
                             spriteToAdd.position = new Vec2(prev_sprite.position.x + 25, prev_sprite.position.y);
                             this.health_sprites.push(spriteToAdd);
                             this.player_health += 1
+                            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "shop_success", loop: false, holdReference: false});
                             this.coin_count_label.text =  ": " + this.player_coins;
                             if(this.player_health === 10){
                                 this.health_buy_contract.text = "Maxed";
                             }
                             this.player._ai.handleEvent(new GameEvent(Game_Events.BOUGHT_HEART, {}));
+                        }else{
+                            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "shop_deny", loop: false, holdReference: false});
                         }
                     }
                     break;
@@ -721,11 +726,14 @@ export default class GameLevel extends Scene {
                         if (this.player_coins >= 10 && this.player_damage < 3) {
                             this.player_coins -= 10;
                             this.player_damage++;
+                            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "shop_success", loop: false, holdReference: false});
                             this.coin_count_label.text =  ": " + this.player_coins;
                             this.player._ai.handleEvent(event);
                             if(this.player_damage === 3){
                                 this.damage_buy_contract.text = "Sold Out";
                             }
+                        }else{
+                            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "shop_deny", loop: false, holdReference: false});
                         }
                     }
                     break;
