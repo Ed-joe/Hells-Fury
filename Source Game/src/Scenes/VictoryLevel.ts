@@ -9,55 +9,86 @@ import { UIElementType } from "../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Input from "../Wolfie2D/Input/Input";
 import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 import LustLevel from "./LustLevel";
+import GluttonyLevel from "./GluttonyLevel";
+import Debug from "../Wolfie2D/Debug/Debug";
 import GreedLevel from "./GreedLevel";
-import SlothLevel from "./SlothLevel";
-import EnvyLevel from "./EnvyLevel";
 import WrathLevel from "./WrathLevel";
 import PrideLevel from "./PrideLevel";
-import VictoryLevel from "./VictoryLevel";
+import SlothLevel from "./SlothLevel";
+import EnvyLevel from "./EnvyLevel";
 
-export default class GluttonyLevel extends GameLevel {
+export default class VictoryLevel extends GameLevel {
     initScene(init: Record<string, any>): void {
         super.initScene(init);
+        
+        // TODO
+        this.level_music_key = "main_menu";
+        this.level_music_path = "game_assets/sounds/music/main_menu.mp3";
 
-        this.level_music_key = "gluttony_music";
-        this.level_music_path = "game_assets/sounds/music/pride.mp3";
+
         this.boss_audios = {
+            envy_attack: "game_assets/sounds/envy_attack.mp3",
+            envy_charge: "game_assets/sounds/envy_charge.mp3",
+            envy_damage: "game_assets/sounds/envy_damage.mp3",
+            envy_death: "game_assets/sounds/envy_death.mp3",
             gluttony_attack: "game_assets/sounds/gluttony_attack.mp3",
             gluttony_charge: "game_assets/sounds/gluttony_charge.mp3",
             gluttony_damage: "game_assets/sounds/gluttony_damage.mp3",
-            gluttony_death: "game_assets/sounds/gluttony_death.mp3"
+            gluttony_death: "game_assets/sounds/gluttony_death.mp3",
+            greed_attack: "game_assets/sounds/greed_attack.mp3",
+            greed_damage: "game_assets/sounds/greed_damage.mp3",
+            greed_death: "game_assets/sounds/greed_death.mp3",
+            lust_move: "game_assets/sounds/lust_move.mp3",
+            lust_death: "game_assets/sounds/lust_death.mp3",
+            lust_damage: "game_assets/sounds/lust_damage.mp3",
+            wrath_attack: "game_assets/sounds/wrath_attack.mp3",
+            wrath_damage: "game_assets/sounds/wrath_damage.mp3",
+            wrath_death: "game_assets/sounds/wrath_death.mp3",
+            sloth_catch: "game_assets/sounds/sloth_catch.mp3",
+            sloth_damage: "game_assets/sounds/sloth_damage.mp3",
+            sloth_death: "game_assets/sounds/sloth_death.mp3",
+            sloth_throw: "game_assets/sounds/sloth_throw.mp3",
+            pride_damage: "game_assets/sounds/pride_damage.mp3",
+            pride_death: "game_assets/sounds/pride_death.mp3"
         }
         this.boss_sprite = {
             gluttony: "game_assets/spritesheets/gluttony.json",
-            boss_hitbox: "game_assets/spritesheets/boss_hitbox.json"
+            boss_hitbox: "game_assets/spritesheets/boss_hitbox.json",
+            envy: "game_assets/spritesheets/envy.json",
+            greed: "game_assets/spritesheets/greed.json",
+            lust: "game_assets/spritesheets/lust.json",
+            pride: "game_assets/spritesheets/pride.json",
+            sloth: "game_assets/spritesheets/sloth.json",
+            wrath: "game_assets/spritesheets/wrath.json"
         }
         this.boss_attack_image = {
-            slam: "game_assets/spritesheets/smash.png"
+            slam: "game_assets/spritesheets/smash.png",
+            slice: "game_assets/spritesheets/wrath_slice.png",
+            fist4: "game_assets/spritesheets/impact_green.png"
         }
         this.boss_attack_sprite = {
-            slam: "game_assets/spritesheets/smash.json"
+            slam: "game_assets/spritesheets/smash.json",
+            slice: "game_assets/spritesheets/wrath_slice.json",
+            fist4: "game_assets/spritesheets/impact_green.json"
         }
         this.enemy_data = {
-            enemyData: "game_assets/data/gluttony_enemy.json"
+            enemyData: "game_assets/data/victory_enemy.json"
         }
         this.level_tilemap = {
-            gluttonyLevel: "game_assets/tilemaps/gluttony_level.json"
+            envyLevel: "game_assets/tilemaps/victory_level.json"
         }
-        this.next_level_constructor = SlothLevel
-        this.retry_level_constructor = GluttonyLevel
-        this.shop_pos = new Vec2(350, 1333);
-        this.player_start_pos = new Vec2(1018, 330);
+        this.next_level_constructor = GreedLevel;
+        this.retry_level_constructor = EnvyLevel;
+        this.has_shop = false;
+        this.player_start_pos = new Vec2(1088, 986); //spawn pos
+        // this.player_start_pos = new Vec2(1008, 1556); // // boss
         this.player_speed = 150;
-        this.player_slippery = true;
-        this.level_text_color = new Color(95, 90, 76);
-        this.start_level_text = "Gluttony's Greasy Grotto";
-        this.end_level_text = "Gluttony has been defeated!"
-        this.boss_room_pos = new Vec2(1024, 1320);
-        this.boss_room_size = new Vec2(6 * 32, 3 * 32);
-        this.upper_boss_door = [new Vec2(1008, 1424), new Vec2(1040, 1424)];
-        this.lower_boss_door = [new Vec2(1008, 1456), new Vec2(1008, 1488), new Vec2(1040, 1456), new Vec2(1040, 1488)];
+        this.level_text_color = new Color(89, 147, 36);
+        this.start_level_text = "Victory Valley";
+        this.end_level_text = "Congratulations!"
+        this.has_boss_room = false;
     }
+
 
     startScene(): void {
         super.startScene();
@@ -117,20 +148,36 @@ export default class GluttonyLevel extends GameLevel {
         this.tutorial_labels = new Array<Label>();
         this.tutorial_zones = new Array<Rect>();
 
-        let tutorial_zone_1 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1025, 416), size: new Vec2(7 * 32, 5 * 32)});
+        let tutorial_zone_1 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(430, 1800), size: new Vec2(7 * 32, 5 * 32)});
         tutorial_zone_1.addPhysics(undefined, undefined, false, true);
         tutorial_zone_1.color = Color.TRANSPARENT;
         this.tutorial_zones.push(tutorial_zone_1);
 
-        let tutorial_label_1 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1025, 430), text: "Careful... The floor here is slick with grease."});
+        let tutorial_label_1 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(430, 1734), text: "The demons grow envious of your gold. They will steal it on attack!"});
         tutorial_label_1.font = "HellText";    
         tutorial_label_1.textColor = Color.BLACK;
-        tutorial_label_1.fontSize = 32;
+        tutorial_label_1.fontSize = 30;
         tutorial_label_1.size.set(30, 14);
         tutorial_label_1.borderWidth = 2;
         tutorial_label_1.borderColor = Color.TRANSPARENT;
         tutorial_label_1.backgroundColor = Color.TRANSPARENT;
         tutorial_label_1.visible = false;
         this.tutorial_labels.push(tutorial_label_1);
+
+        let tutorial_zone_2 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1610, 300), size: new Vec2(7 * 32, 5 * 32)});
+        tutorial_zone_2.addPhysics(undefined, undefined, false, true);
+        tutorial_zone_2.color = Color.TRANSPARENT;
+        this.tutorial_zones.push(tutorial_zone_2);
+
+        let tutorial_label_2 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1690, 230), text: "This will be your last chance to spend your gold! Use it wisely."});
+        tutorial_label_2.font = "HellText";    
+        tutorial_label_2.textColor = Color.RED;
+        tutorial_label_2.fontSize = 30;
+        tutorial_label_2.size.set(30, 14);
+        tutorial_label_2.borderWidth = 2;
+        tutorial_label_2.borderColor = Color.TRANSPARENT;
+        tutorial_label_2.backgroundColor = Color.TRANSPARENT;
+        tutorial_label_2.visible = false;
+        this.tutorial_labels.push(tutorial_label_2);
     }
 }

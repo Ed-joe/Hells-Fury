@@ -1,0 +1,15 @@
+{
+    "numEnemies": 2,
+    "enemies": [
+        {
+            "position": [1087, 1176],
+            "enemy_type": "pride",
+            "health": 99999
+        },
+        {
+            "position": [928, 736],
+            "enemy_type": "gluttony",
+            "health": 99999
+        }
+    ]
+}

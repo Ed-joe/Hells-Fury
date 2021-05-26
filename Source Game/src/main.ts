@@ -30,6 +30,7 @@ import FixedUpdateGameLoop from "./Wolfie2D/Loop/FixedUpdateGameLoop";
             {name: "envy", keys: ["5"]},
             {name: "greed", keys: ["6"]},
             {name: "pride", keys: ["7"]},
+            {name: "victory", keys: ["8"]},
         ]
     }
 

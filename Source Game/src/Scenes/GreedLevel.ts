@@ -15,6 +15,7 @@ import EnvyLevel from "./EnvyLevel";
 import WrathLevel from "./WrathLevel";
 import PrideLevel from "./PrideLevel";
 import SlothLevel from "./SlothLevel";
+import VictoryLevel from "./VictoryLevel";
 
 export default class GreedLevel extends GameLevel {
     initScene(init: Record<string, any>): void {
@@ -104,6 +105,9 @@ export default class GreedLevel extends GameLevel {
         }else if(Input.isJustPressed("sloth")){
             this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
             this.sceneManager.changeToScene(SlothLevel, scene_options, physics_options);
+        }else if(Input.isJustPressed("victory")){
+            this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.level_music_key});
+            this.sceneManager.changeToScene(VictoryLevel, scene_options, physics_options);
         }
 
         super.updateScene(deltaT);

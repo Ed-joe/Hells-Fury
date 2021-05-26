@@ -13,7 +13,6 @@ export default class Idle extends BossState {
 
     onEnter(options: Record<string, any>): void {
         (<AnimatedSprite> this.owner).animation.play("IDLE", true);
-
     }
 
     handleInput(event: GameEvent): void {
