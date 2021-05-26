@@ -2,12 +2,12 @@
     "numEnemies": 7,
     "enemies": [
         {
-            "position": [1087, 1169],
+            "position": [1087, 1151],
             "enemy_type": "pride",
             "health": 99999
         },
         {
-            "position": [766, 1170],
+            "position": [768, 1152],
             "enemy_type": "wrath",
             "health": 99999
         },

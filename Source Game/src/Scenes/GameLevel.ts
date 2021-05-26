@@ -96,6 +96,7 @@ export default class GameLevel extends Scene {
     collidable_box: Rect;
     has_boss_room: boolean;
     victory_level: boolean;
+    entered_end: boolean;
 
 
     // use initScene to differentiate between level select start and game continue?
@@ -112,6 +113,7 @@ export default class GameLevel extends Scene {
         this.coin_path = "game_assets/spritesheets/coin.json";
         this.has_boss_room = true;
         this.victory_level = false;
+        this.entered_end = false;
     }
     
     loadScene() {
@@ -796,17 +798,24 @@ export default class GameLevel extends Scene {
                         }
                     }
                     break;
-
-                    case Game_Events.PRIDE_ENVY_PUNCH:
-                        {
-                            for(let i = 0; i < this.enemies.length ; i++){
-                                if(this.enemies[i].imageId === "Pride"){
-                                    this.enemies[i]._ai.handleEvent(event);
-                                    break;
-                                }
+                case Game_Events.PLAYER_ENTERED_LEVEL_END:
+                    {
+                        if(!this.entered_end){
+                            this.entered_end = true;
+                            this.level_end_label.tweens.play("slideIn");
+                        }     
+                    }
+                    break;
+                case Game_Events.PRIDE_ENVY_PUNCH:
+                    {
+                        for(let i = 0; i < this.enemies.length ; i++){
+                            if(this.enemies[i].imageId === "Pride"){
+                                this.enemies[i]._ai.handleEvent(event);
+                                break;
                             }
                         }
-                        break;
+                    }
+                    break;
 
                 case Game_Events.BOUGHT_DAMAGE:
                     {
@@ -924,7 +933,7 @@ export default class GameLevel extends Scene {
                     player: this.player
                 }
                 this.enemies[i].addAI(LustAI, enemyOptions);
-                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(30, 38)), new Vec2(0, 15));
+                this.enemies[i].addPhysics(new AABB(Vec2.ZERO, new Vec2(33, 38)), new Vec2(0, 15));
                 this.enemies[i].setGroup("enemy");
                 this.enemies[i].setTrigger("player", Game_Events.BOSS_COLLISION, "boss hit player");
             }else if(data.enemy_type ===  "greed") {
@@ -984,7 +993,7 @@ export default class GameLevel extends Scene {
                     gluttony_hitbox_offset: Vec2.ZERO,
                     greed_hitbox: new AABB(Vec2.ZERO, new Vec2(56, 56)),
                     greed_hitbox_offset: Vec2.ZERO,
-                    lust_hitbox: new AABB(Vec2.ZERO, new Vec2(30, 38)),
+                    lust_hitbox: new AABB(Vec2.ZERO, new Vec2(33, 38)),
                     lust_hitbox_offset:  new Vec2(0, 15),
                     sloth_hitbox: new AABB(new Vec2(0, 20), new Vec2(56, 30)),
                     sloth_hitbox_offset: new Vec2(0, 20),
@@ -1236,7 +1245,8 @@ export default class GameLevel extends Scene {
            Game_Events.PRIDE_WRATH_ATTACK_UP,
            Game_Events.PRIDE_WRATH_ATTACK_DOWN,
            Game_Events.PRIDE_ENVY_PUNCH,
-           Game_Events.PRIDE_GLUT_ATTACK
+           Game_Events.PRIDE_GLUT_ATTACK,
+           Game_Events.PLAYER_ENTERED_LEVEL_END
         ]);
     }
 }

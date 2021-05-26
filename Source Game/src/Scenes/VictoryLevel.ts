@@ -16,6 +16,9 @@ import WrathLevel from "./WrathLevel";
 import PrideLevel from "./PrideLevel";
 import SlothLevel from "./SlothLevel";
 import EnvyLevel from "./EnvyLevel";
+import { TweenableProperties } from "../Wolfie2D/Nodes/GameNode";
+import { EaseFunctionType } from "../Wolfie2D/Utils/EaseFunctions";
+import { Game_Events } from "../GameSystems/game_enums";
 
 export default class VictoryLevel extends GameLevel {
     initScene(init: Record<string, any>): void {
@@ -77,13 +80,13 @@ export default class VictoryLevel extends GameLevel {
         this.level_tilemap = {
             envyLevel: "game_assets/tilemaps/victory_level.json"
         }
-        this.next_level_constructor = GreedLevel;
-        this.retry_level_constructor = EnvyLevel;
+        this.next_level_constructor = MainMenu;
+        this.retry_level_constructor = VictoryLevel;
         this.has_shop = false;
-        this.player_start_pos = new Vec2(1088, 986); //spawn pos
+        this.player_start_pos = new Vec2(449, 955); //spawn pos
         // this.player_start_pos = new Vec2(1008, 1556); // // boss
         this.player_speed = 150;
-        this.level_text_color = new Color(89, 147, 36);
+        this.level_text_color = new Color(183, 136, 227);
         this.start_level_text = "Victory Valley";
         this.end_level_text = "Congratulations!"
         this.has_boss_room = false;
@@ -149,12 +152,12 @@ export default class VictoryLevel extends GameLevel {
         this.tutorial_labels = new Array<Label>();
         this.tutorial_zones = new Array<Rect>();
 
-        let tutorial_zone_1 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(430, 1800), size: new Vec2(7 * 32, 5 * 32)});
+        let tutorial_zone_1 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1670, 968), size: new Vec2(7 * 32, 5 * 32)});
         tutorial_zone_1.addPhysics(undefined, undefined, false, true);
         tutorial_zone_1.color = Color.TRANSPARENT;
         this.tutorial_zones.push(tutorial_zone_1);
 
-        let tutorial_label_1 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(430, 1734), text: "The demons grow envious of your gold. They will steal it on attack!"});
+        let tutorial_label_1 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1670, 968), text: "Exit to the right ===>"});
         tutorial_label_1.font = "HellText";    
         tutorial_label_1.textColor = Color.BLACK;
         tutorial_label_1.fontSize = 30;
@@ -165,20 +168,9 @@ export default class VictoryLevel extends GameLevel {
         tutorial_label_1.visible = false;
         this.tutorial_labels.push(tutorial_label_1);
 
-        let tutorial_zone_2 = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1610, 300), size: new Vec2(7 * 32, 5 * 32)});
-        tutorial_zone_2.addPhysics(undefined, undefined, false, true);
-        tutorial_zone_2.color = Color.TRANSPARENT;
-        this.tutorial_zones.push(tutorial_zone_2);
-
-        let tutorial_label_2 = <Label>this.add.uiElement(UIElementType.LABEL, "primary", {position: new Vec2(1690, 230), text: "This will be your last chance to spend your gold! Use it wisely."});
-        tutorial_label_2.font = "HellText";    
-        tutorial_label_2.textColor = Color.RED;
-        tutorial_label_2.fontSize = 30;
-        tutorial_label_2.size.set(30, 14);
-        tutorial_label_2.borderWidth = 2;
-        tutorial_label_2.borderColor = Color.TRANSPARENT;
-        tutorial_label_2.backgroundColor = Color.TRANSPARENT;
-        tutorial_label_2.visible = false;
-        this.tutorial_labels.push(tutorial_label_2);
+        let levelEndArea = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(1954, 972), size: new Vec2(4 * 32, 5 * 32)});
+        levelEndArea.addPhysics(undefined, undefined, false, true);
+        levelEndArea.setTrigger("player", Game_Events.PLAYER_ENTERED_LEVEL_END, null);
+        levelEndArea.color = new Color(0, 0, 0, 0);
     }
 }

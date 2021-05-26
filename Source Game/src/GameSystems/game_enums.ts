@@ -28,5 +28,6 @@ export enum Game_Events {
     PRIDE_GREED_ATTACK = "PrideGreedAttack",
     PRIDE_WRATH_ATTACK_DOWN = "PrideWrathAttackDown",
     PRIDE_GLUT_ATTACK = "PrideGlutAttack",
-    PRIDE_ENVY_PUNCH = "PrideEnvyPunch"
+    PRIDE_ENVY_PUNCH = "PrideEnvyPunch",
+    PLAYER_ENTERED_LEVEL_END = "PLAYER_ENTERED_LEVEL_END"
 }
