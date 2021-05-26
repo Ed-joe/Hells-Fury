@@ -92,8 +92,8 @@ export default class VictoryLevel extends GameLevel {
 
 
     startScene(): void {
-        GameLevel.range = 100;
         super.startScene();
+        GameLevel.range = 100;
 
         this.initializeLabels()
     }
