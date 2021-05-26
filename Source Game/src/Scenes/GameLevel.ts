@@ -94,6 +94,7 @@ export default class GameLevel extends Scene {
     coin_path: string;
     boss_health_bar: Rect;
     collidable_box: Rect;
+    has_boss_room: boolean;
 
 
     // use initScene to differentiate between level select start and game continue?
@@ -108,6 +109,7 @@ export default class GameLevel extends Scene {
         this.greed_tiles = false;
         this.lose_money = false;
         this.coin_path = "game_assets/spritesheets/coin.json";
+        this.has_boss_room = true;
     }
     
     loadScene() {
@@ -349,14 +351,16 @@ export default class GameLevel extends Scene {
             switch(event.type){
                 case Game_Events.BOSS_DAMAGE:
                     {
-                        let damage = event.data.get("damage");
-                        let total_health = event.data.get("total_health");
-                        let new_x = this.boss_health_bar.size.x - (damage * 450) / total_health;
-                        if(new_x < 0){
-                            new_x = 0;
+                        if(this.has_boss_room){
+                            let damage = event.data.get("damage");
+                            let total_health = event.data.get("total_health");
+                            let new_x = this.boss_health_bar.size.x - (damage * 450) / total_health;
+                            if(new_x < 0){
+                                new_x = 0;
+                            }
+                            this.boss_health_bar.size = new Vec2(new_x, this.boss_health_bar.size.y);
+                            this.boss_health_bar.position = new Vec2(this.boss_health_bar.position.x - ((damage * 450) / total_health)/2, this.boss_health_bar.position.y);
                         }
-                        this.boss_health_bar.size = new Vec2(new_x, this.boss_health_bar.size.y);
-                        this.boss_health_bar.position = new Vec2(this.boss_health_bar.position.x - ((damage * 450) / total_health)/2, this.boss_health_bar.position.y);
                     }
                     break;
                 case Game_Events.ENEMY_COLLISION:
@@ -1108,10 +1112,12 @@ export default class GameLevel extends Scene {
     }
 
     protected initializeBossRoom(): void {
-        this.boss_room = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: this.boss_room_pos, size: this.boss_room_size});
-        this.boss_room.addPhysics(undefined, undefined, false, true);
-        this.boss_room.setTrigger("player", Game_Events.ENTER_BOSS_FIGHT, "enter boss fight");
-        this.boss_room.color = Color.TRANSPARENT;
+        if(this.has_boss_room){
+            this.boss_room = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: this.boss_room_pos, size: this.boss_room_size});
+            this.boss_room.addPhysics(undefined, undefined, false, true);
+            this.boss_room.setTrigger("player", Game_Events.ENTER_BOSS_FIGHT, "enter boss fight");
+            this.boss_room.color = Color.TRANSPARENT;
+        }
     }
 
 
