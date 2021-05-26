@@ -387,8 +387,19 @@ export default class GameLevel extends Scene {
                 case Game_Events.GLUT_ATTACK:
                     {
                         for(let i = 0; i < this.enemies.length ; i++){
-                            if(this.enemies[i].imageId === "Gluttony" || this.enemies[i].imageId === "Pride"){
+                            if(this.enemies[i].imageId === "Gluttony"){
                                 this.enemies[i]._ai.handleEvent(new GameEvent(Game_Events.GLUT_ATTACK));
+                                break;
+                            }
+                        }
+                    }
+                    break;
+
+                case Game_Events.PRIDE_GLUT_ATTACK:
+                    {
+                        for(let i = 0; i < this.enemies.length ; i++){
+                            if(this.enemies[i].imageId === "Pride"){
+                                this.enemies[i]._ai.handleEvent(new GameEvent(Game_Events.PRIDE_GLUT_ATTACK));
                                 break;
                             }
                         }
@@ -685,7 +696,7 @@ export default class GameLevel extends Scene {
                         let coin3_vel = greed_position.dirTo(new Vec2(positionX + 64, positionY)).scale(3);
                         coin3.addAI(CoinEnemyAI, {player: this.player, velocityX: coin3_vel.x, velocityY: coin3_vel.y});
                         for(let i = 0; i < this.enemies.length ; i++){
-                            if(this.enemies[i].imageId === "Greed" || this.enemies[i].imageId === "Pride"){
+                            if(this.enemies[i].imageId === "Greed"){
                                 this.enemies[i]._ai.handleEvent(event);
                                 break;
                             }
@@ -693,10 +704,48 @@ export default class GameLevel extends Scene {
                     }
                     break;
 
+                    case Game_Events.PRIDE_GREED_ATTACK:
+                        {
+                            let positionX = this.player.position.x;
+                            let positionY = this.player.position.y;
+                            let greed_position = this.sceneGraph.getNode(event.data.get("owner")).position;
+                            let coin1 = this.add.animatedSprite("coin", "above");
+                            coin1.addPhysics(coin1.boundary, Vec2.ZERO, false);
+                            coin1.position.set(greed_position.x, greed_position.y);
+                            coin1.animation.play("IDLE", true);
+                            coin1.setGroup("coin");
+                            coin1.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
+                            let coin1_vel = greed_position.dirTo(new Vec2(positionX, positionY)).scale(3.5);
+                            coin1.addAI(CoinEnemyAI, {player: this.player, velocityX: coin1_vel.x, velocityY: coin1_vel.y});
+                            let coin2 = this.add.animatedSprite("coin", "above");
+                            coin2.addPhysics(coin2.boundary, Vec2.ZERO, false);
+                            coin2.position.set(greed_position.x, greed_position.y);
+                            coin2.animation.play("IDLE", true);
+                            coin2.setGroup("coin");
+                            coin2.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
+                            let coin2_vel = greed_position.dirTo(new Vec2(positionX - 64, positionY)).scale(3);
+                            coin2.addAI(CoinEnemyAI, {player: this.player, velocityX: coin2_vel.x , velocityY: coin2_vel.y});
+                            let coin3 = this.add.animatedSprite("coin", "above");
+                            coin3.addPhysics(coin3.boundary, Vec2.ZERO, false);
+                            coin3.position.set(greed_position.x, greed_position.y);
+                            coin3.animation.play("IDLE", true);
+                            coin3.setGroup("coin");
+                            coin3.setTrigger("player", Game_Events.GET_COIN, "player pick up coin");
+                            let coin3_vel = greed_position.dirTo(new Vec2(positionX + 64, positionY)).scale(3);
+                            coin3.addAI(CoinEnemyAI, {player: this.player, velocityX: coin3_vel.x, velocityY: coin3_vel.y});
+                            for(let i = 0; i < this.enemies.length ; i++){
+                                if(this.enemies[i].imageId === "Pride"){
+                                    this.enemies[i]._ai.handleEvent(event);
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+
                 case Game_Events.WRATH_ATTACK_DOWN:
                     {
                         for(let i = 0; i < this.enemies.length ; i++){
-                            if(this.enemies[i].imageId === "Wrath" || this.enemies[i].imageId === "Pride"){
+                            if(this.enemies[i].imageId === "Wrath"){
                                 this.enemies[i]._ai.handleEvent(event);
                                 break;
                             }
@@ -706,7 +755,7 @@ export default class GameLevel extends Scene {
                 case Game_Events.WRATH_ATTACK_UP:
                     {
                         for(let i = 0; i < this.enemies.length ; i++){
-                            if(this.enemies[i].imageId === "Wrath" || this.enemies[i].imageId === "Pride"){
+                            if(this.enemies[i].imageId === "Wrath"){
                                 this.enemies[i]._ai.handleEvent(event);
                                 break;
                             }
@@ -714,16 +763,48 @@ export default class GameLevel extends Scene {
                     }
                     break;
 
+                    case Game_Events.PRIDE_WRATH_ATTACK_DOWN:
+                        {
+                            for(let i = 0; i < this.enemies.length ; i++){
+                                if(this.enemies[i].imageId === "Pride"){
+                                    this.enemies[i]._ai.handleEvent(event);
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                    case Game_Events.PRIDE_WRATH_ATTACK_UP:
+                        {
+                            for(let i = 0; i < this.enemies.length ; i++){
+                                if(this.enemies[i].imageId === "Pride"){
+                                    this.enemies[i]._ai.handleEvent(event);
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+
                 case Game_Events.ENVY_PUNCH:
                     {
                         for(let i = 0; i < this.enemies.length ; i++){
-                            if(this.enemies[i].imageId === "Envy" || this.enemies[i].imageId === "Pride"){
+                            if(this.enemies[i].imageId === "Envy"){
                                 this.enemies[i]._ai.handleEvent(event);
                                 break;
                             }
                         }
                     }
                     break;
+
+                    case Game_Events.PRIDE_ENVY_PUNCH:
+                        {
+                            for(let i = 0; i < this.enemies.length ; i++){
+                                if(this.enemies[i].imageId === "Pride"){
+                                    this.enemies[i]._ai.handleEvent(event);
+                                    break;
+                                }
+                            }
+                        }
+                        break;
 
                 case Game_Events.BOUGHT_DAMAGE:
                     {
@@ -1146,7 +1227,12 @@ export default class GameLevel extends Scene {
            Game_Events.WRATH_ATTACK_DOWN,
            Game_Events.ENVY_PUNCH,
            Game_Events.EXIT_TO_MAIN,
-           Game_Events.BOSS_DAMAGE
+           Game_Events.BOSS_DAMAGE,
+           Game_Events.PRIDE_GREED_ATTACK,
+           Game_Events.PRIDE_WRATH_ATTACK_UP,
+           Game_Events.PRIDE_WRATH_ATTACK_DOWN,
+           Game_Events.PRIDE_ENVY_PUNCH,
+           Game_Events.PRIDE_GLUT_ATTACK
         ]);
     }
 }

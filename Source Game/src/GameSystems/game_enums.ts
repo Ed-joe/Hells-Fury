@@ -23,5 +23,10 @@ export enum Game_Events {
     WRATH_ATTACK_DOWN = "WrathAttackDown",
     ENVY_PUNCH = "EnvyPunch",
     EXIT_TO_MAIN = "ExitToMain",
-    BOSS_DAMAGE = "BOSS_DAMAGE"
+    BOSS_DAMAGE = "BOSS_DAMAGE",
+    PRIDE_WRATH_ATTACK_UP = "PrideWrathAttackUp",
+    PRIDE_GREED_ATTACK = "PrideGreedAttack",
+    PRIDE_WRATH_ATTACK_DOWN = "PrideWrathAttackDown",
+    PRIDE_GLUT_ATTACK = "PrideGlutAttack",
+    PRIDE_ENVY_PUNCH = "PrideEnvyPunch"
 }
