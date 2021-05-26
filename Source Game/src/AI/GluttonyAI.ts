@@ -33,6 +33,7 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
     player: GameNode;
 
     slam: Weapon;
+    disable_attack: boolean;
 
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.owner = owner;
@@ -46,6 +47,8 @@ export default class GluttonyAI extends StateMachineAI implements BattlerAI {
         this.starting_health = options.health;
 
         this.player = options.player;
+
+        this.disable_attack = options.disable_attack;
 
         // Initialize to the default state
         this.initialize(BossStates.DEFAULT);

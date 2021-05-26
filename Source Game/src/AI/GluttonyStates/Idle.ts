@@ -34,7 +34,7 @@ export default class Idle extends BossState {
         if(this.parent.getPlayerPosition() !== null && this.attack_timer.isPaused() && this.parent.getPlayerPosition().distanceTo(this.owner.position) < 300){
             this.attack_timer.start();
         }
-        if(this.attack_timer.isStopped()) {
+        if(this.attack_timer.isStopped() && !this.parent.disable_attack) {
             this.finished(BossStates.ATTACKING);
         }
     }
