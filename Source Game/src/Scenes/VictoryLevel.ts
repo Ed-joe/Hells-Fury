@@ -87,6 +87,7 @@ export default class VictoryLevel extends GameLevel {
         this.start_level_text = "Victory Valley";
         this.end_level_text = "Congratulations!"
         this.has_boss_room = false;
+        this.victory_level = true;
     }
 
 

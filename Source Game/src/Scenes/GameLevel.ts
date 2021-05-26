@@ -95,6 +95,7 @@ export default class GameLevel extends Scene {
     boss_health_bar: Rect;
     collidable_box: Rect;
     has_boss_room: boolean;
+    victory_level: boolean;
 
 
     // use initScene to differentiate between level select start and game continue?
@@ -110,6 +111,7 @@ export default class GameLevel extends Scene {
         this.lose_money = false;
         this.coin_path = "game_assets/spritesheets/coin.json";
         this.has_boss_room = true;
+        this.victory_level = false;
     }
     
     loadScene() {
@@ -905,7 +907,8 @@ export default class GameLevel extends Scene {
                 let enemyOptions = {
                     health: data.health,
                     player: this.player,
-                    slam: this.createWeapon("slam")
+                    slam: this.createWeapon("slam"),
+                    disable_attack: this.victory_level
                 }
                 this.collidable_box = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(data.position[0], data.position[1]), size: Vec2.ZERO});
                 this.collidable_box.addPhysics(new AABB(Vec2.ZERO, new Vec2(50, 50)));
