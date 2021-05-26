@@ -19,6 +19,7 @@ import EnvyLevel from "./EnvyLevel";
 
 export default class VictoryLevel extends GameLevel {
     initScene(init: Record<string, any>): void {
+        GameLevel.range = 100;
         super.initScene(init);
         
         // TODO
