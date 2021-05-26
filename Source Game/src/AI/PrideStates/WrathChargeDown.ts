@@ -11,7 +11,7 @@ export default class WrathChargeDown extends BossState {
     }
 
     onEnter(options: Record<string, any>): void {
-        this.owner.animation.play("WRATH_CHARGE_DOWN", false, Game_Events.WRATH_ATTACK_DOWN);
+        this.owner.animation.play("WRATH_CHARGE_DOWN", false, Game_Events.PRIDE_WRATH_ATTACK_DOWN);
     }
 
     handleInput(event: GameEvent): void {}

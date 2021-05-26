@@ -13,7 +13,7 @@ export default class EnvyCharge extends BossState {
 
     onEnter(options: Record<string, any>): void {
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "envy_charge", loop: false, holdReference: false});
-        this.owner.animation.play("ENVY_CHARGE", false, Game_Events.ENVY_PUNCH);
+        this.owner.animation.play("ENVY_CHARGE", false, Game_Events.PRIDE_ENVY_PUNCH);
 
         // update rotation for attacking
         this.parent.punch_direction = this.owner.position.dirTo(this.parent.player.position);
