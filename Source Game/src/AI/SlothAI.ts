@@ -33,6 +33,7 @@ export default class SlothAI extends StateMachineAI implements BattlerAI {
 
     hitbox: AABB;
     hitbox_offset: Vec2;
+    disable_attack: boolean;
 
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.owner = owner;
@@ -47,6 +48,8 @@ export default class SlothAI extends StateMachineAI implements BattlerAI {
         this.health = options.health;
         this.starting_health = options.health;
 
+        this.disable_attack = options.disable_attack;
+        
         this.player = options.player;
 
         this.hitbox = options.hitbox;

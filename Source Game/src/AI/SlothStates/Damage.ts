@@ -19,8 +19,12 @@ export default class Damage extends BossState {
     }
 
     update(deltaT: number): void {
-        if (!this.owner.animation.isPlaying("DAMAGE")) {
-            this.finished(BossStates.TOSS_UP);
+        if(this.parent.disable_attack && !this.owner.animation.isPlaying("DAMAGE")){
+            this.finished(BossStates.DEFAULT);
+        }else{
+            if (!this.owner.animation.isPlaying("DAMAGE")) {
+                this.finished(BossStates.TOSS_UP);
+            }
         }
     }
 

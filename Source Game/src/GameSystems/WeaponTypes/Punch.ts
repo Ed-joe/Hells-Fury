@@ -26,7 +26,6 @@ export default class Punch extends WeaponType {
         punch_sprite.rotation = attacker.attack_direction;
 
         if(attacker.moving && (Math.abs(attacker.attack_direction - Vec2.UP.angleToCCW(attacker._velocity)) < .3 || Math.abs(attacker.attack_direction - Vec2.UP.angleToCCW(attacker._velocity)) > 5.5)) {
-        // if(attacker.moving) {
             punch_sprite.position = attacker.position.clone().add(direction.scaled(80));
         }
         else {

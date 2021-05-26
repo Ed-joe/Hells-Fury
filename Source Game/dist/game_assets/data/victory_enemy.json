@@ -1,9 +1,14 @@
 {
-    "numEnemies": 3,
+    "numEnemies": 7,
     "enemies": [
         {
             "position": [1087, 1169],
             "enemy_type": "pride",
+            "health": 99999
+        },
+        {
+            "position": [766, 1170],
+            "enemy_type": "wrath",
             "health": 99999
         },
         {
@@ -14,6 +19,21 @@
         {
             "position": [607, 752],
             "enemy_type": "lust",
+            "health": 99999
+        },
+        {
+            "position": [1247, 758],
+            "enemy_type": "sloth",
+            "health": 99999
+        },
+        {
+            "position": [1409, 1178],
+            "enemy_type": "envy",
+            "health": 99999
+        },
+        {
+            "position": [1568, 758],
+            "enemy_type": "greed",
             "health": 99999
         }
     ]

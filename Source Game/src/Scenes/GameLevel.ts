@@ -964,7 +964,8 @@ export default class GameLevel extends Scene {
                     health: data.health,
                     player: this.player,
                     hitbox: new AABB(new Vec2(0, 20), new Vec2(56, 30)),
-                    hitbox_offset: new Vec2(0, 20)
+                    hitbox_offset: new Vec2(0, 20),
+                    disable_attack: this.victory_level
                 };
                 
                 this.enemies[i].addPhysics(enemyOptions.hitbox, enemyOptions.hitbox_offset);

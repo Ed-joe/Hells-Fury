@@ -18,7 +18,7 @@ export default class Idle extends BossState {
 
     update(deltaT: number): void {
         let player_pos = this.parent.getPlayerPosition();
-        if(player_pos !== null && player_pos.distanceTo(this.owner.position) < 250){
+        if(player_pos !== null && player_pos.distanceTo(this.owner.position) < 250 && !this.parent.disable_attack){
             this.finished(BossStates.WALK);
         }
     }
