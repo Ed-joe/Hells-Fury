@@ -1,3 +1,4 @@
+import GameLevel from "../../Scenes/GameLevel";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import Input from "../../Wolfie2D/Input/Input";
 import GameNode from "../../Wolfie2D/Nodes/GameNode";
@@ -26,12 +27,10 @@ export default class Punch extends WeaponType {
         punch_sprite.rotation = attacker.attack_direction;
 
         if((attacker._velocity.x != 0 || attacker._velocity.y != 0) && (Math.abs(attacker.attack_direction - Vec2.UP.angleToCCW(attacker._velocity)) < .3 || Math.abs(attacker.attack_direction - Vec2.UP.angleToCCW(attacker._velocity)) > 5.5)) {
-        // if(attacker.moving) {
             punch_sprite.position = attacker.position.clone().add(direction.scaled(80));
         }
         else {
-            console.log("not moving");
-            punch_sprite.position = attacker.position.clone().add(direction.scaled(50));
+            punch_sprite.position = attacker.position.clone().add(direction.scaled(GameLevel.range));
         }
 
         // move the punch out from the player

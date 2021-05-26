@@ -41,6 +41,7 @@ import SlothAI from "../AI/SlothAI";
 import PrideAI from "../AI/PrideAI";
 
 export default class GameLevel extends Scene {
+    static range: number;
     static completed_levels: boolean[] = [true, false, false, false, false, false, false]; // for unlocking levels
 
     private player: AnimatedSprite;         // the player
@@ -117,6 +118,7 @@ export default class GameLevel extends Scene {
     }
     
     loadScene() {
+        GameLevel.range = 50;
         //Load Music
         this.load.audio(this.level_music_key, this.level_music_path);
 
