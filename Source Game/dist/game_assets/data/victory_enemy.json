@@ -1,14 +1,19 @@
 {
-    "numEnemies": 2,
+    "numEnemies": 3,
     "enemies": [
         {
-            "position": [1087, 1176],
+            "position": [1087, 1169],
             "enemy_type": "pride",
             "health": 99999
         },
         {
-            "position": [928, 736],
+            "position": [928, 758],
             "enemy_type": "gluttony",
+            "health": 99999
+        },
+        {
+            "position": [607, 752],
+            "enemy_type": "lust",
             "health": 99999
         }
     ]
