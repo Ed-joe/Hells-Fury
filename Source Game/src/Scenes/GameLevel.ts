@@ -141,6 +141,8 @@ export default class GameLevel extends Scene {
 
         // shop fist image
         this.load.image("shop_fist", "game_assets/images/fist.png");
+        this.load.audio("shop_success", "game_assets/sounds/shop_success.mp3");
+        this.load.audio("shop_deny", "game_assets/sounds/shop_deny.mp3");
 
         //Hound
         this.load.spritesheet("hellhound", "game_assets/spritesheets/hellhound.json");
@@ -488,27 +490,16 @@ export default class GameLevel extends Scene {
                 case Game_Events.BOSS_DIED:
                     {
                         let node = this.sceneGraph.getNode(event.data.get("owner"));
-                        let node2 = this.sceneGraph.getNode(event.data.get("owner"));
-                        if(this.collidable_box !== null){
-                            this.collidable_box.destroy();
-                        }
                         for(let i = 0; i < this.enemies.length ; i++){
                             if(this.enemies[i].id === (<AnimatedSprite> node).id){
-                                this.enemies.splice(i, 1);
-                                break;
-                            }
-                        }
-                        for(let i = 0; i < this.enemies.length ; i++){
-                            if(this.enemies[i].imageId === "Boss_hitbox"){
-                                node2 = this.sceneGraph.getNode(this.enemies[i].id);
+                                if((<AnimatedSprite> node).imageId === "Gluttony"){
+                                    this.collidable_box.destroy();
+                                }
                                 this.enemies.splice(i, 1);
                                 break;
                             }
                         }
                         this.battle_manager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai));
-                        if(node2 != node) {
-                            node2.destroy();
-                        }
                         node.destroy();
                         this.level_end_label.tweens.play("slideIn");
                     }
@@ -649,11 +640,14 @@ export default class GameLevel extends Scene {
                             spriteToAdd.position = new Vec2(prev_sprite.position.x + 25, prev_sprite.position.y);
                             this.health_sprites.push(spriteToAdd);
                             this.player_health += 1
+                            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "shop_success", loop: false, holdReference: false});
                             this.coin_count_label.text =  ": " + this.player_coins;
                             if(this.player_health === 10){
                                 this.health_buy_contract.text = "Maxed";
                             }
                             this.player._ai.handleEvent(new GameEvent(Game_Events.BOUGHT_HEART, {}));
+                        }else{
+                            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "shop_deny", loop: false, holdReference: false});
                         }
                     }
                     break;
@@ -732,11 +726,14 @@ export default class GameLevel extends Scene {
                         if (this.player_coins >= 10 && this.player_damage < 3) {
                             this.player_coins -= 10;
                             this.player_damage++;
+                            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "shop_success", loop: false, holdReference: false});
                             this.coin_count_label.text =  ": " + this.player_coins;
                             this.player._ai.handleEvent(event);
                             if(this.player_damage === 3){
                                 this.damage_buy_contract.text = "Sold Out";
                             }
+                        }else{
+                            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "shop_deny", loop: false, holdReference: false});
                         }
                     }
                     break;
