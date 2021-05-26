@@ -488,27 +488,16 @@ export default class GameLevel extends Scene {
                 case Game_Events.BOSS_DIED:
                     {
                         let node = this.sceneGraph.getNode(event.data.get("owner"));
-                        let node2 = this.sceneGraph.getNode(event.data.get("owner"));
-                        if(this.collidable_box !== null){
-                            this.collidable_box.destroy();
-                        }
                         for(let i = 0; i < this.enemies.length ; i++){
                             if(this.enemies[i].id === (<AnimatedSprite> node).id){
-                                this.enemies.splice(i, 1);
-                                break;
-                            }
-                        }
-                        for(let i = 0; i < this.enemies.length ; i++){
-                            if(this.enemies[i].imageId === "Boss_hitbox"){
-                                node2 = this.sceneGraph.getNode(this.enemies[i].id);
+                                if((<AnimatedSprite> node).imageId === "Gluttony"){
+                                    this.collidable_box.destroy();
+                                }
                                 this.enemies.splice(i, 1);
                                 break;
                             }
                         }
                         this.battle_manager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai));
-                        if(node2 != node) {
-                            node2.destroy();
-                        }
                         node.destroy();
                         this.level_end_label.tweens.play("slideIn");
                     }
