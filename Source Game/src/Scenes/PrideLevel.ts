@@ -56,7 +56,7 @@ export default class PrideLevel extends GameLevel {
         this.level_tilemap = {
             gluttonyLevel: "game_assets/tilemaps/pride_level.json"
         }
-        this.next_level_constructor = MainMenu
+        this.next_level_constructor = VictoryLevel
         this.retry_level_constructor = PrideLevel
         this.shop_pos = new Vec2(0, 0);
         this.player_start_pos = new Vec2(32.5*32, 43*32);
